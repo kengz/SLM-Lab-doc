@@ -41,3 +41,13 @@ A summary of the book is provided below:
 > * Explore algorithm benchmark results with tuned hyperparameters
 > * Understand how deep RL environments are designed
 
+### Editorial Reviews
+
+> _“This book provides an accessible introduction to deep reinforcement learning covering the mathematical concepts behind popular algorithms as well as their practical implementation. I think the book will be a valuable resource for anyone looking to apply deep reinforcement learning in practice.”_        –**Volodymyr Mnih, lead developer of DQN**
+>
+> _“An excellent book to quickly develop expertise in the theory, language, and practical implementation of deep reinforcement learning algorithms. A limpid exposition which uses familiar notation; all the most recent techniques explained with concise, readable code, and not a page wasted in irrelevant detours: it is the perfect way to develop a solid foundation on the topic.”_        –**Vincent Vanhoucke, principal scientist, Google**
+>
+> _“As someone who spends their days trying to make deep reinforcement learning methods more useful for the general public, I can say that Laura and Keng’s book is a welcome addition to the literature. It provides both a readable introduction to the fundamental concepts in reinforcement learning as well as intuitive explanations and code for many of the major algorithms in the field. I imagine this will become an invaluable resource for individuals interested in learning about deep reinforcement learning for years to come.”_        –**Arthur Juliani, senior machine learning engineer, Unity Technologies**
+>
+> _“Until now, the only way to get to grips with deep reinforcement learning was to slowly accumulate knowledge from dozens of different sources. Finally, we have a book bringing everything together in one place.”_        –**Matthew Rahtz, ML researcher, ETH Zürich**
+
