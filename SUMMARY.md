@@ -18,6 +18,7 @@
 * [Parallelizing Training: Async SAC on Humanoid](using-slm-lab/parallelizing-training-async-sac-on-humanoid.md)
 * [Experiment and Search Spec: PPO on Breakout](using-slm-lab/search-spec-ppo-on-breakout.md)
 * [Run Benchmark: A2C on Atari Games](using-slm-lab/run-benchmark-a2c-on-atari-games.md)
+* [Meta Spec: High Level Specifications](using-slm-lab/meta-spec-high-level-specifications.md)
 * [Post-Hoc Analysis](using-slm-lab/post-hoc-analysis.md)
 * [TensorBoard: Visualizing Models and Actions](using-slm-lab/tensorboard-visualizing-models-and-actions.md)
 * [Using SLM Lab In Your Project](using-slm-lab/using-slm-lab-in-your-project.md)

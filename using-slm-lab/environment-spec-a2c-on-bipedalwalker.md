@@ -11,42 +11,42 @@ The environment is specified using the **env** key in a spec file with the follo
   "{spec_name}": {
     "agent": [{...}],
     "env": [{
-        // Parameter for gym.make()
-        // the name must be found in the gym registry
-        "name": str,
-        
-        // Parameter for <env.wrapper.FrameStack>:
-        // - "concat": apply np.concatenate to frames, e.g. concatenate 4 images with shape (1, 84, 84)
-        // - "stack": apply np.stack to frames (a new stacking dimension will be created)
-        // - null: no frame preprocessing will be applied
-        "frame_op": str|null,
-        
-        // Parameter for <env.wrapper.FrameStack>:
-        // - {int}: the number of successive frames used for frame_op; 4 is common.
-        // - null: when frame_op is null
-        "frame_op_len": int|null,
-        
-        // Parameter for <env.wrapper.NormalizeStateEnv>
-        // apply on-line normalization to state
-        "normalize_state": bool,
+      // Parameter for gym.make()
+      // the name must be found in the gym registry
+      "name": str,
+      
+      // Parameter for <env.wrapper.FrameStack>:
+      // - "concat": apply np.concatenate to frames, e.g. concatenate 4 images with shape (1, 84, 84)
+      // - "stack": apply np.stack to frames (a new stacking dimension will be created)
+      // - null: no frame preprocessing will be applied
+      "frame_op": str|null,
+      
+      // Parameter for <env.wrapper.FrameStack>:
+      // - {int}: the number of successive frames used for frame_op; 4 is common.
+      // - null: when frame_op is null
+      "frame_op_len": int|null,
+      
+      // Parameter for <env.wrapper.NormalizeStateEnv>
+      // apply on-line normalization to state
+      "normalize_state": bool,
 
-        // Parameter for <env.wrapper.ScaleRewardEnv>
-        // - "sign": transform reward wiht np.sign to yield -1, 0, or +1
-        // - {int|float}: scale reward by the given number
-        // - null, no reward scaling is applied
-        "reward_scale": null|str|int|float,
-        
-        // Parameter for <env.vec_env.ShmemVecEnv>
-        // If > 1, this will apply asynchronous parallelization to spawn vector environments
-        "num_envs": int,
+      // Parameter for <env.wrapper.ScaleRewardEnv>
+      // - "sign": transform reward wiht np.sign to yield -1, 0, or +1
+      // - {int|float}: scale reward by the given number
+      // - null, no reward scaling is applied
+      "reward_scale": null|str|int|float,
+      
+      // Parameter for <env.vec_env.ShmemVecEnv>
+      // If > 1, this will apply asynchronous parallelization to spawn vector environments
+      "num_envs": int,
 
-        // The maximum time steps per episode
-        // - {int|float}: use the given number as the maximum time steps
-        // - null: default to the maximum time steps defined in the environment
-        "max_t": int|null,
+      // The maximum time steps per episode
+      // - {int|float}: use the given number as the maximum time steps
+      // - null: default to the maximum time steps defined in the environment
+      "max_t": int|null,
 
-        // The maximum frames (total time steps) to run a sess
-        "max_frame": int,
+      // The maximum frames (total time steps) to run a sess
+      "max_frame": int,
     }],
     ...
   }
