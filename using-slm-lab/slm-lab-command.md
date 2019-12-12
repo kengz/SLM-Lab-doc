@@ -14,6 +14,10 @@ In SLM Lab, everything is run with the lab command with the following form:
 python run_lab.py {spec file} {spec name} {lab mode}
 ```
 
+{% hint style="success" %}
+_This command runs any algorithm/environment specified in a spec file in SLM Lab. Spec files are located in the `slm_lab/spec/` folder._
+{% endhint %}
+
 ### The Spec File
 
 The **spec file** contains the **spec** – a set of fully exposed hyperparameters that configure a run, including the agent, environment, and hyperparameter search. The **spec name** refers to a specific spec in the spec file.
