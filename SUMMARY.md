@@ -27,6 +27,7 @@
 
 * [Data Locations](analyzing-results/analytics.md)
 * [Graphs and Data](analyzing-results/session-graph.md)
+* [Performance Metrics](analyzing-results/performance-metrics.md)
 
 ## 🥇Benchmark Results
 
