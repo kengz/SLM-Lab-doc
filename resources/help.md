@@ -61,6 +61,10 @@ If you receive errors similar to the following when trying to use GPU:
 
 Reinstall your NVIDIA GPU driver using [this instruction](https://gist.github.com/wangruohui/df039f0dc434d6486f5d4d098aa52d07).
 
+## Building and setting up a Linux GPU server
+
+If you build your own desktop and want a quick and smooth setup for a Ubuntu GPU server, refer to [this gist](https://gist.github.com/kengz/a106e03a782cfaec339433daf8965d76).
+
 ## Breakage from SLM-Lab update
 
 Make sure you also install the packages after updating the repo. Run:
