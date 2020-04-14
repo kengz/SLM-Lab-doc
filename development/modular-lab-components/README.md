@@ -1,6 +1,6 @@
 # Modular Design
 
-## 📦 **Modular Design in SLM Lab**
+## \*\*\*\*📦 **Modular Design in SLM Lab**
 
 Modularity is the central design choice in SLM Lab, as depicted in the figure below. Reinforcement learning algorithms in SLM Lab are built around three base classes:
 

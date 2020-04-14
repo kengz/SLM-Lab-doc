@@ -34,7 +34,7 @@ This will create a new Session by loading the saved spec file and the specified 
 
 We can see this in the terminal from the logged metrics, with `total_reward_ma` starting at 200 \(the maximum score\) immediately:
 
-![](../.gitbook/assets/reinforce-enjoy.png)
+![](../.gitbook/assets/cartpole-enjoy.png)
 
 ### Using the Best Checkpoint
 
