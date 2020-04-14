@@ -45,7 +45,8 @@ We will take a deep dive into the spec file in the coming sections, since it is 
 
 * **dev**: for development with verbose logging, environment rendering, and helpful checks like gradient updates. This is slower but useful for development.
 * **train**: for training an agent to completion. This disables the development helper tools and thus runs the fastest.
-* **enjoy@{prename}**: for replaying a trained model from a trial-session; `prename` specifies the trial and session, e.g. `enjoy@a2c_gae_pong_t0_s0`.
+* **train@{predir}**: for resuming training, e.g. `train@latest` will use the latest run for a spec, and `train@data/reinforce_cartpole_2020_04_13_232521` will use the specified run.
+* **enjoy@{session\_spec\_file}**: for replaying a trained model from a trial-session; `session_spec_file` specifies the spec file from a session, e.g. `enjoy@data/reinforce_cartpole_2020_04_13_232521/reinforce_cartpole_t0_s0_spec.json`.
 * **search**: for running an experiment / hyperparameter search.
 
 In [Quick Start](../setup/quick-start.md), we used the lab command to read the demo spec file at `slm_lab/spec/demo.json`, use the `dqn_cartpole` spec in it, and run the spec in **dev** mode. To rerun the demo in train mode, we can simply change the lab mode to **train** to get the following:
