@@ -2,7 +2,7 @@
 
 ## ⏯ Train@ \(Resume\) Mode
 
-The train mode can also resume training using the syntax `train@{predir}`as shown in [Lab Command](slm-lab-command.md#the-lab-modes), where `{predir}` is the data directory of a previous training run, e.g. `data/reinforce_cartpole_2020_04_13_232521`. A shorthand `train@latest` can also be used to automatically pick up from the latest training run to resume.
+The train mode can also resume training using the syntax `train@{predir}`as shown in [Lab Command](slm-lab-command.md#the-lab-modes), where `{predir}` is the data directory of a previous training run, e.g. `data/reinforce_cartpole_2020_04_13_232521`. A shorthand `train@latest` can also be used to automatically pick up from the latest training run of the specified spec to resume.
 
 Using the same spec [from earlier](train-and-enjoy-dqn-cartpole.md), we can resume training with an example below:
 
