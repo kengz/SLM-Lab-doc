@@ -8,7 +8,7 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
 
 SLM Lab is a software framework for reproducible reinforcement learning \(RL\) research. It enables easy development of RL algorithms using modular components and file-based configuration. It also enables flexible experimentation completed with hyperparameter search, result analysis and benchmark results.
 
-SLM Lab is also the companion library of the book [Foundations of Deep Reinforcement Learning](https://www.amazon.com/dp/0135172381).
+📖 **SLM Lab is also the companion library of the book** [**Foundations of Deep Reinforcement Learning**](https://www.amazon.com/dp/0135172381)**. The book's** [**website and errata is here**](https://slm-lab.gitbook.io/foundations-of-deep-rl/)**.**
 
 ## ✨ Features
 
