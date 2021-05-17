@@ -41,6 +41,27 @@ echo ". /home/ubuntu/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc
 source ~/.bashrc
 ```
 
+## Google Colab / Jupyter setup
+
+For users of Google Colab or Jupyter, simply use the Conda environment `lab` as the kernel. For Google Colab, this has to be exposed via the sys path. Run the following:
+
+```bash
+%%bash
+conda activate lab
+# use the location of the lab Conda environment below
+
+%%bash
+conda list env
+
+python
+import sys
+# replace /root/miniconda3/envs/lab with your path from above
+sys.path.append('/root/miniconda3/envs/lab/lib/python3.7/site-packages')
+
+print('Python version')
+print(sys.version)
+```
+
 ## `GLIBCXX_3.4.21`version errors due to `gcc, g++, libstdc++`
 
 You encounter libgcc errors like:
@@ -73,6 +94,10 @@ Make sure you also install the packages after updating the repo. Run:
 git pull
 ./bin/setup
 ```
+
+## JSON parsing issue in spec
+
+Newer dependencies of SLM Lab may cause issues when parsing JSON spec files. SLM Lab uses a looser JSON syntax which includes comma in the last element of enumerable. If you encounter a JSON parsing issue, simply edit the spec file to remove these extraneous commas.
 
 ## Vizdoom installation fails or not found
 

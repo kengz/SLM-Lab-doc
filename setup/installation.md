@@ -18,6 +18,10 @@ cd SLM-Lab/
 This runs a prepared bash script with the necessary setup steps, with Python dependencies managed through Conda. Refer to the [Help](../resources/help.md) page if you encounter issues.
 
 {% hint style="info" %}
+For users of Google Colab or Jupyter, simply use the Conda environment `lab` as the kernel. See the [Help](../resources/help.md) page for more.
+{% endhint %}
+
+{% hint style="info" %}
 Readers of the book Foundations of Deep Reinforcement Learning: please see [this custom instruction page](../publications-and-talks/instruction-for-the-book-+-intro-to-rl-section.md).
 {% endhint %}
 
