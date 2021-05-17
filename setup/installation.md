@@ -18,11 +18,11 @@ cd SLM-Lab/
 This runs a prepared bash script with the necessary setup steps, with Python dependencies managed through Conda. Refer to the [Help](../resources/help.md) page if you encounter issues.
 
 {% hint style="info" %}
-For users of Google Colab or Jupyter, simply use the Conda environment `lab` as the kernel. See the [Help](https://slm-lab.gitbook.io/slm-lab/resources/help#google-colab-jupyter-setup) page for more.
+Readers of the book Foundations of Deep Reinforcement Learning: please see [this custom instruction page](../publications-and-talks/instruction-for-the-book-+-intro-to-rl-section.md).
 {% endhint %}
 
 {% hint style="info" %}
-Readers of the book Foundations of Deep Reinforcement Learning: please see [this custom instruction page](../publications-and-talks/instruction-for-the-book-+-intro-to-rl-section.md).
+Although we do not recommend running SLM Lab on Google Colab or Jupyter notebooks \(notebooks come with inherent limitations, e.g. no rendering/multi-processing\), [here's the setup instruction](https://slm-lab.gitbook.io/slm-lab/resources/help#google-colab-jupyter-setup) as requested by several users.
 {% endhint %}
 
 ## 🖥 Hardware Requirements
