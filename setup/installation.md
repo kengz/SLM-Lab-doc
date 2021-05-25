@@ -18,12 +18,26 @@ cd SLM-Lab/
 This runs a prepared bash script with the necessary setup steps, with Python dependencies managed through Conda. Refer to the [Help](../resources/help.md) page if you encounter issues.
 
 {% hint style="info" %}
-Readers of the book Foundations of Deep Reinforcement Learning: please see [this custom instruction page](../publications-and-talks/instruction-for-the-book-+-intro-to-rl-section.md).
+Readers of the book📖_Foundations of Deep Reinforcement Learning:_ please see [this custom instruction page](../publications-and-talks/instruction-for-the-book-+-intro-to-rl-section.md).
 {% endhint %}
 
+### Alternative Installations
+
+#### Windows
+
+The best way to run SLM Lab on Windows is to use a Bash shell/Linux subsystem. Credit to [**@vladimirnitu**](https://github.com/vladimirnitu) for providing a detailed instruction PDF for doing so on Windows:
+
+{% file src="../.gitbook/assets/slm\_for\_windows.pdf" caption="SLM Lab for Windows \(Instruction PDF\)" %}
+
+#### Google Colab/Jupyter Notebook
+
+Although we do not recommend running SLM Lab on Google Colab or Jupyter notebooks \(notebooks come with inherent limitations, e.g. no rendering/multi-processing\), we have prepared an example notebook for illustration. Credit to [**@piosif97**](https://github.com/piosif97) for helping with this:
+
 {% hint style="info" %}
-Although we do not recommend running SLM Lab on Google Colab or Jupyter notebooks \(notebooks come with inherent limitations, e.g. no rendering/multi-processing\), [here's the setup instruction](https://slm-lab.gitbook.io/slm-lab/resources/help#google-colab-jupyter-setup) as requested by several users.
+[SLM Lab Colab notebook](https://gist.github.com/kengz/6fd52a902129fb6d4509c721d71bda48)
 {% endhint %}
+
+For details on how it works, refer to [this Help section](https://slm-lab.gitbook.io/slm-lab/resources/help#google-colab-jupyter-setup).
 
 ## 🖥 Hardware Requirements
 
