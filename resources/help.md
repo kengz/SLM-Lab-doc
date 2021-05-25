@@ -56,6 +56,8 @@ export PATH=~/miniconda3/envs/lab/bin:$PATH
 xvfb-run -a python run_lab.py slm_lab/spec/demo.json dqn_cartpole dev
 ```
 
+Please find an example [Colab notebook here](https://gist.github.com/kengz/6fd52a902129fb6d4509c721d71bda48), credit to [**@piosif97**](https://github.com/piosif97) for the initiative and discussion that led to it.
+
 ## `GLIBCXX_3.4.21`version errors due to `gcc, g++, libstdc++`
 
 You encounter libgcc errors like:
