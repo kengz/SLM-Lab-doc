@@ -43,23 +43,17 @@ source ~/.bashrc
 
 ## Google Colab / Jupyter setup
 
-For users of Google Colab or Jupyter, simply use the Conda environment `lab` as the kernel. For Google Colab, this has to be exposed via the sys path. Run the following:
+For users of Google Colab or Jupyter, simply use the Conda environment `lab` as the kernel setup by SLM Lab installation. SLM Lab setup installs Conda into the home directory `~/miniconda3`. Note that in each notebook cell a bash command is a entirely new session. We have to expose the `lab` Conda environment directly and run the Python command. Furthermore, note that notebooks have no GUI thus have to be run headless. The following is an example for running the quickstart:
 
 ```bash
 %%bash
-conda activate lab
-# use the location of the lab Conda environment below
-
-%%bash
-conda list env
-
-python
-import sys
-# replace /root/miniconda3/envs/lab with your path from above
-sys.path.append('/root/miniconda3/envs/lab/lib/python3.7/site-packages')
-
-print('Python version')
-print(sys.version)
+# since each shell is a new bash session, this sources the Conda environment directly
+export PATH=~/miniconda3/envs/lab/bin:$PATH
+# and we run it in headless mode (Colab has no GUI)
+# NOTE since each cell evaluates as a session,
+# the logs will only be printed in the cell output when the command is finished,
+# i.e. logs don't stream in here, so wait a few minutes to see the output
+xvfb-run -a python run_lab.py slm_lab/spec/demo.json dqn_cartpole dev
 ```
 
 ## `GLIBCXX_3.4.21`version errors due to `gcc, g++, libstdc++`
@@ -132,7 +126,7 @@ First, try setting environment variable `RENDER=false` before the lab command, f
 RENDER=false python run_lab.py slm_lab/spec/demo.json dqn_cartpole train
 ```
 
-Another option is to install Xvfb, and prepend your command with `xvfb-run -a`. For example:
+Despite its simplicity, this option comes with the caveat that plots from Plotly cannot generated. The safer option is to install **Xvfb**, and prepend your command with `xvfb-run -a`. For example:
 
 ```bash
 xvfb-run -a python run_lab.py slm_lab/spec/demo.json dqn_cartpole train
