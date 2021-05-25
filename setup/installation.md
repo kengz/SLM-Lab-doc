@@ -25,7 +25,7 @@ Readers of the book📖_Foundations of Deep Reinforcement Learning:_ please see 
 
 #### Windows
 
-The best way to run SLM Lab on Windows is to use a Bash shell/Linux subsystem. Credit to [**@vladimirnitu**](https://github.com/vladimirnitu) for providing a detailed instruction PDF for doing so on Windows:
+The best way to run SLM Lab on Windows is to use a Bash shell/Linux subsystem. Credit to [**@vladimirnitu**](https://github.com/vladimirnitu) and [**@steindaian**](https://github.com/steindaian) for providing a detailed instruction PDF for doing so on Windows:
 
 {% file src="../.gitbook/assets/slm\_for\_windows.pdf" caption="SLM Lab for Windows \(Instruction PDF\)" %}
 
