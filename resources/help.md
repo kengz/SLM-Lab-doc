@@ -126,7 +126,13 @@ ps aux | grep -i Unity | awk '{print $2}' | xargs sudo kill -9
 
 When running SLM Lab on a remote server, you may get `NoSuchDisplayException: Cannot connect to "None"`. Or your graphs may not be generated. This is because servers are typically headless, i.e. without a display. This error occurs when you're trying to render without a headless display.
 
-Install Xvfb, and prepend your command with `xvfb-run -a`. For example:
+First, try setting environment variable `RENDER=false` before the lab command, for example:
+
+```bash
+RENDER=false python run_lab.py slm_lab/spec/demo.json dqn_cartpole train
+```
+
+Another option is to install Xvfb, and prepend your command with `xvfb-run -a`. For example:
 
 ```bash
 xvfb-run -a python run_lab.py slm_lab/spec/demo.json dqn_cartpole train
