@@ -4,7 +4,7 @@ description: To test the installation.
 
 # Quick Start
 
-## 🚀 DQN On CartPole
+## :rocket: DQN On CartPole
 
 This quick demo will test that the installation works. We will run DQN on the CartPole environment. For now, don't worry about the details of the Python command, as we will walk through them in a [later section](../using-slm-lab/slm-lab-command.md).
 
@@ -26,4 +26,3 @@ If this quick start works, then SLM Lab is ready for use.
 {% hint style="info" %}
 If you encounter an issue, consult the [**Help**](../resources/help.md) page.
 {% endhint %}
-

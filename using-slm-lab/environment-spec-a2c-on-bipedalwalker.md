@@ -1,6 +1,6 @@
 # Env Spec: A2C on Pong
 
-## 📂The Env Spec
+## :open\_file\_folder:The Env Spec
 
 In this tutorial we look at how to use an **env spec** to specify an environment used to train an agent. We will train an A2C agent on the Atari Pong environment.
 
@@ -57,11 +57,11 @@ The environment is specified using the **env** key in a spec file with the follo
 The env spec is a list to accommodate for multi-environment setting in the future version of SLM Lab.
 {% endhint %}
 
-## ✍ Env Spec for Atari Pong
+## :writing\_hand: Env Spec for Atari Pong
 
 As an example, let's look at the env spec for A2C on Pong from [slm\_lab/spec/benchmark/a2c/a2c\_gae\_pong.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_pong.json).
 
-{% code title="slm\_lab/spec/benchmark/a2c/a2c\_gae\_pong.json" %}
+{% code title="slm_lab/spec/benchmark/a2c/a2c_gae_pong.json" %}
 ```javascript
 {
   "a2c_gae_pong": {
@@ -84,7 +84,7 @@ As an example, let's look at the env spec for A2C on Pong from [slm\_lab/spec/be
 ```
 {% endcode %}
 
-Here, we are using the "PongNoFrameskip-v4" environment from gym. This allows us to specify our own state-preprocessing method. Each frame is an automatically-processed greyscale image of shape \(1, 84, 84\). To restore the temporal aspect of the frames, it is useful to concatenate 4 successive frames together as specified by **"frame\_op"** and **"frame\_op\_len"**, so the shape of the input state to A2C becomes \(4, 84, 84\).
+Here, we are using the "PongNoFrameskip-v4" environment from gym. This allows us to specify our own state-preprocessing method. Each frame is an automatically-processed greyscale image of shape (1, 84, 84). To restore the temporal aspect of the frames, it is useful to concatenate 4 successive frames together as specified by **"frame\_op"** and **"frame\_op\_len"**, so the shape of the input state to A2C becomes (4, 84, 84).
 
 {% hint style="info" %}
 For Atari environments, we also apply frame-skipping internally via before doing any state-processing. This is done using the `<env.wrapper.MaxAndSkipEnv>` wrapper. Effectively, we are concatenating 4 frames selected from the span of 16 raw frames.
@@ -94,9 +94,9 @@ To standardize the range of rewards in Atari environments, we also preprocess th
 
 In order to speed up training, we asynchronously parallelize the stepping of environment by using a vector of 16 sub-environments, as specified in **"num\_envs"**. This means that at every environment step, A2C gets a batch of 16 states from 16 instances of the same environment with different random seeds.
 
-Finally, we train A2C using a total of 10 million frames, specified in **"max\_frame"**. Note that when parallelizing using vector environment, the environment will actually step \(10 million / 16\) times. This is so that the total frame-count will sum up to **"max\_frame"** \(with some modular-remainder\) regardless of how many vector environments were used.
+Finally, we train A2C using a total of 10 million frames, specified in **"max\_frame"**. Note that when parallelizing using vector environment, the environment will actually step (10 million / 16) times. This is so that the total frame-count will sum up to **"max\_frame"** (with some modular-remainder) regardless of how many vector environments were used.
 
-## 🚀 Running A2C on Pong
+## :rocket: Running A2C on Pong
 
 Let's run a Trial using the spec file above. First, run it in **dev** mode to see the rendering of 16 vector environments.
 
@@ -108,7 +108,7 @@ python run_lab.py slm_lab/spec/benchmark/a2c/a2c_gae_pong.json a2c_gae_pong dev
 
 We can see these environments are in fact different in their progression, so our agent will obtain a diverse set of experience from them.
 
-Next, terminate \(`Ctrl+C`\) and rerun it in **train** mode for the full 10 million frames:
+Next, terminate (`Ctrl+C`) and rerun it in **train** mode for the full 10 million frames:
 
 ```bash
 python run_lab.py slm_lab/spec/benchmark/a2c/a2c_gae_pong.json a2c_gae_pong train
@@ -125,4 +125,3 @@ We can also smoothen the trial graph by plotting its moving average over a windo
 ![The trial graph with a moving average of 100 checkpoints.](../.gitbook/assets/a2c_gae_pong_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
 This trial will complete within a day if no GPU is used, which is still fairly quick in RL terms. In the next section, we will see how SLM Lab can easily enable GPU usage to speed up training on image-based environments like the Atari games.
-

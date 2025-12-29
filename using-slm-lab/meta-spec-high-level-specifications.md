@@ -1,6 +1,6 @@
 # Meta Spec: High Level Specifications
 
-## 📂The Meta Spec
+## :open\_file\_folder:The Meta Spec
 
 In this tutorial we look at how to adjust the checkpointing frequency.
 
@@ -53,9 +53,9 @@ The **meta spec** is used to specify higher level configuration that don't fit w
 }
 ```
 
-We have already encountered some of the meta spec hyperparameters. Hogwild can be enabled using "distributed". We can also adjust the checkpoint mode and frequency. The max session and trials \(when running an experiment\) are specified here. Finally, although an experiment will automatically assign resources for each trial, advanced users can also configure the resource allocation for Ray.tune through **"num\_cpus"** and **"num\_gpus"**.
+We have already encountered some of the meta spec hyperparameters. Hogwild can be enabled using "distributed". We can also adjust the checkpoint mode and frequency. The max session and trials (when running an experiment) are specified here. Finally, although an experiment will automatically assign resources for each trial, advanced users can also configure the resource allocation for Ray.tune through **"num\_cpus"** and **"num\_gpus"**.
 
-## ✍ Meta Spec for Fast Checkpointing in Atari
+## :writing\_hand: Meta Spec for Fast Checkpointing in Atari
 
 Atari games usually have multiple lives per episode. During training, we split it up and treat each life as an episode to encourage the agent to appreciate all its lives. This split also implies that total rewards tracked during training need to be summed up over the lives to yield the true episodic rewards for evaluation.
 
@@ -89,5 +89,4 @@ Thankfully, SLM Lab has a preprocessor which tracks the true episodic rewards fo
 }
 ```
 
-Note that **"eval\_frequency"** \(evaluation checkpointing\) and **"log\_frequency"** \(training checkpointing\) are independent. Since evaluation needs multiple lives to tally the episodic rewards, it is usually set higher than "log\_frequency".
-
+Note that **"eval\_frequency"** (evaluation checkpointing) and **"log\_frequency"** (training checkpointing) are independent. Since evaluation needs multiple lives to tally the episodic rewards, it is usually set higher than "log\_frequency".

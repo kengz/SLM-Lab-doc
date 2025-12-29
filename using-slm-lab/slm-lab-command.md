@@ -1,6 +1,6 @@
 # Lab Command
 
-## 🚀 The Lab Command
+## :rocket: The Lab Command
 
 Before running anything in SLM Lab, be sure to activate the Conda environment:
 
@@ -56,4 +56,3 @@ python run_lab.py slm_lab/spec/demo.json dqn_cartpole train
 ```
 
 In the coming sections we will learn to use SLM Lab with more hands-on tutorials.
-

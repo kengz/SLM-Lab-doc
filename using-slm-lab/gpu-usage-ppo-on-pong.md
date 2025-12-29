@@ -20,11 +20,11 @@ We can easily monitor the CPU and RAM consumption using [glances](https://github
 
 {% embed url="https://glances.readthedocs.io/en/stable/aoa/gpu.html" %}
 
-## ✍ Agent Spec for Network Using GPU
+## :writing\_hand: Agent Spec for Network Using GPU
 
 We now look at an example spec with GPU enabled for PPO on Pong from [slm\_lab/spec/benchmark/ppo/ppo\_pong.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_pong.json).
 
-{% code title="slm\_lab/spec/benchmark/ppo/ppo\_pong.json" %}
+{% code title="slm_lab/spec/benchmark/ppo/ppo_pong.json" %}
 ```javascript
 {
   "ppo_pong": {
@@ -52,7 +52,7 @@ We now look at an example spec with GPU enabled for PPO on Pong from [slm\_lab/s
 
 Once your machine is set up for GPU, then using it for training is as simple as specifying **"gpu": true** in the agent **net spec**.
 
-## 🚀 Running PPO on Pong
+## :rocket: Running PPO on Pong
 
 Let's now run a Trial using the spec file above.
 
@@ -60,7 +60,7 @@ Let's now run a Trial using the spec file above.
 python run_lab.py slm_lab/spec/benchmark/ppo/ppo_pong.json ppo_pong train
 ```
 
-We should now see a speed up in the **fps** \(frame per second\) logged in the terminal during training. The trial should take a few hours to finish. It will then save its data to `data/ppo_pong_{ts}`. The trial graphs should look like the following:
+We should now see a speed up in the **fps** (frame per second) logged in the terminal during training. The trial should take a few hours to finish. It will then save its data to `data/ppo_pong_{ts}`. The trial graphs should look like the following:
 
 ![](../.gitbook/assets/ppo_pong_t0_trial_graph_mean_returns_vs_frames.png)
 
@@ -98,4 +98,3 @@ The second trial will then use GPUs 4, 5, 6, 7 for its four sessions. This way w
 {% hint style="info" %}
 SLM Lab automatically cycle through GPUs within a single run time. This means that when running search or benchmark that involves multiple trials, it will automatically cycle through the GPUs for all the trials and sessions, so we do not need to deal with CUDA\_OFFSET manually.
 {% endhint %}
-

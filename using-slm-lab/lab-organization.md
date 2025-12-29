@@ -1,14 +1,14 @@
 # Lab Organization
 
-## 📂 Session, Trial, and Experiment
+## :open\_file\_folder: Session, Trial, and Experiment
 
 SLM Lab is organized in the following hierarchy:
 
 * **Session:** The lowest level of SLM Lab: a single training run of one agent on one environment with one set of hyperparameters, all with a fixed random seed.
 * **Trial:** A trial consists of multiple Sessions, with the Sessions varying only in the random seed.
-* **Experiment:** Generates different sets of hyperparameters \(according to a spec file\) and runs a Trial for each one. It can be thought of as a study, e.g. “What values of n of A2C n-step returns provide the fastest, most stable solution, if the other variables are held constant?”
+* **Experiment:** Generates different sets of hyperparameters (according to a spec file) and runs a Trial for each one. It can be thought of as a study, e.g. “What values of n of A2C n-step returns provide the fastest, most stable solution, if the other variables are held constant?”
 
-![The graphs for Session, Trial, and Experiment.](../.gitbook/assets/lab-org.png)
+![The graphs for Session, Trial, and Experiment.](<../.gitbook/assets/lab org.png>)
 
 When using the lab command, different lab modes also correspond to different lab level:
 
@@ -20,7 +20,7 @@ SLM Lab automatically produces plots for Sessions, Trials, and Experiments for a
 
 Hyperparameter search is implemented using Ray Tune, and the results are automatically analyzed and presented hierarchically in increasingly granular detail.
 
-## 🔁 Reproducibility Design
+## :repeat: Reproducibility Design
 
 SLM Lab is designed for reproducible deep RL. It achieves this by using two simple components:
 
@@ -34,4 +34,3 @@ This implies that reproducing the entirety of an RL experiment merely requires c
 {% endhint %}
 
 Next, we will go through a series of tutorials to learn the various use cases of SLM Lab.
-

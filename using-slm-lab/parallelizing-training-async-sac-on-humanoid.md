@@ -12,7 +12,7 @@ Fortunately, there is an extremely simple way to use [Hogwild! in PyTorch](https
 
 This is [done by leveraging](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/control.py#L137) the Trial-Sessions infrastructure of SLM Lab. When parallelization is enabled, SLM Lab Trial will create a Session and [set the agent networks in it as global networks](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/control.py#L161). Then, it simply runs the Trial with a simple tweak – by [letting Sessions share global networks](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/control.py#L167). Effectively, Sessions function as asynchronous workers, and everything else runs as usual.
 
-## 📂 Meta Spec for Parallelizing Training
+## :open\_file\_folder: Meta Spec for Parallelizing Training
 
 Like all the features in SLM Lab, Hogwild! can be activated by specifying it in the spec file. Since this feature is above Sessions, it fits within the **meta spec** reserved for higher level configurations.
 
@@ -43,13 +43,13 @@ Like all the features in SLM Lab, Hogwild! can be activated by specifying it in 
 Hogwild! also works when training with GPU. See an example [A3C spec here](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a3c/a3c_gae_pong.json).
 {% endhint %}
 
-## ✍ Meta Spec for Async SAC
+## :writing\_hand: Meta Spec for Async SAC
 
-SAC \(Soft Actor Critic\) is a sample efficient and off-policy algorithm. However it is very slow to train, since it consists of a policy network and 2 Q-networks. As a result, although reaching a particular performance at a task takes less number of frames, it can take longer in terms of wall clock time.
+SAC (Soft Actor Critic) is a sample efficient and off-policy algorithm. However it is very slow to train, since it consists of a policy network and 2 Q-networks. As a result, although reaching a particular performance at a task takes less number of frames, it can take longer in terms of wall clock time.
 
 This makes SAC a good use case for applying parallelization to, i.e. creating an asynchronous variant of it – **Async SAC**. As an example, let's look at an example spec from [slm\_lab/spec/benchmark/async\_sac/async\_sac\_roboschool.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/async_sac/async_sac_roboschool.json).
 
-{% code title="slm\_lab/spec/benchmark/async\_sac/async\_sac\_roboschool.json" %}
+{% code title="slm_lab/spec/benchmark/async_sac/async_sac_roboschool.json" %}
 ```javascript
 {
   "async_sac_humanoid": {
@@ -85,9 +85,9 @@ This makes SAC a good use case for applying parallelization to, i.e. creating an
 ```
 {% endcode %}
 
-Humanoid is a difficult robotic control task that requires many samples to train on for most algorithms, hence it is standard to evaluate it on 50 million frames. If run without parallelization on SAC, this would take a month to complete a single session. By parallelizing \(**"distributed": "shared"**\) with 16 sessions \(**"max\_sessions": 16**\) as given in the meta spec above,  this reduces the run time by x16, so it will complete in 2 days.
+Humanoid is a difficult robotic control task that requires many samples to train on for most algorithms, hence it is standard to evaluate it on 50 million frames. If run without parallelization on SAC, this would take a month to complete a single session. By parallelizing (**"distributed": "shared"**) with 16 sessions (**"max\_sessions": 16**) as given in the meta spec above,  this reduces the run time by x16, so it will complete in 2 days.
 
-## 🚀 Running Async SAC on Humanoid
+## :rocket: Running Async SAC on Humanoid
 
 Let's run a Trial using the spec file above:
 
@@ -95,7 +95,7 @@ Let's run a Trial using the spec file above:
 python run_lab.py slm_lab/spec/benchmark/async_sac/async_sac_roboschool.json async_sac_humanoid
 ```
 
-This trial will take about 2 days to complete, but due to SAC's sample efficiency, we should be above to observe the rewards climbing rapidly to above 1000 within 10 million frames \(10 / 16 million frames when counted on Session's individual frames\). As usual, when the trial completes, we will be able to see a trial graph similar to the one below:
+This trial will take about 2 days to complete, but due to SAC's sample efficiency, we should be above to observe the rewards climbing rapidly to above 1000 within 10 million frames (10 / 16 million frames when counted on Session's individual frames). As usual, when the trial completes, we will be able to see a trial graph similar to the one below:
 
 ![](../.gitbook/assets/async_sac_humanoid_t0_trial_graph_mean_returns_vs_frames.png)
 
@@ -105,5 +105,4 @@ We can also smoothen the trial graph by plotting its moving average over a windo
 
 Note that the trial graph is generated as usual by taking an average of the sessions, but since sessions share networks their performance are very close, hence the small error envelope. Additionally, the horizontal axis is the frame count per individual session, hence to get the global frame count we need to rescale the axis by the number of sessions, which is 16 in this case, but we will not do so here to keep this tutorial simple.
 
-To see how Async SAC compares with the other algorithms \(with the global frame count adjustment\), check out [Continuous Benchmark](../benchmark-results/continuous-benchmark.md).
-
+To see how Async SAC compares with the other algorithms (with the global frame count adjustment), check out [Continuous Benchmark](../benchmark-results/continuous-benchmark.md).

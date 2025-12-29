@@ -4,11 +4,11 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
 
 # SLM Lab
 
-![GitHub tag \(latest SemVer\)](https://img.shields.io/github/tag/kengz/slm-lab) ![CI](https://github.com/kengz/SLM-Lab/workflows/CI/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/20c6a124c468b4d3e967/maintainability)](https://codeclimate.com/github/kengz/SLM-Lab/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/20c6a124c468b4d3e967/test_coverage)](https://codeclimate.com/github/kengz/SLM-Lab/test_coverage)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/kengz/slm-lab) ![CI](https://github.com/kengz/SLM-Lab/workflows/CI/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/20c6a124c468b4d3e967/maintainability)](https://codeclimate.com/github/kengz/SLM-Lab/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/20c6a124c468b4d3e967/test_coverage)](https://codeclimate.com/github/kengz/SLM-Lab/test_coverage)
 
-SLM Lab is a software framework for reproducible reinforcement learning \(RL\) research. It enables easy development of RL algorithms using modular components and file-based configuration. It also enables flexible experimentation completed with hyperparameter search, result analysis and benchmark results.
+SLM Lab is a software framework for reproducible reinforcement learning (RL) research. It enables easy development of RL algorithms using modular components and file-based configuration. It also enables flexible experimentation completed with hyperparameter search, result analysis and benchmark results.
 
-📖 **SLM Lab is also the companion library of the book** [**Foundations of Deep Reinforcement Learning**](https://www.amazon.com/dp/0135172381)**. The book's** [**website and errata is here**](https://slm-lab.gitbook.io/foundations-of-deep-rl/)**.**
+:book: **SLM Lab is also the companion library of the book** [**Foundations of Deep Reinforcement Learning**](https://www.amazon.com/dp/0135172381)**. The book's** [**website and errata is here**](https://slm-lab.gitbook.io/foundations-of-deep-rl/)**.**
 
 ## ✨ Features
 
@@ -24,13 +24,13 @@ SLM Lab is a software framework for reproducible reinforcement learning \(RL\) r
 SLM Lab implements most of the [canonical RL algorithms](development/modular-lab-components/algorithm-taxonomy.md):
 
 * SARSA
-* DQN \(Deep Q-Network\)
-* Double-DQN, Dueling-DQN, PER \(Prioritized Experience Replay\)
+* DQN (Deep Q-Network)
+* Double-DQN, Dueling-DQN, PER (Prioritized Experience Replay)
 * REINFORCE
-* A2C \(Advantage Actor-Critic\) with GAE & n-step
-* PPO \(Proximal Policy Optimization\)
-* SAC \(Soft Actor-Critic\)
-* SIL \(Self Imitation Learning\)
+* A2C (Advantage Actor-Critic) with GAE & n-step
+* PPO (Proximal Policy Optimization)
+* SAC (Soft Actor-Critic)
+* SIL (Self Imitation Learning)
 * Asynchronous version of all the above
 
 They are implemented in a modular way such that differences in algorithm performance can be confidently ascribed to differences between algorithms, not between implementations.
@@ -41,14 +41,14 @@ SLM Lab currently includes the following environment offerings:
 
 * [OpenAI gym](https://github.com/openai/gym)
 * [OpenAI Roboschool](https://github.com/openai/roboschool)
-* [VizDoom](https://github.com/mwydmuch/ViZDoom#documentation) \(credit: joelouismarino\)
+* [VizDoom](https://github.com/mwydmuch/ViZDoom#documentation) (credit: joelouismarino)
 * [Unity environments](https://github.com/Unity-Technologies/ml-agents) with prebuilt binaries
 
 ## Citation
 
 If you use SLM Lab in your publication, please cite below:
 
-```text
+```
 @misc{kenggraesser2017slmlab,
     author = {Keng, Wah Loon and Graesser, Laura},
     title = {SLM Lab},
@@ -62,4 +62,3 @@ If you use SLM Lab in your publication, please cite below:
 ## License
 
 This project is licensed under the [MIT License](https://github.com/kengz/SLM-Lab/blob/master/LICENSE).
-

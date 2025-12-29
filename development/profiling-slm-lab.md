@@ -1,10 +1,10 @@
 # Profiling SLM Lab
 
-## ⏱ Profiling Runtime
+## :stopwatch: Profiling Runtime
 
 When developing a feature in SLM Lab, we may want to profile the program to check its performance and runtime, especially since deep RL software is complicated and involves many components.
 
-We recommend Python's built-in `cProfile` and `snakeviz` to profile your program runtime. The example below runs the profiler and visualizes the program runtime broken down hierarchically by components. See an example of the graph: [https://jiffyclub.github.io/snakeviz/\#interpreting-results](https://jiffyclub.github.io/snakeviz/#interpreting-results)
+We recommend Python's built-in `cProfile` and `snakeviz` to profile your program runtime. The example below runs the profiler and visualizes the program runtime broken down hierarchically by components. See an example of the graph: [https://jiffyclub.github.io/snakeviz/#interpreting-results](https://jiffyclub.github.io/snakeviz/#interpreting-results)
 
 ```bash
 conda activate lab
@@ -19,4 +19,3 @@ snakeviz a2c.prof
 
 # a browser will open, showing the runtime breakdown
 ```
-

@@ -1,12 +1,12 @@
 # Book: Foundations of Deep Reinforcement Learning
 
-## 📖 Book
+## :book: Book
 
 SLM Lab is the companion software library of the book [Foundations of Deep Reinforcement Learning](https://www.amazon.com/dp/0135172381) by the same authors Laura Graesser and Wah Loon Keng.
 
 The book's website and errata: [https://slm-lab.gitbook.io/foundations-of-deep-rl](https://slm-lab.gitbook.io/foundations-of-deep-rl/)
 
-![](../.gitbook/assets/book-cover-outline.png)
+![](<../.gitbook/assets/book cover outline.png>)
 
 If you are a reader using SLM Lab as the companion library, check out to the dedicated git branch **"book"** that is compatible with the code examples in the book. Use the following complete installation instruction:
 
@@ -28,16 +28,16 @@ git checkout book
 
 A summary of the book is provided below:
 
-> **The Contemporary Introduction to Deep Reinforcement Learning that Combines Theory and Practice**  
->   
-> Deep reinforcement learning \(deep RL\) combines deep learning and reinforcement learning, in which artificial agents learn to solve sequential decision-making problems. In the past decade deep RL has achieved remarkable results on a range of problems, from single and multiplayer games–such as Go, Atari games, and DotA 2–to robotics.  
->   
-> **Foundations of Deep Reinforcement Learning** is an introduction to deep RL that uniquely combines both theory and implementation. It starts with intuition, then carefully explains the theory of deep RL algorithms, discusses implementations in its companion software library SLM Lab, and finishes with the practical details of getting deep RL to work.  
+> **The Contemporary Introduction to Deep Reinforcement Learning that Combines Theory and Practice**\
+> \
+> Deep reinforcement learning (deep RL) combines deep learning and reinforcement learning, in which artificial agents learn to solve sequential decision-making problems. In the past decade deep RL has achieved remarkable results on a range of problems, from single and multiplayer games–such as Go, Atari games, and DotA 2–to robotics.\
+> \
+> **Foundations of Deep Reinforcement Learning** is an introduction to deep RL that uniquely combines both theory and implementation. It starts with intuition, then carefully explains the theory of deep RL algorithms, discusses implementations in its companion software library SLM Lab, and finishes with the practical details of getting deep RL to work.\
 > This guide is ideal for both computer science students and software engineers who are familiar with basic machine learning concepts and have a working understanding of Python.
 >
 > * Understand each key aspect of a deep RL problem
-> * Explore policy- and value-based algorithms, including REINFORCE, SARSA, DQN, Double DQN, and Prioritized Experience Replay \(PER\)
-> * Delve into combined algorithms, including Actor-Critic and Proximal Policy Optimization \(PPO\)
+> * Explore policy- and value-based algorithms, including REINFORCE, SARSA, DQN, Double DQN, and Prioritized Experience Replay (PER)
+> * Delve into combined algorithms, including Actor-Critic and Proximal Policy Optimization (PPO)
 > * Understand how algorithms can be parallelized synchronously and asynchronously
 > * Run algorithms in SLM Lab and learn the practical implementation details for getting deep RL to work
 > * Explore algorithm benchmark results with tuned hyperparameters
@@ -52,4 +52,3 @@ A summary of the book is provided below:
 > _“As someone who spends their days trying to make deep reinforcement learning methods more useful for the general public, I can say that Laura and Keng’s book is a welcome addition to the literature. It provides both a readable introduction to the fundamental concepts in reinforcement learning as well as intuitive explanations and code for many of the major algorithms in the field. I imagine this will become an invaluable resource for individuals interested in learning about deep reinforcement learning for years to come.”_        –**Arthur Juliani, senior machine learning engineer, Unity Technologies**
 >
 > _“Until now, the only way to get to grips with deep reinforcement learning was to slowly accumulate knowledge from dozens of different sources. Finally, we have a book bringing everything together in one place.”_        –**Matthew Rahtz, ML researcher, ETH Zürich**
-

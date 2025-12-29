@@ -1,6 +1,6 @@
 # Post-Hoc Analysis
 
-## 🚀 The Retro-Analysis Module
+## :rocket: The Retro-Analysis Module
 
 Sometimes we might want to rerun analysis after a Session, Trial or Experiment has completed. For instance, we added new derived metrics or new ways to plotting the graphs. This quick tutorial will show us a command to do so.
 
@@ -17,4 +17,3 @@ When invoked, the retro\_analysis module will load the data saved at the end of 
 {% hint style="success" %}
 The retro\_analysis module is safe and free from side-effects – it only overwrites data that is derived, so there is no risk of destroying the data that needs a full rerun to recollect.
 {% endhint %}
-

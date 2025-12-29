@@ -1,12 +1,12 @@
 # Experiment and Search Spec: PPO on Breakout
 
-## 📂The Search Spec
+## :open\_file\_folder:The Search Spec
 
 In this tutorial, we will learn how to run an experiment to study the following example question:
 
 > What values of lambda of PPO provide the fastest, most stable solution for Atari Breakout, if the other variables are held constant?
 
-In SLM Lab, we can easily run experiments to answer questions about deep RL. An **Experiment** in SLM Lab runs a number of Trials using a **search spec** by generating different sets of hyperparameters to search over \(using [Ray Tune](https://ray.readthedocs.io/en/latest/tune.html)\) and running a Trial for each one. 
+In SLM Lab, we can easily run experiments to answer questions about deep RL. An **Experiment** in SLM Lab runs a number of Trials using a **search spec** by generating different sets of hyperparameters to search over (using [Ray Tune](https://ray.readthedocs.io/en/latest/tune.html)) and running a Trial for each one.&#x20;
 
 The search spec has the following format:
 
@@ -35,13 +35,13 @@ That is, the **search spec** can contain any components of a spec file. To perfo
 
 Essentially, search spec [defines the config space](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/search.py#L14) using `"{key}__{space_type}": {v}`, where `{space_type}` is `grid_search` of `ray.tune`, or any function name of `np.random`:
 
-| space\_type | v | v type |
-| :--- | :--- | :--- |
-| grid\_search | `[value1, value2, ...]` |  `str|int|float` |
-| choice | `[value1, value2, ...]` | `str|int|float` |
-| randint | `[low, high)` | `int` |
-| uniform | `[low, high)` | `float` |
-| normal | `[low, high)` | `float` |
+| space\_type  | v                       | v type             |
+| ------------ | ----------------------- | ------------------ |
+| grid\_search | `[value1, value2, ...]` |  `str\|int\|float` |
+| choice       | `[value1, value2, ...]` | `str\|int\|float`  |
+| randint      | `[low, high)`           | `int`              |
+| uniform      | `[low, high)`           | `float`            |
+| normal       | `[low, high)`           | `float`            |
 
 For example:
 
@@ -52,7 +52,7 @@ When constructing a new Trial, an Experiment samples an instance from the config
 
 By default, an Experiment will run search for as many Trials as specified by **"max\_trial"** in meta spec using Random sampling from the full config space. If any key uses `grid_search`, it will be combined exhaustively in combination with other random sampling, e.g. for max\_trial = 1 with one grid search of 4 elements, this will yield 4 x 1 = 1 total trials.
 
-## ✍ Search Spec for PPO
+## :writing\_hand: Search Spec for PPO
 
 As an example, let's try to answer the question:
 
@@ -60,7 +60,7 @@ As an example, let's try to answer the question:
 
 Let's look at the search spec for PPO on Breakout from [slm\_lab/spec/experimental/ppo/ppo\_lam\_search.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/experimental/ppo/ppo_lam_search.json).
 
-{% code title="slm\_lab/spec/experimental/ppo/ppo\_lam\_search.json" %}
+{% code title="slm_lab/spec/experimental/ppo/ppo_lam_search.json" %}
 ```javascript
 {
   "ppo_breakout": {
@@ -108,7 +108,7 @@ Let's look at the search spec for PPO on Breakout from [slm\_lab/spec/experiment
 
 This file defines the spec for PPO and Breakout as usual. Corresponding to the question, we are interested in finding out the effect of different values of `agent[0].algorithm.lam`. The search spec specifies a grid search over it, and we set **"meta.max\_trial"** to 1 since we are only doing a grid search.
 
-## 🚀 Running a PPO Search on Breakout
+## :rocket: Running a PPO Search on Breakout
 
 Let's run an Experiment using the spec file above by using the **search** lab mode:
 
@@ -126,5 +126,4 @@ Just as how we can plot the moving average version of a trial graph, we can do t
 
 ![](../.gitbook/assets/ppo_breakout_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
-From the experiment graph, we can observe that **trial 1** \(red\) with **lam: 0.7** performs the best on Breakout with the fastest convergence and the best final result.
-
+From the experiment graph, we can observe that **trial 1** (red) with **lam: 0.7** performs the best on Breakout with the fastest convergence and the best final result.

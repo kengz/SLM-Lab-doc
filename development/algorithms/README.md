@@ -1,6 +1,6 @@
 # Algorithm
 
-## 🏗 Algorithm API
+## :construction\_site: Algorithm API
 
 Code: [slm\_lab/agent/algorithm](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/algorithm)
 
@@ -29,8 +29,8 @@ Each algorithm comes with a number of hyperparameters that can be specified thro
 ```
 
 * **name:** name of an implemented algorithm class. This must be a class that conforms to the [algorithm api](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/agent/algorithm/base.py) and is saved in a `.py` file under [slm\_lab/agent/algorithm](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/algorithm)
-* **action\_pdtype:** specifies the probability distribution that actions are sampled from. For example, "Argmax" or "Categorical" for discrete action spaces, or "Normal", "MultivariateNormal", and "Gumbel" for continuous action spaces. These are declared in [slm\_lab/agent/algorithm/policy\_util.py\#L18-L24](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/agent/algorithm/policy_util.py#L18-L24)
-* **action\_policy:** specifies how the agent should act. e.g. "epsilon\_greedy". These are declared in [slm\_lab/agent/algorithm/policy\_util.py\#L133](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/agent/algorithm/policy_util.py#L133)
+* **action\_pdtype:** specifies the probability distribution that actions are sampled from. For example, "Argmax" or "Categorical" for discrete action spaces, or "Normal", "MultivariateNormal", and "Gumbel" for continuous action spaces. These are declared in [slm\_lab/agent/algorithm/policy\_util.py#L18-L24](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/agent/algorithm/policy_util.py#L18-L24)
+* **action\_policy:** specifies how the agent should act. e.g. "epsilon\_greedy". These are declared in [slm\_lab/agent/algorithm/policy\_util.py#L133](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/agent/algorithm/policy_util.py#L133)
 * **gamma** $$\in[0,1]$$ how much to discount the future for the returns. 0 corresponds to complete myopia, the agent only cares about the current time step. 1 corresponds to no discounting. Each future state matters as much as the current state.
 
 Other algorithm spec hyperparameters are specific to algorithm implementations. For those, refer to the class documentation of algorithms in [slm\_lab/agent/algorithm](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/algorithm).
@@ -42,4 +42,3 @@ To learn more about algorithms, check out [Deep RL Resources](../../resources/un
 {% hint style="info" %}
 The subpages to follow showcase a subset of algorithms in SLM Lab. See [here](../../#algorithms) for the list of implemented algorithms in SLM Lab.
 {% endhint %}
-
