@@ -8,9 +8,9 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
 
 SLM Lab is a software framework for reproducible reinforcement learning (RL) research. It enables easy development of RL algorithms using modular components and file-based configuration. It also enables flexible experimentation completed with hyperparameter search, result analysis and benchmark results.
 
-:book: **SLM Lab is also the companion library of the book** [**Foundations of Deep Reinforcement Learning**](https://www.amazon.com/dp/0135172381)**. The book's** [**website and errata is here**](https://slm-lab.gitbook.io/foundations-of-deep-rl/)**.**
+**SLM Lab is also the companion library of the book** [**Foundations of Deep Reinforcement Learning**](https://www.amazon.com/dp/0135172381)**. The book's** [**website and errata is here**](https://slm-lab.gitbook.io/foundations-of-deep-rl/)**.**
 
-## ✨ Features
+## Features
 
 * [Modular design](development/modular-lab-components/) for building deep RL algorithms
 * [Reproducibility](using-slm-lab/lab-organization.md#reproducibility-design) using spec file and git SHA
@@ -37,12 +37,14 @@ They are implemented in a modular way such that differences in algorithm perform
 
 ### Environments
 
-SLM Lab currently includes the following environment offerings:
+SLM Lab uses [Gymnasium](https://gymnasium.farama.org/) (the maintained fork of OpenAI Gym) for environment support:
 
-* [OpenAI gym](https://github.com/openai/gym)
-* [OpenAI Roboschool](https://github.com/openai/roboschool)
-* [VizDoom](https://github.com/mwydmuch/ViZDoom#documentation) (credit: joelouismarino)
-* [Unity environments](https://github.com/Unity-Technologies/ml-agents) with prebuilt binaries
+* **Classic control:** CartPole, Pendulum, Acrobot, MountainCar
+* **Box2D:** LunarLander, BipedalWalker
+* **MuJoCo:** Hopper, HalfCheetah, Walker2d, Ant, Humanoid, and more
+* **Atari:** All 57 Atari 2600 games via ALE (Arcade Learning Environment)
+
+Any gymnasium-compatible environment can be used by specifying its name in the spec file.
 
 ## Citation
 

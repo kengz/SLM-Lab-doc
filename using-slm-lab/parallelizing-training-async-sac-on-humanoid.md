@@ -10,17 +10,17 @@ On the other hand, when our run time is bottlenecked by the training speed of th
 
 Fortunately, there is an extremely simple way to use [Hogwild! in PyTorch](https://pytorch.org/docs/stable/notes/multiprocessing.html) using native multiprocessing and memory-sharing, if the process is contained within a single machine. This fits the scale of most deep RL experiments in SLM Lab, thus we have implemented it as part of the standard API so that all algorithms implemented can easily be trained in parallel.
 
-This is [done by leveraging](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/control.py#L137) the Trial-Sessions infrastructure of SLM Lab. When parallelization is enabled, SLM Lab Trial will create a Session and [set the agent networks in it as global networks](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/control.py#L161). Then, it simply runs the Trial with a simple tweak – by [letting Sessions share global networks](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/control.py#L167). Effectively, Sessions function as asynchronous workers, and everything else runs as usual.
+This is [done by leveraging](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/control.py#L137) the Trial-Sessions infrastructure of SLM Lab. When parallelization is enabled, SLM Lab Trial will create a Session and [set the agent networks in it as global networks](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/control.py#L161). Then, it simply runs the Trial with a simple tweak - by [letting Sessions share global networks](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/control.py#L167). Effectively, Sessions function as asynchronous workers, and everything else runs as usual.
 
-## :open\_file\_folder: Meta Spec for Parallelizing Training
+## Meta Spec for Parallelizing Training
 
 Like all the features in SLM Lab, Hogwild! can be activated by specifying it in the spec file. Since this feature is above Sessions, it fits within the **meta spec** reserved for higher level configurations.
 
 ```javascript
 {
   "{spec_name}": {
-    "agent": [{...}],
-    "env": [{...}],
+    "agent": {...},
+    "env": {...},
     ...
     "meta": {
       // Parameter for Trial.run(), to enable network sharing in memory among Sessions.
@@ -43,17 +43,17 @@ Like all the features in SLM Lab, Hogwild! can be activated by specifying it in 
 Hogwild! also works when training with GPU. See an example [A3C spec here](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a3c/a3c_gae_pong.json).
 {% endhint %}
 
-## :writing\_hand: Meta Spec for Async SAC
+## Meta Spec for Async SAC
 
 SAC (Soft Actor Critic) is a sample efficient and off-policy algorithm. However it is very slow to train, since it consists of a policy network and 2 Q-networks. As a result, although reaching a particular performance at a task takes less number of frames, it can take longer in terms of wall clock time.
 
-This makes SAC a good use case for applying parallelization to, i.e. creating an asynchronous variant of it – **Async SAC**. As an example, let's look at an example spec from [slm\_lab/spec/benchmark/async\_sac/async\_sac\_roboschool.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/async_sac/async_sac_roboschool.json).
+This makes SAC a good use case for applying parallelization to, i.e. creating an asynchronous variant of it - **Async SAC**. As an example, let's look at an example spec from [slm\_lab/spec/benchmark/sac/sac\_humanoid.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_humanoid.json).
 
-{% code title="slm_lab/spec/benchmark/async_sac/async_sac_roboschool.json" %}
+{% code title="slm_lab/spec/benchmark/sac/sac_humanoid.json" %}
 ```javascript
 {
   "async_sac_humanoid": {
-    "agent": [{
+    "agent": {
       "name": "SoftActorCritic",
       "algorithm": {
         "name": "SoftActorCritic",
@@ -63,14 +63,13 @@ This makes SAC a good use case for applying parallelization to, i.e. creating an
         "training_frequency": 1
       },
       ...
-      }
-    }],
-    "env": [{
-      "name": "RoboschoolHumanoid-v1",
+    },
+    "env": {
+      "name": "Humanoid-v5",
       "num_envs": 8,
       "max_t": null,
       "max_frame": 5e7
-    }],
+    },
     ...
     "meta": {
       "distributed": "shared",
@@ -85,14 +84,14 @@ This makes SAC a good use case for applying parallelization to, i.e. creating an
 ```
 {% endcode %}
 
-Humanoid is a difficult robotic control task that requires many samples to train on for most algorithms, hence it is standard to evaluate it on 50 million frames. If run without parallelization on SAC, this would take a month to complete a single session. By parallelizing (**"distributed": "shared"**) with 16 sessions (**"max\_sessions": 16**) as given in the meta spec above,  this reduces the run time by x16, so it will complete in 2 days.
+Humanoid is a difficult robotic control task that requires many samples to train on for most algorithms, hence it is standard to evaluate it on 50 million frames. If run without parallelization on SAC, this would take a month to complete a single session. By parallelizing (**"distributed": "shared"**) with 16 sessions (**"max\_sessions": 16**) as given in the meta spec above, this reduces the run time by x16, so it will complete in 2 days.
 
-## :rocket: Running Async SAC on Humanoid
+## Running Async SAC on Humanoid
 
 Let's run a Trial using the spec file above:
 
 ```bash
-python run_lab.py slm_lab/spec/benchmark/async_sac/async_sac_roboschool.json async_sac_humanoid
+slm-lab run slm_lab/spec/benchmark/sac/sac_humanoid.json async_sac_humanoid train
 ```
 
 This trial will take about 2 days to complete, but due to SAC's sample efficiency, we should be above to observe the rewards climbing rapidly to above 1000 within 10 million frames (10 / 16 million frames when counted on Session's individual frames). As usual, when the trial completes, we will be able to see a trial graph similar to the one below:

@@ -1,6 +1,6 @@
 # Agent Spec: DDQN+PER on LunarLander
 
-## :open\_file\_folder:The Agent Spec
+## The Agent Spec
 
 In this tutorial we look at how to use an **agent spec** to specify an agent, which comprises of its algorithm, memory, and neural network. We will train a DDQN+PER agent on the LunarLander environment.
 
@@ -9,53 +9,53 @@ The agent is specified using the **agent** key in a spec file with the following
 ```javascript
 {
   "{spec_name}": {
-    "agent": [{
+    "agent": {
       "name": str,
       "algorithm": {
         // Name of an algorithm class in slm_lab/agent/algorithm/
         "name": str,
-        
+
         // The probability distribution class used for sampling actions, declared in slm_lab/agent/algorithm/policy_util.py
         // - "default": use the default distribution based on the action type (discrete/continuous) of the environment
         // - {str}: use a custom distribution
         "action_pdtype": str,
-        
+
         // The action policy used, defined in slm_lab/agent/algorithm/policy_util.py
         // - "default": directly sample action from the action distribution
         // - "random": sample action randomly from the environment's action space
         // - "epsilon_greedy": use epsilon-greedy policy (e.g. for DQN family)
         // - "boltzmann": use Boltzmann policy (e.g. for DQN family)
         "action_policy": str,
-        
+
         // Algorithm-specific options
         ...
       },
       "memory": {
         // Name of a memory class in slm_lab/agent/memory/
         "name": str,
-        
+
         // Memory-specific options
         ...
       },
       "net": {
         // Name of a network class in slm_lab/agent/net/
         "type": str,
-        
+
         // Network-specific options
         ...
       }
-    }],
-    "env": [{...}],
+    },
+    "env": {...},
     ...
   }
 }
 ```
 
 {% hint style="info" %}
-The agent spec is a list to accommodate for multi-agent setting in the future version of SLM Lab. For full detail on agent spec, refer to [Algorithm](../development/algorithms/#algorithm-spec).
+For full detail on agent spec, refer to [Algorithm](../development/algorithms/#algorithm-spec).
 {% endhint %}
 
-## :writing\_hand: Agent Spec for DDQN+PER
+## Agent Spec for DDQN+PER
 
 As an example, let's look at the agent spec for DDQN+PER (Double DQN + Prioritized Experience Replay) on LunarLander from [slm\_lab/spec/benchmark/dqn/ddqn\_per\_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json).
 
@@ -63,7 +63,7 @@ As an example, let's look at the agent spec for DDQN+PER (Double DQN + Prioritiz
 ```javascript
 {
   "ddqn_per_concat_lunar": {
-    "agent": [{
+    "agent": {
       "name": "DoubleDQN",
       "algorithm": {
         "name": "DoubleDQN",
@@ -88,7 +88,7 @@ As an example, let's look at the agent spec for DDQN+PER (Double DQN + Prioritiz
         "epsilon": 0.0001,
         "batch_size": 32,
         "max_size": 50000,
-        "use_cer": false,
+        "use_cer": false
       },
       "net": {
         "type": "MLPNet",
@@ -99,19 +99,18 @@ As an example, let's look at the agent spec for DDQN+PER (Double DQN + Prioritiz
           "name": "SmoothL1Loss"
         },
         "optim_spec": {
-          "name": "Adam",
+          "name": "AdamW",
           "lr": 2.5e-4
         },
-        "lr_scheduler_spec": null,
         "update_type": "replace",
         "update_frequency": 100,
-        "gpu": false
+        "gpu": "auto"
       }
-    }],
-    "env": [{
-      "name": "LunarLander-v2",
+    },
+    "env": {
+      "name": "LunarLander-v3",
       ...
-    }],
+    },
     ...
   }
 }
@@ -128,12 +127,12 @@ Likewise, we are using a multi-layer perceptron (feedforward) network as the fun
 A full rundown of the spec requires a complete understanding of the algorithm at hand and the source code of SLM Lab. See [Learning Deep RL](../resources/untitled.md) for a list of recommended resources.
 {% endhint %}
 
-## :rocket: Running DDQN+PER on LunarLander
+## Running DDQN+PER on LunarLander
 
 Let's run a Trial using the spec file above. First, run it in **dev** mode to see the rendering the LunarLander environment.
 
 ```bash
-python run_lab.py slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar dev
+slm-lab run slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar dev
 ```
 
 <div align="center"><img src="../.gitbook/assets/LunarLander.png" alt=""></div>
@@ -143,7 +142,7 @@ This is a harder environment with a vector state (8 dimensions) and a discrete a
 Now, let's terminate (`Ctrl+C`) and rerun it in **train** mode for the full duration.
 
 ```bash
-python run_lab.py slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar train
+slm-lab run slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar train
 ```
 
 This trial will take only a few hours to complete, and we will see the graphs similar to the ones below generated and saved to the `data/ddqn_per_concat_lunar_{ts}` folder.

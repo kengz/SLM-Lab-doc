@@ -20,7 +20,7 @@ We can easily monitor the CPU and RAM consumption using [glances](https://github
 
 {% embed url="https://glances.readthedocs.io/en/stable/aoa/gpu.html" %}
 
-## :writing\_hand: Agent Spec for Network Using GPU
+## Agent Spec for Network Using GPU
 
 We now look at an example spec with GPU enabled for PPO on Pong from [slm\_lab/spec/benchmark/ppo/ppo\_pong.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_pong.json).
 
@@ -28,36 +28,38 @@ We now look at an example spec with GPU enabled for PPO on Pong from [slm\_lab/s
 ```javascript
 {
   "ppo_pong": {
-    "agent": [{
+    "agent": {
       "name": "PPO",
       "algorithm": {
         "name": "PPO",
         ...
       },
       "memory": {
-        "name": "OnPolicyBatchReplay",
+        "name": "OnPolicyBatchReplay"
       },
       "net": {
         "type": "ConvNet",
         ...
-        "gpu": true
+        "gpu": "auto"
       }
-    }],
-    "env": [{
-      "name": "PongNoFrameskip-v4",
+    },
+    "env": {
+      "name": "ALE/Pong-v5",
       ...
-    }],
+    }
+  }
+}
 ```
 {% endcode %}
 
-Once your machine is set up for GPU, then using it for training is as simple as specifying **"gpu": true** in the agent **net spec**.
+Once your machine is set up for GPU, then using it for training is as simple as specifying **"gpu": "auto"** in the agent **net spec**. This will automatically use GPU if available, or fall back to CPU otherwise. You can also use **"gpu": true** to force GPU usage.
 
-## :rocket: Running PPO on Pong
+## Running PPO on Pong
 
 Let's now run a Trial using the spec file above.
 
 ```bash
-python run_lab.py slm_lab/spec/benchmark/ppo/ppo_pong.json ppo_pong train
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_pong.json ppo_pong train
 ```
 
 We should now see a speed up in the **fps** (frame per second) logged in the terminal during training. The trial should take a few hours to finish. It will then save its data to `data/ppo_pong_{ts}`. The trial graphs should look like the following:
@@ -84,13 +86,13 @@ If your hardware has multiple GPUs, then SLM Lab will automatically cycle throug
 Sometimes it is useful to offset the GPU that a trial starts cycling through. This can be achieved by passing the shell environment variable `CUDA_OFFSET=4` for example. Let's say a machine has 8 GPUs and we are running 2 trials of 4 sessions each, we'd want to utilize all the GPUs evenly. Suppose we are running PPO on Pong and PPO on QBert. Then we can do the following:
 
 ```bash
-python run_lab.py slm_lab/spec/benchmark/ppo/ppo_pong.json ppo_pong train
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_pong.json ppo_pong train
 ```
 
 This first trial will use GPUs 0, 1, 2, 3 for its four sessions. Next, we run the second trial using:
 
 ```bash
-CUDA_OFFSET=4 python run_lab.py slm_lab/spec/benchmark/ppo/ppo_qbert.json ppo_qbert train
+CUDA_OFFSET=4 slm-lab run slm_lab/spec/benchmark/ppo/ppo_qbert.json ppo_qbert train
 ```
 
 The second trial will then use GPUs 4, 5, 6, 7 for its four sessions. This way we can fully utilize all the 8 GPUs.

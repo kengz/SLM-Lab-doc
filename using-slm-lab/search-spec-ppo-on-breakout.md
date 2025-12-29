@@ -1,24 +1,24 @@
 # Experiment and Search Spec: PPO on Breakout
 
-## :open\_file\_folder:The Search Spec
+## The Search Spec
 
 In this tutorial, we will learn how to run an experiment to study the following example question:
 
 > What values of lambda of PPO provide the fastest, most stable solution for Atari Breakout, if the other variables are held constant?
 
-In SLM Lab, we can easily run experiments to answer questions about deep RL. An **Experiment** in SLM Lab runs a number of Trials using a **search spec** by generating different sets of hyperparameters to search over (using [Ray Tune](https://ray.readthedocs.io/en/latest/tune.html)) and running a Trial for each one.&#x20;
+In SLM Lab, we can easily run experiments to answer questions about deep RL. An **Experiment** in SLM Lab runs a number of Trials using a **search spec** by generating different sets of hyperparameters to search over (using [Ray Tune](https://ray.readthedocs.io/en/latest/tune.html)) and running a Trial for each one.
 
 The search spec has the following format:
 
 ```javascript
 {
   "{spec_name}": {
-    "agent": [{...}],
-    "env": [{...}],
+    "agent": {...},
+    "env": {...},
     ...
     "meta": {
       ...
-      "max_trial": int,
+      "max_trial": int
     },
     "search": {
       *spec
@@ -50,9 +50,9 @@ For example:
 
 When constructing a new Trial, an Experiment samples an instance from the config space, then updates the original spec with the sampled values before passing it to the Trial constructor.
 
-By default, an Experiment will run search for as many Trials as specified by **"max\_trial"** in meta spec using Random sampling from the full config space. If any key uses `grid_search`, it will be combined exhaustively in combination with other random sampling, e.g. for max\_trial = 1 with one grid search of 4 elements, this will yield 4 x 1 = 1 total trials.
+By default, an Experiment will run search for as many Trials as specified by **"max\_trial"** in meta spec using Random sampling from the full config space. If any key uses `grid_search`, it will be combined exhaustively in combination with other random sampling, e.g. for max\_trial = 1 with one grid search of 4 elements, this will yield 4 x 1 = 4 total trials.
 
-## :writing\_hand: Search Spec for PPO
+## Search Spec for PPO
 
 As an example, let's try to answer the question:
 
@@ -64,7 +64,7 @@ Let's look at the search spec for PPO on Breakout from [slm\_lab/spec/experiment
 ```javascript
 {
   "ppo_breakout": {
-    "agent": [{
+    "agent": {
       "name": "PPO",
       "algorithm": {
         "name": "PPO",
@@ -76,44 +76,44 @@ Let's look at the search spec for PPO on Breakout from [slm\_lab/spec/experiment
         ...
       },
       ...
-    }],
-    "env": [{
-      "name": "BreakoutNoFrameskip-v4",
+    },
+    "env": {
+      "name": "ALE/Breakout-v5",
       "frame_op": "concat",
       "frame_op_len": 4,
       "reward_scale": "sign",
       "num_envs": 16,
       "max_t": null,
       "max_frame": 1e7
-    }],
+    },
     ...
     "meta": {
       "distributed": false,
       "log_frequency": 10000,
       "eval_frequency": 10000,
       "max_session": 4,
-      "max_trial": 1,
+      "max_trial": 1
     },
     "search": {
-      "agent": [{
+      "agent": {
         "algorithm": {
           "lam__grid_search": [0.50, 0.70, 0.90, 0.95, 0.97, 0.99]
         }
-      }]
+      }
     }
   }
 }
 ```
 {% endcode %}
 
-This file defines the spec for PPO and Breakout as usual. Corresponding to the question, we are interested in finding out the effect of different values of `agent[0].algorithm.lam`. The search spec specifies a grid search over it, and we set **"meta.max\_trial"** to 1 since we are only doing a grid search.
+This file defines the spec for PPO and Breakout as usual. Corresponding to the question, we are interested in finding out the effect of different values of `agent.algorithm.lam`. The search spec specifies a grid search over it, and we set **"meta.max\_trial"** to 1 since we are only doing a grid search.
 
-## :rocket: Running a PPO Search on Breakout
+## Running a PPO Search on Breakout
 
 Let's run an Experiment using the spec file above by using the **search** lab mode:
 
 ```bash
-python run_lab.py slm_lab/spec/experimental/ppo/ppo_lam_search.json ppo_breakout search
+slm-lab run slm_lab/spec/experimental/ppo/ppo_lam_search.json ppo_breakout search
 ```
 
 This will spawn 6 trials in queue using [Ray Tune](https://ray.readthedocs.io/en/latest/tune.html), which are then dequeued to run [as computing resources free up](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/search.py#L46). Since we specify a trial to run 4 sessions, it will take up 4 CPUs and 4 GPUs. If we run this on a machine with 32 CPUs and 8 GPUs, the experiment will run 2 trials at any given time.

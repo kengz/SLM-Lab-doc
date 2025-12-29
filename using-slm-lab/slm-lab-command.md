@@ -1,17 +1,18 @@
 # Lab Command
 
-## :rocket: The Lab Command
+## The Lab Command
 
-Before running anything in SLM Lab, be sure to activate the Conda environment:
+The CLI uses [Typer](https://typer.tiangolo.com/). Use `--help` on any command for details:
 
 ```bash
-conda activate lab
+slm-lab --help           # List all commands
+slm-lab run --help       # Options for run command
 ```
 
 In SLM Lab, everything is run with the lab command with the following form:
 
 ```bash
-python run_lab.py {spec file} {spec name} {lab mode}
+slm-lab run {spec file} {spec name} {lab mode}
 ```
 
 {% hint style="success" %}
@@ -20,17 +21,17 @@ _This command runs any algorithm/environment specified in a spec file in SLM Lab
 
 ### The Spec File
 
-The **spec file** contains the **spec** – a set of fully exposed hyperparameters that configure a run, including the agent, environment, and hyperparameter search. The **spec name** refers to a specific spec in the spec file.
+The **spec file** contains the **spec** - a set of fully exposed hyperparameters that configure a run, including the agent, environment, and hyperparameter search. The **spec name** refers to a specific spec in the spec file.
 
 All the spec files are defined in the **slm\_lab/spec/** folder. The spec file has the following format:
 
 ```javascript
 {
   "{spec name}": {
-    "agent": [{...}],
-    "env": [{...}],
-    ...
-    "search": [{...}]
+    "agent": {...},
+    "env": {...},
+    "meta": {...},
+    "search": {...}
   },
   "{spec name 2}": {
     ...
@@ -49,10 +50,39 @@ We will take a deep dive into the spec file in the coming sections, since it is 
 * **enjoy@{session\_spec\_file}**: for replaying a trained model from a trial-session; `session_spec_file` specifies the spec file from a session, e.g. `enjoy@data/reinforce_cartpole_2020_04_13_232521/reinforce_cartpole_t0_s0_spec.json`.
 * **search**: for running an experiment / hyperparameter search.
 
-In [Quick Start](../setup/quick-start.md), we used the lab command to read the demo spec file at `slm_lab/spec/demo.json`, use the `dqn_cartpole` spec in it, and run the spec in **dev** mode. To rerun the demo in train mode, we can simply change the lab mode to **train** to get the following:
+### Examples
+
+Run the default demo (PPO on CartPole):
 
 ```bash
-python run_lab.py slm_lab/spec/demo.json dqn_cartpole train
+slm-lab run
+```
+
+Run with environment rendering:
+
+```bash
+slm-lab run --render
+```
+
+Run a specific spec in train mode:
+
+```bash
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
+```
+
+Run in dev mode to see rendering and verbose logging:
+
+```bash
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole dev
+```
+
+### Variable Substitution
+
+For template specs with `${var}` placeholders, use the `-s` flag:
+
+```bash
+slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+slm-lab run -s env=Hopper-v5 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
 ```
 
 In the coming sections we will learn to use SLM Lab with more hands-on tutorials.
