@@ -19,16 +19,16 @@ This specification creates a PrioritizedReplay (off-policy) memory with a maximu
 ```javascript
 {
     ...
-    "agent": [{
+    "agent": {
       "memory": {
         "name": "PrioritizedReplay",
         "alpha": 0.6,
-        "epsilon": 0.001,
+        "epsilon": 0.0001,
         "batch_size": 32,
-        "max_size": 10000,
+        "max_size": 50000,
         "use_cer": false
       }
-    }],
+    },
     ...
 }
 ```

@@ -22,30 +22,37 @@ We can easily monitor the CPU and RAM consumption using [glances](https://github
 
 ## Agent Spec for Network Using GPU
 
-We now look at an example spec with GPU enabled for PPO on Pong from [slm\_lab/spec/benchmark/ppo/ppo\_pong.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_pong.json).
+We now look at an example spec with GPU enabled for PPO on Atari from [slm\_lab/spec/benchmark/ppo/ppo\_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json).
 
-{% code title="slm_lab/spec/benchmark/ppo/ppo_pong.json" %}
+{% code title="slm_lab/spec/benchmark/ppo/ppo_atari.json (excerpt)" %}
 ```javascript
 {
-  "ppo_pong": {
+  "ppo_atari_lam95": {
     "agent": {
       "name": "PPO",
       "algorithm": {
         "name": "PPO",
-        ...
+        "gamma": 0.99,
+        "lam": 0.95,
+        "time_horizon": 128,
+        "minibatch_size": 256,
+        "training_epoch": 4
       },
-      "memory": {
-        "name": "OnPolicyBatchReplay"
-      },
+      "memory": {"name": "OnPolicyBatchReplay"},
       "net": {
         "type": "ConvNet",
-        ...
+        "shared": true,
         "gpu": "auto"
       }
     },
     "env": {
-      "name": "ALE/Pong-v5",
-      ...
+      "name": "${env}",
+      "num_envs": 16,
+      "max_frame": 1e7
+    },
+    "meta": {
+      "max_session": 4,
+      "max_trial": 4
     }
   }
 }
@@ -56,13 +63,13 @@ Once your machine is set up for GPU, then using it for training is as simple as 
 
 ## Running PPO on Pong
 
-Let's now run a Trial using the spec file above.
+Let's now run a Trial using the spec file above with variable substitution for Pong.
 
 ```bash
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_pong.json ppo_pong train
+slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
 ```
 
-We should now see a speed up in the **fps** (frame per second) logged in the terminal during training. The trial should take a few hours to finish. It will then save its data to `data/ppo_pong_{ts}`. The trial graphs should look like the following:
+We should now see a speed up in the **fps** (frame per second) logged in the terminal during training. The trial should take a few hours to finish. It will then save its data to `data/ppo_atari_lam95_{ts}`. The trial graphs should look like the following:
 
 ![](../.gitbook/assets/ppo_pong_t0_trial_graph_mean_returns_vs_frames.png)
 
@@ -86,13 +93,13 @@ If your hardware has multiple GPUs, then SLM Lab will automatically cycle throug
 Sometimes it is useful to offset the GPU that a trial starts cycling through. This can be achieved by passing the shell environment variable `CUDA_OFFSET=4` for example. Let's say a machine has 8 GPUs and we are running 2 trials of 4 sessions each, we'd want to utilize all the GPUs evenly. Suppose we are running PPO on Pong and PPO on QBert. Then we can do the following:
 
 ```bash
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_pong.json ppo_pong train
+slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
 ```
 
 This first trial will use GPUs 0, 1, 2, 3 for its four sessions. Next, we run the second trial using:
 
 ```bash
-CUDA_OFFSET=4 slm-lab run slm_lab/spec/benchmark/ppo/ppo_qbert.json ppo_qbert train
+slm-lab run --cuda-offset 4 -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
 ```
 
 The second trial will then use GPUs 4, 5, 6, 7 for its four sessions. This way we can fully utilize all the 8 GPUs.

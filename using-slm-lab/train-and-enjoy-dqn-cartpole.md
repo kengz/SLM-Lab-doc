@@ -1,21 +1,27 @@
-# Train: REINFORCE CartPole
+# Train: PPO CartPole
 
 ## Train Mode
 
-This tutorial will look at how to train an agent in SLM Lab, then use the automatically-saved model files to replay it in enjoy mode, using REINFORCE on CartPole.
+This tutorial shows how to train an agent in SLM Lab and use the saved model for replay in enjoy mode.
 
-REINFORCE is a very basic policy gradient algorithm, and we are training it on an easy environment. We will use the spec file at [slm\_lab/spec/benchmark/reinforce/reinforce\_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/reinforce/reinforce_cartpole.json), in particular the **reinforce\_cartpole** spec, and run it in **train** mode. The lab command is:
+We'll use PPO (Proximal Policy Optimization) on CartPole—the same algorithm and environment used in the Quick Start demo. PPO is a robust policy gradient algorithm that works well across many environments.
+
+The spec file is at [slm\_lab/spec/benchmark/ppo/ppo\_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json). To run a full training:
 
 ```bash
-slm-lab run slm_lab/spec/benchmark/reinforce/reinforce_cartpole.json reinforce_cartpole train
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
 ```
 
-This will run a `Trial` with 4 `Sessions` of different random seeds to average the results. Wait for it to run until completion, which should take about 10-20 minutes. Meanwhile, check the metrics logged in the terminal. In particular, the `total_reward` and its moving average `total_reward_ma` (with a window of 100 episodes) should climb up gradually.
-
-{% hint style="success" %}
-REINFORCE successfully trains on CartPole when the `total_reward_ma` reaches close to the maximum of 500, although a score of over 100 will do for this tutorial.
+{% hint style="info" %}
+This is the same as running `slm-lab run` without arguments—PPO CartPole is the default.
 {% endhint %}
 
-When the trial completes, all the metrics, graphs and data will be saved to a timestamped folder, let's say `data/reinforce_cartpole_2020_04_13_232521/`. Among other things, SLM Lab also automatically saves the **final** and the **best** model files in the model folder. The model files can be used for easy playback in enjoy mode.
+This runs a `Trial` with 4 `Sessions` using different random seeds. The training completes in about 5-10 minutes. Watch the terminal for the `total_reward_ma` metric (100-episode moving average) climbing toward 500.
 
-Next, we look at how to resume training, and to run a trained model in enjoy mode.
+{% hint style="success" %}
+PPO reliably solves CartPole when `total_reward_ma` reaches 450-500 (the maximum score).
+{% endhint %}
+
+When complete, all metrics, graphs, and data are saved to a timestamped folder like `data/ppo_cartpole_2024_01_15_123456/`. SLM Lab saves both the **final** and **best** model checkpoints for later use.
+
+Next, we'll look at how to resume training and replay a trained model.

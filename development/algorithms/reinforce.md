@@ -35,12 +35,12 @@ $$
 \end{aligned}
 $$
 
-See [reinforce.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/reinforce.json) for example specs of variations of the REINFORCE algorithm.
+See [slm_lab/spec/benchmark/reinforce/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark/reinforce) for example REINFORCE specs.
 
 **Basic Parameters**
 
 ```python
-    "agent": [{
+    "agent": {
       "name": str,
       "algorithm": {
         "name": str,
@@ -48,13 +48,10 @@ See [reinforce.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/r
         "action_policy": str,
         "gamma": float,
         "training_frequency": int,
-        "add_entropy": bool,
-        "entropy_coef": float,
+        "entropy_coef_spec": {...},
       },
       "memory": {
         "name": str,
-        "max_size": int
-        "batch_size": int
       },
       "net": {
         "type": str,
@@ -62,16 +59,16 @@ See [reinforce.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/r
         "hid_layers_activation": str,
         "optim_spec": dict,
       }
-    }],
+    },
     ...
 }
 ```
 
 * `algorithm`
-  * `name` [_general param_](https://kengz.gitbooks.io/slm-lab/content/algorithms.html)
-  * `action_pdtype` [_general param_](https://kengz.gitbooks.io/slm-lab/content/algorithms.html)
+  * `name` [_general param_](./)
+  * `action_pdtype` [_general param_](./)
   * `action_policy` string specifying which policy to use to act. For example, "Categorical" (for discrete action spaces), "Normal" (for continuous actions spaces with one dimension), or "default" to automatically switch between the two depending on the environment.
-  * `gamma` [_general param_](https://kengz.gitbooks.io/slm-lab/content/algorithms.html)
+  * `gamma` [_general param_](./)
   * `training_frequency` how many episodes of data to collect before each training iteration. A common value is 1.
   * `entropy` whether to add entropy to the $$f(\tau)_t$$ to encourage exploration
   * `entropy_coef` coefficient to multiply the entropy of the distribution with when adding it to $$f(\tau)_t$$
@@ -87,21 +84,16 @@ See [reinforce.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/r
 **Advanced Parameters**
 
 ```python
-    "agent": [{
+    "agent": {
       "net": {
         "rnn_hidden_size": int,
         "rnn_num_layers": int,
         "seq_len": int,
-        "clip_grad": bool,
         "clip_grad_val": float,
-        "lr_decay": str,
-        "lr_decay_frequency": int,
-        "lr_decay_min_timestep": int,
-        "lr_anneal_timestep": int,
-        "gpu": int
-
+        "lr_scheduler_spec": dict,
+        "gpu": str
       }
-    }],
+    },
     ...
 }
 ```

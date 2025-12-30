@@ -1,64 +1,93 @@
-# Run Benchmark: A2C on Atari Games
+# Run Benchmark: PPO on Atari
 
-## Spec Params for A2C on Atari Games
+## Running Benchmarks with Variable Substitution
 
-Benchmark results for an algorithm requires running it for a number of environments. This can easily be done in SLM Lab by parametrizing the spec file, which is similar to how it was done in [Experiment and Search Spec: PPO on Breakout](search-spec-ppo-on-breakout.md). Running benchmark in SLM Lab is easy by using variable substitution with the `-s` flag.
+Benchmarking requires running the same algorithm across multiple environments. SLM Lab makes this easy with **variable substitution** using the `-s` flag.
 
-Let's run a benchmark for A2C on 4 Atari environments. We can look at an example spec from [slm\_lab/spec/benchmark/a2c/a2c\_gae\_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_atari.json)
+## Template Specs
 
-{% code title="slm_lab/spec/benchmark/a2c/a2c_gae_atari.json" %}
+Template specs use `${var}` placeholders for values that vary across runs. The PPO Atari spec at [slm\_lab/spec/benchmark/ppo/ppo\_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json) uses `${env}` for the environment name:
+
+{% code title="slm_lab/spec/benchmark/ppo/ppo_atari.json (excerpt)" %}
 ```javascript
 {
-  "a2c_gae_atari": {
+  "ppo_atari_lam95": {
     "agent": {
-      "name": "A2C",
+      "name": "PPO",
       "algorithm": {
-        "name": "ActorCritic",
-        ...
+        "name": "PPO",
+        "gamma": 0.99,
+        "lam": 0.95,
+        "time_horizon": 128,
+        "minibatch_size": 256,
+        "training_epoch": 4
       },
-      ...
+      "memory": {"name": "OnPolicyBatchReplay"},
+      "net": {
+        "type": "ConvNet",
+        "shared": true,
+        "gpu": "auto"
+      }
     },
     "env": {
       "name": "${env}",
-      "frame_op": "concat",
-      "frame_op_len": 4,
-      "reward_scale": "sign",
       "num_envs": 16,
-      "max_t": null,
       "max_frame": 1e7
     },
-    ...
+    "meta": {
+      "max_session": 4,
+      "max_trial": 1
+    }
   }
 }
 ```
 {% endcode %}
 
 {% hint style="info" %}
-Spec param uses template string replacement to modify the spec. Replace the value of the environment name with `"${env}"`.
+The `${env}` placeholder is replaced at runtime with the value passed via `-s env=...`.
 {% endhint %}
 
-## Running A2C Atari Benchmark
+## Running PPO Atari Benchmark
 
-To run the benchmark, use the `-s` flag to substitute the environment variable. The command to run it is:
-
-```bash
-slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/a2c/a2c_gae_atari.json a2c_gae_atari train
-```
-
-To run multiple environments, simply run multiple commands with different environment values:
+Use the `-s` flag to substitute environment names:
 
 ```bash
-slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/a2c/a2c_gae_atari.json a2c_gae_atari train
-slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/a2c/a2c_gae_atari.json a2c_gae_atari train
-slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/a2c/a2c_gae_atari.json a2c_gae_atari train
-slm-lab run -s env=ALE/Seaquest-v5 slm_lab/spec/benchmark/a2c/a2c_gae_atari.json a2c_gae_atari train
+# Single environment
+slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
+
+# Multiple environments (run separately)
+slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
+slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
+slm-lab run -s env=ALE/Seaquest-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
 ```
 
 {% hint style="info" %}
-All the SLM Lab benchmark results are run from files in [slm\_lab/spec/benchmark/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark).
+Different games benefit from different lambda values. The `ppo_atari_lam95` spec works well for most games. Use `ppo_atari_lam85` for platformers (Qbert, Kangaroo) and `ppo_atari_lam70` for racing/physics games (Breakout, Enduro).
 {% endhint %}
 
-Refer to the following pages for benchmark results in SLM Lab.
+## MuJoCo Benchmark Example
+
+The same pattern works for MuJoCo environments:
+
+```bash
+slm-lab run -s env=Hopper-v5 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+slm-lab run -s env=HalfCheetah-v5 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+slm-lab run -s env=Walker2d-v5 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+```
+
+## Cloud Benchmarking
+
+For running benchmarks on cloud GPUs with automatic result upload:
+
+```bash
+source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train -n ppo-breakout
+```
+
+See [Remote Training](remote-training.md) for setup.
+
+## Benchmark Results
+
+All SLM Lab benchmark specs are in [slm\_lab/spec/benchmark/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark). For results and methodology, see:
 
 {% content-ref url="../benchmark-results/discrete-benchmark.md" %}
 [discrete-benchmark.md](../benchmark-results/discrete-benchmark.md)

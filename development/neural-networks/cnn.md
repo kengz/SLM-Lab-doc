@@ -31,33 +31,32 @@ The network uses linear (ReLU) activations, no activation for the output layer, 
 ```javascript
 {
     ...
-    "agent": [{
+    "agent": {
       ...
       "net": {
         "type": "ConvNet",
-        "shared": false,  // whether to shared networks for Actor-Critic
+        "shared": true,  // whether to share networks for Actor-Critic
         "conv_hid_layers": [
             [32, 8, 4, 0, 1],
             [64, 4, 2, 0, 1],
             [32, 3, 1, 0, 1]
         ],
-        "fc_hid_layers": [512, 256],
+        "fc_hid_layers": [512],
         "hid_layers_activation": "relu",
         "out_layer_activation": null,
         "init_fn": null,  // weight initialization
-        "normalize": false,  // whether to divide input by 255.0
         "batch_norm": false,  // whether to add batchnorm layers
         "clip_grad_val": 1.0,  // clip gradient by norm
         "loss_spec": {
           "name": "SmoothL1Loss"  // default loss function used for regression
         },
         "optim_spec": {  // the optimizer and its arguments
-          "name": "Adam",
-          "lr": 0.02
+          "name": "AdamW",
+          "lr": 0.00025
         },
-        ...
+        "gpu": "auto"
       }
-    }],
+    },
     ...
 }
 ```

@@ -17,7 +17,7 @@ This specification instantiates a RecurrentNet with two components. First a stat
 ```javascript
 {
     ...
-    "agent": [{
+    "agent": {
       "net": {
         "type": "RecurrentNet",
         "shared": false,  // whether to shared networks for Actor-Critic
@@ -38,9 +38,9 @@ This specification instantiates a RecurrentNet with two components. First a stat
           "name": "Adam",
           "lr": 0.01
         },
-        ...
+        "gpu": "auto"
       }
-    }],
+    },
     ...
 }
 ```

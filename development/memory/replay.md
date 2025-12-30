@@ -21,14 +21,14 @@ This specification creates a Replay memory with a maximum capacity of 10,000 ele
 ```javascript
 {
     ...
-    "agent": [{
+    "agent": {
       "memory": {
         "name": "Replay",
         "batch_size": 32,
         "max_size": 10000,
         "use_cer": true
       }
-    }],
+    },
     ...
 }
 ```

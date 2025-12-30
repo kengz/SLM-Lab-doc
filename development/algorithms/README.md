@@ -13,17 +13,17 @@ Each algorithm comes with a number of hyperparameters that can be specified thro
 ```javascript
 {
     ...
-    "agent": [{
+    "agent": {
       "name": str,
       "algorithm": {
         "name": str,
         "action_pdtype": str,
         "action_policy": str,
         "gamma": float,
-        ...,
+        ...
       },
       ...
-    }],
+    },
     ...
 }
 ```

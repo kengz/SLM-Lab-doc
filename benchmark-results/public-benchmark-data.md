@@ -2,19 +2,38 @@
 
 ## :open\_file\_folder: Public Data
 
-SLM Lab provides a set of benchmark results that are periodically updated with new feature releases. All the result data is [uploaded from a Pull Request](https://github.com/kengz/SLM-Lab/pulls?utf8=%E2%9C%93\&q=is%3Apr+label%3Aresult+) and made public on [Google Drive](https://drive.google.com/drive/folders/1fUB3jRvXr8ySZMSW5w0GPWJe3QmM7tb3?usp=sharing).
+SLM Lab provides benchmark results that are periodically updated with new releases.
+
+### v5 Results (Current)
+
+New v5 benchmark data is stored on HuggingFace and can be downloaded using the CLI:
+
+```bash
+# List available experiments
+slm-lab list
+
+# Download specific experiment
+slm-lab pull ppo_hopper
+slm-lab pull sac_halfcheetah
+```
+
+Results are downloaded to the `data/` folder for local analysis or replay in [enjoy mode](../using-slm-lab/train-and-enjoy-dqn-cartpole.md).
 
 {% hint style="info" %}
-Public benchmark data has been moved from Dropbox to Google Drive as of Aug 2022.
+To use HuggingFace commands, configure `HF_TOKEN` and `HF_REPO` in your `.env` file. See [Remote Training](../using-slm-lab/remote-training.md) for setup.
 {% endhint %}
 
-The data can be downloaded and unzipped into SLM Lab's `data/` folder and rerun in [enjoy mode](../using-slm-lab/train-and-enjoy-dqn-cartpole.md).
+### v4 Results (Historical)
+
+Historical v4 benchmark data remains available on [Google Drive](https://drive.google.com/drive/folders/1fUB3jRvXr8ySZMSW5w0GPWJe3QmM7tb3?usp=sharing). Download and unzip into the `data/` folder to replay.
 
 ## :pushpin: Benchmark Information
 
 ### **Hardware**
 
-For reference, the image based environment benchmarks are run on AWS GPU box `p2.16xlarge`, and the non-image based environments are run on AWS CPU box `m5a.24xlarge`.
+**v5 benchmarks** are run on cloud GPUs via [dstack](https://dstack.ai/) (typically L4 or A10G GPUs).
+
+**v4 historical benchmarks** were run on AWS GPU box `p2.16xlarge` (image-based) and AWS CPU box `m5a.24xlarge` (non-image-based).
 
 ### **Reproducibility**
 
@@ -24,12 +43,14 @@ The specs for these are contained in the [`slm_lab/spec/benchmark`](https://gith
 
 ### **Environments**
 
-SLM Lab's benchmark includes environments from the following offerings:
+SLM Lab supports environments from [Gymnasium](https://gymnasium.farama.org/) (the maintained fork of OpenAI Gym):
 
-* [OpenAI gym default environments](https://github.com/openai/gym)
-* [OpenAI gym Atari environments](https://gym.openai.com/envs/#atari) offers a wrapper for the [Atari Learning Environment (ALE)](https://github.com/mgbellemare/Arcade-Learning-Environment)
-* [OpenAI Roboschool](https://github.com/openai/roboschool)
-* [Unity ML Agents](https://github.com/Unity-Technologies/ml-agents)
+* **Classic control:** CartPole, Pendulum, Acrobot, MountainCar
+* **Box2D:** LunarLander, BipedalWalker
+* **MuJoCo:** Hopper, HalfCheetah, Walker2d, Ant, Humanoid, and more
+* **Atari:** All 57 games via the [Arcade Learning Environment (ALE)](https://github.com/Farama-Foundation/Arcade-Learning-Environment)
+
+Any gymnasium-compatible environment can be used by specifying its name in the spec file.
 
 ### **Terminology**
 

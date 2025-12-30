@@ -19,11 +19,11 @@ The spec for this memory has no parameters, since it automatically flushes at th
 ```javascript
 {
     ...
-    "agent": [{
+    "agent": {
       "memory": {
         "name": "OnPolicyReplay"
       }
-    }],
+    },
     ...
 }
 ```

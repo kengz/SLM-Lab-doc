@@ -4,9 +4,11 @@ Actor-Critic algorithms combine value function and policy estimation. They consi
 
 There are a variety of approaches to training the critic. Three options are provided with the baseline algorithms.
 
-* Learn the V function and use it to approximate the Q function. See [ac.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/ac.json) for some examples specs.
-* Advantage with n-step forward returns from [Mnih et. al. 2016](https://arxiv.org/abs/1602.01783). See [a2c.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/a2c.json) for some example specs.
-* Generalized advantage estimation from [Schulman et. al, 2015](https://arxiv.org/abs/1506.02438). See [a2c.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/a2c.json) for some example specs.
+* Learn the V function and use it to approximate the Q function.
+* Advantage with n-step forward returns from [Mnih et. al. 2016](https://arxiv.org/abs/1602.01783).
+* Generalized advantage estimation from [Schulman et. al, 2015](https://arxiv.org/abs/1506.02438).
+
+See [slm_lab/spec/benchmark/a2c/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark/a2c) for example A2C specs.
 
 The actor and critic can be trained separately or jointly, depending on whether the networks are structured to share parameters.
 
@@ -32,24 +34,20 @@ $$
 \end{aligned}
 $$
 
-See [ac.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/a2c.json) and [a2c.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/a2c.json) for example specs of variations of the Actor-Critic algorithm.
+See [slm_lab/spec/benchmark/a2c/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark/a2c) for example Actor-Critic specs.
 
 **Basic Parameters**
 
 ```python
-    "agent": [{
+    "agent": {
       "name": str,
       "algorithm": {
         "name": str,
         "action_pdtype": str,
         "action_policy": str,
         "gamma": float,
-        "use_gae": bool,
         "lam": float,
-        "use_nstep": bool,
-        "num_step_returns": int,
-        "add_entropy": bool,
-        "entropy_coef": float,
+        "entropy_coef_spec": {...},
         "training_frequency": int,
       },
       "memory": {
@@ -60,10 +58,9 @@ See [ac.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/a2c.json
         "shared": bool,
         "hid_layers": list,
         "hid_layers_activation": str,
-        "actor_optim_spec": dict,
-        "critic_optim_spec": dict,
+        "optim_spec": dict,
       }
-    }],
+    },
     ...
 }
 ```
@@ -93,26 +90,20 @@ See [ac.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/a2c.json
 **Advanced Parameters**
 
 ```python
-    "agent": [{
-    "algorithm" : {
+    "agent": {
+      "algorithm": {
         "training_epoch": int,
-        "policy_loss_coef": float,
         "val_loss_coef": float
-      }
+      },
       "net": {
-        "use_same_optim": bool,
         "rnn_hidden_size": int,
         "rnn_num_layers": int,
         "seq_len": int,
-        "clip_grad": bool,
         "clip_grad_val": float,
-        "lr_decay": str,
-        "lr_decay_frequency": int,
-        "lr_decay_min_timestep": int,
-        "lr_anneal_timestep": int,
-        "gpu": int
+        "lr_scheduler_spec": dict,
+        "gpu": str
       }
-    }],
+    },
     ...
 }
 ```

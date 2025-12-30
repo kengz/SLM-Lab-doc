@@ -17,10 +17,10 @@ This specification instantiates an MLP with 3 hidden layers of 256, 128, and 64 
 ```javascript
 {
     ...
-    "agent": [{
+    "agent": {
       "net": {
         "type": "MLPNet",
-        "shared": false,  // whether to shared networks for Actor-Critic
+        "shared": false,  // whether to share networks for Actor-Critic
         "hid_layers": [256, 128, 64],
         "hid_layers_activation": "relu",
         "out_layer_activation": null,  // output layer activation
@@ -30,12 +30,12 @@ This specification instantiates an MLP with 3 hidden layers of 256, 128, and 64 
           "name": "MSELoss"
         },
         "optim_spec": {  // the optimizer and its arguments
-          "name": "Adam",
+          "name": "AdamW",
           "lr": 0.02
         },
-        ...
+        "gpu": "auto"  // "auto", true, false, or device index
       }
-    }],
+    },
     ...
 }
 ```

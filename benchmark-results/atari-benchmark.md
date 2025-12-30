@@ -1,6 +1,34 @@
 # Atari Environment Benchmark
 
-## :first\_place: Atari Environment Benchmark Result
+## PPO Atari Results (v5)
+
+SLM Lab v5 validates PPO on Gymnasium ALE environments. **24 games solved** (≥95% of CleanRL target), with more in progress.
+
+Full methodology, active runs, and latest results in [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md).
+
+### Configuration
+
+* **Specs:** [ppo_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json)
+* **Training:** 10M frames, 16 parallel envs, ConvNet [32,64,32]+512fc
+* **Key settings:** `life_loss_info=true`, `clip_vloss=true`, LR decay to zero
+
+### Lambda Variants
+
+Different games benefit from different lambda values:
+* **lam95** (default): Shooters, maze games, hard exploration
+* **lam85**: Platformers with jumping/climbing (Qbert, Kangaroo, KungFuMaster)
+* **lam70**: Racing/timing + ball physics (Breakout, Enduro, UpNDown)
+
+### Running Atari Benchmarks
+
+```bash
+# Using template spec with variable substitution
+slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train
+slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam85 train
+slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
+```
+
+## Historical Results (v4)
 
 * [Upload PR #427](https://github.com/kengz/SLM-Lab/pull/427)
 * [Google Drive data: DQN](https://drive.google.com/file/d/1taFdNmrL535zJ4V7wRNORwkH_mgSoiYz/view?usp=sharing)

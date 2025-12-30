@@ -33,7 +33,7 @@ This issue is documented here:
 To fix it, prepend an `OMP_NUM_THREADS=1` to the run command. For example:
 
 ```bash
-OMP_NUM_THREADS=1 slm-lab run slm_lab/spec/benchmark/reinforce/reinforce_cartpole.json reinforce_cartpole search
+OMP_NUM_THREADS=1 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole search
 ```
 
 ## How to kill stuck processes?
@@ -59,13 +59,13 @@ When running SLM Lab on a remote server, you may get `NoSuchDisplayException: Ca
 First, try setting environment variable `RENDER=false` before the lab command, for example:
 
 ```bash
-RENDER=false slm-lab run slm_lab/spec/demo.json dqn_cartpole train
+RENDER=false slm-lab run slm_lab/spec/demo.json ppo_cartpole train
 ```
 
 Despite its simplicity, this option comes with the caveat that plots from Plotly cannot generated. The safer option is to install **Xvfb**, and prepend your command with `xvfb-run -a`. For example:
 
 ```bash
-xvfb-run -a slm-lab run slm_lab/spec/demo.json dqn_cartpole train
+xvfb-run -a slm-lab run slm_lab/spec/demo.json ppo_cartpole train
 ```
 
 ## How to forward GUI from a remote server?
@@ -79,7 +79,15 @@ If you are running via `ssh` and want GUI forwarding from a server, do:
 
 ## How to sync data from a remote server?
 
-SLM Lab produces a lot of data which are then zipped for our convenience of transferring/syncing them. We use Dropbox to upload these zip files. Follow [this instruction](https://linoxide.com/linux-how-to/install-dropbox-ubuntu/) to install Dropbox CLI.
+SLM Lab produces a lot of data which are then zipped for our convenience of transferring/syncing them. The recommended method is to use HuggingFace for experiment storage. See the [Remote Training](../using-slm-lab/remote-training.md) guide for setup.
+
+```bash
+# Push local results to HuggingFace
+slm-lab push data/ppo_lunar_2024_01_15_123456
+
+# Pull results from HuggingFace
+slm-lab pull ppo_lunar
+```
 
 ## What is SLM?
 

@@ -6,22 +6,34 @@ description: To test the installation.
 
 ## PPO on CartPole
 
-This quick demo will test that the installation works. We will run PPO on the CartPole environment. For now, don't worry about the details of the command, as we will walk through them in a [later section](../using-slm-lab/slm-lab-command.md).
+This quick demo tests that the installation works. We'll run PPO on CartPole in dev mode.
 
 ```bash
 slm-lab run --render
 ```
 
-This will run a session that trains a PPO agent on the CartPole-v1 environment. The `--render` flag enables environment rendering, so you should see a window showing the CartPole being balanced.
+You should see:
+1. A rendering window showing CartPole being balanced
+2. Logs with `total_reward_ma` increasing over time (target: 400+)
 
-![](../.gitbook/assets/dqn_cartpole_demo.png)
+![CartPole demo](../.gitbook/assets/dqn_cartpole_demo.png)
 
-If you let the training session run for a few minutes, you should see the CartPole getting balanced for a longer period of time. Correspondingly, the `total_reward_ma` in the logs should increase.
+After a few minutes, the CartPole should balance for longer periods. Press `Ctrl+C` to stop.
+
+{% hint style="info" %}
+Dev mode is for debugging and includes rendering. For full training, use `train` mode (see [Lab Command](../using-slm-lab/slm-lab-command.md)).
+{% endhint %}
 
 {% hint style="success" %}
-If this quick start works, then SLM Lab is ready for use.
+If this works, SLM Lab is ready. Continue to [Lab Command](../using-slm-lab/slm-lab-command.md) to learn the CLI.
 {% endhint %}
 
 {% hint style="info" %}
 If you encounter an issue, consult the [**Help**](../resources/help.md) page.
 {% endhint %}
+
+## What's Next
+
+* [Lab Command](../using-slm-lab/slm-lab-command.md) - Learn CLI options and modes
+* [Train: PPO CartPole](../using-slm-lab/train-and-enjoy-dqn-cartpole.md) - Your first full training run
+* [Lab Organization](../using-slm-lab/lab-organization.md) - Understand Sessions, Trials, Experiments

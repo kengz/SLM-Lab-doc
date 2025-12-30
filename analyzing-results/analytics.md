@@ -4,11 +4,11 @@
 
 Now that we know how to run SLM Lab, let's see how to interpret the data it produces.
 
-As a run (Session, Trial, or Experiment) completes, its data is saved to the `data/` folder with an identifying **spec name** appended with a timestamp, e.g. `ppo_lunar_2019_11_30_002958`. The folder is also automatically zipped for convenient file transfer. A lab data folder is organized as follows:
+As a run (Session, Trial, or Experiment) completes, its data is saved to the `data/` folder with an identifying **spec name** appended with a timestamp, e.g. `ppo_lunar_2024_01_15_123456`. The folder is also automatically zipped for convenient file transfer. A lab data folder is organized as follows:
 
 ```
-slm_lab/data/
-  ppo_lunar_2019_11_30_002958/
+data/
+  ppo_lunar_2024_01_15_123456/
     graph/    # all the plotted graphs for Session, Trial, Experiment
     info/     # all the data: metrics and evaluation dataframes, etc.
     log/      # log files

@@ -1,32 +1,62 @@
 # Continuous Environment Benchmark
 
-## :first\_place: Continuous Environment Benchmark Result
+## MuJoCo Benchmark Results (v5)
+
+SLM Lab v5 validates PPO and SAC on Gymnasium MuJoCo environments. Full methodology and active runs in [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md).
+
+| Environment | Target | PPO | SAC | Notes |
+|-------------|--------|-----|-----|-------|
+| Hopper-v5 | 2500 | 2914 ✅ | 2719 ✅ | |
+| HalfCheetah-v5 | 5000 | 6383 ✅ | 7410 ✅ | |
+| Walker2d-v5 | 3500 | 5700 ✅ | 3824 ✅ | |
+| Ant-v5 | 2000 | 2190 ✅ | 3131 ✅ | |
+| Swimmer-v5 | 300 | 349 ✅ | 333 ✅ | |
+| Reacher-v5 | -5 | -5.29 ✅ | -5.18 ⚠️ | |
+| Pusher-v5 | -40 | -40.46 ✅ | -37.7 ✅ | |
+| InvertedPendulum-v5 | 1000 | 982 ✅ | 1000 ✅ | |
+| InvertedDoublePendulum-v5 | 9000 | 9059 ✅ | 9347 ✅ | |
+| Humanoid-v5 | 700 | 1573 ✅ | 4860 ✅ | |
+| HumanoidStandup-v5 | 100k | 103k ✅ | 154k ✅ | |
+
+### PPO MuJoCo Configuration
+
+Standard configuration used across MuJoCo environments:
+
+* **Network:** `[256, 256]` hidden layers with tanh activation, orthogonal init
+* **Normalization:** `normalize_obs=true`, `normalize_reward=true`, `normalize_v_targets=true`
+* **Training:** num_envs=16, max_frame varies by difficulty (1M-10M)
+
+### Running MuJoCo Benchmarks
+
+```bash
+# PPO on Hopper
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train
+
+# SAC on HalfCheetah
+slm-lab run slm_lab/spec/benchmark/sac/sac_halfcheetah.json sac_halfcheetah train
+
+# Generic MuJoCo spec with variable substitution
+slm-lab run -s env=Humanoid-v5 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+```
+
+## Historical Roboschool Results (v4)
+
+{% hint style="warning" %}
+Roboschool is deprecated. These v4 results are preserved for reference. Use Gymnasium MuJoCo environments for new work.
+{% endhint %}
 
 * [Upload PR #427](https://github.com/kengz/SLM-Lab/pull/427)
 * [Google Drive data](https://drive.google.com/file/d/1_rVeXPuZoifXuJmyzY8vC5yregH4DTXo/view?usp=sharing)
 
-|                      Env. \ Alg. | A2C (GAE) | A2C (n-step) |   PPO   |     SAC    |
-| -------------------------------: | :-------: | :----------: | :-----: | :--------: |
-|                    RoboschoolAnt |    787    |     1396     |   1843  |  **2915**  |
-|       RoboschoolAtlasForwardWalk |   59.87   |     88.04    |   172   |   **800**  |
-|            RoboschoolHalfCheetah |    712    |      439     |   1960  |  **2497**  |
-|                 RoboschoolHopper |    710    |      285     |   2042  |  **2045**  |
-| RoboschoolInvertedDoublePendulum |    996    |     4410     |   8076  |  **8085**  |
-|       RoboschoolInvertedPendulum |  **995**  |      978     |   986   |     941    |
-|                RoboschoolReacher |    12.9   |     10.16    |  19.51  |  **19.99** |
-|               RoboschoolWalker2d |    280    |      220     |   1660  |  **1894**  |
-|               RoboschoolHumanoid |   99.31   |     54.58    |   2388  | **2621\*** |
-|        RoboschoolHumanoidFlagrun |   73.57   |      178     |   2014  | **2056\*** |
-|  RoboschoolHumanoidFlagrunHarder |    -429   |      253     | **680** |    280\*   |
-|                      Unity3DBall |   33.48   |     53.46    |  78.24  |  **98.44** |
-|                  Unity3DBallHard |   62.92   |     71.92    |  91.41  |  **97.06** |
+| Env. \ Alg. | A2C (GAE) | A2C (n-step) | PPO | SAC |
+|-------------|-----------|--------------|-----|-----|
+| RoboschoolAnt | 787 | 1396 | 1843 | **2915** |
+| RoboschoolHalfCheetah | 712 | 439 | 1960 | **2497** |
+| RoboschoolHopper | 710 | 285 | 2042 | **2045** |
+| RoboschoolInvertedDoublePendulum | 996 | 4410 | 8076 | **8085** |
+| RoboschoolInvertedPendulum | **995** | 978 | 986 | 941 |
+| RoboschoolReacher | 12.9 | 10.16 | 19.51 | **19.99** |
+| RoboschoolWalker2d | 280 | 220 | 1660 | **1894** |
+| RoboschoolHumanoid | 99.31 | 54.58 | 2388 | **2621*** |
 
-> Episode score at the end of training attained by SLM Lab implementations on continuous control problems. Reported episode scores are the average over the last 100 checkpoints, and then averaged over 4 Sessions. Results marked with `*` require 50M-100M frames, so we use the hybrid synchronous/asynchronous version of SAC to parallelize and speed up training time.
-
-## :chart\_with\_upwards\_trend: Continuous Environment Benchmark Result Plots
-
-#### Plot Legend
-
-<img src="https://user-images.githubusercontent.com/8209263/67737544-d727dc80-f9c8-11e9-904a-319b9aafd41b.png" alt="legend" data-size="original">
-
-![](https://user-images.githubusercontent.com/8209263/67737923-1571cb80-f9ca-11e9-8f6b-b288fa19bff0.png) ![](https://user-images.githubusercontent.com/8209263/67737924-1571cb80-f9ca-11e9-98ee-82c920dfbf44.png) ![](https://user-images.githubusercontent.com/8209263/67737925-1571cb80-f9ca-11e9-9c7f-3a8294a517af.png) ![](https://user-images.githubusercontent.com/8209263/67737926-160a6200-f9ca-11e9-8cae-9afc532e5af8.png) ![](https://user-images.githubusercontent.com/8209263/67737927-160a6200-f9ca-11e9-8eb2-e04554e3844f.png) ![](https://user-images.githubusercontent.com/8209263/67737928-160a6200-f9ca-11e9-8eae-e7a3ccbe914a.png) ![](https://user-images.githubusercontent.com/8209263/67737929-160a6200-f9ca-11e9-9423-b27165def32e.png) ![](https://user-images.githubusercontent.com/8209263/67737930-160a6200-f9ca-11e9-9a0f-edbd4f01f4e0.png) ![](https://user-images.githubusercontent.com/8209263/67737931-16a2f880-f9ca-11e9-9340-fe90ab48e95f.png) ![](https://user-images.githubusercontent.com/8209263/67737932-16a2f880-f9ca-11e9-92bb-9c896ec3991e.png) ![](https://user-images.githubusercontent.com/8209263/67737933-16a2f880-f9ca-11e9-98c8-7388fa9e1775.png) ![](https://user-images.githubusercontent.com/8209263/67737934-16a2f880-f9ca-11e9-912b-37c8840d0acc.png) ![](https://user-images.githubusercontent.com/8209263/67737935-16a2f880-f9ca-11e9-9275-f3b5fef22e1b.png)
+> Episode score at the end of training. Reported scores are the average over the last 100 checkpoints, averaged over 4 Sessions. Results marked with `*` required 50M-100M frames using async SAC.

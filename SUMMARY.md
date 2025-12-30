@@ -2,26 +2,27 @@
 
 * [SLM Lab](README.md)
 
-## 🖥Setup
+## 🖥 Setup
 
 * [Installation](setup/installation.md)
 * [Quick Start](setup/quick-start.md)
 
-## 🚀Using SLM Lab
+## 🚀 Using SLM Lab
 
 * [Lab Command](using-slm-lab/slm-lab-command.md)
 * [Lab Organization](using-slm-lab/lab-organization.md)
-* [Train: REINFORCE CartPole](using-slm-lab/train-and-enjoy-dqn-cartpole.md)
-* [Resume and Enjoy: REINFORCE CartPole](using-slm-lab/resume-and-enjoy-reinforce-cartpole.md)
+* [Train: PPO CartPole](using-slm-lab/train-and-enjoy-dqn-cartpole.md)
+* [Resume and Enjoy](using-slm-lab/resume-and-enjoy-reinforce-cartpole.md)
 * [Agent Spec: DDQN+PER on LunarLander](using-slm-lab/agent-spec-ddqn+per-on-lunarlander.md)
 * [Env Spec: A2C on Pong](using-slm-lab/environment-spec-a2c-on-bipedalwalker.md)
 * [GPU Usage: PPO on Pong](using-slm-lab/gpu-usage-ppo-on-pong.md)
-* [Parallelizing Training: Async SAC on Humanoid](using-slm-lab/parallelizing-training-async-sac-on-humanoid.md)
-* [Experiment and Search Spec: PPO on Breakout](using-slm-lab/search-spec-ppo-on-breakout.md)
-* [Run Benchmark: A2C on Atari Games](using-slm-lab/run-benchmark-a2c-on-atari-games.md)
 * [Meta Spec: High Level Specifications](using-slm-lab/meta-spec-high-level-specifications.md)
+* [Hyperparameter Search with ASHA](using-slm-lab/search-spec-ppo-on-breakout.md)
+* [Run Benchmark: PPO on Atari](using-slm-lab/run-benchmark-a2c-on-atari-games.md)
+* [Parallelizing Training: Async SAC](using-slm-lab/parallelizing-training-async-sac-on-humanoid.md)
+* [TensorBoard](using-slm-lab/tensorboard-visualizing-models-and-actions.md)
 * [Post-Hoc Analysis](using-slm-lab/post-hoc-analysis.md)
-* [TensorBoard: Visualizing Models and Actions](using-slm-lab/tensorboard-visualizing-models-and-actions.md)
+* [Remote Training with dstack](using-slm-lab/remote-training.md)
 * [Using SLM Lab In Your Project](using-slm-lab/using-slm-lab-in-your-project.md)
 
 ## 📈Analyzing Results

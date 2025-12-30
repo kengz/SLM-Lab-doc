@@ -57,23 +57,18 @@ Thankfully, SLM Lab has a preprocessor which tracks the true episodic rewards fo
 
 ```javascript
 {
-  "ppo_pong": {
+  "ppo_atari_lam95": {
     "agent": {...},
     "env": {
-      "name": "ALE/Pong-v5",
-      "frame_op": "concat",
-      "frame_op_len": 4,
-      "reward_scale": "sign",
+      "name": "${env}",
       "num_envs": 16,
-      "max_t": null,
       "max_frame": 1e7
     },
-    ...
     "meta": {
       "distributed": false,
       "rigorous_eval": 0,
       "eval_frequency": 10000,
-      "log_frequency": 5000,
+      "log_frequency": 10000,
       "max_session": 4,
       "max_trial": 1
     }

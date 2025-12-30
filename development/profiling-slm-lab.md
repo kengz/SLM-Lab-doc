@@ -7,15 +7,17 @@ When developing a feature in SLM Lab, we may want to profile the program to chec
 We recommend Python's built-in `cProfile` and `snakeviz` to profile your program runtime. The example below runs the profiler and visualizes the program runtime broken down hierarchically by components. See an example of the graph: [https://jiffyclub.github.io/snakeviz/#interpreting-results](https://jiffyclub.github.io/snakeviz/#interpreting-results)
 
 ```bash
-conda activate lab
-pip install snakeviz
+uv add snakeviz
 
-# say, to profile A2C on Pong
-python -m cProfile -o a2c.prof run_lab.py slm_lab/spec/benchmark/a2c_gae_pong.json a2c_gae_pong train
+# say, to profile PPO on CartPole
+uv run python -m cProfile -o ppo.prof -c "from slm_lab.main import main; main(['slm_lab/spec/benchmark/ppo/ppo_cartpole.json', 'ppo_cartpole', 'train'])"
+
+# or use the --profile flag for built-in profiling
+slm-lab run --profile slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
 
 # then Ctrl+C to kill the process after some time to collect runtime data
 # use snakeviz to render graphs
-snakeviz a2c.prof
+uv run snakeviz ppo.prof
 
 # a browser will open, showing the runtime breakdown
 ```

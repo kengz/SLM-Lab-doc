@@ -20,7 +20,7 @@ $$
 \overline{R}_{rand} = \mathbb{E}[R_{\pi^{rand}}]
 $$
 
-, also known as the random baseline. It is the expectation of the return of a policy with maximum-entropy. Since entropy is maximized for a uniform distribution, the random policy is simply a uniform distribution over the action space. Conveniently, the random policy is already implemented in any environment `env` using the OpenAI gym interface, and can accessed using the method `env.action`_`space.sample()`._ Using this, the random baseline can be obtained easily by running the random policy and averaging the returns over a number of episodes.
+, also known as the random baseline. It is the expectation of the return of a policy with maximum-entropy. Since entropy is maximized for a uniform distribution, the random policy is simply a uniform distribution over the action space. Conveniently, the random policy is already implemented in any environment `env` using the Gymnasium interface, and can accessed using the method `env.action_space.sample()`. Using this, the random baseline can be obtained easily by running the random policy and averaging the returns over a number of episodes.
 
 ## SLM Lab Metrics
 

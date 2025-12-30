@@ -6,9 +6,35 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
 
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/kengz/slm-lab) ![CI](https://github.com/kengz/SLM-Lab/workflows/CI/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/20c6a124c468b4d3e967/maintainability)](https://codeclimate.com/github/kengz/SLM-Lab/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/20c6a124c468b4d3e967/test_coverage)](https://codeclimate.com/github/kengz/SLM-Lab/test_coverage)
 
-SLM Lab is a software framework for reproducible reinforcement learning (RL) research. It enables easy development of RL algorithms using modular components and file-based configuration. It also enables flexible experimentation completed with hyperparameter search, result analysis and benchmark results.
+SLM Lab is a software framework for reproducible reinforcement learning (RL) research. It enables easy development of RL algorithms using modular components and file-based configuration. It also enables flexible experimentation with hyperparameter search, result analysis and benchmarking.
 
-**SLM Lab is also the companion library of the book** [**Foundations of Deep Reinforcement Learning**](https://www.amazon.com/dp/0135172381)**. The book's** [**website and errata is here**](https://slm-lab.gitbook.io/foundations-of-deep-rl/)**.**
+**SLM Lab is also the companion library of the book** [**Foundations of Deep Reinforcement Learning**](https://www.amazon.com/dp/0135172381)**.**
+
+{% hint style="info" %}
+**Book readers:** For the exact code from *Foundations of Deep Reinforcement Learning*, use `git checkout v4.1.1`. The book's [website and errata is here](https://slm-lab.gitbook.io/foundations-of-deep-rl/).
+{% endhint %}
+
+## What's New in v5
+
+SLM Lab v5 is a modernization release for the current RL ecosystem:
+
+* **Gymnasium** replaces OpenAI Gym with proper `terminated`/`truncated` handling
+* **uv** replaces conda for fast, reliable dependency management
+* **Simpler specs** — no more `body` section or array wrappers
+* **Cloud training** via dstack with HuggingFace result sync
+* **ASHA search** for efficient hyperparameter tuning with early stopping
+
+See [Installation](setup/installation.md) for migration details.
+
+## Quick Start
+
+```bash
+git clone https://github.com/kengz/SLM-Lab.git && cd SLM-Lab
+uv sync && uv tool install --editable .
+slm-lab run --render   # PPO on CartPole in dev mode with visualization
+```
+
+See [Installation](setup/installation.md) for uv setup and [Quick Start](setup/quick-start.md) to verify your installation.
 
 ## Features
 
@@ -23,17 +49,18 @@ SLM Lab is a software framework for reproducible reinforcement learning (RL) res
 
 SLM Lab implements most of the [canonical RL algorithms](development/modular-lab-components/algorithm-taxonomy.md):
 
-* SARSA
-* DQN (Deep Q-Network)
-* Double-DQN, Dueling-DQN, PER (Prioritized Experience Replay)
-* REINFORCE
-* A2C (Advantage Actor-Critic) with GAE & n-step
-* PPO (Proximal Policy Optimization)
-* SAC (Soft Actor-Critic)
-* SIL (Self Imitation Learning)
-* Asynchronous version of all the above
+| Algorithm | v5 Status | Environments |
+|-----------|-----------|--------------|
+| PPO | ✅ Validated | Classic, Box2D, MuJoCo (11), Atari (24+ solved) |
+| SAC | ✅ Validated | Classic, Box2D, MuJoCo (11) |
+| DQN/DDQN+PER | ✅ Validated | Classic, Box2D |
+| A2C | ✅ Validated | Classic, Box2D |
+| REINFORCE | ✅ Validated | Classic |
+| SARSA | ⏸️ Pending | - |
+| SIL | ⏸️ Pending | - |
+| Async (A3C, DPPO) | ⏸️ Pending | - |
 
-They are implemented in a modular way such that differences in algorithm performance can be confidently ascribed to differences between algorithms, not between implementations.
+See [Benchmark Results](benchmark-results/public-benchmark-data.md) for detailed performance data.
 
 ### Environments
 
@@ -64,3 +91,39 @@ If you use SLM Lab in your publication, please cite below:
 ## License
 
 This project is licensed under the [MIT License](https://github.com/kengz/SLM-Lab/blob/master/LICENSE).
+
+---
+
+## Documentation TODOs
+
+Pending verification/updates for v5:
+
+### Algorithms
+- [ ] SARSA - validate on Classic Control
+- [ ] SIL - validate on CartPole/LunarLander
+- [ ] A3C - validate on Atari (Pong, Breakout)
+- [ ] DPPO - validate async distributed PPO
+- [ ] Async SAC - validate (see parallelizing tutorial)
+
+### Environments
+- [ ] DQN on Atari - validate and tune
+- [ ] A2C on Atari - validate and tune
+
+### Benchmark Pages
+- [ ] Update Atari benchmark tables with final v5 results (in progress)
+- [ ] Add SAC MuJoCo results to continuous benchmark
+- [ ] Update discrete benchmark with v5 DQN/A2C results
+
+---
+
+## Deploying Documentation Changes
+
+This repo syncs with GitBook per branch (each branch = a GitBook version).
+
+To deploy changes to the v5 docs:
+```bash
+git add -A && git commit -m "docs: your message"
+git push origin v5.0.0
+```
+
+GitBook auto-syncs within minutes — verify at [kengz.gitbook.io/slm-lab](https://kengz.gitbook.io/slm-lab) (select v5.0.0 version).

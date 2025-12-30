@@ -1,66 +1,101 @@
-# Experiment and Search Spec: PPO on Breakout
+# Hyperparameter Search with ASHA
 
-## The Search Spec
+## Overview
 
-In this tutorial, we will learn how to run an experiment to study the following example question:
+SLM Lab v5 uses [Ray Tune](https://docs.ray.io/en/latest/tune/index.html) with ASHA (Asynchronous Successive Halving Algorithm) for efficient hyperparameter search. ASHA terminates underperforming trials early, focusing compute on promising configurations.
 
-> What values of lambda of PPO provide the fastest, most stable solution for Atari Breakout, if the other variables are held constant?
+In this tutorial, we'll search for optimal lambda values for PPO on Breakout.
 
-In SLM Lab, we can easily run experiments to answer questions about deep RL. An **Experiment** in SLM Lab runs a number of Trials using a **search spec** by generating different sets of hyperparameters to search over (using [Ray Tune](https://ray.readthedocs.io/en/latest/tune.html)) and running a Trial for each one.
+## Search Syntax
 
-The search spec has the following format:
+Add a **search** section to your spec with `{key}__{space_type}` syntax:
 
 ```javascript
 {
-  "{spec_name}": {
+  "spec_name": {
     "agent": {...},
     "env": {...},
-    ...
     "meta": {
-      ...
-      "max_trial": int
+      "max_session": 1,
+      "max_trial": 16,
+      "search_scheduler": {
+        "grace_period": 100000,
+        "reduction_factor": 3
+      }
     },
     "search": {
-      *spec
+      "agent.algorithm.gamma__uniform": [0.95, 0.999],
+      "agent.net.optim_spec.lr__loguniform": [1e-5, 1e-3]
     }
   }
 }
 ```
 
-That is, the **search spec** can contain any components of a spec file. To perform search over a spec variable, simply:
+### Search Space Types
 
-* mirror the spec for that variable
-* append a search mode to the variable key
-* define the config space for the search mode
+| space\_type | value | description |
+|-------------|-------|-------------|
+| choice | `[v1, v2, ...]` | Sample from list |
+| uniform | `[low, high]` | Uniform distribution |
+| loguniform | `[low, high]` | Log-uniform distribution |
+| randint | `[low, high]` | Random integer |
+| grid\_search | `[v1, v2, ...]` | Exhaustive grid (multiplies trials) |
 
-Essentially, search spec [defines the config space](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/search.py#L14) using `"{key}__{space_type}": {v}`, where `{space_type}` is `grid_search` of `ray.tune`, or any function name of `np.random`:
+Examples:
+* `"gamma__choice": [0.9, 0.99, 0.999]` - sample from list
+* `"lr__loguniform": [1e-5, 1e-3]` - log-uniform between values
+* `"lam__grid_search": [0.9, 0.95, 0.99]` - run all values (3x trials)
 
-| space\_type  | v                       | v type             |
-| ------------ | ----------------------- | ------------------ |
-| grid\_search | `[value1, value2, ...]` |  `str\|int\|float` |
-| choice       | `[value1, value2, ...]` | `str\|int\|float`  |
-| randint      | `[low, high)`           | `int`              |
-| uniform      | `[low, high)`           | `float`            |
-| normal       | `[low, high)`           | `float`            |
+## ASHA Early Stopping
 
-For example:
+The key v5 feature for efficient search. Add `search_scheduler` to your meta spec:
 
-* `"explore_anneal_epi__randint": [10, 60]` will sample integers uniformly from 10 to 60 for `explore_anneal_epi`
-* `"lr__uniform": [0.001, 0.1]` will sample `lr` using `np.random.uniform(0.001, 0.1)`
+```javascript
+{
+  "meta": {
+    "max_session": 1,
+    "max_trial": 16,
+    "search_resources": {"cpu": 1, "gpu": 0.125},
+    "search_scheduler": {
+      "grace_period": 100000,
+      "reduction_factor": 3
+    }
+  }
+}
+```
 
-When constructing a new Trial, an Experiment samples an instance from the config space, then updates the original spec with the sampled values before passing it to the Trial constructor.
+**Key settings:**
 
-By default, an Experiment will run search for as many Trials as specified by **"max\_trial"** in meta spec using Random sampling from the full config space. If any key uses `grid_search`, it will be combined exhaustively in combination with other random sampling, e.g. for max\_trial = 1 with one grid search of 4 elements, this will yield 4 x 1 = 4 total trials.
+* **max_session: 1** - Single session per trial (required for ASHA to compare fairly)
+* **max_trial: 16** - Total trials to run
+* **grace_period** - Minimum frames before first evaluation (allow learning to start)
+* **reduction_factor: 3** - Keep top 1/3 of trials at each rung
 
-## Search Spec for PPO
+ASHA evaluates trials at checkpoints and terminates the bottom 2/3, focusing resources on promising runs. A 16-trial search might only run 5-6 trials to completion.
 
-As an example, let's try to answer the question:
+{% hint style="info" %}
+**Search budget rule:** ~3-4 trials per search dimension minimum. 8 trials = 2-3 dims, 16 trials = 3-4 dims, 20+ trials = 5+ dims.
+{% endhint %}
 
-> What values of lambda of PPO provide the fastest, most stable solution for Atari Breakout, if the other variables are held constant?
+## Three-Stage Search Process
 
-Let's look at the search spec for PPO on Breakout from [slm\_lab/spec/experimental/ppo/ppo\_lam\_search.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/experimental/ppo/ppo_lam_search.json).
+For robust hyperparameter tuning, use this workflow:
 
-{% code title="slm_lab/spec/experimental/ppo/ppo_lam_search.json" %}
+| Stage | Mode | Config | Purpose |
+|-------|------|--------|---------|
+| ASHA | `search` | `max_session=1`, `search_scheduler` | Wide exploration |
+| Multi | `search` | `max_session=4`, no scheduler | Validate top configs |
+| Final | `train` | Best hyperparameters | Confirmation run |
+
+1. **ASHA stage**: Quick exploration across many configurations
+2. **Multi stage**: Run top 3-5 configs with multiple seeds (no early stopping)
+3. **Final stage**: Update spec defaults with best hyperparameters
+
+## Example: PPO Lambda Search
+
+From [slm\_lab/spec/experimental/ppo/ppo\_lam\_search.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/experimental/ppo/ppo_lam_search.json):
+
+{% code title="slm_lab/spec/experimental/ppo/ppo_lam_search.json (excerpt)" %}
 ```javascript
 {
   "ppo_breakout": {
@@ -68,62 +103,63 @@ Let's look at the search spec for PPO on Breakout from [slm\_lab/spec/experiment
       "name": "PPO",
       "algorithm": {
         "name": "PPO",
-        "action_pdtype": "default",
-        "action_policy": "default",
-        "explore_var_spec": null,
         "gamma": 0.99,
-        "lam": 0.70,
-        ...
+        "lam": 0.7,
+        "time_horizon": 128,
+        "minibatch_size": 256,
+        "training_epoch": 4
       },
-      ...
+      "memory": {"name": "OnPolicyBatchReplay"},
+      "net": {
+        "type": "ConvNet",
+        "shared": true,
+        "gpu": "auto"
+      }
     },
     "env": {
       "name": "ALE/Breakout-v5",
-      "frame_op": "concat",
-      "frame_op_len": 4,
-      "reward_scale": "sign",
       "num_envs": 16,
-      "max_t": null,
       "max_frame": 1e7
     },
-    ...
     "meta": {
-      "distributed": false,
+      "max_session": 1,
+      "max_trial": 16,
       "log_frequency": 10000,
       "eval_frequency": 10000,
-      "max_session": 4,
-      "max_trial": 1
+      "search_resources": {"cpu": 1, "gpu": 0.125},
+      "search_scheduler": {
+        "grace_period": 500000,
+        "reduction_factor": 3
+      }
     },
     "search": {
-      "agent": {
-        "algorithm": {
-          "lam__grid_search": [0.50, 0.70, 0.90, 0.95, 0.97, 0.99]
-        }
-      }
+      "agent.algorithm.lam__choice": [0.5, 0.7, 0.85, 0.9, 0.95, 0.99]
     }
   }
 }
 ```
 {% endcode %}
 
-This file defines the spec for PPO and Breakout as usual. Corresponding to the question, we are interested in finding out the effect of different values of `agent.algorithm.lam`. The search spec specifies a grid search over it, and we set **"meta.max\_trial"** to 1 since we are only doing a grid search.
-
-## Running a PPO Search on Breakout
-
-Let's run an Experiment using the spec file above by using the **search** lab mode:
+## Running the Search
 
 ```bash
 slm-lab run slm_lab/spec/experimental/ppo/ppo_lam_search.json ppo_breakout search
 ```
 
-This will spawn 6 trials in queue using [Ray Tune](https://ray.readthedocs.io/en/latest/tune.html), which are then dequeued to run [as computing resources free up](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/search.py#L46). Since we specify a trial to run 4 sessions, it will take up 4 CPUs and 4 GPUs. If we run this on a machine with 32 CPUs and 8 GPUs, the experiment will run 2 trials at any given time.
+Ray Tune queues trials and runs them as resources free up. With `gpu: 0.125`, 8 trials run in parallel on a single GPU.
 
-At the end of the experiment, we will obtain the usual trial graphs. Additionally, it will also produce an experiment graph, as shown below:
+## Analyzing Results
 
-![](../.gitbook/assets/ppo_breakout_multi_trial_graph_mean_returns_vs_frames.png)
+Results are saved to `data/ppo_breakout_{ts}/` with:
+* `experiment_df.csv` - all trial results, sorted best-first
+* Per-trial subdirectories with session data
 
-Just as how we can plot the moving average version of a trial graph, we can do the same for experiment graph:
+The experiment produces comparison graphs:
 
-![](../.gitbook/assets/ppo_breakout_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![Experiment graph comparing lambda values](../.gitbook/assets/ppo_breakout_multi_trial_graph_mean_returns_vs_frames.png)
 
-From the experiment graph, we can observe that **trial 1** (red) with **lam: 0.7** performs the best on Breakout with the fastest convergence and the best final result.
+![Moving average comparison](../.gitbook/assets/ppo_breakout_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+{% hint style="info" %}
+For full benchmarking methodology and results, see [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md).
+{% endhint %}

@@ -2,16 +2,16 @@
 
 ## :chart\_with\_upwards\_trend: Built-in TensorBoard
 
-TensorBoard is built-in to SLM Lab. It will record all of the metric variables already logged to the terminal output, as well as the PyTorch model graph, model parameter histogram, and action histograms. All of these are done automatically during checkpointing using a writer in `agent.body`. This allows for richer diagnosis of the network and policy, e.g. by seeing if the distributions shift over the course of learning.
+TensorBoard is built-in to SLM Lab. It records all metric variables logged to the terminal, plus the PyTorch model graph, model parameter histograms, and action histograms. All of these are done automatically during checkpointing. This allows for richer diagnosis of the network and policy, e.g. by seeing if the distributions shift over the course of learning.
 
-Tensorboard event files are saved to the `log/` folder in the output data. During/after a run, you can launch TensorBoard for diagnosis:
+TensorBoard event files are saved to the `log/` folder in the output data. During/after a run, you can launch TensorBoard:
 
 ```bash
-tensorboard --log_dir=data
+uv run tensorboard --log_dir=data
 ```
 
 {% hint style="info" %}
-Note that it may take some time for TensorBoard to parse the event files, which can be quite large. You can also speed it up by providing a more specific folder for the command, e.g. `--log_dir=data/a2c_gae_bipedalwalker_2019_10_14_223906/log` so that it does not read from other folders.
+It may take time for TensorBoard to parse the event files. Speed it up by providing a specific folder, e.g. `--log_dir=data/ppo_bipedalwalker_2024_01_15_123456/log`.
 {% endhint %}
 
 Then, go to `localhost:6006` on your browser, and you should see the TensorBoard page:
