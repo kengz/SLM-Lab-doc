@@ -37,16 +37,17 @@ For off-policy algorithms, replay memory is not restored (it would be gigabytes 
 
 ## Enjoy Mode
 
-Enjoy mode runs a trained model using `enjoy@{session_spec_file}`. The session spec was saved automatically during training, and the lab loads the best checkpoint.
+Enjoy mode replays a trained model using `enjoy@{trial_spec_file}`. The trial spec was saved automatically during training. Enjoy mode automatically selects the best-performing session and loads its best checkpoint.
 
 ```bash
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_2024_01_15_123456/ppo_cartpole_t0_s0_spec.json
+slm-lab run _ _ enjoy@data/ppo_cartpole_2024_01_15_123456/ppo_cartpole_t0_spec.json
 ```
 
 This creates a new Session that:
-1. Loads the saved session spec
-2. Loads the **best** model checkpoint (`_ckpt-best` files)
-3. Runs with rendering enabled
+1. Loads the saved trial spec
+2. Finds the best session (by `total_reward_ma`)
+3. Loads the **best** model checkpoint (`_ckpt-best` files)
+4. Runs with rendering enabled
 
 The trained PPO agent should immediately balance the CartPole, with `total_reward_ma` starting near 500:
 

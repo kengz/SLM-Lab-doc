@@ -27,7 +27,7 @@ Spec files are located in `slm_lab/spec/`. Each file can contain multiple specs,
 * **train**: Full training run. Disables dev tools for maximum speed.
 * **search**: Hyperparameter search using Ray Tune.
 * **train@{predir}**: Resume training from a previous run (e.g., `train@latest` or `train@data/ppo_cartpole_2024_01_15_123456`).
-* **enjoy@{session\_spec\_file}**: Replay a trained model.
+* **enjoy@{trial\_spec\_file}**: Replay a trained model (auto-selects best session).
 
 ### Examples
 
@@ -50,8 +50,8 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole search
 # Resume training from latest run
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@latest
 
-# Enjoy a trained model
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_2024_01_15_123456/ppo_cartpole_t0_s0_spec.json
+# Enjoy a trained model (uses _ _ placeholders since spec is in the path)
+slm-lab run _ _ enjoy@data/ppo_cartpole_2024_01_15_123456/ppo_cartpole_t0_spec.json
 ```
 
 ### Variable Substitution

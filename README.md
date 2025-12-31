@@ -92,38 +92,3 @@ If you use SLM Lab in your publication, please cite below:
 
 This project is licensed under the [MIT License](https://github.com/kengz/SLM-Lab/blob/master/LICENSE).
 
----
-
-## Documentation TODOs
-
-Pending verification/updates for v5:
-
-### Algorithms
-- [ ] SARSA - validate on Classic Control
-- [ ] SIL - validate on CartPole/LunarLander
-- [ ] A3C - validate on Atari (Pong, Breakout)
-- [ ] DPPO - validate async distributed PPO
-- [ ] Async SAC - validate (see parallelizing tutorial)
-
-### Environments
-- [ ] DQN on Atari - validate and tune
-- [ ] A2C on Atari - validate and tune
-
-### Benchmark Pages
-- [ ] Update Atari benchmark tables with final v5 results (in progress)
-- [ ] Add SAC MuJoCo results to continuous benchmark
-- [ ] Update discrete benchmark with v5 DQN/A2C results
-
----
-
-## Deploying Documentation Changes
-
-This repo syncs with GitBook per branch (each branch = a GitBook version).
-
-To deploy changes to the v5 docs:
-```bash
-git add -A && git commit -m "docs: your message"
-git push origin v5.0.0
-```
-
-GitBook auto-syncs within minutes — verify at [kengz.gitbook.io/slm-lab](https://kengz.gitbook.io/slm-lab) (select v5.0.0 version).
