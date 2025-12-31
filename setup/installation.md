@@ -80,7 +80,7 @@ SLM Lab v5 is a modernization release:
 * **Simpler specs** - no more `body` section or array wrappers
 * **Environment names updated** - `CartPole-v1`, `ALE/Pong-v5`, `Hopper-v5`
 
-See the [CHANGELOG](https://github.com/kengz/SLM-Lab/blob/master/CHANGELOG.md) for full migration details.
+See the [Changelog](../CHANGELOG.md) for full migration details.
 
 ## Hardware Requirements
 

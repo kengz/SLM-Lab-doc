@@ -36,8 +36,14 @@ The environment is specified using the **env** key in a spec file:
       // Optional: Reward scaling ("sign" for Atari, or a number)
       "reward_scale": str|int|float|null,
 
-      // Optional: Online state normalization
-      "normalize_state": bool
+      // Optional: Online state normalization (MuJoCo)
+      "normalize_obs": bool,
+
+      // Optional: Online reward normalization (MuJoCo)
+      "normalize_reward": bool,
+
+      // Atari-specific: Continue after life loss (see Advanced Env Options)
+      "life_loss_info": bool
     },
     ...
   }
@@ -122,3 +128,55 @@ Pong's maximum score is 21. With 16 parallel environments, the 10M frames comple
 ![Moving average over 100 checkpoints](../.gitbook/assets/a2c_gae_pong_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
 Next, we'll see how to use GPU to speed up training on image-based environments.
+
+## Advanced Env Options
+
+### Atari: life_loss_info
+
+For Atari games, `life_loss_info: true` enables proper game-over handling:
+
+```javascript
+"env": {
+  "name": "ALE/Breakout-v5",
+  "num_envs": 16,
+  "max_frame": 1e7,
+  "life_loss_info": true  // Continue game after life loss
+}
+```
+
+With this option:
+- The environment continues after losing a life (like CleanRL's EpisodicLifeEnv)
+- Episode only ends when all lives are lost (true game over)
+- This matches standard Atari benchmarking methodology
+
+{% hint style="warning" %}
+Without `life_loss_info: true`, Atari games terminate after each life loss, leading to artificially short episodes and incorrect scores.
+{% endhint %}
+
+### MuJoCo: Observation and Reward Normalization
+
+For continuous control tasks, online normalization improves stability:
+
+```javascript
+"env": {
+  "name": "Hopper-v5",
+  "num_envs": 1,
+  "max_frame": 1e6,
+  "normalize_obs": true,    // Normalize observations with running stats
+  "normalize_reward": true  // Normalize rewards with running stats
+}
+```
+
+These options use gymnasium's `NormalizeObservation` and `NormalizeReward` wrappers, which maintain running statistics to standardize inputs. Recommended for MuJoCo environments.
+
+### Environment Kwargs
+
+Any additional keys in the env spec are passed directly to `gymnasium.make()`:
+
+```javascript
+"env": {
+  "name": "ALE/Pong-v5",
+  "num_envs": 16,
+  "repeat_action_probability": 0.25  // Passed to ALE
+}
+```

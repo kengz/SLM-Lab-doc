@@ -23,8 +23,27 @@ SLM Lab v5 is a modernization release for the current RL ecosystem:
 * **Simpler specs** — no more `body` section or array wrappers
 * **Cloud training** via dstack with HuggingFace result sync
 * **ASHA search** for efficient hyperparameter tuning with early stopping
+* **PPO enhancements**: `normalize_v_targets`, `symlog_transform`, `clip_vloss`
+* **Network options**: `layer_norm` for MLP stability
 
 See [Installation](setup/installation.md) for migration details.
+
+### Gymnasium API: terminated vs truncated
+
+v5 uses the modern Gymnasium API which separates episode endings:
+
+```python
+# Old (OpenAI Gym): single 'done' flag
+state, reward, done, info = env.step(action)
+
+# New (Gymnasium): separate 'terminated' and 'truncated'
+state, reward, terminated, truncated, info = env.step(action)
+```
+
+* **terminated**: Episode ended due to task completion (goal reached, agent died, etc.)
+* **truncated**: Episode ended due to time limit or external constraint
+
+This distinction is important for correct value bootstrapping—truncated episodes should bootstrap from the final state while terminated episodes should not. All SLM Lab algorithms handle this correctly.
 
 ## Quick Start
 

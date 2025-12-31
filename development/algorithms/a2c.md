@@ -112,6 +112,8 @@ See [slm_lab/spec/benchmark/a2c/](https://github.com/kengz/SLM-Lab/tree/master/s
   * `training_epoch` how many gradient steps to take when training the critic. Only applies when the actor and critic have separate parameters.
   * `policy_loss_coef` how much weight to give to the policy (actor) component of the loss when the actor and critic have shared parameters, so are trained jointly.
   * `val_loss_coef` how much weight to give to the critic component of the loss when the actor and critic have shared parameters, so are trained jointly.
+  * `normalize_v_targets` normalize value targets to prevent gradient explosion. Uses running statistics normalization (like SB3's VecNormalize).
+  * `symlog_transform` apply symlog transform to value targets (from DreamerV3). Maps large values to smaller range while preserving sign. Good for environments with varying reward scales.
 * `net`
   * `use_same_optim` whether to use the `optim_actor` for both the actor and critic. This can be useful when using conducting a parameter search.
   * `rnn_hidden_size` [_general param_](./)
@@ -124,3 +126,39 @@ See [slm_lab/spec/benchmark/a2c/](https://github.com/kengz/SLM-Lab/tree/master/s
   * `lr_decay_min_timestep`: [_general param_](./)
   * `lr_anneal_timestep`: [_general param_](./)
   * `gpu`: [_general param_](./)
+
+## PPO (Proximal Policy Optimization)
+
+PPO extends Actor-Critic with clipped surrogate objective and minibatch updates. See [slm_lab/spec/benchmark/ppo/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark/ppo) for example PPO specs.
+
+**PPO-Specific Parameters**
+
+```python
+    "agent": {
+      "algorithm": {
+        "name": "PPO",
+        "clip_eps_spec": {...},  # Clipping parameter schedule
+        "minibatch_size": int,   # Minibatch size for updates
+        "time_horizon": int,     # Steps per actor before update
+        "training_epoch": int,   # Epochs per update
+        "normalize_v_targets": bool,  # v5: Normalize value targets
+        "symlog_transform": bool,     # v5: Symlog transform (DreamerV3)
+        "clip_vloss": bool            # v5: CleanRL-style value clipping
+      },
+      ...
+    },
+}
+```
+
+* `clip_eps_spec` PPO clipping parameter, typically starts at 0.2. Can use a schedule for decay.
+* `minibatch_size` number of samples per minibatch during training
+* `time_horizon` number of environment steps collected before each training update (training_frequency = num_envs × time_horizon)
+* `training_epoch` number of passes through collected data per update
+* `normalize_v_targets` (v5) normalize value targets using running statistics to prevent gradient explosion with varying reward scales
+* `symlog_transform` (v5) apply symlog transform to value targets (from DreamerV3): `sign(x) * ln(|x| + 1)`. Good for environments with large or varying reward magnitudes.
+* `clip_vloss` (v5) CleanRL-style value loss clipping—clips value predictions relative to old predictions using `clip_eps`. Improves stability for some environments.
+
+{% hint style="info" %}
+**MuJoCo**: Use `normalize_v_targets: true` for continuous control tasks.
+**Atari**: Use `clip_vloss: true` for image-based tasks.
+{% endhint %}

@@ -1,6 +1,7 @@
 # Table of contents
 
 * [SLM Lab](README.md)
+* [Changelog](CHANGELOG.md)
 
 ## 🖥 Setup
 
@@ -68,6 +69,7 @@
 
 * [Deep RL Resources](resources/untitled.md)
 * [Contributing](resources/contributing.md)
+* [Code of Conduct](resources/code-of-conduct.md)
 * [Motivation](resources/motivation.md)
 * [Help](resources/help.md)
 * [Contact](resources/contacts.md)
