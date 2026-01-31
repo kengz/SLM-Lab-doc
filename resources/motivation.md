@@ -1,56 +1,61 @@
 # Motivation
 
-## Why SLM Lab was created
+## Why SLM Lab Exists
 
-**SLM Lab** was developed as the authors started investigating ideas in deep RL. The field is very empirical, and tools were needed to do deep RL like experimental science.
+Deep RL has many moving parts: algorithms, environments, neural networks, hyperparameters. Without proper tooling, it's easy to lose track of what works and why.
 
-We quickly found that there are so many moving parts that it is difficult to build intuition or test things systematically. It is also difficult for newcomers to get started - there is a reasonably high burden of basic knowledge required.
+SLM Lab was built to bring the workflow of experimental science to deep RL:
 
-We wanted to be able to work on DRL using the workflow of experimental science. There was a need for a framework that would allow us to compare algorithms and environments, quickly set up experiments to test hypotheses, reuse components, analyze and compare results, log results. We also wanted to avoid dealing with tons of command line arguments, bash scripts and manual search, or trawling through log files.
+1. **Hypothesis** - "What if we increase the learning rate?"
+2. **Experiment** - Configure via JSON spec, run on server
+3. **Analysis** - Automated metrics and graphs
+4. **Recording** - Results stored with full reproducibility
 
-The tools we built to do this became the SLM Lab. Most importantly, the unified framework helps to minimize hidden side effects or forgotten details that contribute to irreproducibility and results that are not comparable. And much like how science is communicated with standard units such as kilograms or meters, we created metrics within the lab for the same purpose too.
+## The Problem It Solves
 
-Now, the lab’s **workflow** goes as:
-
-* have a hypothesis, say to investigate the effects of regularization in RL
-* implement new components if any (usually none/little; there is a lot of reuse)
-* set up an experiment using a simple JSON spec file
-* run it on a server
-* get the results and report it back with a Pull Request
-
-Given this, SLM Lab has a lot of elements in common with other libraries (search, evaluation metrics, baselines, etc.) but is the first to bring them together in one place. This allows us to **design, run, measure, and record experiments end-to-end**.
-
-SLM-Lab has the same two purposes that science labs have: research and education. A few immediate goals of the lab are:
-
-* **easier and faster** development cycle through reusable components. Many RL folks we know spends too much time debugging and building auxiliary components from scratch, instead of focusing on just the research.
-* manual experiment design, parameter search and evaluation is extremely slow; the lab **automates away a lot of these time-consuming things**.
-* **address the reproducibility problem** in DRL research by standardizing implementation, benchmarking, and adding rigor to evaluation. Also the full config data is committed to the log book.
-* it can be **used to teach** tutorials/classes, and lowers the barrier of entry to DRL, just like how experiments can be used to teach science more vividly. Plus, it is very much still an experimental science.
+| Pain Point | SLM Lab Solution |
+|------------|------------------|
+| Managing command-line arguments | JSON spec files |
+| Manually tracking hyperparameters | Automatic logging and versioning |
+| Comparing results across runs | Hierarchical analysis (session → trial → experiment) |
+| Reproducing others' results | Spec file + git SHA = exact reproduction |
+| Debugging training failures | Comprehensive metrics and checkpointing |
 
 ## Design Principles
 
-SLM Lab is created for deep reinforcement learning research and applications. The design was guided by four principles:
+### Modularity
 
-#### Modularity
+Components are designed for reuse:
+- The same network can work with any algorithm
+- Memory systems are interchangeable
+- New algorithms inherit most functionality
 
-* makes research easier and more accessible: reuse well-tested components and only focus on the relevant work
-* makes learning deep RL easier: the algorithms are complex; SLM Lab breaks them down into more manageable, digestible components
-* components get reused maximally, which means less code, more tests, and fewer bugs
+### Simplicity
 
-#### Simplicity
+Code structure mirrors how algorithms are explained in papers and textbooks. If you understand the theory, the code is readable.
 
-* the components are designed to closely correspond to the way papers or books discuss RL
-* modular libraries are not necessarily simple. Simplicity balances modularity to prevent overly complex abstractions that are difficult to understand and use
+### Analytical Clarity
 
-#### Analytical clarity
+Results should be interpretable:
+- Experiment graphs show which hyperparameters work
+- Trial graphs show consistency across seeds
+- Session graphs show learning dynamics
 
-* hyperparameter search results are automatically analyzed and presented hierarchically in increasingly granular detail
-* it should take less than 1 minute to understand if an experiment yielded a successful result using the [experiment graph](../analyzing-results/session-graph.md)
-* it should take less than 5 minutes to find and review the top 3 parameter settings using the [trial and session graphs](../analyzing-results/session-graph.md)
+### Reproducibility
 
-#### Reproducibility
+Every experiment can be exactly reproduced:
+- Spec files capture all configuration
+- Git SHA pins the code version
+- Random seeds are recorded
+- Results are stored on HuggingFace
 
-* only the spec file and a git SHA are needed to fully reproduce an experiment
-* all the results are recorded in the [Benchmark Result](../benchmark-results/discrete-benchmark.md) pages
-* experiment reproduction instructions are submitted to the Lab via [`result` Pull Requests](https://github.com/kengz/SLM-Lab/pulls?utf8=%E2%9C%93\&q=is%3Apr+label%3Aresult+)
-* the full experiment data contributed is publicly available on HuggingFace (v5) and Google Drive (v4)
+## Who It's For
+
+**Researchers**: Quickly test hypotheses with rigorous evaluation
+**Practitioners**: Find working configurations for new environments
+**Students**: Learn algorithms through modular, readable implementations
+**Educators**: Teach RL with a complete, working framework
+
+## What's in the Name
+
+**SLM** stands for **Strange Loop Machine**, named after Douglas Hofstadter's [Gödel, Escher, Bach](https://www.amazon.com/G%C3%B6del-Escher-Bach-Eternal-Golden/dp/0465026567). The book explores self-reference and emergence in intelligence—themes that resonate with RL's goal of building agents that learn from experience.

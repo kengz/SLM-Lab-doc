@@ -1,91 +1,115 @@
 # Contributing
 
-## :tada: Contributing to SLM Lab
+Thank you for your interest in contributing to SLM Lab!
 
-First off, thanks for taking the time to contribute!
+## Contribution Tracks
 
-SLM Lab has the following principles:
+### 1. Run Benchmark Experiments
 
-* **modularity**: components get reused maximally, which means less code, more tests, fewer bugs
-* **simplicity**: the components are designed to closely correspond to the way papers or books discuss RL
-* **analytical clarity**: hyper-parameter search results are analyzed automatically and presented hierarchically, in increasingly granular detail
-* **reproducibility**: only the spec file and a git SHA are needed to completely reproduce an experiment
+Help validate algorithms across environments. The easiest way to start:
 
-We believe that deep RL stands at a wonderful intersection of research and engineering. Hence, all forms of contributions are welcome. If you need a hint on what to contribute, feel free to check out our wish list below.
+```bash
+# Pick an environment from the benchmark pages
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train
 
-Contributions are merged into SLM Lab via Pull Requests (PRs). If you are not familiar with it, [don't be shy, here's a guide](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github). Also, feel free to reach us at the [Gitter channel](https://gitter.im/SLM-Lab/SLM-Lab).
-
-Contributors may follow any of these tracks. They are roughly ordered in increasing difficulty.
-
-## Reproduce Results
-
-Reproducibility is crucial to deep RL, thus it is very valuable to have multiple contributors verifying the results by running experiments. An experiment in the SLM-Lab can be fully reproduced using 1. a spec file 2. a git SHA: check out the SLM Lab to the appropriate branch or commit
-
-An example experiment is [here](https://github.com/kengz/SLM-Lab/pull/180).
-
-> The only aspect of experiments that are not reproducible are the random seeds. This is by design. Good algorithms and hyper-parameter settings should be reasonably stable across different random seeds.
-
-When the results are available, please upload them by creating a [pull request](https://github.com/kengz/SLM-Lab/pulls) so it is visible to everyone.
-
-Even if your experiments produce negative results, please report it too! _It can be more valuable to know what doesn't work_, as opposed to just know what works. Reproducibility is key even for negative results, so if you can show how to reproduce the it, please submit a PR.
-
-## Run Benchmark Experiments
-
-The next major milestone for SLM Lab is to provide a set of benchmark results on the implemented algorithms in a variety of environments. The aim is to populate the [benchmark tables](../benchmark-results/atari-benchmark.md). We encourage contributors to own benchmarking for one or more algorithm-environment combinations. Let us know what you are working on and we will add your name to the benchmark table.
-
-One approach could be to go deep on a single algorithm and tune it for different environments. This can be an excellent way for newcomers to deep RL to learn in depth about a particular algorithm. A high level workflow could go as follows
-
-* Get familiar with the Lab; run the demo, read the documentation, look though a couple of [spec files](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec)
-* Pick an algorithm; change some parameters in a spec file, run a few small scale experiments, see what happens
-* Dig deeper
-  * read 1 - 2 online tutorials. See [Deep RL Resources](untitled.md) for some suggestions
-  * read the [algorithm code](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/algorithm)
-  * look at the relevant [memory](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/memory) and [net](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/net) code
-* Run larger scale experiments
-
-We of course welcome algorithm experts too! Your experience working on deep RL algorithms is extremely helpful and needed.
-
-An alternative approach to to select a single environment and focus on getting good results for a number of different algorithms in that environment.
-
-## Implement Features
-
-Other lab users may request features which could be a generic lab component, or implementation of an RL component. They can be found in [issues](https://github.com/kengz/SLM-Lab/issues) or [roadmaps](https://github.com/kengz/SLM-Lab/projects/3). As with any project, it will take some effort to get familiar with the lab's workflow, but with that you can start implementing features the others can use.
-
-Because deep RL itself is difficult, it is crucial for the components to be robust and easy to reuse across many algorithms. So, it is worth a little extra effort to ensure the implementations have a higher quality.
-
-## Using Coding Agents
-
-SLM Lab supports AI-assisted development via coding agents like Claude Code. The repository includes configuration files that enable agents to work autonomously on benchmarking, development, and documentation tasks.
-
-### Agent Configuration Files
-
-* **`CLAUDE.md`** - Agent instructions and project context. Covers architecture, development workflows, style guide, and benchmark procedures.
-* **`.claude/skills/benchmark/SKILL.md`** - Specialized skill for benchmark work. Enables agents to run experiments, monitor dstack jobs, extract results, and update benchmark tables.
-
-### Using Agents for Benchmarking
-
-Agents can autonomously:
-* Launch benchmark runs on cloud GPUs via dstack
-* Monitor job status and extract results
-* Update `docs/BENCHMARKS.md` with scores and links
-* Generate comparison plots
-* Commit progress incrementally
-
-Example agent workflow:
-```
-User: "Run PPO on Hopper and update the benchmark table"
-Agent: [Launches dstack run, monitors, extracts score, updates table, commits]
+# Upload results
+source .env
+slm-lab push data/ppo_hopper_*
 ```
 
-### Getting Started with Agents
+See [Benchmark Results](../benchmark-results/public-benchmark-data.md) for what's needed.
 
-1. Install [Claude Code](https://claude.ai/claude-code) or similar coding agent
-2. Open SLM-Lab repository
-3. The agent will read `CLAUDE.md` for project context
-4. For benchmark work, the agent can use the `/slm-lab-benchmark` skill
+### 2. Reproduce Published Results
 
-See the [CLAUDE.md](https://github.com/kengz/SLM-Lab/blob/master/CLAUDE.md) file in the repository for full agent instructions.
+Reproducibility is crucial. Pick a result from our benchmarks and verify it:
 
-## Research
+1. Download the spec: `slm-lab pull ppo_hopper`
+2. Run: `slm-lab run _ _ train@data/ppo_hopper_*/ppo_hopper_spec.json`
+3. Compare your results to published scores
+4. Report discrepancies as [issues](https://github.com/kengz/SLM-Lab/issues)
 
-If you have a research idea, feel free to propose in the [Gitter chat](https://gitter.im/SLM-Lab/SLM-Lab) as well.
+### 3. Implement Features
+
+Check [GitHub Issues](https://github.com/kengz/SLM-Lab/issues) for feature requests. Good first issues:
+
+- Add new environment wrappers
+- Implement algorithm variants
+- Improve documentation
+- Add unit tests
+
+### 4. Fix Bugs
+
+Found a bug? Help us fix it:
+
+1. Check if it's already reported in [issues](https://github.com/kengz/SLM-Lab/issues)
+2. Create a minimal reproduction case
+3. Submit a PR with the fix and a test
+
+## Development Workflow
+
+### Setup
+
+```bash
+git clone https://github.com/kengz/SLM-Lab.git
+cd SLM-Lab
+uv sync
+```
+
+### Making Changes
+
+```bash
+# Create a branch
+git checkout -b feature/your-feature
+
+# Make changes, run tests
+uv run pytest
+
+# Format code
+uv run ruff format .
+uv run ruff check . --fix
+
+# Commit with conventional format
+git commit -m "feat: add new feature"
+```
+
+### Pull Request Guidelines
+
+1. **Small, focused PRs** - One feature or fix per PR
+2. **Tests required** - Add tests for new functionality
+3. **Documentation** - Update docs if behavior changes
+4. **Pass CI** - All tests must pass
+
+## Design Principles
+
+SLM Lab follows these principles:
+
+| Principle | Meaning |
+|-----------|---------|
+| **Modularity** | Components are reusable and composable |
+| **Simplicity** | Code matches how algorithms are described in papers |
+| **Analytical clarity** | Results should be easy to understand and compare |
+| **Reproducibility** | Spec + git SHA = exact reproduction |
+
+When contributing, ask: "Does this make SLM Lab simpler and more modular?"
+
+## Using AI Coding Assistants
+
+SLM Lab supports development with AI assistants like Claude Code. The repository includes:
+
+- **`CLAUDE.md`** - Project context and agent instructions
+- **`.claude/skills/`** - Specialized skills for benchmark work
+
+Agents can help with:
+- Running benchmarks and updating results
+- Implementing features following codebase patterns
+- Writing tests and documentation
+
+## Getting Help
+
+- **Issues**: [GitHub Issues](https://github.com/kengz/SLM-Lab/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/kengz/SLM-Lab/discussions)
+- **Chat**: [Gitter](https://gitter.im/SLM-Lab/SLM-Lab)
+
+## Code of Conduct
+
+We follow the [Contributor Covenant](code-of-conduct.md). Be respectful and constructive.

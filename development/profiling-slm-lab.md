@@ -1,23 +1,135 @@
 # Profiling SLM Lab
 
-## :stopwatch: Profiling Runtime
+Understanding performance bottlenecks helps optimize training throughput. SLM Lab includes built-in profiling support and works well with Python's standard profiling tools.
 
-When developing a feature in SLM Lab, we may want to profile the program to check its performance and runtime, especially since deep RL software is complicated and involves many components.
-
-We recommend Python's built-in `cProfile` and `snakeviz` to profile your program runtime. The example below runs the profiler and visualizes the program runtime broken down hierarchically by components. See an example of the graph: [https://jiffyclub.github.io/snakeviz/#interpreting-results](https://jiffyclub.github.io/snakeviz/#interpreting-results)
+## Quick Start
 
 ```bash
-uv add snakeviz
-
-# say, to profile PPO on CartPole
-uv run python -m cProfile -o ppo.prof -c "from slm_lab.main import main; main(['slm_lab/spec/benchmark/ppo/ppo_cartpole.json', 'ppo_cartpole', 'train'])"
-
-# or use the --profile flag for built-in profiling
+# Use built-in profiling (recommended)
 slm-lab run --profile slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
 
-# then Ctrl+C to kill the process after some time to collect runtime data
-# use snakeviz to render graphs
-uv run snakeviz ppo.prof
-
-# a browser will open, showing the runtime breakdown
+# Let it run for a few minutes, then Ctrl+C to stop and save profile data
 ```
+
+## Profiling Methods
+
+### Method 1: Built-in `--profile` Flag
+
+The simplest approach:
+
+```bash
+slm-lab run --profile spec.json spec_name train
+```
+
+This wraps the entire run in cProfile and saves results automatically.
+
+### Method 2: Manual cProfile + snakeviz
+
+For more control over profiling:
+
+```bash
+# Install visualization tool
+uv add snakeviz
+
+# Profile a training run
+uv run python -m cProfile -o ppo.prof -c "from slm_lab.main import main; main(['slm_lab/spec/benchmark/ppo/ppo_cartpole.json', 'ppo_cartpole', 'train'])"
+
+# Run for desired duration, then Ctrl+C to collect data
+
+# Visualize results (opens browser)
+uv run snakeviz ppo.prof
+```
+
+### Method 3: Line-level Profiling
+
+For detailed function analysis:
+
+```bash
+uv add line_profiler
+
+# Add @profile decorator to functions you want to profile
+# Then run:
+uv run kernprof -l -v your_script.py
+```
+
+## Reading Profile Results
+
+### snakeviz Visualization
+
+The snakeviz tool shows a hierarchical breakdown of time spent:
+
+- **Icicle/Sunburst view**: Click to drill into function calls
+- **Table view**: Sort by cumulative time, number of calls
+- **Hover**: See exact timing and call counts
+
+See [snakeviz documentation](https://jiffyclub.github.io/snakeviz/#interpreting-results) for interpretation guide.
+
+### What to Look For
+
+| Bottleneck | Likely Cause | Fix |
+|------------|--------------|-----|
+| `env.step()` dominates | Slow environment | Use `num_envs` for parallelization |
+| `backward()` slow | Large network | Reduce `hid_layers` or use simpler architecture |
+| Memory operations | Inefficient sampling | Check `batch_size`, use GPU |
+| `train()` too frequent | Over-training | Increase `training_frequency` |
+
+## Common Performance Patterns
+
+### CPU-bound (Classic Control, Box2D)
+
+```
+env.step(): 40%
+algorithm.train(): 35%
+memory.sample(): 15%
+other: 10%
+```
+
+Optimization: Increase `num_envs` to parallelize environment stepping.
+
+### GPU-bound (Atari, large networks)
+
+```
+algorithm.train(): 60%
+  └── net.forward(): 25%
+  └── loss.backward(): 30%
+env.step(): 25%
+other: 15%
+```
+
+Optimization: Use larger batch sizes to maximize GPU utilization.
+
+## Monitoring Training Speed
+
+### Real-time FPS
+
+Training logs show frames per second:
+
+```
+INFO | frame: 100000, fps: 2341.5, ...
+```
+
+Target FPS by environment type:
+
+| Environment | Typical FPS (CPU) | Typical FPS (GPU) |
+|-------------|-------------------|-------------------|
+| CartPole | 5000-10000 | N/A (CPU better) |
+| LunarLander | 2000-4000 | N/A (CPU better) |
+| Pong (Atari) | 200-400 | 400-800 |
+| HalfCheetah | 500-1000 | 600-1200 |
+
+### Using glances for System Monitoring
+
+```bash
+uv tool install glances
+glances
+```
+
+Monitor CPU, memory, and GPU utilization during training to identify resource bottlenecks.
+
+## Tips for Faster Training
+
+1. **Match hardware to environment**: Use CPU for simple envs, GPU for image-based
+2. **Tune `num_envs`**: More parallel envs = better throughput (diminishing returns past ~8-16)
+3. **Increase `batch_size`** when using GPU to improve utilization
+4. **Reduce `training_frequency`** if algorithm trains too often
+5. **Use `--log-level WARNING`** to reduce logging overhead for benchmarks

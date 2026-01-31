@@ -1,21 +1,31 @@
 # Talks and Presentations
 
-## :calendar\_spiral: Timeline
+SLM Lab has been presented at conferences, meetups, and podcasts since 2016.
 
-SLM Lab has been used by the authors for giving talks and tutorials on deep RL at a number of meetup groups. All these previous talks along with their free resources are listed below:
+## Conference Presentations
 
-* **5 Nov 2016**, NYC Data Wranglers @ Eligible Inc, NYC: [Reinforcement Learning](https://www.meetup.com/NYC-Data-Wranglers/events/235116457/)
-  * video: [Reinforcement Learning - Eligible HQ, Part 1 - YouTube](https://www.youtube.com/watch?v=qBhLoeijgtA)
-  * video: [Reinforcement Learning, Part 2 - YouTube](https://www.youtube.com/watch?v=wNSlZJGdodE)
-* **4 April 2017**, NYC Data Wranglers @ SquareSpace, NYC: [Introducing OpenAI Lab for Reinforcement Learning | Meetup](https://www.meetup.com/NYC-Data-Wranglers/events/238345289/)
-* **18 May 2017**, NYC Data Wranglers @ PaperSpace, NYC: [ML at Work #1: Adversarial Autoencoders, Insight Data Science, and more! | Meetup](https://www.meetup.com/Machine-Learning-at-Work/events/239568811/)
-* **19 Dec 2017**, DLSG @ Untapt, NYC: [“OpenAI Lab” for Deep Reinforcement Learning Experimentation](https://insights.untapt.com/openai-lab-for-deep-reinforcement-learning-experimentation-6287867eb611)
-* **17 Feb 2018**, DLSG @ Untapt, NYC: [Deep Reinforcement Learning Experiments Run Simultaneously Across OpenAI and Unity Environments](https://insights.untapt.com/deep-reinforcement-learning-experiments-run-simultaneously-across-openai-and-unity-environments-62587b89e8ee)
-* **15 March 2018**, PyData SLO @ Cal Poly, San Louis Obispo: [Deep RL in PyTorch](https://www.meetup.com/fr-FR/PydataSLO/events/259150102/)
-* **2 Oct 2018**, @ PyTorch Developer Conference, San Francisco: [Poster Presentation](https://github.com/kengz/pytorch-conference/blob/master/SLM%20Lab%20PyTorch%20poster%202018.pdf)
-* **10 Oct 2019**, @ PyTorch Developer Conference, San Francisco: [Poster Presentation](https://github.com/kengz/pytorch-conference/blob/master/SLM%20Lab%20PyTorch%20poster%202019.pdf)
-* **22 Feb 2022**, SuperDataScience podcast [episode 551 Deep Reinforcement Learning - with Wah Loon Keng](https://www.superdatascience.com/podcast/deep-reinforcement-learning-with-wah-loon-keng)
+| Year | Event | Materials |
+|------|-------|-----------|
+| 2019 | PyTorch Developer Conference, San Francisco | [Poster](https://github.com/kengz/pytorch-conference/blob/master/SLM%20Lab%20PyTorch%20poster%202019.pdf) |
+| 2018 | PyTorch Developer Conference, San Francisco | [Poster](https://github.com/kengz/pytorch-conference/blob/master/SLM%20Lab%20PyTorch%20poster%202018.pdf) |
+
+## Meetup Talks
+
+| Date | Event | Resources |
+|------|-------|-----------|
+| March 2018 | PyData SLO @ Cal Poly | Deep RL in PyTorch |
+| Feb 2018 | DLSG @ Untapt, NYC | [Multi-Environment RL](https://insights.untapt.com/deep-reinforcement-learning-experiments-run-simultaneously-across-openai-and-unity-environments-62587b89e8ee) |
+| Dec 2017 | DLSG @ Untapt, NYC | [OpenAI Lab for RL Experimentation](https://insights.untapt.com/openai-lab-for-deep-reinforcement-learning-experimentation-6287867eb611) |
+| May 2017 | ML at Work @ PaperSpace, NYC | ML at Work #1 |
+| April 2017 | NYC Data Wranglers @ SquareSpace | Introducing OpenAI Lab |
+| Nov 2016 | NYC Data Wranglers @ Eligible Inc | [Video Part 1](https://www.youtube.com/watch?v=qBhLoeijgtA), [Part 2](https://www.youtube.com/watch?v=wNSlZJGdodE) |
+
+## Podcast
+
+| Date | Show | Episode |
+|------|------|---------|
+| Feb 2022 | SuperDataScience | [Episode 551: Deep RL with Wah Loon Keng](https://www.superdatascience.com/podcast/deep-reinforcement-learning-with-wah-loon-keng) |
 
 {% hint style="info" %}
-SLM Lab was previously "OpenAI Lab", which has no affiliation to OpenAI.
+SLM Lab was originally called "OpenAI Lab" (2016-2017). The name was changed to avoid confusion with the OpenAI company—there is no affiliation.
 {% endhint %}

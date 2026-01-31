@@ -1,28 +1,87 @@
 # TensorBoard
 
-[TensorBoard](https://www.tensorflow.org/tensorboard) is a visualization tool for tracking training progress. SLM Lab automatically logs metrics, model graphs, and action distributions to TensorBoard.
+[TensorBoard](https://www.tensorflow.org/tensorboard) provides real-time visualization of training metrics. SLM Lab automatically logs data for TensorBoard during training.
+
+## Quick Start
+
+```bash
+# During or after training
+uv run tensorboard --log_dir=data
+
+# Open in browser
+# http://localhost:6006
+```
+
+## What's Logged
+
+| Category | Metrics | Use Case |
+|----------|---------|----------|
+| **Scalars** | Rewards, loss, learning rate, FPS | Track training progress |
+| **Graphs** | Neural network architecture | Verify model structure |
+| **Histograms** | Action distributions, weight distributions | Debug policy behavior |
 
 ## Viewing Training Progress
 
-TensorBoard records:
-- **Metrics**: Rewards, loss, learning rate (everything shown in terminal)
-- **Model graphs**: Neural network architecture
-- **Histograms**: How actions and model weights change over training
+### Scalars Tab
 
-TensorBoard event files are saved to the `log/` folder in the output data. During/after a run, you can launch TensorBoard:
+Shows training metrics over time:
+
+- **total_reward**: Episode returns
+- **total_reward_ma**: Moving average (100 checkpoints)
+- **loss**: Training loss components
+- **lr**: Learning rate schedule
+- **fps**: Training throughput
+
+### Histograms Tab
+
+Reveals distributions that change over training:
+
+![TensorBoard histograms](https://user-images.githubusercontent.com/8209263/66803221-d9bc0980-eed3-11e9-92b8-0e5cd42a6eab.png)
+
+**Action distributions**: For continuous control (e.g., BipedalWalker with 4 actions), you'll see 4 histogram groups showing how action values evolve. As the agent learns, these distributions should shift and narrow.
+
+**Weight distributions**: Model parameters grouped by layer. Healthy training shows gradual, stable changes. Sudden shifts may indicate instability.
+
+## Tips
+
+### Speed Up Loading
+
+TensorBoard can be slow with many experiments. Specify a single run:
+
+```bash
+uv run tensorboard --log_dir=data/ppo_lunar_2024_01_15_123456/log
+```
+
+### Compare Multiple Runs
+
+Point to the parent directory to overlay runs:
 
 ```bash
 uv run tensorboard --log_dir=data
 ```
 
-{% hint style="info" %}
-It may take time for TensorBoard to parse the event files. Speed it up by providing a specific folder, e.g. `--log_dir=data/ppo_bipedalwalker_2024_01_15_123456/log`.
-{% endhint %}
+Use the "Runs" selector in the UI to toggle visibility.
 
-Then, go to `localhost:6006` on your browser, and you should see the TensorBoard page:
+### Remote Access
 
-![](https://user-images.githubusercontent.com/8209263/66803221-d9bc0980-eed3-11e9-92b8-0e5cd42a6eab.png)
+When training on a remote server:
 
-The histogram tab is useful for revealing the distributions of the actions. In the example above, BipedalWalker has 4 continuous actions, hence there are 4 groups for plots for visualizing the value distributions of these 4 actions across different trials and sessions. Likewise, all the model parameters of an agent is also recorded as value distributions of the parameters of their layers.
+```bash
+# On server
+uv run tensorboard --log_dir=data --bind_all
 
-In the histograms, the vertical axis (coming out from the page) is the number of frames during checkpoints. As an agent learns over time, we should see the distributions changing in shape and shifting locations.
+# Or use SSH tunneling
+ssh -L 6006:localhost:6006 user@server
+# Then open localhost:6006 locally
+```
+
+## TensorBoard vs SLM Lab Graphs
+
+| Feature | TensorBoard | SLM Lab Graphs |
+|---------|-------------|----------------|
+| Real-time | Yes | No (generated at checkpoints) |
+| Interactivity | Full zoom/pan | Basic (Plotly HTML) |
+| Aggregation | Manual comparison | Automatic trial averaging |
+| Publication-ready | Requires export | PNG ready to use |
+
+Use TensorBoard for debugging during training. Use SLM Lab's generated graphs for final results and publications.
