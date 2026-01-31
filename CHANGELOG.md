@@ -1,34 +1,53 @@
 # Changelog
 
+This page documents changes to the SLM Lab documentation and major framework releases.
+
+For detailed code changes, see the [GitHub releases](https://github.com/kengz/SLM-Lab/releases) and [CHANGELOG.md](https://github.com/kengz/SLM-Lab/blob/master/CHANGELOG.md) in the code repository.
+
+---
+
+## Documentation Updates
+
+### January 2026
+
+**Benchmark Rerun:** All Phase 1-3 benchmarks (Classic Control, Box2D, MuJoCo) rerun on Gymnasium v5 environments. Results available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
+
+**Documentation Changes:**
+* Updated benchmark pages with January 2026 results
+* Added Docker installation instructions
+* Added minimal install option for orchestration machines
+* Historical v4 results moved to expandable sections (not directly comparable due to different environment versions)
+
+---
+
 ## SLM-Lab v5.0.0
 
-Modernization release for the current RL ecosystem. Updates SLM-Lab from OpenAI Gym to Gymnasium, adds correct handling of episode termination (the `terminated`/`truncated` fix), and migrates to modern Python tooling.
-
-**TL;DR:** Install with `uv sync`, run with `slm-lab run`. Specs are simpler (no more `body` section or array wrappers). Environment names changed (`CartPole-v1`, `ALE/Pong-v5`, `Hopper-v5`). Code structure preserved for book readers.
+Modernization release for the current RL ecosystem. This release updates SLM Lab to work with the modern Python RL stack while maintaining backward compatibility with the book *Foundations of Deep Reinforcement Learning*.
 
 {% hint style="info" %}
 **Book readers:** For exact code from *Foundations of Deep Reinforcement Learning*, use `git checkout v4.1.1`
 {% endhint %}
 
----
+### Why v5?
 
-## Why This Release
+The RL ecosystem has evolved significantly since SLM Lab v4:
 
-SLM-Lab was created as an educational framework for deep reinforcement learning, accompanying *Foundations of Deep Reinforcement Learning*. The code prioritizes clarity and correctness—it should help you understand RL algorithms, not just run them.
+1. **OpenAI Gym → Gymnasium**: OpenAI deprecated Gym in 2022. Gymnasium (by Farama Foundation) is the maintained fork with better API design
+2. **Roboschool → MuJoCo**: Roboschool was abandoned. MuJoCo became free in 2022 and is now the standard for continuous control
+3. **Conda → uv**: Modern Python dependency management is faster and more reliable with `uv`
+4. **Simpler specs**: Removed legacy multi-agent abstractions that added complexity without benefit
 
-Since v4, the RL ecosystem changed significantly:
+### Key Changes
 
-- **OpenAI Gym is deprecated.** The Farama Foundation forked it as [Gymnasium](https://gymnasium.farama.org/), now the standard. Gym's `done` flag conflated two concepts: true termination (agent failed/succeeded) and time-limit truncation. Gymnasium fixes this with separate `terminated` and `truncated` signals—important for correct value estimation.
+| Category | v4 | v5 |
+|----------|----|----|
+| **Package manager** | conda | uv |
+| **Environment library** | OpenAI Gym | Gymnasium |
+| **Continuous control** | Roboschool | MuJoCo |
+| **Entry point** | `python run_lab.py` | `slm-lab run` |
+| **Spec format** | Arrays with `body` | Simple objects |
 
-- **Roboschool is abandoned.** MuJoCo became free in 2022, so roboschool is no longer maintained. Gymnasium includes native MuJoCo bindings.
-
-- **Python tooling modernized.** `conda` + `setup.py` → `uv` + `pyproject.toml`. Python 3.12+, PyTorch 2.8+. [uv](https://docs.astral.sh/uv/) emerged as a fast, reliable Python package manager—no more conda environment headaches.
-
-- **Old dependencies don't build anymore.** The v4 dependency stack (old PyTorch, atari-py, mujoco-py, etc.) won't compile on modern hardware, especially ARM machines (Apple Silicon, AWS Graviton). Many deprecated packages simply don't run. A full rebuild was necessary.
-
-This release updates SLM-Lab to work with modern dependencies while preserving the educational code structure.
-
-### Summary
+### Migration Summary
 
 | v4 | v5 |
 |----|----|
@@ -36,240 +55,106 @@ This release updates SLM-Lab to work with modern dependencies while preserving t
 | `CartPole-v0`, `PongNoFrameskip-v4` | `CartPole-v1`, `ALE/Pong-v5` |
 | `RoboschoolHopper-v1` | `Hopper-v5` |
 | `agent: [{...}]`, `env: [{...}]`, `body: {...}` | `agent: {...}`, `env: {...}` |
-| `body.state_dim`, `body.memory` | `agent.state_dim`, `agent.memory` |
 
----
+### Gymnasium API Change
 
-## Migration from v4
-
-### 1. Install
-
-```bash
-uv sync
-uv tool install --editable .
-```
-
-### 2. Update specs
-
-Remove array brackets and `body` section:
-
-```diff
- {
--  "agent": [{ "name": "PPO", ... }],
--  "env": [{ "name": "CartPole-v0", ... }],
--  "body": { "product": "outer", "num": 1 },
-+  "agent": { "name": "PPO", ... },
-+  "env": { "name": "CartPole-v1", ... },
-   "meta": { ... }
- }
-```
-
-### 3. Update environment names
-
-- Classic control: `v0`/`v1` → current version (`CartPole-v1`, `Pendulum-v1`, `LunarLander-v3`)
-- Atari: `PongNoFrameskip-v4` → `ALE/Pong-v5`
-- Roboschool → MuJoCo: see [Deprecations](#deprecations) for full mapping
-
-### 4. Run
-
-```bash
-slm-lab run spec.json spec_name train
-```
-
-See `slm_lab/spec/benchmark/` for updated reference specs.
-
----
-
-## The Gymnasium API Change
-
-This matters for understanding the code, not just running it.
-
-### The Problem
-
-Gym's `done` flag was ambiguous—it meant "episode ended" but episodes end for two different reasons:
-
-1. **Terminated:** True end state (CartPole fell, agent died, goal reached)
-2. **Truncated:** Time limit hit (MuJoCo's 1000-step cap)
-
-For value estimation, these need different treatment. Terminated means future returns are zero. Truncated means future returns exist but weren't observed—you should bootstrap from V(s').
-
-### The Fix
-
-Gymnasium separates the signals:
+The most significant change is how episode endings are handled. v5 uses the modern Gymnasium API which separates episode endings into two distinct signals:
 
 ```python
-# Gym
-obs, reward, done, info = env.step(action)
+# Old (OpenAI Gym)
+state, reward, done, info = env.step(action)
 
-# Gymnasium
-obs, reward, terminated, truncated, info = env.step(action)
+# New (Gymnasium)
+state, reward, terminated, truncated, info = env.step(action)
 ```
 
-All SLM-Lab algorithms now use `terminated` for bootstrapping decisions:
+**What's the difference?**
+
+* **terminated**: Episode ended due to the task itself (goal reached, agent died, game over)
+* **truncated**: Episode ended due to external limits (time limit, max steps reached)
+
+**Why does this matter?**
+
+This distinction is critical for correct value bootstrapping in RL algorithms:
 
 ```python
-# Only zero out future returns on TRUE termination
-q_targets = rewards + gamma * (1 - terminateds) * next_q_preds
+# Correct handling (v5)
+if terminated:
+    # True episode end - don't bootstrap from next state
+    target = reward
+else:
+    # Truncated or continuing - bootstrap from next state value
+    target = reward + gamma * V(next_state)
 ```
 
-This is why the code stores `terminateds` and `truncateds` separately in memory—algorithms need `terminated` for correct bootstrapping, `done` for episode boundaries.
+In v4, algorithms had to guess whether `done=True` meant a real ending or just a time limit. This led to subtle bugs and inconsistent behavior. All SLM Lab v5 algorithms handle this correctly.
 
-This fix particularly matters for time-limited environments like MuJoCo (1000-step limit) where episodes frequently truncate during training. Using `done` instead of `terminated` there significantly hurts learning.
+### New v5 Features
 
----
+**Algorithm improvements:**
+* `normalize_v_targets`: Running statistics normalization for value targets (helps with varying reward scales)
+* `symlog_transform`: DreamerV3-style value transform for environments with large rewards
+* `clip_vloss`: CleanRL-style value loss clipping for stability
+* `life_loss_info`: Proper Atari game-over handling (continue after life loss)
 
-## Code Structure Changes
+**Infrastructure:**
+* Ray Tune ASHA search for efficient hyperparameter tuning
+* dstack integration for cloud GPU training
+* HuggingFace integration for experiment storage and sharing
 
-For book readers who want to trace through the code:
+### Deprecations
 
-### Simplified Agent Design
+* **Roboschool** → Use Gymnasium MuJoCo (`Hopper-v5`, `HalfCheetah-v5`, etc.)
+* **Unity ML-Agents / VizDoom** → Removed from core; use their gymnasium wrappers
+* **Multi-agent specs** → Simplified to single-agent single-env
 
-The `Body` class was removed. Its responsibilities moved to more natural locations:
+### Upgrading Specs
 
-```python
-# v4
-state_dim = agent.body.state_dim
-memory = agent.body.memory
-env = agent.body.env
-
-# v5
-state_dim = agent.state_dim
-memory = agent.memory
-env = agent.env
+**v4 spec format:**
+```javascript
+{
+  "ppo_cartpole": {
+    "agent": [{
+      "name": "PPO",
+      "algorithm": {...},
+      "memory": {...},
+      "net": {...}
+    }],
+    "env": [{
+      "name": "CartPole-v0",
+      ...
+    }],
+    "body": {
+      "product": "outer",
+      "num": 1
+    },
+    "meta": {...}
+  }
+}
 ```
 
-Training metrics tracking is now in `MetricsTracker` (what `Body` was renamed to).
-
-### Simplified Specs
-
-Multi-agent configurations were rarely used. Specs are now flat:
-
-```python
-# v4: agent_spec = spec['agent'][0]
-# v5: agent_spec = spec['agent']
+**v5 spec format:**
+```javascript
+{
+  "ppo_cartpole": {
+    "agent": {
+      "name": "PPO",
+      "algorithm": {...},
+      "memory": {...},
+      "net": {...}
+    },
+    "env": {
+      "name": "CartPole-v1",
+      ...
+    },
+    "meta": {...}
+  }
+}
 ```
 
-### Architecture Preserved
+Key differences:
+1. Remove array wrappers `[{...}]` → `{...}`
+2. Remove `body` section entirely
+3. Update environment names to Gymnasium versions
 
-The core design is unchanged:
-
-```
-Session → Agent → Algorithm → Network
-              ↘ Memory
-        → Env
-```
-
----
-
-## Algorithm Updates
-
-**PPO:** New options for value target handling—`normalize_v_targets`, `symlog_transform` (from DreamerV3), `clip_vloss` (CleanRL-style).
-
-**SAC:** Discrete action support uses exact expectation (Christodoulou 2019). Target entropy auto-calculated.
-
-**Networks:** Optional `layer_norm` for MLP hidden layers. Custom optimizers (Lookahead, RAdam) removed—use native PyTorch `AdamW`.
-
-All algorithms use `terminated` (not `done`) for correct bootstrapping.
-
----
-
-## Benchmarks
-
-All algorithms validated on gymnasium. Full results in [Benchmark Results](benchmark-results/public-benchmark-data.md).
-
-| Category | PPO | DQN | SAC |
-|----------|-----|-----|-----|
-| Classic Control | ✅ | ✅ | ✅ |
-| Box2D | ✅ | ✅ | ✅ |
-| MuJoCo (11 envs) | ✅ All | — | ✅ All |
-| Atari | 24 solved (≥95%) | TODO | TODO |
-
-Selected scores: CartPole 499/400, Hopper 2914/2500, HalfCheetah 7410/5000, Humanoid 4860/700.
-
-**Note on scores:** Gymnasium environment versions differ from old Gym—some are harder (CartPole-v1 has stricter termination than v0), some have different reward scales (MuJoCo v5 vs roboschool). Targets reference [CleanRL](https://docs.cleanrl.dev/) and [Stable-Baselines3](https://stable-baselines3.readthedocs.io/) gymnasium benchmarks.
-
----
-
-## New Features
-
-### Hyperparameter Search with ASHA
-
-Now uses Ray Tune + Optuna + ASHA early stopping:
-
-```bash
-slm-lab run spec.json spec_name search    # Run search locally
-```
-
-Add `search_scheduler` to spec for ASHA early termination of poor trials. See [Hyperparameter Search](using-slm-lab/search-spec-ppo-on-breakout.md) for details.
-
-### Cloud Training
-
-Integration with [dstack](https://dstack.ai/) for cloud GPU training and HuggingFace for experiment storage:
-
-```bash
-slm-lab run-remote --gpu spec.json spec_name train   # Launch on cloud GPU
-slm-lab list                                         # List experiments
-slm-lab pull spec_name                               # Download results
-```
-
-See [Remote Training](using-slm-lab/remote-training.md) for setup.
-
----
-
-## CLI Usage
-
-The CLI uses [Typer](https://typer.tiangolo.com/). Use `--help` on any command for details:
-
-```bash
-slm-lab --help                           # List all commands
-slm-lab run --help                       # Options for run command
-
-# Installation
-uv sync                                  # Install dependencies
-uv tool install --editable .             # Install slm-lab command
-
-# Basic usage
-slm-lab run                              # PPO CartPole (default demo)
-slm-lab run --render                     # With visualization
-slm-lab run spec.json spec_name train    # Train from spec file
-slm-lab run spec.json spec_name dev      # Dev mode (shorter run)
-slm-lab run spec.json spec_name search   # Hyperparameter search
-
-# Variable substitution (for template specs)
-slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
-
-# Cloud training (dstack + HuggingFace)
-slm-lab run-remote --gpu spec.json spec_name train   # Launch on cloud GPU
-slm-lab list                                         # List experiments on HuggingFace
-slm-lab pull spec_name                               # Download results locally
-
-# Utilities
-slm-lab run --stop-ray                   # Stop Ray processes
-```
-
-Modes: `dev` (quick test), `train` (full training), `search` (hyperparameter search), `enjoy` (evaluate saved model).
-
----
-
-## Deprecations
-
-### Multi-Agent / Multi-Environment
-
-The v4 `body` spec section and array wrappers (`agent: [{...}]`) supported multi-agent and multi-environment configurations. These were rarely used and added complexity. v5 simplifies to single-agent single-env, which covers the vast majority of use cases and matches how most RL research is done.
-
-### Unity ML-Agents and VizDoom
-
-These integrations are removed from the core package. Both ecosystems have their own gymnasium-compatible wrappers now:
-- Unity: [gymnasium-unity](https://gymnasium.farama.org/environments/third_party_environments/)
-- VizDoom: [vizdoom gymnasium wrapper](https://gymnasium.farama.org/environments/third_party_environments/)
-
-You can still use these environments with SLM-Lab by installing their wrappers and specifying the environment name in your spec.
-
-### Roboschool
-
-Roboschool is abandoned (MuJoCo became free in 2022). Use gymnasium's native MuJoCo environments instead:
-- `RoboschoolHopper-v1` → `Hopper-v5`
-- `RoboschoolHalfCheetah-v1` → `HalfCheetah-v5`
-- `RoboschoolWalker2d-v1` → `Walker2d-v5`
-- `RoboschoolAnt-v1` → `Ant-v5`
-- `RoboschoolHumanoid-v1` → `Humanoid-v5`
+See [Installation](setup/installation.md) for full setup instructions.

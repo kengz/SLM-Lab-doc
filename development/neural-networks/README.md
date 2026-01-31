@@ -1,29 +1,250 @@
 # Net
 
-## :construction\_site: Net API
+## Overview
 
-Code: [slm\_lab/agent/net](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/net)
+Net classes implement neural network architectures used as function approximators in RL algorithms. SLM Lab provides flexible, swappable networks that work with any algorithm.
 
-These networks are usable for all algorithms, and the lab takes care of the proper initialization with proper input/output sizing. One can swap out the network for any algorithm with just a spec change, e.g. make `DQN` into `DRQN` by substituting the net spec `"type": "MLPNet"` with `"type": "RecurrentNet"`.
+**Code:** [slm\_lab/agent/net](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/net)
 
-* **MLPNet**
-* **RecurrentNet**
-* **ConvNet**
+## Network Types
 
-These networks are usable for Q-learning algorithms. For more details see [this paper](http://proceedings.mlr.press/v48/wangf16.pdf).
+| Type | Input | Use Case | Example Environments |
+|------|-------|----------|----------------------|
+| [**MLPNet**](mlp.md) | Vectors | Low-dimensional states | CartPole, LunarLander, MuJoCo |
+| [**ConvNet**](cnn.md) | Images | Pixel observations | Atari games |
+| [**RecurrentNet**](rnn.md) | Sequences | Partial observability | POMDPs |
+| **DuelingMLPNet** | Vectors | Q-learning | LunarLander (value decomposition) |
+| **DuelingConvNet** | Images | Q-learning | Atari (value decomposition) |
 
-* **DuelingMLPNet**
-* **DuelingConvNet**
+## Quick Selection Guide
 
-Reinforcement learning (RL) algorithms typically involve approximating one or more unknown, complex, non linear functions. Deep neural networks make good candidates for these function approximators since they excel at approximating complex functions, particularly if the states are characterized by pixel level features.
+```
+Is your observation an image?
+├── Yes → ConvNet
+└── No → Is there partial observability?
+    ├── Yes → RecurrentNet
+    └── No → MLPNet
+```
 
-Neural networks consists of many simple computational operations grouped into sequential layers. For an introduction to neural networks see [this article](https://learningmachinelearning.org/2016/07/). For further reading see [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/).
+For Q-learning algorithms (DQN family), consider Dueling variants for better value estimation.
 
-There are a variety of families of neural networks, which organize computation differently and are specialized to different types of tasks. A number of the core neural network families are provided to use out of the box.
+## Network Spec
 
-* [Multi-layered Perceptron (MLP)](mlp.md): Takes a single state as input. These networks are composed of a sequence of dense (fully connected) layers. General purpose, simplest network. Well suited for environments with a low dimensional state space.
-* [Convolutional Neural Network (CNN)](cnn.md): Takes a single state as input. Consists of one or more convolutional layers, followed by one or more dense layers. Excels at image processing. Well suited for environments with pixel level inputs or inputs with a spatial component.
-* [Recurrent Neural Network (RNN)](rnn.md): Takes a sequence of states as input. Consists of zero or more state processing layers. The output from these layers are passed to a recurrent layers. Specialized to processes sequences. Well suited to environments in which making a decision about how to act in state s would benefit from knowing what states came previously.
-* _Pending: Convolutional Recurrent Neural Network (CRNN):_ Combines RNN and CNN. Takes a sequence of states as input.
+Configure networks in the agent spec:
 
-The structure of the inputs and outputs is task (environment) and algorithm dependent in RL. This is handled automatically for users. Users need to specify the structure of the hidden network layers, the activation function, and the optimization strategy, through the following parameters.
+```javascript
+{
+  "agent": {
+    "net": {
+      // Network type
+      "type": "MLPNet",
+
+      // Architecture
+      "hid_layers": [256, 256],           // Hidden layer sizes
+      "hid_layers_activation": "relu",    // Activation function
+
+      // Training
+      "optim_spec": {                     // Optimizer
+        "name": "Adam",
+        "lr": 3e-4
+      },
+      "clip_grad_val": 0.5,               // Gradient clipping
+
+      // Device
+      "gpu": "auto"                       // "auto", true, false
+    }
+  }
+}
+```
+
+## Common Parameters
+
+### Architecture
+
+| Parameter | Description | Typical Values |
+|-----------|-------------|----------------|
+| `type` | Network class | `"MLPNet"`, `"ConvNet"`, `"RecurrentNet"` |
+| `hid_layers` | Hidden layer sizes | `[64, 64]` (simple), `[256, 256]` (complex) |
+| `hid_layers_activation` | Activation function | `"relu"`, `"tanh"`, `"leaky_relu"` |
+| `out_layer_activation` | Output activation | `null` (none), `"tanh"` |
+| `init_fn` | Weight initialization | `"orthogonal_"`, `"xavier_uniform_"` |
+
+### Actor-Critic Networks
+
+| Parameter | Description | Typical Values |
+|-----------|-------------|----------------|
+| `shared` | Share weights between actor/critic | `true` (Atari), `false` (MuJoCo) |
+| `use_same_optim` | Use same optimizer for both | `true`, `false` |
+| `actor_optim_spec` | Actor optimizer | `{"name": "Adam", "lr": 3e-4}` |
+| `critic_optim_spec` | Critic optimizer | `{"name": "Adam", "lr": 3e-4}` |
+
+### Training
+
+| Parameter | Description | Typical Values |
+|-----------|-------------|----------------|
+| `clip_grad_val` | Gradient clipping norm | 0.5-10.0 |
+| `loss_spec` | Loss function | `{"name": "MSELoss"}`, `{"name": "SmoothL1Loss"}` |
+| `lr_scheduler_spec` | Learning rate schedule | See below |
+
+### v5 Features
+
+| Parameter | Description | Typical Values |
+|-----------|-------------|----------------|
+| `layer_norm` | Add LayerNorm after hidden layers | `true`, `false` |
+| `normalize` | Normalize input (for ConvNet) | `true` |
+
+### Device
+
+| Parameter | Description | Values |
+|-----------|-------------|--------|
+| `gpu` | GPU usage | `"auto"` (detect), `true` (force), `false` (CPU only) |
+
+## Learning Rate Schedules
+
+Decay learning rate during training:
+
+```javascript
+{
+  "lr_scheduler_spec": {
+    "name": "LinearToZero",  // Linear decay to 0
+    "frame": 1000000         // Total frames for decay
+  }
+}
+```
+
+Available schedules:
+- `"LinearToZero"` - Linear decay from initial LR to 0
+- `"StepLR"` - Step decay at fixed intervals
+- `"ExponentialLR"` - Exponential decay
+
+## Example Specs
+
+### MLP for CartPole/MuJoCo
+
+```javascript
+{
+  "net": {
+    "type": "MLPNet",
+    "shared": false,
+    "hid_layers": [64, 64],
+    "hid_layers_activation": "tanh",
+    "init_fn": "orthogonal_",
+    "clip_grad_val": 0.5,
+    "loss_spec": {"name": "MSELoss"},
+    "actor_optim_spec": {"name": "Adam", "lr": 3e-4},
+    "critic_optim_spec": {"name": "Adam", "lr": 3e-4},
+    "gpu": "auto"
+  }
+}
+```
+
+### ConvNet for Atari (Nature CNN)
+
+```javascript
+{
+  "net": {
+    "type": "ConvNet",
+    "shared": true,
+    "conv_hid_layers": [
+      [32, 8, 4, 0, 1],  // [out_channels, kernel, stride, padding, dilation]
+      [64, 4, 2, 0, 1],
+      [64, 3, 1, 0, 1]
+    ],
+    "fc_hid_layers": [512],
+    "hid_layers_activation": "relu",
+    "init_fn": "orthogonal_",
+    "normalize": true,
+    "clip_grad_val": 0.5,
+    "use_same_optim": true,
+    "optim_spec": {"name": "AdamW", "lr": 2.5e-4},
+    "lr_scheduler_spec": {"name": "LinearToZero", "frame": 10e6},
+    "gpu": "auto"
+  }
+}
+```
+
+### RecurrentNet for POMDPs
+
+```javascript
+{
+  "net": {
+    "type": "RecurrentNet",
+    "cell_type": "GRU",
+    "fc_hid_layers": [128],
+    "rnn_hidden_size": 64,
+    "rnn_num_layers": 1,
+    "seq_len": 8,
+    "hid_layers_activation": "relu",
+    "optim_spec": {"name": "Adam", "lr": 1e-3},
+    "gpu": "auto"
+  }
+}
+```
+
+### DQN Target Network
+
+For DQN algorithms, a separate target network is created automatically:
+
+```javascript
+{
+  "net": {
+    "type": "MLPNet",
+    "hid_layers": [256, 128],
+    "update_type": "replace",     // How to update target
+    "update_frequency": 100,      // Steps between updates
+    // Or use soft updates:
+    // "update_type": "polyak",
+    // "polyak_weight": 0.995
+  }
+}
+```
+
+## Network Architecture Tips
+
+### CartPole / Simple Control
+
+```javascript
+{"hid_layers": [64, 64], "hid_layers_activation": "tanh"}
+```
+- Small networks work well
+- `tanh` activation is common for bounded outputs
+
+### MuJoCo / Continuous Control
+
+```javascript
+{"hid_layers": [256, 256], "hid_layers_activation": "tanh", "init_fn": "orthogonal_"}
+```
+- Larger networks for complex dynamics
+- Orthogonal initialization helps with gradients
+
+### Atari / Image-Based
+
+```javascript
+{
+  "conv_hid_layers": [[32, 8, 4, 0, 1], [64, 4, 2, 0, 1], [64, 3, 1, 0, 1]],
+  "fc_hid_layers": [512]
+}
+```
+- Nature CNN architecture is standard
+- `shared: true` for actor-critic
+
+### Box2D (LunarLander, BipedalWalker)
+
+```javascript
+{"hid_layers": [256, 128], "hid_layers_activation": "relu"}
+```
+- Medium-sized networks
+- `relu` works well
+
+## GPU Usage
+
+SLM Lab handles GPU placement automatically:
+
+```javascript
+{"gpu": "auto"}  // Use GPU if available, else CPU
+{"gpu": true}    // Force GPU (fails if unavailable)
+{"gpu": false}   // Force CPU
+{"gpu": 0}       // Specific GPU device
+```
+
+For multi-GPU setups, see [GPU Usage: PPO on Pong](../../using-slm-lab/gpu-usage-ppo-on-pong.md).

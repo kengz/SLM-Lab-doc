@@ -1,44 +1,234 @@
 # Algorithm
 
-## :construction\_site: Algorithm API
+## Overview
 
-Code: [slm\_lab/agent/algorithm](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/algorithm)
+Algorithm classes implement RL algorithms: network architecture, action selection, and gradient updates. SLM Lab's algorithms use a taxonomy-based inheritance design where each algorithm extends its parent by adding only its distinguishing features.
 
-Algorithm is the main class which implements an RL algorithm. This includes declaring its networks and variables, acting, sampling from memory, and training. It initializes its networks and memory by simply calling the [Memory](../memory/) and [Net](../neural-networks/) classes with their specs. The loss functions for the algorithms is also implemented here.
+**Code:** [slm\_lab/agent/algorithm](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/algorithm)
 
-Each algorithm comes with a number of hyperparameters that can be specified through a [agent spec file](https://github.com/kengz/slm-lab/tree/d4af0388c41fee09d3266973e4c791c11b144566/baselines/usage/agent-spec.md).
+## Algorithm Taxonomy
 
-## **Algorithm Spec**
+```
+Algorithm (base class)
+ ├── SARSA (tabular-like Q-learning)
+ │    └── VanillaDQN → DQN → DoubleDQN
+ ├── Reinforce (policy gradient)
+ └── ActorCritic (actor + critic)
+      ├── A2C (adds value loss coefficient)
+      ├── PPO (adds clipped objective)
+      └── SAC (adds entropy regularization)
+```
+
+Each level adds only its distinguishing features. For example, PPO inherits everything from ActorCritic and only overrides the policy loss calculation.
+
+See [Class Inheritance: A2C > PPO](../modular-lab-components/class-inheritance-a2c-greater-than-ppo.md) for a detailed example.
+
+## Implemented Algorithms
+
+| Algorithm | Type | Action Space | Key Features |
+|-----------|------|--------------|--------------|
+| **SARSA** | Value-based | Discrete | On-policy TD learning |
+| **VanillaDQN** | Value-based | Discrete | Basic Q-learning with neural network |
+| **DQN** | Value-based | Discrete | + Target network |
+| **DoubleDQN** | Value-based | Discrete | + Double Q-learning |
+| **REINFORCE** | Policy gradient | Both | Monte Carlo policy gradient |
+| **ActorCritic** | Actor-Critic | Both | Separate actor and critic |
+| **A2C** | Actor-Critic | Both | + Synchronized updates |
+| **PPO** | Actor-Critic | Both | + Clipped surrogate objective |
+| **SAC** | Actor-Critic | Continuous | + Maximum entropy RL |
+
+## Algorithm Interface
+
+All algorithms implement this interface:
+
+```python
+class Algorithm:
+    def init_algorithm_params(self):
+        """Initialize hyperparameters from spec."""
+        pass
+
+    def init_nets(self, global_nets=None):
+        """Create neural networks and optimizers."""
+        pass
+
+    def act(self, state) -> action:
+        """Select action given current state."""
+        pass
+
+    def train(self) -> loss:
+        """Sample from memory and update networks."""
+        pass
+
+    def update(self) -> explore_var:
+        """Update exploration parameters (epsilon, entropy)."""
+        pass
+```
+
+## Algorithm Spec
+
+Configure algorithms in the agent spec:
 
 ```javascript
 {
-    ...
-    "agent": {
-      "name": str,
-      "algorithm": {
-        "name": str,
-        "action_pdtype": str,
-        "action_policy": str,
-        "gamma": float,
-        ...
-      },
-      ...
-    },
-    ...
+  "agent": {
+    "name": "PPO",
+    "algorithm": {
+      // Required
+      "name": "PPO",              // Algorithm class name
+      "gamma": 0.99,              // Discount factor
+
+      // Action selection
+      "action_pdtype": "default", // Probability distribution type
+      "action_policy": "default", // Action selection policy
+
+      // Algorithm-specific parameters
+      "lam": 0.95,                // GAE lambda (PPO, A2C)
+      "time_horizon": 128,        // Steps before update (PPO)
+      "minibatch_size": 64,       // Minibatch size (PPO)
+      "training_epoch": 4,        // Epochs per update (PPO)
+      "clip_eps_spec": {...},     // Clipping schedule (PPO)
+      "entropy_coef_spec": {...}  // Entropy bonus schedule
+    }
+  }
 }
 ```
 
-* **name:** name of an implemented algorithm class. This must be a class that conforms to the [algorithm api](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/agent/algorithm/base.py) and is saved in a `.py` file under [slm\_lab/agent/algorithm](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/algorithm)
-* **action\_pdtype:** specifies the probability distribution that actions are sampled from. For example, "Argmax" or "Categorical" for discrete action spaces, or "Normal", "MultivariateNormal", and "Gumbel" for continuous action spaces. These are declared in [slm\_lab/agent/algorithm/policy\_util.py#L18-L24](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/agent/algorithm/policy_util.py#L18-L24)
-* **action\_policy:** specifies how the agent should act. e.g. "epsilon\_greedy". These are declared in [slm\_lab/agent/algorithm/policy\_util.py#L133](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/agent/algorithm/policy_util.py#L133)
-* **gamma** $$\in[0,1]$$ how much to discount the future for the returns. 0 corresponds to complete myopia, the agent only cares about the current time step. 1 corresponds to no discounting. Each future state matters as much as the current state.
+## Key Parameters
 
-Other algorithm spec hyperparameters are specific to algorithm implementations. For those, refer to the class documentation of algorithms in [slm\_lab/agent/algorithm](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/agent/algorithm).
+### Common Parameters
 
-For more concrete examples of algorithm spec specific to algorithms, refer to the existing [spec files](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec).
+| Parameter | Description | Typical Values |
+|-----------|-------------|----------------|
+| `gamma` | Discount factor (how much to value future rewards) | 0.99 (long-horizon), 0.9 (short-horizon) |
+| `action_pdtype` | Probability distribution for actions | `"default"` (auto-select), `"Categorical"`, `"Normal"` |
+| `action_policy` | How to select actions | `"default"`, `"epsilon_greedy"`, `"boltzmann"` |
 
-To learn more about algorithms, check out [Deep RL Resources](../../resources/untitled.md).
+### Policy Gradient Parameters (A2C, PPO)
 
-{% hint style="info" %}
-The subpages to follow showcase a subset of algorithms in SLM Lab. See [here](../../#algorithms) for the list of implemented algorithms in SLM Lab.
-{% endhint %}
+| Parameter | Description | Typical Values |
+|-----------|-------------|----------------|
+| `lam` | GAE lambda (bias-variance tradeoff) | 0.95 (balanced), 0.99 (high variance), 0.7 (low variance) |
+| `entropy_coef_spec` | Entropy bonus for exploration | 0.01 (typical), 0.001 (less exploration) |
+| `val_loss_coef` | Value loss weight | 0.5 (typical) |
+
+### PPO-Specific Parameters
+
+| Parameter | Description | Typical Values |
+|-----------|-------------|----------------|
+| `time_horizon` | Steps collected before each update | 128 (typical), 2048 (MuJoCo) |
+| `minibatch_size` | Samples per gradient step | 64-256 |
+| `training_epoch` | Passes through collected data | 4-10 |
+| `clip_eps_spec` | Clipping parameter | 0.1-0.2 |
+
+### DQN-Specific Parameters
+
+| Parameter | Description | Typical Values |
+|-----------|-------------|----------------|
+| `explore_var_spec` | Epsilon schedule | Start 1.0, end 0.01 |
+| `training_frequency` | Steps between updates | 1-4 |
+| `training_start_step` | Steps before training starts | 1000-10000 |
+
+## Exploration Schedules
+
+Many parameters use schedules for decay during training:
+
+```javascript
+{
+  "explore_var_spec": {
+    "name": "linear_decay",   // Decay type
+    "start_val": 1.0,         // Initial value
+    "end_val": 0.01,          // Final value
+    "start_step": 0,          // When to start decay
+    "end_step": 50000         // When to reach end_val
+  }
+}
+```
+
+Available schedules:
+- `"no_decay"` - Constant value
+- `"linear_decay"` - Linear interpolation
+- `"rate_decay"` - Exponential decay
+
+## Example Specs
+
+### PPO for CartPole (Discrete)
+
+```javascript
+{
+  "algorithm": {
+    "name": "PPO",
+    "gamma": 0.99,
+    "lam": 0.95,
+    "time_horizon": 128,
+    "minibatch_size": 64,
+    "training_epoch": 4,
+    "clip_eps_spec": {"name": "no_decay", "start_val": 0.2, "end_val": 0.2},
+    "entropy_coef_spec": {"name": "no_decay", "start_val": 0.01, "end_val": 0.01}
+  }
+}
+```
+
+### DQN for LunarLander (Discrete)
+
+```javascript
+{
+  "algorithm": {
+    "name": "DQN",
+    "action_pdtype": "Argmax",
+    "action_policy": "epsilon_greedy",
+    "explore_var_spec": {
+      "name": "linear_decay",
+      "start_val": 1.0,
+      "end_val": 0.01,
+      "start_step": 0,
+      "end_step": 50000
+    },
+    "gamma": 0.99,
+    "training_frequency": 4
+  }
+}
+```
+
+### SAC for MuJoCo (Continuous)
+
+```javascript
+{
+  "algorithm": {
+    "name": "SoftActorCritic",
+    "gamma": 0.99,
+    "training_frequency": 1,
+    "training_iter": 1
+  }
+}
+```
+
+## Adding a New Algorithm
+
+1. Create `slm_lab/agent/algorithm/your_algo.py`
+2. Inherit from the appropriate base class
+3. Override only the methods that differ
+4. Register in `slm_lab/agent/algorithm/__init__.py`
+
+**Example: Custom DQN Variant**
+
+```python
+from slm_lab.agent.algorithm.dqn import DQN
+
+class MyDQN(DQN):
+    def init_algorithm_params(self):
+        super().init_algorithm_params()
+        self.my_param = self.algorithm_spec.get('my_param', 0.5)
+
+    def calc_q_loss(self, batch):
+        loss = super().calc_q_loss(batch)
+        return loss * self.my_param  # Example modification
+```
+
+See [Architecture](../architecture.md) for more on extending SLM Lab.
+
+## Learning Resources
+
+For deep dives into these algorithms:
+- [Deep RL Resources](../../resources/untitled.md) - Recommended papers and courses
+- [Foundations of Deep RL](../../publications-and-talks/instruction-for-the-book-+-intro-to-rl-section.md) - The companion book
+- [Algorithm Taxonomy](../modular-lab-components/algorithm-taxonomy.md) - Visual overview

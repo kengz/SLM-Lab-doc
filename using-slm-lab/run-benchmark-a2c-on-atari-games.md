@@ -11,7 +11,7 @@ Template specs use `${var}` placeholders for values that vary across runs. The P
 {% code title="slm_lab/spec/benchmark/ppo/ppo_atari.json (excerpt)" %}
 ```javascript
 {
-  "ppo_atari_lam95": {
+  "ppo_atari": {
     "agent": {
       "name": "PPO",
       "algorithm": {
@@ -32,7 +32,8 @@ Template specs use `${var}` placeholders for values that vary across runs. The P
     "env": {
       "name": "${env}",
       "num_envs": 16,
-      "max_frame": 1e7
+      "max_frame": 1e7,
+      "life_loss_info": true
     },
     "meta": {
       "max_session": 4,
@@ -53,16 +54,16 @@ Use the `-s` flag to substitute environment names:
 
 ```bash
 # Single environment
-slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
+slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 
 # Multiple environments (run separately)
-slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
-slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
-slm-lab run -s env=ALE/Seaquest-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
+slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+slm-lab run -s env=ALE/Seaquest-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 ```
 
 {% hint style="info" %}
-Different games benefit from different lambda values. The `ppo_atari_lam95` spec works well for most games. Use `ppo_atari_lam85` for platformers (Qbert, Kangaroo) and `ppo_atari_lam70` for racing/physics games (Breakout, Enduro).
+Different games benefit from different lambda values. The `ppo_atari` spec works well for most games. Use `ppo_atari_lam85` for platformers (Qbert, Kangaroo) and `ppo_atari_lam70` for racing/physics games (Breakout, Enduro).
 {% endhint %}
 
 ## MuJoCo Benchmark Example

@@ -47,10 +47,10 @@ source .env
 
 ```bash
 # Run training on cloud GPU
-source .env && slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train -n my-experiment
+source .env && slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n my-experiment
 
 # Run hyperparameter search
-source .env && slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 search -n my-search
+source .env && slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari search -n my-search
 ```
 
 The `-n` flag names your dstack run for easy identification.
@@ -58,7 +58,7 @@ The `-n` flag names your dstack run for easy identification.
 ### Using Variable Substitution
 
 ```bash
-source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train -n ppo-breakout
+source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n ppo-breakout
 ```
 
 ### Monitoring Runs
@@ -84,7 +84,7 @@ dstack stop my-experiment -y
 Download completed experiments from HuggingFace:
 
 ```bash
-slm-lab pull ppo_atari_lam95
+slm-lab pull ppo_atari
 ```
 
 This downloads to `data/` for local analysis.
@@ -102,7 +102,7 @@ Shows all experiments stored on your HuggingFace repo.
 Upload a local experiment:
 
 ```bash
-slm-lab push data/ppo_atari_lam95_2024_01_15_123456
+slm-lab push data/ppo_atari_2024_01_15_123456
 ```
 
 ## Configuration

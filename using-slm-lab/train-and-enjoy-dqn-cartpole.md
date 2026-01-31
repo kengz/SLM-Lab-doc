@@ -4,7 +4,7 @@
 
 This tutorial shows how to train an agent in SLM Lab and use the saved model for replay in enjoy mode.
 
-We'll use PPO (Proximal Policy Optimization) on CartPole—the same algorithm and environment used in the Quick Start demo. PPO is a robust policy gradient algorithm that works well across many environments.
+We'll use PPO (Proximal Policy Optimization) on CartPole—the same algorithm and environment from the Quick Start demo. PPO is a widely-used RL algorithm that works well across many environments.
 
 The spec file is at [slm\_lab/spec/benchmark/ppo/ppo\_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json). To run a full training:
 
@@ -22,6 +22,11 @@ This runs a `Trial` with 4 `Sessions` using different random seeds. The training
 PPO reliably solves CartPole when `total_reward_ma` reaches 450-500 (the maximum score).
 {% endhint %}
 
-When complete, all metrics, graphs, and data are saved to a timestamped folder like `data/ppo_cartpole_2024_01_15_123456/`. SLM Lab saves both the **final** and **best** model checkpoints for later use.
+When complete, all metrics, graphs, and data are saved to a timestamped folder like `data/ppo_cartpole_2024_01_15_123456/`. SLM Lab saves two model checkpoints:
+
+* **best**: The model with highest evaluation score during training
+* **final**: The model at the end of training
+
+Usually these are similar, but "best" is useful if performance dropped near the end.
 
 Next, we'll look at how to resume training and replay a trained model.

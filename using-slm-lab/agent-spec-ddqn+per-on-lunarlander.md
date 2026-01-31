@@ -1,65 +1,43 @@
 # Agent Spec: DDQN+PER on LunarLander
 
-## The Agent Spec
+This tutorial shows how to configure an agent's algorithm, memory, and neural network. We'll train a **DDQN+PER** agent on LunarLander—a spacecraft landing task.
 
-In this tutorial we look at how to use an **agent spec** to specify an agent, which comprises of its algorithm, memory, and neural network. We will train a DDQN+PER agent on the LunarLander environment.
+## What is DDQN+PER?
 
-The agent is specified using the **agent** key in a spec file with the following format. It comprises of **algorithm spec**, **memory spec**, and **net spec**, which allows us to specify and compose modular components together in SLM Lab.
+| Component | What It Does |
+|-----------|--------------|
+| **DDQN** (Double DQN) | Reduces overestimation of Q-values by using separate networks for action selection and evaluation |
+| **PER** (Prioritized Experience Replay) | Learns faster by prioritizing surprising transitions (high TD error) |
+
+Together, they create a more stable, sample-efficient agent than vanilla DQN.
+
+{% hint style="info" %}
+You don't need to understand these algorithms in detail to follow this tutorial. The goal is to show how SLM Lab's spec system works.
+{% endhint %}
+
+## The Agent Spec Structure
+
+Every agent in SLM Lab is configured with three components:
 
 ```javascript
 {
-  "{spec_name}": {
+  "spec_name": {
     "agent": {
-      "name": str,
-      "algorithm": {
-        // Name of an algorithm class in slm_lab/agent/algorithm/
-        "name": str,
-
-        // The probability distribution class used for sampling actions, declared in slm_lab/agent/algorithm/policy_util.py
-        // - "default": use the default distribution based on the action type (discrete/continuous) of the environment
-        // - {str}: use a custom distribution
-        "action_pdtype": str,
-
-        // The action policy used, defined in slm_lab/agent/algorithm/policy_util.py
-        // - "default": directly sample action from the action distribution
-        // - "random": sample action randomly from the environment's action space
-        // - "epsilon_greedy": use epsilon-greedy policy (e.g. for DQN family)
-        // - "boltzmann": use Boltzmann policy (e.g. for DQN family)
-        "action_policy": str,
-
-        // Algorithm-specific options
-        ...
-      },
-      "memory": {
-        // Name of a memory class in slm_lab/agent/memory/
-        "name": str,
-
-        // Memory-specific options
-        ...
-      },
-      "net": {
-        // Name of a network class in slm_lab/agent/net/
-        "type": str,
-
-        // Network-specific options
-        ...
-      }
+      "name": "AgentName",       // For logging
+      "algorithm": {...},        // Algorithm configuration
+      "memory": {...},           // Experience storage
+      "net": {...}               // Neural network
     },
     "env": {...},
-    ...
+    "meta": {...}
   }
 }
 ```
 
-{% hint style="info" %}
-For full detail on agent spec, refer to [Algorithm](../development/algorithms/#algorithm-spec).
-{% endhint %}
+## Complete DDQN+PER Spec
 
-## Agent Spec for DDQN+PER
+Here's the full spec from [slm\_lab/spec/benchmark/dqn/ddqn\_per\_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json):
 
-As an example, let's look at the agent spec for DDQN+PER (Double DQN + Prioritized Experience Replay) on LunarLander from [slm\_lab/spec/benchmark/dqn/ddqn\_per\_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json).
-
-{% code title="slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json" %}
 ```javascript
 {
   "ddqn_per_concat_lunar": {
@@ -78,7 +56,7 @@ As an example, let's look at the agent spec for DDQN+PER (Double DQN + Prioritiz
         },
         "gamma": 0.99,
         "training_batch_iter": 1,
-        "training_iter": 1,
+        "training_iter": 4,
         "training_frequency": 1,
         "training_start_step": 32
       },
@@ -109,50 +87,181 @@ As an example, let's look at the agent spec for DDQN+PER (Double DQN + Prioritiz
     },
     "env": {
       "name": "LunarLander-v3",
-      ...
+      "num_envs": 8,
+      "max_t": null,
+      "max_frame": 300000
     },
-    ...
+    "meta": {
+      "distributed": false,
+      "log_frequency": 1000,
+      "eval_frequency": 1000,
+      "max_session": 4,
+      "max_trial": 1
+    }
   }
 }
 ```
-{% endcode %}
 
-Here, we specify **algorithm spec** as "DoubleDQN", which is an algorithm class implemented in `slm_lab/agent/algorithm/dqn.py`. In particular, we are using the epsilon-greedy policy with the epsilon decay further specified in the **"explore\_var\_spec"**.
+## Algorithm Spec Breakdown
 
-Thanks to the modular design of SLM Lab, we can compose DDQN with PER by simply specifying the **memory spec** to use "PrioritizedReplay". The total capacity of the memory and the batch size used for sampling elements from it is also given here.
+```javascript
+"algorithm": {
+  "name": "DoubleDQN",              // Algorithm class
+  "action_pdtype": "Argmax",        // Take argmax of Q-values
+  "action_policy": "epsilon_greedy", // Explore with probability epsilon
 
-Likewise, we are using a multi-layer perceptron (feedforward) network as the function approximator for DDQN, as given by the **net spec**. Notice how we fully expose the network architecture configuration in the spec, including the hidden layers and activation function. The input and output layers of the network is automatically inferred from the algorithm and environment's state space and action space. The loss function, network optimizer, learning rate scheduler, and training device are also specified here. No GPU is required for this training since LunarLander is not image-based.
+  "explore_var_spec": {             // Epsilon schedule
+    "name": "linear_decay",         // Linear interpolation
+    "start_val": 1.0,               // Start fully random
+    "end_val": 0.01,                // End nearly greedy
+    "start_step": 0,
+    "end_step": 50000               // Decay over 50k steps
+  },
 
-{% hint style="info" %}
-A full rundown of the spec requires a complete understanding of the algorithm at hand and the source code of SLM Lab. See [Learning Deep RL](../resources/untitled.md) for a list of recommended resources.
-{% endhint %}
+  "gamma": 0.99,                    // Discount factor
+  "training_batch_iter": 1,         // Gradient steps per batch
+  "training_iter": 4,               // Batches per training call
+  "training_frequency": 1,          // Train every step
+  "training_start_step": 32         // Wait for 32 samples first
+}
+```
 
-## Running DDQN+PER on LunarLander
+**Key concepts:**
 
-Let's run a Trial using the spec file above. First, run it in **dev** mode to see the rendering the LunarLander environment.
+| Parameter | Effect |
+|-----------|--------|
+| `action_policy: "epsilon_greedy"` | Random action with probability ε, greedy otherwise |
+| `gamma: 0.99` | Value future rewards highly (long-horizon) |
+| `training_frequency: 1` | Train on every environment step |
+| `training_start_step: 32` | Collect initial batch before training |
+
+## Memory Spec Breakdown
+
+```javascript
+"memory": {
+  "name": "PrioritizedReplay",      // PER for better sample efficiency
+  "alpha": 0.6,                     // How much to prioritize (0=uniform, 1=full priority)
+  "epsilon": 0.0001,                // Small constant to avoid zero priority
+  "batch_size": 32,                 // Samples per training batch
+  "max_size": 50000,                // Buffer capacity
+  "use_cer": false                  // Combined Experience Replay (include latest)
+}
+```
+
+**Key concepts:**
+
+| Parameter | Effect |
+|-----------|--------|
+| `alpha: 0.6` | Moderate prioritization (0=uniform sampling, 1=strict priority) |
+| `batch_size: 32` | Each training step uses 32 transitions |
+| `max_size: 50000` | Store up to 50k transitions (oldest deleted when full) |
+
+## Net Spec Breakdown
+
+```javascript
+"net": {
+  "type": "MLPNet",                 // Fully connected network
+  "hid_layers": [256, 128],         // Two hidden layers
+  "hid_layers_activation": "relu",  // ReLU activation
+  "clip_grad_val": 10.0,            // Gradient clipping
+  "loss_spec": {
+    "name": "SmoothL1Loss"          // Huber loss (robust to outliers)
+  },
+  "optim_spec": {
+    "name": "AdamW",
+    "lr": 2.5e-4                    // Learning rate
+  },
+  "update_type": "replace",         // Hard target network update
+  "update_frequency": 100,          // Update target every 100 steps
+  "gpu": "auto"                     // Use GPU if available
+}
+```
+
+**Key concepts:**
+
+| Parameter | Effect |
+|-----------|--------|
+| `hid_layers: [256, 128]` | First layer has 256 units, second has 128 |
+| `SmoothL1Loss` | Huber loss—less sensitive to outliers than MSE |
+| `update_type: "replace"` | Periodically copy online network to target |
+| `update_frequency: 100` | Copy weights every 100 training steps |
+
+## Running the Experiment
+
+### Dev Mode (Quick Test)
 
 ```bash
 slm-lab run slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar dev
 ```
 
-<div align="center"><img src="../.gitbook/assets/LunarLander.png" alt=""></div>
+You'll see the LunarLander environment rendering:
 
-This is a harder environment with a vector state (8 dimensions) and a discrete action (4 values). A rendering of the environment is shown below. The goal of the task is to steer and land a spacecraft at the landing pad at the center between the two flags. The solution reward is above 200.
+![LunarLander environment](../.gitbook/assets/LunarLander.png)
 
-Now, let's terminate (`Ctrl+C`) and rerun it in **train** mode for the full duration.
+The goal is to land the spacecraft between the flags. The agent controls four thrusters (left, right, main engine, or do nothing).
+
+### Train Mode (Full Training)
 
 ```bash
 slm-lab run slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar train
 ```
 
-This trial will take only a few hours to complete, and we will see the graphs similar to the ones below generated and saved to the `data/ddqn_per_concat_lunar_{ts}` folder.
+This runs 4 sessions with different random seeds. Expect ~1-2 hours for completion.
 
-The trial graph is an average of the 4 session graphs, each of which plots the episodic rewards once every 1,000 steps averaged over all the vector environments.
+### Results
 
-![](../.gitbook/assets/ddqn_per_concat_lunar_t0_trial_graph_mean_returns_vs_frames.png)
+After training, graphs are saved to `data/ddqn_per_concat_lunar_{timestamp}/graph/`:
 
-We can also smoothen the trial graph by plotting its moving average over a window of 100 to obtain the graph below.
+**Trial graph (average of 4 sessions):**
 
-![](../.gitbook/assets/ddqn_per_concat_lunar_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![DDQN+PER LunarLander trial graph](../.gitbook/assets/ddqn_per_concat_lunar_t0_trial_graph_mean_returns_vs_frames.png)
 
-This tutorial shows us how to configure an agent using the spec file. Next, we will look at the how to configure an environment.
+**Moving average (100-checkpoint window):**
+
+![DDQN+PER LunarLander trial graph MA](../.gitbook/assets/ddqn_per_concat_lunar_t0_trial_graph_mean_returns_ma_vs_frames.png)
+
+The target score for LunarLander is 200. DDQN+PER typically reaches 250+ with this configuration.
+
+## Modifying the Spec
+
+### Change the Algorithm
+
+Switch from DDQN to plain DQN:
+
+```javascript
+"algorithm": {
+  "name": "DQN",  // Changed from DoubleDQN
+  ...
+}
+```
+
+### Change the Memory
+
+Switch from PER to uniform replay:
+
+```javascript
+"memory": {
+  "name": "Replay",  // Changed from PrioritizedReplay
+  "batch_size": 32,
+  "max_size": 50000,
+  "use_cer": true    // Add CER for stability
+}
+```
+
+### Change the Network
+
+Use a larger network:
+
+```javascript
+"net": {
+  "type": "MLPNet",
+  "hid_layers": [512, 256, 128],  // Deeper network
+  ...
+}
+```
+
+## What's Next
+
+- [Env Spec](environment-spec-a2c-on-bipedalwalker.md) - Configure environments
+- [Meta Spec](meta-spec-high-level-specifications.md) - Control training sessions
+- [Search Spec](search-spec-ppo-on-breakout.md) - Find optimal hyperparameters

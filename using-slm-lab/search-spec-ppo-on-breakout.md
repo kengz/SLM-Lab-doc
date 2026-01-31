@@ -4,7 +4,13 @@
 
 SLM Lab v5 uses [Ray Tune](https://docs.ray.io/en/latest/tune/index.html) with ASHA (Asynchronous Successive Halving Algorithm) for efficient hyperparameter search. ASHA terminates underperforming trials early, focusing compute on promising configurations.
 
-In this tutorial, we'll search for optimal lambda values for PPO on Breakout.
+In this tutorial, we'll search for optimal **lambda** (λ) values for PPO on Breakout.
+
+{% hint style="info" %}
+**RL hyperparameters:**
+- **gamma** (γ): Discount factor - how much to value future rewards (0.99 = care about future, 0.9 = focus on near-term)
+- **lambda** (λ): GAE parameter - tradeoff between bias and variance in advantage estimation
+{% endhint %}
 
 ## Search Syntax
 
@@ -133,7 +139,7 @@ From [slm\_lab/spec/experimental/ppo/ppo\_lam\_search.json](https://github.com/k
       }
     },
     "search": {
-      "agent.algorithm.lam__choice": [0.5, 0.7, 0.85, 0.9, 0.95, 0.99]
+      "agent.algorithm.lam__choice": [0.5, 0.7, 0.9, 0.95, 0.97, 0.99]
     }
   }
 }

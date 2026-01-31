@@ -1,98 +1,257 @@
 # Help
 
-## NVIDIA GPU driver problem
+## Common Issues
 
-If you receive errors similar to the following when trying to use GPU:
+### Installation
 
-> NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver
+#### "slm-lab: command not found"
 
-Reinstall your NVIDIA GPU driver using [this instruction](https://gist.github.com/wangruohui/df039f0dc434d6486f5d4d098aa52d07).
+The CLI wasn't added to your PATH. Fix with either:
 
-## Building and setting up a Linux GPU server
+```bash
+# Option 1: Add to PATH permanently (add to ~/.bashrc or ~/.zshrc)
+export PATH="$HOME/.local/bin:$PATH"
 
-If you build your own desktop and want a quick and smooth setup for a Ubuntu GPU server, refer to [this gist](https://gist.github.com/kengz/a106e03a782cfaec339433daf8965d76).
+# Option 2: Use uv run prefix
+uv run slm-lab --help
+```
 
-## Breakage from SLM-Lab update
+#### Import errors after `git pull`
 
-Make sure you also install the packages after updating the repo. Run:
+Dependencies may have changed. Resync:
 
 ```bash
 git pull
 uv sync
 ```
 
-## Search is running slow
+#### Box2D/swig errors
 
-In certain setup, the search mode's parallel processing may run slower because of race condition in PyTorch's greedy CPU utilization. This is indicated when the logged fps (frame-per-second) is much slower in search than when simply training a trial, e.g. fps 200 vs 10.
-
-This issue is documented here:
-
-* [https://github.com/pytorch/pytorch/issues/3146](https://github.com/pytorch/pytorch/issues/3146)
-* [https://github.com/HumanCompatibleAI/imitation/issues/274](https://github.com/HumanCompatibleAI/imitation/issues/274)
-
-To fix it, prepend an `OMP_NUM_THREADS=1` to the run command. For example:
+Install the system dependency:
 
 ```bash
-OMP_NUM_THREADS=1 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole search
+# macOS
+brew install swig
+
+# Ubuntu/Debian
+sudo apt-get install -y swig
 ```
 
-## How to kill stuck processes?
+### GPU Issues
 
-You can see the running processes using tools like [glances](https://github.com/nicolargo/glances). Use the following commands to kill processes by their names. You may need to use `sudo`.
+#### "NVIDIA-SMI has failed"
+
+The NVIDIA driver isn't communicating properly. Reinstall using [this guide](https://gist.github.com/wangruohui/df039f0dc434d6486f5d4d098aa52d07).
+
+#### GPU not detected by PyTorch
+
+Check if CUDA is available:
 
 ```bash
+python -c "import torch; print(f'CUDA: {torch.cuda.is_available()}, Devices: {torch.cuda.device_count()}')"
+```
+
+If it shows `False`, reinstall PyTorch with CUDA support from [pytorch.org](https://pytorch.org/get-started/locally/).
+
+#### Force CPU training
+
+If GPU causes issues, force CPU in the spec:
+
+```javascript
+"net": {
+  "gpu": false
+}
+```
+
+### Performance Issues
+
+#### Search mode runs slowly
+
+PyTorch's multi-threading can cause race conditions in parallel search. Fix by limiting threads:
+
+```bash
+OMP_NUM_THREADS=1 slm-lab run spec.json spec_name search
+```
+
+This is documented in:
+- [PyTorch issue #3146](https://github.com/pytorch/pytorch/issues/3146)
+- [Imitation issue #274](https://github.com/HumanCompatibleAI/imitation/issues/274)
+
+#### Training is slow
+
+Check if you're using GPU when you should be (or shouldn't be):
+
+| Environment | Best Option |
+|-------------|-------------|
+| CartPole, LunarLander | CPU (GPU overhead isn't worth it) |
+| Atari | GPU |
+| MuJoCo | CPU or GPU (GPU helps slightly) |
+
+### Process Issues
+
+#### Kill stuck processes
+
+```bash
+# Kill by name
 pkill -f slm-lab
 pkill -f ray
 pkill -f Xvfb
-```
 
-Or use the built-in command:
-
-```bash
+# Or use the built-in command
 slm-lab run --stop-ray
 ```
 
-## No GUI or images saved on a headless remote server
-
-When running SLM Lab on a remote server, you may get `NoSuchDisplayException: Cannot connect to "None"`. Or your graphs may not be generated. This is because servers are typically headless, i.e. without a display. This error occurs when you're trying to render without a headless display.
-
-First, try setting environment variable `RENDER=false` before the lab command, for example:
+Monitor processes with [glances](https://github.com/nicolargo/glances):
 
 ```bash
-RENDER=false slm-lab run slm_lab/spec/demo.json ppo_cartpole train
+uv tool install glances
+glances
 ```
 
-Despite its simplicity, this option comes with the caveat that plots from Plotly cannot generated. The safer option is to install **Xvfb**, and prepend your command with `xvfb-run -a`. For example:
+### Headless Server Issues
+
+#### "Cannot connect to None" / No display
+
+Remote servers typically have no display. Two options:
+
+**Option 1: Disable rendering**
 
 ```bash
-xvfb-run -a slm-lab run slm_lab/spec/demo.json ppo_cartpole train
+RENDER=false slm-lab run spec.json spec_name train
 ```
 
-## How to forward GUI from a remote server?
+Note: This may prevent some Plotly graphs from generating.
 
-If you are running via `ssh` and want GUI forwarding from a server, do:
+**Option 2: Use Xvfb (recommended)**
 
-* [install X11 on your server](https://help.ubuntu.com/community/ServerGUI)
-* install OpenGL and/or configure Nvidia driver on your server. [Follow instructions here.](https://github.com/openai/gym/issues/468)
-* [install XQuartz/Xming on your laptop](https://uisapp2.iu.edu/confluence-prd/pages/viewpage.action?pageId=280461906)
-* do `ssh` with a `-X` flag, e.g. `ssh -X foo@bar`.
-
-## How to sync data from a remote server?
-
-SLM Lab produces a lot of data which are then zipped for our convenience of transferring/syncing them. The recommended method is to use HuggingFace for experiment storage. See the [Remote Training](../using-slm-lab/remote-training.md) guide for setup.
+Install Xvfb and run with virtual display:
 
 ```bash
-# Push local results to HuggingFace
+# Install
+sudo apt-get install -y xvfb
+
+# Run
+xvfb-run -a slm-lab run spec.json spec_name train
+```
+
+#### Forward GUI via SSH
+
+For X11 forwarding:
+
+1. Install X11 on server: `sudo apt-get install xorg`
+2. Install XQuartz (macOS) or Xming (Windows) on your laptop
+3. SSH with `-X` flag: `ssh -X user@server`
+
+### Data Transfer
+
+#### Sync results from remote server
+
+Use HuggingFace integration (recommended):
+
+```bash
+# On remote server
+source .env
 slm-lab push data/ppo_lunar_2024_01_15_123456
 
-# Pull results from HuggingFace
+# On local machine
 slm-lab pull ppo_lunar
 ```
 
-## What is SLM?
+Or use rsync:
 
-SLM stands for _Strange Loop Machine_, in homage to Hofstadter's iconic book [_Gödel, Escher, Bach: An Eternal Golden Braid_](https://www.amazon.com/G%C3%B6del-Escher-Bach-Eternal-Golden/dp/0465026567). This lab is created as part of a long term project to try out AI ideas heavily influenced by it.
+```bash
+rsync -avz user@server:/path/to/SLM-Lab/data/ ./data/
+```
 
-## Reporting Issues
+## Debugging Tips
 
-Can't find the issues you encountered? [Report new issues on Github](https://github.com/kengz/SLM-Lab/issues); it helps all of us.
+### Enable verbose logging
+
+```bash
+slm-lab run --log-level DEBUG spec.json spec_name dev
+```
+
+### Check spec is valid
+
+Specs are validated on load. Common errors:
+
+| Error | Fix |
+|-------|-----|
+| "spec_name not found in spec_file" | Check the spec name matches a key in the JSON |
+| "Unknown algorithm: X" | Algorithm name must match a class in `slm_lab/agent/algorithm/` |
+| "TypeError: missing required argument" | Check spec has all required fields |
+
+### Profile performance
+
+```bash
+slm-lab run --profile spec.json spec_name train
+```
+
+Or use cProfile directly:
+
+```bash
+python -m cProfile -o output.prof -c "from slm_lab.main import main; main(['spec.json', 'spec_name', 'train'])"
+
+# Visualize
+uv add snakeviz
+snakeviz output.prof
+```
+
+## Getting More Help
+
+### Search existing issues
+
+[GitHub Issues](https://github.com/kengz/SLM-Lab/issues) - Many problems have been solved
+
+### Report a new issue
+
+Include:
+1. SLM Lab version (`git log -1 --format="%H"`)
+2. Python version (`python --version`)
+3. OS and hardware
+4. Complete error traceback
+5. Spec file (if relevant)
+
+[Open new issue](https://github.com/kengz/SLM-Lab/issues/new)
+
+### Community
+
+- [r/reinforcementlearning](https://www.reddit.com/r/reinforcementlearning/) - RL questions
+- [PyTorch Forums](https://discuss.pytorch.org/) - PyTorch-specific issues
+
+## FAQ
+
+### What does SLM stand for?
+
+**Strange Loop Machine** - named after Hofstadter's [Gödel, Escher, Bach](https://www.amazon.com/G%C3%B6del-Escher-Bach-Eternal-Golden/dp/0465026567). SLM Lab was created as part of a long-term AI research project inspired by the book's ideas about self-reference and emergence.
+
+### Why use uv instead of pip/conda?
+
+[uv](https://docs.astral.sh/uv/) is faster and more reliable:
+- 10-100x faster than pip
+- Lock files for reproducibility
+- No environment activation needed (`uv run` handles it)
+
+### Can I use SLM Lab with custom environments?
+
+Yes! Any gymnasium-compatible environment works:
+
+```python
+import gymnasium as gym
+gym.register(id='MyEnv-v1', entry_point='my_module:MyEnv')
+```
+
+Then use `"name": "MyEnv-v1"` in your spec.
+
+### How do I cite SLM Lab?
+
+```bibtex
+@misc{kenggraesser2017slmlab,
+    author = {Keng, Wah Loon and Graesser, Laura},
+    title = {SLM Lab},
+    year = {2017},
+    publisher = {GitHub},
+    journal = {GitHub repository},
+    howpublished = {\url{https://github.com/kengz/SLM-Lab}},
+}
+```

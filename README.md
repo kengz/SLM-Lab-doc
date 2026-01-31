@@ -4,9 +4,17 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
 
 # SLM Lab
 
-![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/kengz/slm-lab) ![CI](https://github.com/kengz/SLM-Lab/workflows/CI/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/20c6a124c468b4d3e967/maintainability)](https://codeclimate.com/github/kengz/SLM-Lab/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/20c6a124c468b4d3e967/test_coverage)](https://codeclimate.com/github/kengz/SLM-Lab/test_coverage)
+SLM Lab is a software framework for **reinforcement learning** (RL) research and application in PyTorch. RL trains agents to make decisions by learning from trial and error—like teaching a robot to walk or an AI to play games.
 
-SLM Lab is a software framework for reproducible reinforcement learning (RL) research. It enables easy development of RL algorithms using modular components and file-based configuration. It also enables flexible experimentation with hyperparameter search, result analysis and benchmarking.
+## What SLM Lab Offers
+
+| Feature | Description |
+|---------|-------------|
+| **Ready-to-use algorithms** | PPO, SAC, DQN, A2C, REINFORCE—validated on 70+ environments |
+| **Easy configuration** | JSON spec files fully define experiments—no code changes needed |
+| **Reproducibility** | Every run saves its spec + git SHA for exact reproduction |
+| **Automatic analysis** | Training curves, metrics, and TensorBoard logging out of the box |
+| **Cloud integration** | dstack for GPU training, HuggingFace for sharing results |
 
 **SLM Lab is also the companion library of the book** [**Foundations of Deep Reinforcement Learning**](https://www.amazon.com/dp/0135172381)**.**
 
@@ -14,87 +22,109 @@ SLM Lab is a software framework for reproducible reinforcement learning (RL) res
 **Book readers:** For the exact code from *Foundations of Deep Reinforcement Learning*, use `git checkout v4.1.1`. The book's [website and errata is here](https://slm-lab.gitbook.io/foundations-of-deep-rl/).
 {% endhint %}
 
-## What's New in v5
-
-SLM Lab v5 is a modernization release for the current RL ecosystem:
-
-* **Gymnasium** replaces OpenAI Gym with proper `terminated`/`truncated` handling
-* **uv** replaces conda for fast, reliable dependency management
-* **Simpler specs** — no more `body` section or array wrappers
-* **Cloud training** via dstack with HuggingFace result sync
-* **ASHA search** for efficient hyperparameter tuning with early stopping
-* **PPO enhancements**: `normalize_v_targets`, `symlog_transform`, `clip_vloss`
-* **Network options**: `layer_norm` for MLP stability
-
-See [Installation](setup/installation.md) for migration details.
-
-### Gymnasium API: terminated vs truncated
-
-v5 uses the modern Gymnasium API which separates episode endings:
-
-```python
-# Old (OpenAI Gym): single 'done' flag
-state, reward, done, info = env.step(action)
-
-# New (Gymnasium): separate 'terminated' and 'truncated'
-state, reward, terminated, truncated, info = env.step(action)
-```
-
-* **terminated**: Episode ended due to task completion (goal reached, agent died, etc.)
-* **truncated**: Episode ended due to time limit or external constraint
-
-This distinction is important for correct value bootstrapping—truncated episodes should bootstrap from the final state while terminated episodes should not. All SLM Lab algorithms handle this correctly.
-
 ## Quick Start
 
+Install and run in under 2 minutes:
+
 ```bash
-git clone https://github.com/kengz/SLM-Lab.git && cd SLM-Lab
-uv sync && uv tool install --editable .
-slm-lab run --render   # PPO on CartPole in dev mode with visualization
+# Install uv (package manager)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Clone and install
+git clone https://github.com/kengz/SLM-Lab.git
+cd SLM-Lab
+uv sync
+uv tool install --editable .
+
+# Train PPO on CartPole with visualization
+slm-lab run --render
 ```
 
-See [Installation](setup/installation.md) for uv setup and [Quick Start](setup/quick-start.md) to verify your installation.
+You should see a CartPole balancing task with rewards climbing toward 500. See [Quick Start](setup/quick-start.md) for details.
 
-## Features
+## Core Concepts
 
-* [Modular design](development/modular-lab-components/) for building deep RL algorithms
-* [Reproducibility](using-slm-lab/lab-organization.md#reproducibility-design) using spec file and git SHA
-* [Experiment framework](using-slm-lab/lab-organization.md#session-trial-and-experiment) with [automatic analysis](analyzing-results/analytics.md)
-* [Extensive benchmark results](benchmark-results/public-benchmark-data.md)
-* Well-tuned algorithm implementations
-* Multiple RL environment offerings
+SLM Lab organizes experiments hierarchically:
 
-### Algorithms
+```
+Experiment (hyperparameter search)
+ └── Trial (one configuration, multiple seeds)
+      └── Session (one training run)
+           ├── Agent (algorithm + memory + network)
+           └── Env (gymnasium environment)
+```
 
-SLM Lab implements most of the [canonical RL algorithms](development/modular-lab-components/algorithm-taxonomy.md):
+A **spec file** defines everything:
 
-| Algorithm | v5 Status | Environments |
-|-----------|-----------|--------------|
-| PPO | ✅ Validated | Classic, Box2D, MuJoCo (11), Atari (24+ solved) |
-| SAC | ✅ Validated | Classic, Box2D, MuJoCo (11) |
-| DQN/DDQN+PER | ✅ Validated | Classic, Box2D |
-| A2C | ✅ Validated | Classic, Box2D |
-| REINFORCE | ✅ Validated | Classic |
-| SARSA | ⏸️ Pending | - |
-| SIL | ⏸️ Pending | - |
-| Async (A3C, DPPO) | ⏸️ Pending | - |
+```javascript
+{
+  "ppo_cartpole": {
+    "agent": {
+      "name": "PPO",
+      "algorithm": {"name": "PPO", "gamma": 0.99, "lam": 0.95},
+      "memory": {"name": "OnPolicyBatchReplay"},
+      "net": {"type": "MLPNet", "hid_layers": [64, 64]}
+    },
+    "env": {"name": "CartPole-v1", "num_envs": 4, "max_frame": 200000},
+    "meta": {"max_session": 4}
+  }
+}
+```
+
+Run it: `slm-lab run spec.json ppo_cartpole train`
+
+See [Lab Organization](using-slm-lab/lab-organization.md) for the full picture.
+
+## Algorithms
+
+SLM Lab implements the canonical RL algorithms with a [taxonomy-based inheritance](development/modular-lab-components/algorithm-taxonomy.md) design:
+
+| Algorithm | Type | Best For | Validated Environments |
+|-----------|------|----------|------------------------|
+| **PPO** | On-policy | General purpose | Classic, Box2D, MuJoCo (11), Atari (54) |
+| **SAC** | Off-policy | Continuous control | Classic, Box2D, MuJoCo |
+| **DQN/DDQN+PER** | Off-policy | Discrete actions | Classic, Box2D, Atari |
+| **A2C** | On-policy | Fast iteration | Classic, Box2D, Atari |
+| **REINFORCE** | On-policy | Learning/teaching | Classic |
+| **SARSA** | On-policy | Tabular-like | Classic |
 
 See [Benchmark Results](benchmark-results/public-benchmark-data.md) for detailed performance data.
 
-### Environments
+## Environments
 
-SLM Lab uses [Gymnasium](https://gymnasium.farama.org/) (the maintained fork of OpenAI Gym) for environment support:
+SLM Lab uses [Gymnasium](https://gymnasium.farama.org/) (the maintained fork of OpenAI Gym):
 
-* **Classic control:** CartPole, Pendulum, Acrobot, MountainCar
-* **Box2D:** LunarLander, BipedalWalker
-* **MuJoCo:** Hopper, HalfCheetah, Walker2d, Ant, Humanoid, and more
-* **Atari:** All 57 Atari 2600 games via ALE (Arcade Learning Environment)
+| Category | Examples | Difficulty |
+|----------|----------|------------|
+| **Classic Control** | CartPole, Pendulum, Acrobot, MountainCar | Easy |
+| **Box2D** | LunarLander, BipedalWalker | Medium |
+| **MuJoCo** | Hopper, HalfCheetah, Walker2d, Ant, Humanoid | Hard |
+| **Atari** | Pong, Breakout, Qbert, and 54 more games | Varied |
 
-Any gymnasium-compatible environment can be used by specifying its name in the spec file.
+Any gymnasium-compatible environment works—just specify its name in the spec.
+
+## Documentation Guide
+
+**Getting Started:**
+1. [Installation](setup/installation.md) - Set up SLM Lab
+2. [Quick Start](setup/quick-start.md) - Verify installation
+3. [Lab Command](using-slm-lab/slm-lab-command.md) - CLI reference
+4. [Lab Organization](using-slm-lab/lab-organization.md) - Core concepts
+
+**Tutorials:**
+- [Train: PPO CartPole](using-slm-lab/train-and-enjoy-dqn-cartpole.md) - First training run
+- [Agent Spec](using-slm-lab/agent-spec-ddqn+per-on-lunarlander.md) - Configure algorithms
+- [Env Spec](using-slm-lab/environment-spec-a2c-on-bipedalwalker.md) - Configure environments
+- [Hyperparameter Search](using-slm-lab/search-spec-ppo-on-breakout.md) - Find optimal settings
+
+**Advanced:**
+- [Architecture](development/architecture.md) - How SLM Lab works
+- [Using SLM Lab In Your Project](using-slm-lab/using-slm-lab-in-your-project.md) - Integration guide
+- [Remote Training](using-slm-lab/remote-training.md) - Cloud GPU training
 
 ## Citation
 
-If you use SLM Lab in your publication, please cite below:
+If you use SLM Lab in your publication, please cite:
 
 ```
 @misc{kenggraesser2017slmlab,
@@ -110,4 +140,3 @@ If you use SLM Lab in your publication, please cite below:
 ## License
 
 This project is licensed under the [MIT License](https://github.com/kengz/SLM-Lab/blob/master/LICENSE).
-

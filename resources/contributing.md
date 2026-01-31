@@ -53,6 +53,39 @@ Other lab users may request features which could be a generic lab component, or 
 
 Because deep RL itself is difficult, it is crucial for the components to be robust and easy to reuse across many algorithms. So, it is worth a little extra effort to ensure the implementations have a higher quality.
 
+## Using Coding Agents
+
+SLM Lab supports AI-assisted development via coding agents like Claude Code. The repository includes configuration files that enable agents to work autonomously on benchmarking, development, and documentation tasks.
+
+### Agent Configuration Files
+
+* **`CLAUDE.md`** - Agent instructions and project context. Covers architecture, development workflows, style guide, and benchmark procedures.
+* **`.claude/skills/benchmark/SKILL.md`** - Specialized skill for benchmark work. Enables agents to run experiments, monitor dstack jobs, extract results, and update benchmark tables.
+
+### Using Agents for Benchmarking
+
+Agents can autonomously:
+* Launch benchmark runs on cloud GPUs via dstack
+* Monitor job status and extract results
+* Update `docs/BENCHMARKS.md` with scores and links
+* Generate comparison plots
+* Commit progress incrementally
+
+Example agent workflow:
+```
+User: "Run PPO on Hopper and update the benchmark table"
+Agent: [Launches dstack run, monitors, extracts score, updates table, commits]
+```
+
+### Getting Started with Agents
+
+1. Install [Claude Code](https://claude.ai/claude-code) or similar coding agent
+2. Open SLM-Lab repository
+3. The agent will read `CLAUDE.md` for project context
+4. For benchmark work, the agent can use the `/slm-lab-benchmark` skill
+
+See the [CLAUDE.md](https://github.com/kengz/SLM-Lab/blob/master/CLAUDE.md) file in the repository for full agent instructions.
+
 ## Research
 
 If you have a research idea, feel free to propose in the [Gitter chat](https://gitter.im/SLM-Lab/SLM-Lab) as well.

@@ -2,33 +2,61 @@
 
 ## PPO Atari Results (v5)
 
-SLM Lab v5 validates PPO on Gymnasium ALE environments. **24 games solved** (≥95% of CleanRL target), with more in progress.
+SLM Lab v5 validates PPO on Gymnasium ALE environments. **54 games tested** with results on HuggingFace.
 
-Full methodology, active runs, and latest results in [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md).
+Full methodology and latest results in [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md).
+
+{% hint style="info" %}
+**v5 Environment Changes:** Gymnasium ALE v5 uses sticky actions (`repeat_action_probability=0.25`) per [Machado et al. (2018)](https://arxiv.org/abs/1709.06009) best practices. This makes environments harder than the older NoFrameskip-v4 variants.
+{% endhint %}
 
 ### Configuration
 
 * **Specs:** [ppo_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json)
-* **Training:** 10M frames, 16 parallel envs, ConvNet [32,64,32]+512fc
-* **Key settings:** `life_loss_info=true`, `clip_vloss=true`, LR decay to zero
+* **Training:** 10M frames, 16 parallel envs, ConvNet [32,64,64]+512fc (Nature CNN)
+* **Key settings:** `life_loss_info=true`, `clip_vloss=true`, AdamW (lr=2.5e-4), minibatch=256
 
 ### Lambda Variants
 
-Different games benefit from different lambda values:
-* **lam95** (default): Shooters, maze games, hard exploration
-* **lam85**: Platformers with jumping/climbing (Qbert, Kangaroo, KungFuMaster)
-* **lam70**: Racing/timing + ball physics (Breakout, Enduro, UpNDown)
+Different games benefit from different lambda values for GAE:
+
+| SPEC_NAME | Lambda | Best for |
+|-----------|--------|----------|
+| ppo_atari | 0.95 | Strategic games (default) |
+| ppo_atari_lam85 | 0.85 | Mixed games |
+| ppo_atari_lam70 | 0.70 | Action games |
+
+### Selected v5 Results
+
+| Game | Score | Lambda | Game | Score | Lambda |
+|------|-------|--------|------|-------|--------|
+| ALE/Breakout-v5 | 327 | lam70 | ALE/Pong-v5 | 16.9 | lam85 |
+| ALE/Qbert-v5 | 15094 | lam95 | ALE/BeamRider-v5 | 2765 | lam95 |
+| ALE/SpaceInvaders-v5 | 726 | lam95 | ALE/Seaquest-v5 | 1796 | lam95 |
+| ALE/KungFuMaster-v5 | 29068 | lam70 | ALE/MsPacman-v5 | 2372 | lam85 |
+| ALE/Atlantis-v5 | 792886 | lam95 | ALE/Enduro-v5 | 898 | lam85 |
+
+See [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md) for the complete 54-game table with HuggingFace links.
+
+**Skipped** (hard exploration): Adventure, MontezumaRevenge, Pitfall, PrivateEye, Venture
 
 ### Running Atari Benchmarks
 
 ```bash
 # Using template spec with variable substitution
 slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train
-slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam85 train
-slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
+slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam85 train
 ```
 
 ## Historical Results (v4)
+
+<details>
+<summary><b>OpenAI Gym Atari Results (v4)</b> - click to expand</summary>
+
+{% hint style="warning" %}
+**Deprecated Environments:** These v4 results used OpenAI Gym `NoFrameskip-v4` environments (no sticky actions). Gymnasium ALE v5 environments are harder due to sticky action probability. Results are not directly comparable.
+{% endhint %}
 
 * [Upload PR #427](https://github.com/kengz/SLM-Lab/pull/427)
 * [Google Drive data: DQN](https://drive.google.com/file/d/1taFdNmrL535zJ4V7wRNORwkH_mgSoiYz/view?usp=sharing)
@@ -112,3 +140,5 @@ slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_ata
 <img src="https://user-images.githubusercontent.com/8209263/67737544-d727dc80-f9c8-11e9-904a-319b9aafd41b.png" alt="legend" data-size="original">
 
 ![](https://user-images.githubusercontent.com/8209263/67738131-d6904580-f9ca-11e9-8818-0d027b668a97.png) ![](https://user-images.githubusercontent.com/8209263/67738132-d6904580-f9ca-11e9-9585-41f69fd8bb33.png) ![](https://user-images.githubusercontent.com/8209263/67738133-d6904580-f9ca-11e9-8375-4c134255cfe1.png) ![](https://user-images.githubusercontent.com/8209263/67738134-d6904580-f9ca-11e9-865c-eb41f4e712f9.png) ![](https://user-images.githubusercontent.com/8209263/67738135-d6904580-f9ca-11e9-8f8d-61732ecc3ce4.png) ![](https://user-images.githubusercontent.com/8209263/67738138-d6904580-f9ca-11e9-86c0-3589622a311c.png) ![](https://user-images.githubusercontent.com/8209263/67738139-d728dc00-f9ca-11e9-8741-e9a59883197e.png) ![](https://user-images.githubusercontent.com/8209263/67738140-d728dc00-f9ca-11e9-9649-ecc4b2db782f.png) ![](https://user-images.githubusercontent.com/8209263/67738141-d728dc00-f9ca-11e9-924a-a02be1639ee6.png) ![](https://user-images.githubusercontent.com/8209263/67738142-d728dc00-f9ca-11e9-82b0-382bbb0bcc6c.png) ![](https://user-images.githubusercontent.com/8209263/67738143-d728dc00-f9ca-11e9-84eb-2ec8988ff545.png) ![](https://user-images.githubusercontent.com/8209263/67738144-d728dc00-f9ca-11e9-83c6-2e50a69b4ed3.png) ![](https://user-images.githubusercontent.com/8209263/67738145-d7c17280-f9ca-11e9-9a2e-bc179e3186f4.png) ![](https://user-images.githubusercontent.com/8209263/67738146-d7c17280-f9ca-11e9-95ac-008f35834ed1.png) ![](https://user-images.githubusercontent.com/8209263/67738147-d7c17280-f9ca-11e9-890e-319a21e036e0.png) ![](https://user-images.githubusercontent.com/8209263/67738148-d7c17280-f9ca-11e9-95e9-58309efb8ee4.png) ![](https://user-images.githubusercontent.com/8209263/67738150-d7c17280-f9ca-11e9-8a27-3cc7160c1e60.png) ![](https://user-images.githubusercontent.com/8209263/67738151-d7c17280-f9ca-11e9-8316-90cf4e944e97.png) ![](https://user-images.githubusercontent.com/8209263/67738152-d85a0900-f9ca-11e9-8b48-1a988dc31627.png) ![](https://user-images.githubusercontent.com/8209263/67738153-d85a0900-f9ca-11e9-8b30-750fc49b25dd.png) ![](https://user-images.githubusercontent.com/8209263/67738154-d85a0900-f9ca-11e9-8e5e-e99b336e6fbb.png) ![](https://user-images.githubusercontent.com/8209263/67738155-d85a0900-f9ca-11e9-8fd4-e94d1be4a6ee.png) ![](https://user-images.githubusercontent.com/8209263/67738156-d85a0900-f9ca-11e9-9006-903a9c823230.png) ![](https://user-images.githubusercontent.com/8209263/67738158-d85a0900-f9ca-11e9-8167-ebc713c59fdc.png) ![](https://user-images.githubusercontent.com/8209263/67738159-d8f29f80-f9ca-11e9-9166-ebe3ea5339ab.png) ![](https://user-images.githubusercontent.com/8209263/67738161-d8f29f80-f9ca-11e9-9727-2584ac850507.png) ![](https://user-images.githubusercontent.com/8209263/67738163-d8f29f80-f9ca-11e9-9d36-1cb7985360ac.png) ![](https://user-images.githubusercontent.com/8209263/67738164-d8f29f80-f9ca-11e9-8ba3-fb1d75ef81f1.png) ![](https://user-images.githubusercontent.com/8209263/67738166-d8f29f80-f9ca-11e9-9d57-c02118eba7c1.png) ![](https://user-images.githubusercontent.com/8209263/67738167-d8f29f80-f9ca-11e9-9faf-2c30048c8621.png) ![](https://user-images.githubusercontent.com/8209263/67738168-d98b3600-f9ca-11e9-8695-8014fd177416.png) ![](https://user-images.githubusercontent.com/8209263/67738170-d98b3600-f9ca-11e9-9f4a-25929639efc1.png) ![](https://user-images.githubusercontent.com/8209263/67738171-d98b3600-f9ca-11e9-9679-15a1586719dd.png) ![](https://user-images.githubusercontent.com/8209263/67738172-d98b3600-f9ca-11e9-9770-3d63043a716b.png) ![](https://user-images.githubusercontent.com/8209263/67738173-d98b3600-f9ca-11e9-9244-0933adbfedd8.png) ![](https://user-images.githubusercontent.com/8209263/67738174-d98b3600-f9ca-11e9-95e3-33621db77541.png) ![](https://user-images.githubusercontent.com/8209263/67738175-da23cc80-f9ca-11e9-81cf-58e16e210b5e.png) ![](https://user-images.githubusercontent.com/8209263/67738176-da23cc80-f9ca-11e9-8906-d54475705442.png) ![](https://user-images.githubusercontent.com/8209263/67738177-da23cc80-f9ca-11e9-9093-0a0e2456fb4c.png) ![](https://user-images.githubusercontent.com/8209263/67738178-da23cc80-f9ca-11e9-93a1-188c75b888f6.png) ![](https://user-images.githubusercontent.com/8209263/67738179-da23cc80-f9ca-11e9-8c76-0d339ac0034a.png) ![](https://user-images.githubusercontent.com/8209263/67738180-dabc6300-f9ca-11e9-826b-3d72cd0b13a0.png) ![](https://user-images.githubusercontent.com/8209263/67738181-dabc6300-f9ca-11e9-922e-0b13b973a4d9.png) ![](https://user-images.githubusercontent.com/8209263/67738182-dabc6300-f9ca-11e9-87b3-072ce2637405.png) ![](https://user-images.githubusercontent.com/8209263/67738183-dabc6300-f9ca-11e9-8ab1-d66c6b12cd2f.png) ![](https://user-images.githubusercontent.com/8209263/67738184-dabc6300-f9ca-11e9-82fb-d6b7f7f0d696.png) ![](https://user-images.githubusercontent.com/8209263/67738185-dabc6300-f9ca-11e9-9291-1303718c9a50.png) ![](https://user-images.githubusercontent.com/8209263/67738186-db54f980-f9ca-11e9-8aef-41c9a3250d8c.png) ![](https://user-images.githubusercontent.com/8209263/67738187-db54f980-f9ca-11e9-9764-da60d54e1406.png) ![](https://user-images.githubusercontent.com/8209263/67738188-db54f980-f9ca-11e9-9966-1f22f57a96e0.png) ![](https://user-images.githubusercontent.com/8209263/67738190-db54f980-f9ca-11e9-84c6-8bc1313e1e96.png) ![](https://user-images.githubusercontent.com/8209263/67738191-dbed9000-f9ca-11e9-84e9-ec324d7b2544.png) ![](https://user-images.githubusercontent.com/8209263/67738193-dbed9000-f9ca-11e9-9d01-42865df8ca1e.png) ![](https://user-images.githubusercontent.com/8209263/67738194-dbed9000-f9ca-11e9-84c4-aaf8c59371a2.png) ![](https://user-images.githubusercontent.com/8209263/67738195-dbed9000-f9ca-11e9-8bea-33ed2428afe2.png) ![](https://user-images.githubusercontent.com/8209263/67738196-dc862680-f9ca-11e9-8beb-144e4fb4b36d.png) ![](https://user-images.githubusercontent.com/8209263/67738197-dc862680-f9ca-11e9-9903-d1eb924f56e2.png) ![](https://user-images.githubusercontent.com/8209263/67738198-dc862680-f9ca-11e9-8c37-04e057822a20.png) ![](https://user-images.githubusercontent.com/8209263/67738199-dc862680-f9ca-11e9-9ab3-50064bd5112c.png) ![](https://user-images.githubusercontent.com/8209263/67738200-dc862680-f9ca-11e9-8722-67a664dbbf10.png) ![](https://user-images.githubusercontent.com/8209263/67738201-dd1ebd00-f9ca-11e9-9c27-3a8dd8c13953.png) ![](https://user-images.githubusercontent.com/8209263/67738202-dd1ebd00-f9ca-11e9-98bd-f737a02107f9.png)
+
+</details>

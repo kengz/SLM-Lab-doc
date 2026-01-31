@@ -18,30 +18,26 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@late
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@data/ppo_cartpole_2024_01_15_123456
 ```
 
-### How Resume Works
+### Extending Training
 
-Resume mode restores training in a _past-future-consistent_ manner.
+You can also extend a completed run. For example, if you ran 100k frames and want to continue to 200k:
 
-Suppose you ran 100k frames but want to extend to 200k. You can edit the spec's `max_frame` and resume—the run picks up where it left off as if it was always configured for 200k frames.
+1. Edit the spec's `max_frame` to 200000
+2. Resume with `train@latest`
 
-The lab restores three key objects:
-* **algorithm weights**: Network parameters via `algorithm.load()`
-* **training metrics**: The `train_df` tracking object
-* **environment clock**: Timestep tracking via `env.clock`
-
-Since everything runs according to `env.clock`, these are sufficient to resume correctly.
-
-{% hint style="info" %}
-For off-policy algorithms, replay memory is not restored (it would be gigabytes of data). The replay buffer refills from the resume point, and training resumes once the buffer reaches the minimum size threshold.
-{% endhint %}
+The run picks up exactly where it left off.
 
 ## Enjoy Mode
 
-Enjoy mode replays a trained model using `enjoy@{trial_spec_file}`. The trial spec was saved automatically during training. Enjoy mode automatically selects the best-performing session and loads its best checkpoint.
+Enjoy mode replays a trained model. It loads the best checkpoint and runs with rendering enabled.
 
 ```bash
 slm-lab run _ _ enjoy@data/ppo_cartpole_2024_01_15_123456/ppo_cartpole_t0_spec.json
 ```
+
+{% hint style="info" %}
+The `_ _` are placeholders. In enjoy mode, all settings come from the saved spec file, so the spec file and spec name arguments aren't needed.
+{% endhint %}
 
 This creates a new Session that:
 1. Loads the saved trial spec

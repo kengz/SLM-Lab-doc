@@ -2,24 +2,30 @@
 
 ## Classic Control & Box2D Results (v5)
 
-SLM Lab v5 validates algorithms on Gymnasium discrete environments. Full methodology in [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md).
+SLM Lab v5 validates algorithms on Gymnasium discrete environments. Results below are from January 2026 benchmark reruns using Gymnasium v5 environments.
+
+Full methodology and HuggingFace data links in [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md).
 
 ### Classic Control
 
-| Environment | Target | PPO | A2C | DQN | DDQN+PER | SAC |
-|-------------|--------|-----|-----|-----|----------|-----|
-| CartPole-v1 | 400 | 499.7 ✅ | 488.7 ✅ | 437.8 ✅ | 430.4 ✅ | 431.1 ✅ |
-| Acrobot-v1 | -100 | -80.8 ✅ | -84.2 ✅ | -96.2 ✅ | -83.0 ✅ | -97 ✅ |
-| Pendulum-v1 | -200 | -178 ✅ | — | — | — | -150 ✅ |
+| Environment | Target | REINFORCE | SARSA | DQN | DDQN+PER | A2C | PPO | SAC |
+|-------------|--------|-----------|-------|-----|----------|-----|-----|-----|
+| CartPole-v1 | 400 | 469.7 ✅ | 421.6 ✅ | 188.1 ⚠️ | 432.9 ✅ | 499.7 ✅ | 499.5 ✅ | 359.7 ⚠️ |
+| Acrobot-v1 | -100 | — | — | -94.8 ✅ | -85.2 ✅ | -83.8 ✅ | -81.4 ✅ | -97.1 ✅ |
+| Pendulum-v1 | -200 | — | — | — | — | -553 ❌ | -168.3 ✅ | -152.3 ✅ |
 
 ### Box2D
 
-| Environment | Target | PPO | DQN | DDQN+PER | A2C | SAC |
-|-------------|--------|-----|-----|----------|-----|-----|
-| LunarLander-v3 (discrete) | 200 | 229.9 ✅ | 203.9 ✅ | 230.0 ✅ | 41 📊 | — |
-| LunarLander-v3 (continuous) | 200 | 245.7 ✅ | — | — | — | 241.6 ✅ |
+| Environment | Target | DQN | DDQN+PER | A2C | PPO | SAC |
+|-------------|--------|-----|----------|-----|-----|-----|
+| LunarLander-v3 (discrete) | 200 | 183.6 ⚠️ | 261.5 ✅ | 9.5 ❌ | 159.0 ⚠️ | -75.4 ❌ |
+| LunarLander-v3 (continuous) | 200 | — | — | -38.2 ❌ | 165.5 ⚠️ | 208.6 ✅ |
 
-**Legend:** ✅ Solved | ⚠️ Close (>80%) | 📊 Acceptable | ❌ Failed
+**Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed | — Not applicable
+
+{% hint style="info" %}
+**v5 vs v4 Environment Differences:** Gymnasium environments have stricter termination conditions and different reward scales than OpenAI Gym. LunarLander-v3 is notably harder than v2. See [Gymnasium docs](https://gymnasium.farama.org/) for details.
+{% endhint %}
 
 ### Running Discrete Benchmarks
 
@@ -36,8 +42,11 @@ slm-lab run slm_lab/spec/benchmark/sac/sac_pendulum.json sac_pendulum train
 
 ## Historical Results (v4)
 
+<details>
+<summary><b>OpenAI Gym Results (v4)</b> - click to expand</summary>
+
 {% hint style="info" %}
-These results from SLM Lab v4 are preserved for reference. Unity environments are no longer included in the core package.
+These results from SLM Lab v4 used OpenAI Gym environments (now deprecated). Environment versions differ from current Gymnasium versions. Unity environments are no longer included in the core package.
 {% endhint %}
 
 * [Upload PR #427](https://github.com/kengz/SLM-Lab/pull/427)
@@ -52,5 +61,7 @@ These results from SLM Lab v4 are preserved for reference. Unity environments ar
 | LunarLander | 192 | 233 | 25.21 | 68.23 | 214 | **276** |
 
 > Episode score at the end of training. Reported scores are the average over the last 100 checkpoints, averaged over 4 Sessions. Results marked with `*` used async SAC.
+
+</details>
 
 For the full Atari benchmark, see [Atari Benchmark](atari-benchmark.md).

@@ -27,7 +27,7 @@ We now look at an example spec with GPU enabled for PPO on Atari from [slm\_lab/
 {% code title="slm_lab/spec/benchmark/ppo/ppo_atari.json (excerpt)" %}
 ```javascript
 {
-  "ppo_atari_lam95": {
+  "ppo_atari": {
     "agent": {
       "name": "PPO",
       "algorithm": {
@@ -48,11 +48,12 @@ We now look at an example spec with GPU enabled for PPO on Atari from [slm\_lab/
     "env": {
       "name": "${env}",
       "num_envs": 16,
-      "max_frame": 1e7
+      "max_frame": 1e7,
+      "life_loss_info": true
     },
     "meta": {
       "max_session": 4,
-      "max_trial": 4
+      "max_trial": 1
     }
   }
 }
@@ -66,10 +67,10 @@ Once your machine is set up for GPU, then using it for training is as simple as 
 Let's now run a Trial using the spec file above with variable substitution for Pong.
 
 ```bash
-slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
+slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 ```
 
-We should now see a speed up in the **fps** (frame per second) logged in the terminal during training. The trial should take a few hours to finish. It will then save its data to `data/ppo_atari_lam95_{ts}`. The trial graphs should look like the following:
+We should now see a speed up in the **fps** (frame per second) logged in the terminal during training. The trial should take a few hours to finish. It will then save its data to `data/ppo_atari_{ts}`. The trial graphs should look like the following:
 
 ![](../.gitbook/assets/ppo_pong_t0_trial_graph_mean_returns_vs_frames.png)
 
@@ -93,13 +94,13 @@ If your hardware has multiple GPUs, then SLM Lab will automatically cycle throug
 Sometimes it is useful to offset the GPU that a trial starts cycling through. This can be achieved by passing the shell environment variable `CUDA_OFFSET=4` for example. Let's say a machine has 8 GPUs and we are running 2 trials of 4 sessions each, we'd want to utilize all the GPUs evenly. Suppose we are running PPO on Pong and PPO on QBert. Then we can do the following:
 
 ```bash
-slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
+slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 ```
 
 This first trial will use GPUs 0, 1, 2, 3 for its four sessions. Next, we run the second trial using:
 
 ```bash
-slm-lab run --cuda-offset 4 -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam95 train
+slm-lab run --cuda-offset 4 -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 ```
 
 The second trial will then use GPUs 4, 5, 6, 7 for its four sessions. This way we can fully utilize all the 8 GPUs.

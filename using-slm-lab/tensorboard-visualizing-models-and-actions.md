@@ -1,8 +1,13 @@
-# TensorBoard: Visualizing Models and Actions
+# TensorBoard
 
-## :chart\_with\_upwards\_trend: Built-in TensorBoard
+[TensorBoard](https://www.tensorflow.org/tensorboard) is a visualization tool for tracking training progress. SLM Lab automatically logs metrics, model graphs, and action distributions to TensorBoard.
 
-TensorBoard is built-in to SLM Lab. It records all metric variables logged to the terminal, plus the PyTorch model graph, model parameter histograms, and action histograms. All of these are done automatically during checkpointing. This allows for richer diagnosis of the network and policy, e.g. by seeing if the distributions shift over the course of learning.
+## Viewing Training Progress
+
+TensorBoard records:
+- **Metrics**: Rewards, loss, learning rate (everything shown in terminal)
+- **Model graphs**: Neural network architecture
+- **Histograms**: How actions and model weights change over training
 
 TensorBoard event files are saved to the `log/` folder in the output data. During/after a run, you can launch TensorBoard:
 

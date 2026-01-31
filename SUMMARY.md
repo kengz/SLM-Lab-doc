@@ -42,6 +42,7 @@
 
 ## 🔧Development
 
+* [Architecture](development/architecture.md)
 * [Modular Design](development/modular-lab-components/README.md)
   * [Algorithm Taxonomy](development/modular-lab-components/algorithm-taxonomy.md)
   * [Class Inheritance: A2C > PPO](development/modular-lab-components/class-inheritance-a2c-greater-than-ppo.md)
@@ -52,8 +53,8 @@
 * [Memory](development/memory/README.md)
   * [Replay](development/memory/replay.md)
   * [PrioritizedReplay](development/memory/prioritizedreplay.md)
-  * [OnPolicyReplay](development/memory/batch.md)
-  * [OnPolicyBatchReplay](development/memory/episodic.md)
+  * [OnPolicyReplay](development/memory/onpolicyreplay.md)
+  * [OnPolicyBatchReplay](development/memory/onpolicybatchreplay.md)
 * [Net](development/neural-networks/README.md)
   * [MLP](development/neural-networks/mlp.md)
   * [CNN](development/neural-networks/cnn.md)

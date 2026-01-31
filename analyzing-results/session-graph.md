@@ -1,12 +1,14 @@
 # Graphs and Data
 
-## :chart\_with\_upwards\_trend: Session, Trial, and Experiment Graphs
+SLM Lab automatically generates graphs showing how your agent learns over time. These help you:
 
-As shown in [Lab Organization](../using-slm-lab/lab-organization.md), SLM Lab is organized into the hierarchy of Session, Trial and Experiment, with each higher level being a collection of its lower level. The graphs produced by each level, along with their moving average, are shown in the table below.
+- **Track progress**: See if rewards are increasing
+- **Compare runs**: Check if different random seeds give consistent results
+- **Tune hyperparameters**: Compare different settings to find what works best
 
-All the examples in this page is generated from an experiment using the spec file [slm\_lab/spec/experimental/a2c/a2c\_nstep\_n\_search.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/experimental/a2c/a2c_nstep_n_search.json), which is used to answer the question:
+## Session, Trial, and Experiment Graphs
 
-> What values of n of A2C n-step returns provide the fastest, most stable solution, if the other variables are held constant?
+SLM Lab produces graphs at each level of the [hierarchy](../using-slm-lab/lab-organization.md):
 
 |                                              Graph                                              |                                              MA Graph                                             |
 | :---------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------: |

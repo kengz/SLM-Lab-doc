@@ -1,8 +1,13 @@
 # Meta Spec: High Level Specifications
 
+The **meta spec** controls experiment-level settings: how many sessions to run, how often to checkpoint, and parallelization options.
+
 ## The Meta Spec
 
-In this tutorial we look at how to adjust the checkpointing frequency.
+Common use cases:
+- **Multiple seeds**: Set `max_session: 4` to run 4 sessions with different random seeds
+- **Checkpointing**: Adjust `log_frequency` and `eval_frequency` for faster/slower logging
+- **Parallel training**: Enable `distributed` for multi-process training (advanced)
 
 The **meta spec** is used to specify higher level configuration that don't fit within specific trial or session, such as how the experiments and trials should behave. It is specified using the **meta** key in a spec file with the following format:
 
@@ -57,7 +62,7 @@ Thankfully, SLM Lab has a preprocessor which tracks the true episodic rewards fo
 
 ```javascript
 {
-  "ppo_atari_lam95": {
+  "ppo_atari": {
     "agent": {...},
     "env": {
       "name": "${env}",
