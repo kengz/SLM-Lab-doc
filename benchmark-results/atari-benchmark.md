@@ -2,9 +2,9 @@
 
 ## PPO Atari Results (v5)
 
-SLM Lab v5 validates PPO on Gymnasium ALE environments. **54 games tested** with results on HuggingFace.
+SLM Lab v5 validates PPO on Gymnasium ALE environments. **54 games tested** with all results available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
 
-Full methodology and latest results in [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md).
+For the complete methodology and full results table, see [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md) in the code repository.
 
 {% hint style="info" %}
 **v5 Environment Changes:** Gymnasium ALE v5 uses sticky actions (`repeat_action_probability=0.25`) per [Machado et al. (2018)](https://arxiv.org/abs/1709.06009) best practices. This makes environments harder than the older NoFrameskip-v4 variants.
@@ -18,7 +18,7 @@ Full methodology and latest results in [docs/BENCHMARKS.md](https://github.com/k
 
 ### Lambda Variants
 
-Different games benefit from different lambda values for GAE:
+Different games benefit from different lambda values for GAE. All variants use the same spec file:
 
 | SPEC_NAME | Lambda | Best for |
 |-----------|--------|----------|
@@ -28,17 +28,90 @@ Different games benefit from different lambda values for GAE:
 
 ### Selected v5 Results
 
-| Game | Score | Lambda | Game | Score | Lambda |
-|------|-------|--------|------|-------|--------|
-| ALE/Breakout-v5 | 327 | lam70 | ALE/Pong-v5 | 16.9 | lam85 |
-| ALE/Qbert-v5 | 15094 | lam95 | ALE/BeamRider-v5 | 2765 | lam95 |
-| ALE/SpaceInvaders-v5 | 726 | lam95 | ALE/Seaquest-v5 | 1796 | lam95 |
-| ALE/KungFuMaster-v5 | 29068 | lam70 | ALE/MsPacman-v5 | 2372 | lam85 |
-| ALE/Atlantis-v5 | 792886 | lam95 | ALE/Enduro-v5 | 898 | lam85 |
-
-See [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md) for the complete 54-game table with HuggingFace links.
+| Game | Score | Lambda | HuggingFace |
+|------|-------|--------|-------------|
+| ALE/Breakout-v5 | 327 | lam70 | [ppo_atari_lam70_breakout_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_breakout_2026_01_07_110559) |
+| ALE/Pong-v5 | 16.9 | lam85 | [ppo_atari_lam85_pong_2026_01_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_pong_2026_01_08_094454) |
+| ALE/Qbert-v5 | 15094 | lam95 | [ppo_atari_qbert_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_qbert_2026_01_06_111801) |
+| ALE/BeamRider-v5 | 2765 | lam95 | [ppo_atari_beamrider_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_beamrider_2026_01_06_112533) |
+| ALE/SpaceInvaders-v5 | 726 | lam95 | [ppo_atari_spaceinvaders_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_spaceinvaders_2026_01_07_102346) |
+| ALE/Seaquest-v5 | 1796 | lam95 | [ppo_atari_seaquest_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_seaquest_2026_01_06_183440) |
+| ALE/KungFuMaster-v5 | 29068 | lam70 | [ppo_atari_lam70_kungfumaster_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_kungfumaster_2026_01_07_111317) |
+| ALE/MsPacman-v5 | 2372 | lam85 | [ppo_atari_lam85_mspacman_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_mspacman_2026_01_07_223522) |
+| ALE/Atlantis-v5 | 792886 | lam95 | [ppo_atari_atlantis_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_atlantis_2026_01_06_120440) |
+| ALE/Enduro-v5 | 898 | lam85 | [ppo_atari_lam85_enduro_2026_01_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_enduro_2026_01_08_095448) |
 
 **Skipped** (hard exploration): Adventure, MontezumaRevenge, Pitfall, PrivateEye, Venture
+
+### Full Game Table
+
+See [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md) for the complete table with all 54 games and direct HuggingFace links.
+
+<details>
+<summary><b>All 54 Games</b> - click to expand</summary>
+
+| Game | Score | SPEC_NAME |
+|------|-------|-----------|
+| ALE/AirRaid-v5 | 8245 | ppo_atari |
+| ALE/Alien-v5 | 1453 | ppo_atari |
+| ALE/Amidar-v5 | 580 | ppo_atari_lam85 |
+| ALE/Assault-v5 | 4293 | ppo_atari_lam85 |
+| ALE/Asterix-v5 | 3482 | ppo_atari_lam85 |
+| ALE/Asteroids-v5 | 1554 | ppo_atari_lam85 |
+| ALE/Atlantis-v5 | 792886 | ppo_atari |
+| ALE/BankHeist-v5 | 1045 | ppo_atari |
+| ALE/BattleZone-v5 | 26383 | ppo_atari_lam85 |
+| ALE/BeamRider-v5 | 2765 | ppo_atari |
+| ALE/Berzerk-v5 | 1072 | ppo_atari |
+| ALE/Bowling-v5 | 46.45 | ppo_atari |
+| ALE/Boxing-v5 | 91.17 | ppo_atari |
+| ALE/Breakout-v5 | 327 | ppo_atari_lam70 |
+| ALE/Carnival-v5 | 3967 | ppo_atari_lam70 |
+| ALE/Centipede-v5 | 4915 | ppo_atari_lam70 |
+| ALE/ChopperCommand-v5 | 5355 | ppo_atari |
+| ALE/CrazyClimber-v5 | 107370 | ppo_atari_lam85 |
+| ALE/Defender-v5 | 51439 | ppo_atari_lam70 |
+| ALE/DemonAttack-v5 | 16558 | ppo_atari_lam70 |
+| ALE/DoubleDunk-v5 | -2.38 | ppo_atari |
+| ALE/ElevatorAction-v5 | 5446 | ppo_atari |
+| ALE/Enduro-v5 | 898 | ppo_atari_lam85 |
+| ALE/FishingDerby-v5 | 27.10 | ppo_atari_lam85 |
+| ALE/Freeway-v5 | 31.30 | ppo_atari |
+| ALE/Frostbite-v5 | 301 | ppo_atari |
+| ALE/Gopher-v5 | 6508 | ppo_atari_lam70 |
+| ALE/Gravitar-v5 | 599 | ppo_atari |
+| ALE/Hero-v5 | 28238 | ppo_atari_lam85 |
+| ALE/IceHockey-v5 | -3.93 | ppo_atari |
+| ALE/Jamesbond-v5 | 662 | ppo_atari |
+| ALE/JourneyEscape-v5 | -1252 | ppo_atari_lam85 |
+| ALE/Kangaroo-v5 | 9912 | ppo_atari_lam85 |
+| ALE/Krull-v5 | 7841 | ppo_atari |
+| ALE/KungFuMaster-v5 | 29068 | ppo_atari_lam70 |
+| ALE/MsPacman-v5 | 2372 | ppo_atari_lam85 |
+| ALE/NameThisGame-v5 | 5993 | ppo_atari |
+| ALE/Phoenix-v5 | 15659 | ppo_atari_lam70 |
+| ALE/Pong-v5 | 16.91 | ppo_atari_lam85 |
+| ALE/Pooyan-v5 | 5716 | ppo_atari_lam70 |
+| ALE/Qbert-v5 | 15094 | ppo_atari |
+| ALE/Riverraid-v5 | 9428 | ppo_atari_lam85 |
+| ALE/RoadRunner-v5 | 37015 | ppo_atari_lam85 |
+| ALE/Robotank-v5 | 20.07 | ppo_atari |
+| ALE/Seaquest-v5 | 1796 | ppo_atari |
+| ALE/Skiing-v5 | -19340 | ppo_atari |
+| ALE/Solaris-v5 | 2094 | ppo_atari |
+| ALE/SpaceInvaders-v5 | 726 | ppo_atari |
+| ALE/StarGunner-v5 | 47495 | ppo_atari_lam70 |
+| ALE/Surround-v5 | -2.52 | ppo_atari |
+| ALE/Tennis-v5 | -4.41 | ppo_atari_lam85 |
+| ALE/TimePilot-v5 | 4668 | ppo_atari |
+| ALE/Tutankham-v5 | 217 | ppo_atari_lam85 |
+| ALE/UpNDown-v5 | 182472 | ppo_atari |
+| ALE/VideoPinball-v5 | 56746 | ppo_atari_lam70 |
+| ALE/WizardOfWor-v5 | 5814 | ppo_atari |
+| ALE/YarsRevenge-v5 | 17120 | ppo_atari |
+| ALE/Zaxxon-v5 | 10756 | ppo_atari |
+
+</details>
 
 ### Running Atari Benchmarks
 
@@ -47,6 +120,19 @@ See [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCH
 slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train
 slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam85 train
+```
+
+### Download and Replay
+
+```bash
+# List Atari experiments
+slm-lab list | grep atari
+
+# Download a specific game
+slm-lab pull ppo_atari_breakout
+
+# Replay
+slm-lab run _ _ enjoy@data/ppo_atari_*/ppo_atari_t0_spec.json
 ```
 
 ## Historical Results (v4)
@@ -131,14 +217,6 @@ slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_ata
 |      YarsRevenge |   5816  |    15698   |  **27097**  |     11742    |    10114   |
 |           Zaxxon |   442   |    54.28   |    64.72    |     24.7     |   **641**  |
 
-> The table above presents results for 62 Atari games. All agents were trained for 10M frames (40M including skipped frames). Reported results are the episode score at the end of training, averaged over the previous 100 evaluation checkpoints with each checkpoint averaged over 4 Sessions. Agents were checkpointed every 10k training frames.
-
-## :chart\_with\_upwards\_trend: Atari Environment Benchmark Result Plots
-
-#### Plot Legend
-
-<img src="https://user-images.githubusercontent.com/8209263/67737544-d727dc80-f9c8-11e9-904a-319b9aafd41b.png" alt="legend" data-size="original">
-
-![](https://user-images.githubusercontent.com/8209263/67738131-d6904580-f9ca-11e9-8818-0d027b668a97.png) ![](https://user-images.githubusercontent.com/8209263/67738132-d6904580-f9ca-11e9-9585-41f69fd8bb33.png) ![](https://user-images.githubusercontent.com/8209263/67738133-d6904580-f9ca-11e9-8375-4c134255cfe1.png) ![](https://user-images.githubusercontent.com/8209263/67738134-d6904580-f9ca-11e9-865c-eb41f4e712f9.png) ![](https://user-images.githubusercontent.com/8209263/67738135-d6904580-f9ca-11e9-8f8d-61732ecc3ce4.png) ![](https://user-images.githubusercontent.com/8209263/67738138-d6904580-f9ca-11e9-86c0-3589622a311c.png) ![](https://user-images.githubusercontent.com/8209263/67738139-d728dc00-f9ca-11e9-8741-e9a59883197e.png) ![](https://user-images.githubusercontent.com/8209263/67738140-d728dc00-f9ca-11e9-9649-ecc4b2db782f.png) ![](https://user-images.githubusercontent.com/8209263/67738141-d728dc00-f9ca-11e9-924a-a02be1639ee6.png) ![](https://user-images.githubusercontent.com/8209263/67738142-d728dc00-f9ca-11e9-82b0-382bbb0bcc6c.png) ![](https://user-images.githubusercontent.com/8209263/67738143-d728dc00-f9ca-11e9-84eb-2ec8988ff545.png) ![](https://user-images.githubusercontent.com/8209263/67738144-d728dc00-f9ca-11e9-83c6-2e50a69b4ed3.png) ![](https://user-images.githubusercontent.com/8209263/67738145-d7c17280-f9ca-11e9-9a2e-bc179e3186f4.png) ![](https://user-images.githubusercontent.com/8209263/67738146-d7c17280-f9ca-11e9-95ac-008f35834ed1.png) ![](https://user-images.githubusercontent.com/8209263/67738147-d7c17280-f9ca-11e9-890e-319a21e036e0.png) ![](https://user-images.githubusercontent.com/8209263/67738148-d7c17280-f9ca-11e9-95e9-58309efb8ee4.png) ![](https://user-images.githubusercontent.com/8209263/67738150-d7c17280-f9ca-11e9-8a27-3cc7160c1e60.png) ![](https://user-images.githubusercontent.com/8209263/67738151-d7c17280-f9ca-11e9-8316-90cf4e944e97.png) ![](https://user-images.githubusercontent.com/8209263/67738152-d85a0900-f9ca-11e9-8b48-1a988dc31627.png) ![](https://user-images.githubusercontent.com/8209263/67738153-d85a0900-f9ca-11e9-8b30-750fc49b25dd.png) ![](https://user-images.githubusercontent.com/8209263/67738154-d85a0900-f9ca-11e9-8e5e-e99b336e6fbb.png) ![](https://user-images.githubusercontent.com/8209263/67738155-d85a0900-f9ca-11e9-8fd4-e94d1be4a6ee.png) ![](https://user-images.githubusercontent.com/8209263/67738156-d85a0900-f9ca-11e9-9006-903a9c823230.png) ![](https://user-images.githubusercontent.com/8209263/67738158-d85a0900-f9ca-11e9-8167-ebc713c59fdc.png) ![](https://user-images.githubusercontent.com/8209263/67738159-d8f29f80-f9ca-11e9-9166-ebe3ea5339ab.png) ![](https://user-images.githubusercontent.com/8209263/67738161-d8f29f80-f9ca-11e9-9727-2584ac850507.png) ![](https://user-images.githubusercontent.com/8209263/67738163-d8f29f80-f9ca-11e9-9d36-1cb7985360ac.png) ![](https://user-images.githubusercontent.com/8209263/67738164-d8f29f80-f9ca-11e9-8ba3-fb1d75ef81f1.png) ![](https://user-images.githubusercontent.com/8209263/67738166-d8f29f80-f9ca-11e9-9d57-c02118eba7c1.png) ![](https://user-images.githubusercontent.com/8209263/67738167-d8f29f80-f9ca-11e9-9faf-2c30048c8621.png) ![](https://user-images.githubusercontent.com/8209263/67738168-d98b3600-f9ca-11e9-8695-8014fd177416.png) ![](https://user-images.githubusercontent.com/8209263/67738170-d98b3600-f9ca-11e9-9f4a-25929639efc1.png) ![](https://user-images.githubusercontent.com/8209263/67738171-d98b3600-f9ca-11e9-9679-15a1586719dd.png) ![](https://user-images.githubusercontent.com/8209263/67738172-d98b3600-f9ca-11e9-9770-3d63043a716b.png) ![](https://user-images.githubusercontent.com/8209263/67738173-d98b3600-f9ca-11e9-9244-0933adbfedd8.png) ![](https://user-images.githubusercontent.com/8209263/67738174-d98b3600-f9ca-11e9-95e3-33621db77541.png) ![](https://user-images.githubusercontent.com/8209263/67738175-da23cc80-f9ca-11e9-81cf-58e16e210b5e.png) ![](https://user-images.githubusercontent.com/8209263/67738176-da23cc80-f9ca-11e9-8906-d54475705442.png) ![](https://user-images.githubusercontent.com/8209263/67738177-da23cc80-f9ca-11e9-9093-0a0e2456fb4c.png) ![](https://user-images.githubusercontent.com/8209263/67738178-da23cc80-f9ca-11e9-93a1-188c75b888f6.png) ![](https://user-images.githubusercontent.com/8209263/67738179-da23cc80-f9ca-11e9-8c76-0d339ac0034a.png) ![](https://user-images.githubusercontent.com/8209263/67738180-dabc6300-f9ca-11e9-826b-3d72cd0b13a0.png) ![](https://user-images.githubusercontent.com/8209263/67738181-dabc6300-f9ca-11e9-922e-0b13b973a4d9.png) ![](https://user-images.githubusercontent.com/8209263/67738182-dabc6300-f9ca-11e9-87b3-072ce2637405.png) ![](https://user-images.githubusercontent.com/8209263/67738183-dabc6300-f9ca-11e9-8ab1-d66c6b12cd2f.png) ![](https://user-images.githubusercontent.com/8209263/67738184-dabc6300-f9ca-11e9-82fb-d6b7f7f0d696.png) ![](https://user-images.githubusercontent.com/8209263/67738185-dabc6300-f9ca-11e9-9291-1303718c9a50.png) ![](https://user-images.githubusercontent.com/8209263/67738186-db54f980-f9ca-11e9-8aef-41c9a3250d8c.png) ![](https://user-images.githubusercontent.com/8209263/67738187-db54f980-f9ca-11e9-9764-da60d54e1406.png) ![](https://user-images.githubusercontent.com/8209263/67738188-db54f980-f9ca-11e9-9966-1f22f57a96e0.png) ![](https://user-images.githubusercontent.com/8209263/67738190-db54f980-f9ca-11e9-84c6-8bc1313e1e96.png) ![](https://user-images.githubusercontent.com/8209263/67738191-dbed9000-f9ca-11e9-84e9-ec324d7b2544.png) ![](https://user-images.githubusercontent.com/8209263/67738193-dbed9000-f9ca-11e9-9d01-42865df8ca1e.png) ![](https://user-images.githubusercontent.com/8209263/67738194-dbed9000-f9ca-11e9-84c4-aaf8c59371a2.png) ![](https://user-images.githubusercontent.com/8209263/67738195-dbed9000-f9ca-11e9-8bea-33ed2428afe2.png) ![](https://user-images.githubusercontent.com/8209263/67738196-dc862680-f9ca-11e9-8beb-144e4fb4b36d.png) ![](https://user-images.githubusercontent.com/8209263/67738197-dc862680-f9ca-11e9-9903-d1eb924f56e2.png) ![](https://user-images.githubusercontent.com/8209263/67738198-dc862680-f9ca-11e9-8c37-04e057822a20.png) ![](https://user-images.githubusercontent.com/8209263/67738199-dc862680-f9ca-11e9-9ab3-50064bd5112c.png) ![](https://user-images.githubusercontent.com/8209263/67738200-dc862680-f9ca-11e9-8722-67a664dbbf10.png) ![](https://user-images.githubusercontent.com/8209263/67738201-dd1ebd00-f9ca-11e9-9c27-3a8dd8c13953.png) ![](https://user-images.githubusercontent.com/8209263/67738202-dd1ebd00-f9ca-11e9-98bd-f737a02107f9.png)
+> The table above presents results for 62 Atari games. All agents were trained for 10M frames (40M including skipped frames). Reported results are the episode score at the end of training, averaged over the previous 100 evaluation checkpoints with each checkpoint averaged over 4 Sessions.
 
 </details>

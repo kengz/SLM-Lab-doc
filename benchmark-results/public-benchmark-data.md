@@ -2,12 +2,16 @@
 
 ## Overview
 
-SLM Lab publishes benchmark results for reproducibility and comparison. All results include:
+All SLM Lab benchmark results are publicly available on HuggingFace for reproducibility and comparison:
 
-- **Trained models** - PyTorch checkpoints you can load and evaluate
-- **Training curves** - Full learning history (not just final scores)
-- **Specs** - Exact configurations for reproduction
-- **Git SHA** - Code version used
+{% embed url="https://huggingface.co/datasets/SLM-Lab/benchmark" %}
+
+Each experiment includes:
+
+- **Trained models** - PyTorch checkpoints (`*_ckpt-best.pt`)
+- **Training curves** - Full learning history (`*_session_df.csv`)
+- **Specs** - Exact configurations for reproduction (`*_spec.json`)
+- **Graphs** - Plotly visualizations (PNG and HTML)
 
 ## Accessing Results
 
@@ -36,23 +40,36 @@ Downloads to `data/ppo_hopper_*/` including:
 slm-lab run _ _ enjoy@data/ppo_hopper_*/ppo_hopper_t0_spec.json
 ```
 
+### Browse on HuggingFace
+
+Direct links to experiment folders (example):
+
+- [ppo_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_cartpole_2026_01_30_221924)
+- [ppo_hopper_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_hopper_2026_01_31_105438)
+- [ppo_atari_breakout_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_breakout_2026_01_07_110559)
+
+See the benchmark pages for complete lists:
+- [Discrete Benchmark](discrete-benchmark.md) - Classic Control & Box2D
+- [Continuous Benchmark](continuous-benchmark.md) - MuJoCo
+- [Atari Benchmark](atari-benchmark.md) - 54 Atari games
+
 ## v5 Benchmark Coverage
 
 ### Environments Tested
 
 | Category | Environments | Algorithms |
 |----------|--------------|------------|
-| **Classic Control** | CartPole-v1, Acrobot-v1, Pendulum-v1 | All |
-| **Box2D** | LunarLander-v3, BipedalWalker-v3 | DQN, PPO, SAC |
+| **Classic Control** | CartPole-v1, Acrobot-v1, Pendulum-v1 | REINFORCE, SARSA, DQN, DDQN+PER, A2C, PPO, SAC |
+| **Box2D** | LunarLander-v3 (discrete & continuous) | DQN, DDQN+PER, A2C, PPO, SAC |
 | **MuJoCo** | 11 environments (Hopper, HalfCheetah, etc.) | PPO |
-| **Atari** | 54 games | PPO |
+| **Atari** | 54 games | PPO (3 lambda variants) |
 
 ### Quick Links
 
 | Benchmark | Page | Environments |
 |-----------|------|--------------|
-| Classic + Box2D | [Discrete Benchmark](discrete-benchmark.md) | CartPole, Acrobot, LunarLander |
-| MuJoCo | [Continuous Benchmark](continuous-benchmark.md) | Hopper, HalfCheetah, Humanoid |
+| Classic + Box2D | [Discrete Benchmark](discrete-benchmark.md) | CartPole, Acrobot, Pendulum, LunarLander |
+| MuJoCo | [Continuous Benchmark](continuous-benchmark.md) | Hopper, HalfCheetah, Humanoid, etc. |
 | Atari | [Atari Benchmark](atari-benchmark.md) | 54 games |
 
 ## Methodology
@@ -72,7 +89,7 @@ The trial score is the mean across 4 sessions, providing statistically meaningfu
 | Setting | Value |
 |---------|-------|
 | Sessions per trial | 4 (different random seeds) |
-| Checkpoint frequency | Every 10,000 frames |
+| Checkpoint frequency | Varies by env (500-10000 frames) |
 | Moving average window | 100 checkpoints |
 | Hardware | Cloud GPUs (L4/A10G via dstack) |
 
@@ -81,12 +98,17 @@ The trial score is the mean across 4 sessions, providing statistically meaningfu
 Every experiment can be exactly reproduced:
 
 ```bash
-# 1. Check out the exact code version (git SHA in spec file)
-git checkout <sha-from-spec>
+# 1. Download the experiment
+slm-lab pull ppo_hopper
 
-# 2. Run with saved spec
-slm-lab run _ _ train@path/to/spec.json
+# 2. Check the spec for settings and git SHA
+cat data/ppo_hopper_*/ppo_hopper_t0_spec.json
+
+# 3. Run with saved spec
+slm-lab run _ _ train@data/ppo_hopper_*/ppo_hopper_t0_spec.json
 ```
+
+For exact code version, checkout the git SHA in the spec file.
 
 ## Historical Data
 
@@ -128,12 +150,13 @@ slm-lab push data/my_experiment_2024_01_15_123456
 | PPO | Proximal Policy Optimization |
 | SAC | Soft Actor-Critic |
 | CER | Combined Experience Replay |
+| MA | Moving Average |
 
 ## Contributing Benchmarks
 
 To contribute new benchmark results:
 
-1. Run experiments with `--upload-hf` flag
+1. Run experiments with `--upload-hf` flag (or `source .env` for auto-upload)
 2. Ensure `HF_TOKEN` and `HF_REPO` are configured
 3. Results automatically upload to your HuggingFace repo
 

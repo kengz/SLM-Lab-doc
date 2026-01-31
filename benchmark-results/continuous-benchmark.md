@@ -4,27 +4,11 @@
 
 SLM Lab v5 validates PPO on Gymnasium MuJoCo environments. Results below are from January 2026 benchmark reruns using MuJoCo v5 environments.
 
-Full methodology and HuggingFace data links in [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md).
+All trained models and metrics are publicly available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
 
 {% hint style="info" %}
 **January 2026 Rerun:** SAC benchmarks are omitted in this rerun due to compute constraints (off-policy algorithms require significantly more resources for systematic benchmarking). PPO results cover all 11 MuJoCo environments.
 {% endhint %}
-
-| Environment | Target | PPO | Notes |
-|-------------|--------|-----|-------|
-| Hopper-v5 | ~2000 | 1972 ✅ | |
-| HalfCheetah-v5 | >5000 | 5852 ✅ | |
-| Walker2d-v5 | >3500 | 4042 ✅ | |
-| Ant-v5 | >2000 | 2515 ✅ | |
-| Swimmer-v5 | >200 | 229 ✅ | |
-| Reacher-v5 | >-10 | -5.08 ✅ | |
-| Pusher-v5 | >-50 | -49.1 ✅ | |
-| InvertedPendulum-v5 | ~1000 | 945 ✅ | |
-| InvertedDoublePendulum-v5 | ~8000 | 7622 ✅ | |
-| Humanoid-v5 | >1000 | 3774 ✅ | |
-| HumanoidStandup-v5 | >100k | 165841 ✅ | |
-
-**Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed
 
 ### PPO MuJoCo Configuration
 
@@ -44,6 +28,26 @@ Two unified specs in [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/mas
 | ppo_mujoco_longhorizon | Reacher, Pusher | gamma=0.997, lam=0.97 |
 | Individual specs | Hopper, Swimmer, Ant, IP, IDP | See spec files |
 
+### Results
+
+**Settings**: max_frame 4e6-10e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+
+| Environment | Target | PPO | Status | Spec | HuggingFace |
+|-------------|--------|-----|--------|------|-------------|
+| Hopper-v5 | ~2000 | 1972 | ✅ | [ppo_hopper.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_hopper.json) | [ppo_hopper_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_hopper_2026_01_31_105438) |
+| HalfCheetah-v5 | >5000 | 5852 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_halfcheetah_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_halfcheetah_2026_01_30_230302) |
+| Walker2d-v5 | >3500 | 4042 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_walker2d_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_walker2d_2026_01_30_222124) |
+| Ant-v5 | >2000 | 2515 | ✅ | [ppo_ant.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_ant.json) | [ppo_ant_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_ant_2026_01_31_042006) |
+| Swimmer-v5 | >200 | 229 | ✅ | [ppo_swimmer.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_swimmer.json) | [ppo_swimmer_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_swimmer_2026_01_30_215922) |
+| Reacher-v5 | >-10 | -5.08 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_longhorizon_reacher_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_longhorizon_reacher_2026_01_30_215805) |
+| Pusher-v5 | >-50 | -49.1 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_longhorizon_pusher_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_longhorizon_pusher_2026_01_30_215824) |
+| InvertedPendulum-v5 | ~1000 | 945 | ✅ | [ppo_inverted_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_inverted_pendulum.json) | [ppo_inverted_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_inverted_pendulum_2026_01_30_230211) |
+| InvertedDoublePendulum-v5 | ~8000 | 7622 | ✅ | [ppo_inverted_double_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_inverted_double_pendulum.json) | [ppo_inverted_double_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_inverted_double_pendulum_2026_01_30_220651) |
+| Humanoid-v5 | >1000 | 3774 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_humanoid_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_humanoid_2026_01_30_222339) |
+| HumanoidStandup-v5 | >100k | 165841 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_humanoidstandup_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_humanoidstandup_2026_01_30_215802) |
+
+**Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed
+
 ### Running MuJoCo Benchmarks
 
 ```bash
@@ -55,6 +59,19 @@ slm-lab run -s env=Humanoid-v5 -s max_frame=10e6 slm_lab/spec/benchmark/ppo/ppo_
 
 # Long-horizon spec for Reacher/Pusher
 slm-lab run -s env=Reacher-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco_longhorizon train
+```
+
+### Download and Replay
+
+```bash
+# List all available experiments
+slm-lab list
+
+# Download a specific experiment
+slm-lab pull ppo_hopper
+
+# Replay the trained agent
+slm-lab run _ _ enjoy@data/ppo_hopper_*/ppo_hopper_t0_spec.json
 ```
 
 ## Historical Results

@@ -4,24 +4,71 @@
 
 SLM Lab v5 validates algorithms on Gymnasium discrete environments. Results below are from January 2026 benchmark reruns using Gymnasium v5 environments.
 
-Full methodology and HuggingFace data links in [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md).
+All trained models and metrics are publicly available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
 
 ### Classic Control
 
-| Environment | Target | REINFORCE | SARSA | DQN | DDQN+PER | A2C | PPO | SAC |
-|-------------|--------|-----------|-------|-----|----------|-----|-----|-----|
-| CartPole-v1 | 400 | 469.7 ✅ | 421.6 ✅ | 188.1 ⚠️ | 432.9 ✅ | 499.7 ✅ | 499.5 ✅ | 359.7 ⚠️ |
-| Acrobot-v1 | -100 | — | — | -94.8 ✅ | -85.2 ✅ | -83.8 ✅ | -81.4 ✅ | -97.1 ✅ |
-| Pendulum-v1 | -200 | — | — | — | — | -553 ❌ | -168.3 ✅ | -152.3 ✅ |
+#### CartPole-v1
+
+**Target**: reward MA > 400 | **Settings**: max_frame 2e5 | num_envs 4 | max_session 4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| REINFORCE | ✅ | 469.7 | [reinforce_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/reinforce/reinforce_cartpole.json) | [reinforce_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/reinforce_cartpole_2026_01_30_215510) |
+| SARSA | ✅ | 421.6 | [sarsa_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sarsa/sarsa_cartpole.json) | [sarsa_boltzmann_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sarsa_boltzmann_cartpole_2026_01_30_215508) |
+| DQN | ⚠️ | 188.1 | [dqn_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_cartpole.json) | [dqn_boltzmann_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/dqn_boltzmann_cartpole_2026_01_30_215213) |
+| DDQN+PER | ✅ | 432.9 | [dqn_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_cartpole.json) | [ddqn_per_boltzmann_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ddqn_per_boltzmann_cartpole_2026_01_30_215454) |
+| A2C | ✅ | 499.7 | [a2c_gae_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_cartpole.json) | [a2c_gae_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/a2c_gae_cartpole_2026_01_30_215337) |
+| PPO | ✅ | 499.5 | [ppo_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json) | [ppo_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_cartpole_2026_01_30_221924) |
+| SAC | ⚠️ | 359.7 | [sac_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_cartpole.json) | [sac_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_cartpole_2026_01_30_221934) |
+
+#### Acrobot-v1
+
+**Target**: reward MA > -100 | **Settings**: max_frame 3e5 | num_envs 4 | max_session 4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| DQN | ✅ | -94.8 | [dqn_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_acrobot.json) | [dqn_boltzmann_acrobot_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/dqn_boltzmann_acrobot_2026_01_30_215429) |
+| DDQN+PER | ✅ | -85.2 | [ddqn_per_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_acrobot.json) | [ddqn_per_acrobot_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ddqn_per_acrobot_2026_01_30_215436) |
+| A2C | ✅ | -83.8 | [a2c_gae_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_acrobot.json) | [a2c_gae_acrobot_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/a2c_gae_acrobot_2026_01_30_215413) |
+| PPO | ✅ | -81.4 | [ppo_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_acrobot.json) | [ppo_acrobot_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_acrobot_2026_01_30_215352) |
+| SAC | ✅ | -97.1 | [sac_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_acrobot.json) | [sac_acrobot_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_acrobot_2026_01_30_215401) |
+
+#### Pendulum-v1
+
+**Target**: reward MA > -200 | **Settings**: max_frame 3e5 | num_envs 4 | max_session 4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| A2C | ❌ | -553 | [a2c_gae_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_pendulum.json) | [a2c_gae_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/a2c_gae_pendulum_2026_01_30_215421) |
+| PPO | ✅ | -168.3 | [ppo_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_pendulum.json) | [ppo_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_pendulum_2026_01_30_215944) |
+| SAC | ✅ | -152.3 | [sac_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_pendulum.json) | [sac_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_pendulum_2026_01_30_215454) |
 
 ### Box2D
 
-| Environment | Target | DQN | DDQN+PER | A2C | PPO | SAC |
-|-------------|--------|-----|----------|-----|-----|-----|
-| LunarLander-v3 (discrete) | 200 | 183.6 ⚠️ | 261.5 ✅ | 9.5 ❌ | 159.0 ⚠️ | -75.4 ❌ |
-| LunarLander-v3 (continuous) | 200 | — | — | -38.2 ❌ | 165.5 ⚠️ | 208.6 ✅ |
+#### LunarLander-v3 (Discrete)
 
-**Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed | — Not applicable
+**Target**: reward MA > 200 | **Settings**: max_frame 3e5 | num_envs 8 | max_session 4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| DQN | ⚠️ | 183.6 | [dqn_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_lunar.json) | [dqn_concat_lunar_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/dqn_concat_lunar_2026_01_30_215529) |
+| DDQN+PER | ✅ | 261.5 | [ddqn_per_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json) | [ddqn_per_concat_lunar_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ddqn_per_concat_lunar_2026_01_30_215532) |
+| A2C | ❌ | 9.5 | [a2c_gae_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_lunar.json) | [a2c_gae_lunar_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/a2c_gae_lunar_2026_01_30_215529) |
+| PPO | ⚠️ | 159.0 | [ppo_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_lunar.json) | [ppo_lunar_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_lunar_2026_01_30_215550) |
+| SAC | ❌ | -75.4 | [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) | [sac_lunar_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_lunar_2026_01_30_215552) |
+
+#### LunarLander-v3 (Continuous)
+
+**Target**: reward MA > 200 | **Settings**: max_frame 3e5 | num_envs 8 | max_session 4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| A2C | ❌ | -38.2 | [a2c_gae_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_lunar.json) | [a2c_gae_lunar_continuous_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/a2c_gae_lunar_continuous_2026_01_30_215630) |
+| PPO | ⚠️ | 165.5 | [ppo_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_lunar.json) | [ppo_lunar_continuous_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_lunar_continuous_2026_01_31_104549) |
+| SAC | ✅ | 208.6 | [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) | [sac_lunar_continuous_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_lunar_continuous_2026_01_31_104537) |
+
+**Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed
 
 {% hint style="info" %}
 **v5 vs v4 Environment Differences:** Gymnasium environments have stricter termination conditions and different reward scales than OpenAI Gym. LunarLander-v3 is notably harder than v2. See [Gymnasium docs](https://gymnasium.farama.org/) for details.
@@ -38,6 +85,19 @@ slm-lab run slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar
 
 # SAC on Pendulum
 slm-lab run slm_lab/spec/benchmark/sac/sac_pendulum.json sac_pendulum train
+```
+
+### Download and Replay
+
+```bash
+# List all available experiments
+slm-lab list
+
+# Download a specific experiment
+slm-lab pull ppo_cartpole
+
+# Replay the trained agent
+slm-lab run _ _ enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
 ```
 
 ## Historical Results (v4)
