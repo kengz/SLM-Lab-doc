@@ -187,6 +187,8 @@ Available schedules:
       "end_step": 50000
     },
     "gamma": 0.99,
+    "training_batch_iter": 2,
+    "training_iter": 2,
     "training_frequency": 4
   }
 }

@@ -48,8 +48,8 @@ class Memory:
         - rewards: (batch_size,)
         - next_states: (batch_size, state_dim)
         - dones: (batch_size,)
-        - terminated: (batch_size,)  # v5: true episode end
-        - truncated: (batch_size,)   # v5: time limit reached
+        - terminateds: (batch_size,)  # v5: true episode end
+        - truncateds: (batch_size,)   # v5: time limit reached
         """
         pass
 

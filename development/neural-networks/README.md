@@ -90,7 +90,7 @@ Configure networks in the agent spec:
 
 | Parameter | Description | Typical Values |
 |-----------|-------------|----------------|
-| `normalize` | Normalize pixel input to [0, 1] | `true` |
+| `normalize` | Normalize pixel input by dividing by 255 | `true` |
 
 ### Device
 

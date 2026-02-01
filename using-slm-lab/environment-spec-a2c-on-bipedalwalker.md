@@ -184,7 +184,7 @@ slm-lab run -s env=Walker2d-v5 -s max_frame=5e6 slm_lab/spec/benchmark/ppo/ppo_m
 
 # Atari template - works for any ALE game
 slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
-slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+slm-lab run -s env=ALE/MsPacman-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 ```
 
 ### Finding Environment Specs
