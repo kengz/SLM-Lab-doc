@@ -74,13 +74,9 @@ We should now see a speed up in the **fps** (frame per second) logged in the ter
 
 ### 📊 Results
 
-**Trial graph** (average of 4 sessions):
+**Training curve** (100-checkpoint moving average):
 
-![PPO Pong trial graph](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/graph/ppo_atari_lam85_t0_trial_graph_mean_returns_vs_frames.png)
-
-**Moving average** (100-checkpoint window) — the primary success metric:
-
-![PPO Pong trial graph MA](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/graph/ppo_atari_lam85_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![PPO Pong Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/graph/ppo_atari_lam85_pong_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
 PPO achieves **16.9** MA on Pong-v5 (max score is 21). Trained models available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_pong_2026_01_08_094454).
 

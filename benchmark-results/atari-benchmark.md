@@ -190,17 +190,17 @@ Shows scores for all three lambda variants where tested. **Bold** = best score, 
 
 ### Training Curves (Selected Games)
 
-![Breakout](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam70_breakout_2026_01_07_110559/graph/ppo_atari_lam70_breakout_t0_trial_graph_mean_returns_vs_frames.png)
+![Breakout](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam70_breakout_2026_01_07_110559/graph/ppo_atari_lam70_breakout_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
-![Pong](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/graph/ppo_atari_lam85_pong_t0_trial_graph_mean_returns_vs_frames.png)
+![Pong](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/graph/ppo_atari_lam85_pong_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
-![Qbert](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_qbert_2026_01_06_111801/graph/ppo_atari_qbert_t0_trial_graph_mean_returns_vs_frames.png)
+![Qbert](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_qbert_2026_01_06_111801/graph/ppo_atari_qbert_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
-![BeamRider](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_beamrider_2026_01_06_112533/graph/ppo_atari_beamrider_t0_trial_graph_mean_returns_vs_frames.png)
+![BeamRider](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_beamrider_2026_01_06_112533/graph/ppo_atari_beamrider_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
-![Seaquest](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_seaquest_2026_01_06_183440/graph/ppo_atari_seaquest_t0_trial_graph_mean_returns_vs_frames.png)
+![Seaquest](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_seaquest_2026_01_06_183440/graph/ppo_atari_seaquest_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
-![SpaceInvaders](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_spaceinvaders_2026_01_07_102346/graph/ppo_atari_spaceinvaders_t0_trial_graph_mean_returns_vs_frames.png)
+![SpaceInvaders](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_spaceinvaders_2026_01_07_102346/graph/ppo_atari_spaceinvaders_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
 {% hint style="success" %}
 **All 54 Training Curves:** Each game's training curves are available in the HuggingFace links above. Navigate to any experiment's `graph/` folder to view the trial graphs.

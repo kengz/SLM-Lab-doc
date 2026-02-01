@@ -2,8 +2,6 @@
 
 Get SLM Lab running in under 5 minutes.
 
-![SLM Lab environments](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_cartpole_2026_01_30_221924/graph/ppo_cartpole_t0_trial_graph_mean_returns_vs_frames.png)
-
 ## Prerequisites
 
 ### Python Version
