@@ -230,6 +230,60 @@ After a successful run:
 
 4. **Commit spec file** for reproducibility
 
+## Algorithms
+
+SLM Lab validates these algorithm families across benchmark environments:
+
+| Family | Algorithm | Variants | Action Space |
+|--------|-----------|----------|--------------|
+| **Policy Gradient** | REINFORCE | — | Discrete/Continuous |
+| | A2C | GAE, n-step | Discrete/Continuous |
+| | A3C | GAE, n-step | Discrete/Continuous |
+| | PPO | — | Discrete/Continuous |
+| **Value-Based** | SARSA | — | Discrete |
+| | DQN | vanilla, Double, PER, DDQN+PER, Dueling | Discrete |
+| **Actor-Critic** | SAC | — | Discrete/Continuous |
+| | Async SAC | — | Continuous |
+
+## Environments
+
+Benchmarks are organized into four phases by environment category:
+
+### Phase 1: Classic Control (3 envs)
+
+| Environment | State | Action | Target | Algorithms |
+|-------------|-------|--------|--------|------------|
+| CartPole-v1 | Box(4) | Discrete(2) | >400 | All |
+| Acrobot-v1 | Box(6) | Discrete(3) | >-100 | DQN, A2C, PPO, SAC |
+| Pendulum-v1 | Box(3) | Box(1) | >-200 | A2C, PPO, SAC |
+
+### Phase 2: Box2D (2 envs)
+
+| Environment | State | Action | Target | Algorithms |
+|-------------|-------|--------|--------|------------|
+| LunarLander-v3 | Box(8) | Discrete(4) | >200 | DQN, A2C, PPO, SAC |
+| BipedalWalker-v3 | Box(24) | Box(4) | >300 | A2C, PPO, SAC |
+
+### Phase 3: MuJoCo (11 envs)
+
+| Environment | State | Action | Target | Algorithms |
+|-------------|-------|--------|--------|------------|
+| Hopper-v5 | Box(11) | Box(3) | ~2000 | PPO, SAC |
+| HalfCheetah-v5 | Box(17) | Box(6) | >5000 | PPO, SAC |
+| Walker2d-v5 | Box(17) | Box(6) | >3500 | PPO |
+| Ant-v5 | Box(105) | Box(8) | >2000 | PPO |
+| Swimmer-v5 | Box(8) | Box(2) | >200 | PPO |
+| Reacher-v5 | Box(10) | Box(2) | >-10 | PPO |
+| Pusher-v5 | Box(23) | Box(7) | >-50 | PPO |
+| InvertedPendulum-v5 | Box(4) | Box(1) | ~1000 | PPO |
+| InvertedDoublePendulum-v5 | Box(9) | Box(1) | ~8000 | PPO |
+| Humanoid-v5 | Box(348) | Box(17) | >1000 | PPO |
+| HumanoidStandup-v5 | Box(348) | Box(17) | >100k | PPO |
+
+### Phase 4: Atari (54 games)
+
+All 54 tested Atari games use PPO with `ALE/{Game}-v5` naming. See [Atari Benchmark](../benchmark-results/atari-benchmark.md) for full results.
+
 ## Benchmark Spec Reference
 
 All benchmark specs are in [slm_lab/spec/benchmark/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark), organized by algorithm.
@@ -255,17 +309,17 @@ Value-based algorithms for discrete action spaces.
 
 ### A2C
 
-On-policy actor-critic with synchronized updates.
+On-policy actor-critic with synchronized updates. Two variants: GAE (Generalized Advantage Estimation) and n-step returns.
 
-| Environment | Spec |
-|-------------|------|
-| CartPole | [a2c_gae_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_cartpole.json) |
-| Acrobot | [a2c_gae_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_acrobot.json) |
-| Pendulum | [a2c_gae_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_pendulum.json) |
-| LunarLander | [a2c_gae_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_lunar.json) |
-| BipedalWalker | [a2c_gae_bipedalwalker.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_bipedalwalker.json) |
-| MuJoCo | [a2c_gae_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_mujoco.json) (template) |
-| Atari | [a2c_gae_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_atari.json) (template) |
+| Environment | A2C GAE | A2C n-step |
+|-------------|---------|------------|
+| CartPole | [a2c_gae_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_cartpole.json) | — |
+| Acrobot | [a2c_gae_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_acrobot.json) | — |
+| Pendulum | [a2c_gae_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_pendulum.json) | — |
+| LunarLander | [a2c_gae_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_lunar.json) | [a2c_nstep_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_nstep_lunar.json) |
+| BipedalWalker | [a2c_gae_bipedalwalker.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_bipedalwalker.json) | — |
+| MuJoCo | [a2c_gae_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_mujoco.json) | [a2c_nstep_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_nstep_mujoco.json) |
+| Atari | [a2c_gae_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_atari.json) | [a2c_nstep_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_nstep_atari.json) |
 
 ### PPO
 

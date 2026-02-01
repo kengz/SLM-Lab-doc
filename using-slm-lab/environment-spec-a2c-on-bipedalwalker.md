@@ -42,22 +42,59 @@ The environment is specified using the **env** key in a spec file:
 
 ## Supported Environments
 
-SLM Lab works with any [Gymnasium](https://gymnasium.farama.org/) environment. Common categories:
+SLM Lab works with any [Gymnasium](https://gymnasium.farama.org/) environment. Below are the validated benchmark environments.
 
-| Category | Examples | Action Space | Notes |
-|----------|----------|--------------|-------|
-| **Classic Control** | CartPole-v1, Acrobot-v1 | Discrete | Fast training, good for testing |
-| **Box2D** | LunarLander-v3, BipedalWalker-v3 | Discrete/Continuous | Medium complexity |
-| **MuJoCo** | HalfCheetah-v5, Humanoid-v5 | Continuous | Physics simulation, use normalization |
-| **Atari** | ALE/Qbert-v5, ALE/MsPacman-v5 | Discrete | Image observations, use GPU |
+### Classic Control (3 envs)
 
-**Environment-specific settings:**
+| Environment | State | Action | Target | Notes |
+|-------------|-------|--------|--------|-------|
+| [CartPole-v1](https://gymnasium.farama.org/environments/classic_control/cart_pole/) | Box(4) | Discrete(2) | >400 | Balance pole, fast training |
+| [Acrobot-v1](https://gymnasium.farama.org/environments/classic_control/acrobot/) | Box(6) | Discrete(3) | >-100 | Swing up double pendulum |
+| [Pendulum-v1](https://gymnasium.farama.org/environments/classic_control/pendulum/) | Box(3) | Box(1) | >-200 | Continuous control intro |
 
-| Environment Type | Recommended Settings |
-|-----------------|---------------------|
-| Classic/Box2D | `num_envs: 8`, `gpu: auto` |
-| MuJoCo | `num_envs: 16`, `normalize_obs: true`, `normalize_reward: true` |
-| Atari | `num_envs: 16`, `gpu: auto` (ConvNet benefits from GPU) |
+### Box2D (2 envs)
+
+| Environment | State | Action | Target | Notes |
+|-------------|-------|--------|--------|-------|
+| [LunarLander-v3](https://gymnasium.farama.org/environments/box2d/lunar_lander/) | Box(8) | Discrete(4) | >200 | Land spacecraft |
+| [BipedalWalker-v3](https://gymnasium.farama.org/environments/box2d/bipedal_walker/) | Box(24) | Box(4) | >300 | Walking robot |
+
+### MuJoCo (11 envs)
+
+| Environment | State | Action | Target | Notes |
+|-------------|-------|--------|--------|-------|
+| [Hopper-v5](https://gymnasium.farama.org/environments/mujoco/hopper/) | Box(11) | Box(3) | ~2000 | One-legged hopping |
+| [HalfCheetah-v5](https://gymnasium.farama.org/environments/mujoco/half_cheetah/) | Box(17) | Box(6) | >5000 | 2D running |
+| [Walker2d-v5](https://gymnasium.farama.org/environments/mujoco/walker2d/) | Box(17) | Box(6) | >3500 | Bipedal walking |
+| [Ant-v5](https://gymnasium.farama.org/environments/mujoco/ant/) | Box(105) | Box(8) | >2000 | Quadruped locomotion |
+| [Swimmer-v5](https://gymnasium.farama.org/environments/mujoco/swimmer/) | Box(8) | Box(2) | >200 | Swimming snake |
+| [Reacher-v5](https://gymnasium.farama.org/environments/mujoco/reacher/) | Box(10) | Box(2) | >-10 | Reach target |
+| [Pusher-v5](https://gymnasium.farama.org/environments/mujoco/pusher/) | Box(23) | Box(7) | >-50 | Push object |
+| [InvertedPendulum-v5](https://gymnasium.farama.org/environments/mujoco/inverted_pendulum/) | Box(4) | Box(1) | ~1000 | Balance pendulum |
+| [InvertedDoublePendulum-v5](https://gymnasium.farama.org/environments/mujoco/inverted_double_pendulum/) | Box(9) | Box(1) | ~8000 | Balance double pendulum |
+| [Humanoid-v5](https://gymnasium.farama.org/environments/mujoco/humanoid/) | Box(348) | Box(17) | >1000 | Humanoid locomotion |
+| [HumanoidStandup-v5](https://gymnasium.farama.org/environments/mujoco/humanoid_standup/) | Box(348) | Box(17) | >100k | Stand up from ground |
+
+### Atari (54+ games)
+
+All Atari games use ALE (Arcade Learning Environment) with `ALE/{Game}-v5` naming:
+
+| Category | Examples | Notes |
+|----------|----------|-------|
+| **Action** | ALE/Pong-v5, ALE/Breakout-v5, ALE/SpaceInvaders-v5 | Fast reflexes |
+| **Strategic** | ALE/Qbert-v5, ALE/Seaquest-v5, ALE/MsPacman-v5 | Planning required |
+| **Exploration** | ALE/MontezumaRevenge-v5, ALE/Pitfall-v5 | Hard exploration (skipped) |
+
+See [Atari Benchmark](../benchmark-results/atari-benchmark.md) for the full list of 54 tested games.
+
+### Environment-Specific Settings
+
+| Category | `num_envs` | `max_frame` | Normalization | GPU |
+|----------|------------|-------------|---------------|-----|
+| Classic Control | 4 | 2e5-3e5 | No | Optional |
+| Box2D | 8 | 3e5 | No | Optional |
+| MuJoCo | 16 | 1e6-10e6 | `normalize_obs`, `normalize_reward` | Optional |
+| Atari | 16 | 10e6 | No | Recommended |
 
 See [Benchmark Specs](benchmark-specs.md) for complete spec files for each environment.
 

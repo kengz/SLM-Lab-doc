@@ -36,23 +36,43 @@ Every agent in SLM Lab is configured with three components:
 
 ## Available Algorithms
 
-SLM Lab implements these RL algorithms:
+SLM Lab implements these RL algorithm families:
 
-| Algorithm | Action Space | Use Case |
-|-----------|--------------|----------|
-| **REINFORCE** | Discrete/Continuous | Simple policy gradient baseline |
-| **SARSA** | Discrete | On-policy TD learning baseline |
-| **DQN** | Discrete | Value-based learning with experience replay |
-| **DDQN** | Discrete | DQN with reduced overestimation |
-| **A2C** | Discrete/Continuous | Synchronous actor-critic |
-| **PPO** | Discrete/Continuous | Robust policy gradient (recommended default) |
-| **SAC** | Continuous | Off-policy actor-critic with entropy regularization |
+### Policy Gradient
+
+| Algorithm | Variant | Action Space | Description |
+|-----------|---------|--------------|-------------|
+| **REINFORCE** | — | Discrete/Continuous | Monte Carlo policy gradient baseline |
+| **A2C** | GAE | Discrete/Continuous | Actor-Critic with Generalized Advantage Estimation |
+| **A2C** | n-step | Discrete/Continuous | Actor-Critic with n-step returns |
+| **A3C** | GAE | Discrete/Continuous | Async A2C with Hogwild! (multi-process) |
+| **A3C** | n-step | Discrete/Continuous | Async n-step A2C |
+| **PPO** | — | Discrete/Continuous | Proximal Policy Optimization (recommended) |
+
+### Value-Based
+
+| Algorithm | Variant | Action Space | Description |
+|-----------|---------|--------------|-------------|
+| **SARSA** | — | Discrete | On-policy TD learning baseline |
+| **DQN** | vanilla | Discrete | Deep Q-Network with experience replay |
+| **DQN** | Double (DDQN) | Discrete | Reduced overestimation bias |
+| **DQN** | PER | Discrete | Prioritized Experience Replay |
+| **DQN** | DDQN+PER | Discrete | Combined Double DQN + PER |
+| **DQN** | Dueling | Discrete | Separate value/advantage streams |
+
+### Actor-Critic (Off-Policy)
+
+| Algorithm | Variant | Action Space | Description |
+|-----------|---------|--------------|-------------|
+| **SAC** | — | Discrete/Continuous | Soft Actor-Critic with entropy regularization |
+| **Async SAC** | — | Continuous | SAC with Hogwild! (multi-process) |
 
 **Quick guide:**
 - **New to RL?** Start with PPO—it's robust and works well across most environments
 - **Discrete actions (Atari, CartPole)?** Try DQN/DDQN for sample efficiency or PPO for stability
 - **Continuous actions (MuJoCo, robotics)?** Use PPO or SAC
 - **Need sample efficiency?** SAC with high replay ratio or DDQN+PER
+- **Multi-process training?** A3C or Async SAC
 
 See [Benchmark Specs](benchmark-specs.md) for complete spec files for each algorithm.
 
