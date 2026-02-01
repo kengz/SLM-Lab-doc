@@ -4,7 +4,36 @@ description: Test your installation with a quick demo.
 
 # Quick Start
 
-Run the demo to verify your installation:
+## Command Format
+
+Check the run command options:
+
+```bash
+slm-lab run --help
+```
+
+```
+Usage: slm-lab run [OPTIONS] [SPEC_FILE] [SPEC_NAME] [MODE]
+
+Arguments:
+  spec_file   JSON spec file path [default: slm_lab/spec/benchmark/ppo/ppo_cartpole.json]
+  spec_name   Spec name within the file [default: ppo_cartpole]
+  mode        Execution mode: dev|train|search|enjoy [default: dev]
+
+Options:
+  --set, -s   Set spec variables: KEY=VALUE (can be used multiple times)
+  --render    Enable environment rendering
+```
+
+The full command format is:
+
+```bash
+slm-lab run spec.json spec_name train
+```
+
+Running `slm-lab run` without arguments uses the defaults above—PPO on CartPole in dev mode.
+
+## Run the Demo
 
 ```bash
 slm-lab run --render
