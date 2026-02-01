@@ -20,7 +20,25 @@ If you encounter CUDA driver issues, see [Help](../resources/help.md) for troubl
 
 ## GPU Monitoring
 
-Monitor GPU usage with [glances](https://github.com/nicolargo/glances):
+### nvidia-smi
+
+Check GPU availability and memory:
+
+```bash
+# One-time check
+nvidia-smi
+
+# Continuous monitoring (updates every 1 second)
+watch -n 1 nvidia-smi
+```
+
+Key metrics to watch:
+- **GPU-Util**: Should be 30-70% during training (higher for larger batches)
+- **Memory-Usage**: Atari typically uses 2-4GB per session
+
+### glances
+
+For a prettier dashboard, use [glances](https://github.com/nicolargo/glances):
 
 ```bash
 uv tool install glances
@@ -28,6 +46,16 @@ glances
 ```
 
 {% embed url="https://glances.readthedocs.io/en/stable/aoa/gpu.html" %}
+
+### Checking PyTorch GPU Access
+
+```python
+import torch
+print(f"CUDA available: {torch.cuda.is_available()}")
+print(f"GPU count: {torch.cuda.device_count()}")
+print(f"Current device: {torch.cuda.current_device()}")
+print(f"Device name: {torch.cuda.get_device_name(0)}")
+```
 
 ## The Atari Spec
 
@@ -69,7 +97,28 @@ The PPO Atari spec from [slm\_lab/spec/benchmark/ppo/ppo\_atari.json](https://gi
 ```
 {% endcode %}
 
-The key setting is **"gpu": "auto"** in the net spec. This automatically uses GPU if available, or falls back to CPU. You can also use `"gpu": true` to force GPU usage.
+The key setting is **"gpu": "auto"** in the net spec.
+
+### GPU Options
+
+| Value | Behavior |
+|-------|----------|
+| `"auto"` | Use GPU if available, fallback to CPU |
+| `true` | Force GPU (error if unavailable) |
+| `false` | Force CPU only |
+| `0`, `1`, ... | Use specific GPU device |
+
+### When to Use GPU
+
+| Environment Type | Network | GPU Benefit |
+|------------------|---------|-------------|
+| Atari (images) | ConvNet | **High** - 5-10x speedup |
+| MuJoCo (vectors) | Large MLP [256,256] | Moderate - 2-3x speedup |
+| CartPole (vectors) | Small MLP [64,64] | **None** - CPU is faster |
+
+{% hint style="info" %}
+**Rule of thumb:** Use GPU for ConvNets and MLPs with 256+ hidden units. For smaller networks, the data transfer overhead exceeds the computation benefit.
+{% endhint %}
 
 ## Running PPO on Qbert
 
@@ -134,6 +183,43 @@ slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_at
 slm-lab run --cuda-offset 4 -s env=ALE/MsPacman-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam85 train
 ```
 
+### Fractional GPU for Search Mode
+
+In search mode, run multiple trials on one GPU using fractional allocation:
+
+```javascript
+"meta": {
+  "search_resources": {"cpu": 1, "gpu": 0.125}  // 8 trials per GPU
+}
+```
+
+| `gpu` value | Trials per GPU | Use case |
+|-------------|----------------|----------|
+| 0.5 | 2 | Large networks |
+| 0.25 | 4 | Medium networks |
+| 0.125 | 8 | Atari (recommended) |
+
 {% hint style="info" %}
-For search mode and benchmarks, SLM Lab automatically handles GPU allocation across all trials and sessions.
+SLM Lab uses Ray Tune for resource allocation. Fractional GPU means trials share the GPU via time-slicing, not memory partitioning.
+{% endhint %}
+
+## GPU Memory Tips
+
+### Out of Memory Errors
+
+If you hit GPU memory limits:
+
+1. **Reduce `minibatch_size`** - Most direct impact on memory
+2. **Reduce `num_envs`** - Fewer parallel environments = smaller batches
+3. **Use `gpu: 0.5`** - Force fewer concurrent trials in search mode
+
+### Typical Memory Usage
+
+| Environment | Network | Approx. Memory |
+|-------------|---------|----------------|
+| Atari | ConvNet | 2-4 GB per session |
+| MuJoCo | MLP [256,256] | 0.5-1 GB per session |
+
+{% hint style="warning" %}
+**Multi-session training:** With `max_session=4`, each session runs sequentially by default, so memory usage doesn't multiply. In search mode with fractional GPU, multiple trials share memory.
 {% endhint %}

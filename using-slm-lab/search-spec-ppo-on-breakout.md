@@ -156,6 +156,10 @@ For robust hyperparameter tuning:
 2. **Multi stage**: Run top 3-5 configs with multiple seeds (no early stopping)
 3. **Final stage**: Update spec defaults with best hyperparameters
 
+{% hint style="warning" %}
+**For benchmarks:** Do not use search results directly. Always run a final validation with `train` mode and the committed spec file.
+{% endhint %}
+
 ## Example: PPO Lambda Search on Breakout
 
 [**Breakout**](https://ale.farama.org/environments/breakout/) is a classic Atari benchmark—break bricks by bouncing a ball with a paddle.
