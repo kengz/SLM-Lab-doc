@@ -2,33 +2,32 @@
 description: Test your installation with a quick demo.
 ---
 
-# Quick Start 🚀
+# Quick Start
 
-## PPO on CartPole
+```bash
+# Run demo (PPO CartPole)
+slm-lab run                                    # PPO CartPole
+slm-lab run --render                           # with visualization
 
-This quick demo verifies your installation works and introduces SLM Lab's core workflow.
+# Run custom experiment
+slm-lab run spec.json spec_name train          # local training
+slm-lab run-remote spec.json spec_name train   # cloud training (dstack)
 
-**What you'll see:**
-- A CartPole environment being solved in real-time
-- Training metrics updating in the terminal
-- An agent learning from ~0 reward to 400+ reward
+# Help
+slm-lab --help                                 # list all commands
+slm-lab run --help                             # options for run command
 
-### The Task
+# Troubleshoot: if slm-lab not found, use uv run
+uv run slm-lab run
+```
+
+---
+
+## What the Demo Does
 
 **CartPole** is a classic RL benchmark: balance a pole on a cart by moving left or right. The agent receives +1 reward for each timestep the pole stays upright, with a maximum of 500 per episode.
 
-**PPO** (Proximal Policy Optimization) is a widely-used RL algorithm that learns by:
-1. Collecting experience by interacting with the environment
-2. Computing how much better/worse each action was than expected (advantage)
-3. Updating the policy to make good actions more likely
-
-### Run the Demo
-
-```bash
-slm-lab run --render
-```
-
-This runs the default experiment: PPO on CartPole in dev mode.
+`slm-lab run --render` runs PPO on CartPole in dev mode with visualization.
 
 ### What to Expect
 

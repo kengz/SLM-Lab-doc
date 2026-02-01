@@ -1,26 +1,34 @@
-# Installation 🛠️
-
-## Prerequisites ✅
-
-### Python Version
-
-SLM Lab requires Python 3.10+. The `uv` package manager handles Python installation automatically.
-
-### Install uv
-
-[uv](https://docs.astral.sh/uv/) is a fast Python package manager that replaces pip and conda:
+# Installation
 
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# Prerequisites: uv and swig
+curl -LsSf https://astral.sh/uv/install.sh | sh  # install uv
+brew install swig  # macOS (or: apt-get install -y swig for Linux)
+
+# Install SLM Lab
+git clone https://github.com/kengz/SLM-Lab.git && cd SLM-Lab
+uv sync
+uv tool install --editable .
+
+# Verify
+slm-lab --help
 ```
 
-After installation, restart your terminal or run `source ~/.bashrc` (or `~/.zshrc`).
-
 {% hint style="warning" %}
-**Windows users:** SLM Lab is developed and tested on macOS/Linux. For Windows, use [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install) (Windows Subsystem for Linux) and follow the Linux instructions.
+**Windows users:** Use [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install) and follow Linux instructions.
 {% endhint %}
 
-### Install System Dependencies
+---
+
+## Details
+
+### uv Package Manager
+
+[uv](https://docs.astral.sh/uv/) is a fast Python package manager that handles Python installation automatically (requires Python 3.10+).
+
+After installing uv, restart your terminal or run `source ~/.bashrc` (or `~/.zshrc`).
+
+### System Dependencies
 
 **swig** is required for Box2D environments (LunarLander, BipedalWalker):
 
@@ -35,27 +43,6 @@ sudo apt-get install -y swig
 {% hint style="info" %}
 You can skip swig if you only plan to use CartPole, Atari, or MuJoCo environments. It's only needed for Box2D physics simulation.
 {% endhint %}
-
-## Installing SLM Lab 📦
-
-### Standard Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/kengz/SLM-Lab.git
-cd SLM-Lab
-
-# Install Python dependencies
-uv sync
-
-# Install the CLI tool globally
-uv tool install --editable .
-
-# Verify installation
-slm-lab --help
-```
-
-You should see the help menu with available commands.
 
 {% hint style="warning" %}
 **PATH issues:** If `slm-lab` is not found, either:
@@ -97,7 +84,7 @@ python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
 
 For specific CUDA versions, see [PyTorch installation guide](https://pytorch.org/get-started/locally/).
 
-## Alternative Installations 🐳
+## Alternative Installations
 
 ### Docker
 
@@ -123,7 +110,7 @@ Community member [@isacciobota](https://github.com/isacciobota) maintains Colab 
 [SLM Lab Colab notebook (2024)](https://github.com/isacciobota/SLMLab-x-GoogleColab)
 {% endhint %}
 
-## Book Readers 📖
+## Book Readers
 
 If you're following *Foundations of Deep Reinforcement Learning*, use the book-compatible version:
 
@@ -158,17 +145,6 @@ The algorithms and concepts are identical; only the tooling and environment APIs
 {% hint style="info" %}
 **No local GPU?** Use [Remote Training with dstack](../using-slm-lab/remote-training.md) to train on cloud GPUs. Fractional GPU sharing makes it cost-effective ($0.39/hr for L4).
 {% endhint %}
-
-## Verify Installation ✨
-
-Run the quick test:
-
-```bash
-# Should complete in ~30 seconds
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole dev
-```
-
-Press `Ctrl+C` after seeing rewards increase. If it works, proceed to [Quick Start](quick-start.md).
 
 ## Troubleshooting
 
