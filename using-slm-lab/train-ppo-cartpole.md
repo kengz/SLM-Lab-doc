@@ -1,26 +1,25 @@
-# Train: PPO on CartPole 🎓
+# Train: PPO on CartPole
 
-Now let's run a full training and save the results. This is your first "real" training run.
+Run a full training with saved results.
 
-## Running Full Training
+## Train vs Dev Mode
 
-We'll train PPO on CartPole—the same setup from Quick Start, but this time saving everything for later analysis.
+In Quick Start, we used `dev` mode for quick verification. Now we use `train` mode:
 
-The spec file is at [slm\_lab/spec/benchmark/ppo/ppo\_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json). To run a full training:
+| Mode | Sessions | Rendering | Saves Results |
+|------|----------|-----------|---------------|
+| `dev` | 1 | optional | no |
+| `train` | 4 (default) | disabled | yes |
+
+Train mode runs multiple sessions with different random seeds for statistical reliability, and disables rendering for faster training.
+
+## Run Training
 
 ```bash
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
 ```
 
-{% hint style="info" %}
-This is the same as running `slm-lab run` without arguments—PPO CartPole is the default.
-{% endhint %}
-
-This runs a `Trial` with 4 `Sessions` using different random seeds. The training completes in about 5-10 minutes. Watch the terminal for the `total_reward_ma` metric (100-episode moving average) climbing toward 500.
-
-{% hint style="success" %}
-PPO reliably solves CartPole when `total_reward_ma` reaches 450-500 (the maximum score).
-{% endhint %}
+This runs a Trial with 4 Sessions. Training completes in about 5-10 minutes. Watch `total_reward_ma` climb toward 500 (solved).
 
 **Training curves** (from benchmark run):
 
@@ -28,26 +27,26 @@ PPO reliably solves CartPole when `total_reward_ma` reaches 450-500 (the maximum
 
 ![PPO CartPole Moving Average](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
-When complete, all metrics, graphs, and data are saved to a timestamped folder like `data/ppo_cartpole_2026_01_30_221924/`. SLM Lab saves two model checkpoints:
+## Output Folder
 
-* **best**: The model with highest evaluation score during training
-* **final**: The model at the end of training
-
-Usually these are similar, but "best" is useful if performance dropped near the end.
-
-## What's in the Output Folder? 📁
+Results are saved to a timestamped folder:
 
 ```
 data/ppo_cartpole_2026_01_30_221924/
-├── ppo_cartpole_t0_spec.json              # Saved spec (for reproduction)
-├── ppo_cartpole_t0_trial_graph_*.png      # Training curves
-├── graph/                                  # Per-session graphs
-├── info/                                   # Metrics CSV files
-├── log/                                    # TensorBoard events
-└── model/                                  # PyTorch checkpoints
-    ├── ppo_cartpole_t0_s0_ckpt-best.pt
-    └── ppo_cartpole_t0_s0_ckpt-last.pt
+├── ppo_cartpole_spec.json                            # Original spec
+├── ppo_cartpole_t0_spec.json                         # Trial spec (for reproduction)
+├── ppo_cartpole_t0_trial_graph_*.png                 # Trial training curves
+├── ppo_cartpole_t0_trial_metrics_scalar.json         # Trial scalar metrics
+├── graph/                                            # Per-session graphs
+├── info/                                             # Metrics CSV files
+├── log/                                              # TensorBoard events
+└── model/                                            # PyTorch checkpoints
+    ├── ppo_cartpole_t0_s0_net_model.pt               # Session 0 final model
+    ├── ppo_cartpole_t0_s0_ckpt-best_net_model.pt     # Session 0 best model
+    └── ...                                           # (same for s1, s2, s3)
 ```
+
+**Best vs final checkpoints:** "best" is the highest evaluation score during training; "final" is at the end. Usually similar, but "best" helps if performance dropped near the end.
 
 See [Data Locations](../analyzing-results/analytics.md) for full details.
 
