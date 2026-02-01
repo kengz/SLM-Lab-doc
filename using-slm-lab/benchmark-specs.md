@@ -230,30 +230,86 @@ After a successful run:
 
 4. **Commit spec file** for reproducibility
 
-## Spec File Organization
+## Benchmark Spec Reference
 
-All benchmark specs are in [slm_lab/spec/benchmark/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark):
+All benchmark specs are in [slm_lab/spec/benchmark/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark), organized by algorithm.
 
-```
-slm_lab/spec/benchmark/
-├── reinforce/     # REINFORCE specs
-├── sarsa/         # SARSA specs
-├── dqn/           # DQN and DDQN+PER specs
-├── a2c/           # A2C specs
-├── ppo/           # PPO specs
-└── sac/           # SAC specs
-```
+### REINFORCE / SARSA
 
-## Algorithm Coverage
+Simple algorithms for learning fundamentals. CartPole only.
 
-Quick reference for which algorithms have benchmark specs:
+| Algorithm | Spec |
+|-----------|------|
+| REINFORCE | [reinforce_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/reinforce/reinforce_cartpole.json) |
+| SARSA | [sarsa_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sarsa/sarsa_cartpole.json) |
 
-| Environment | REINFORCE | SARSA | DQN | DDQN+PER | A2C | PPO | SAC |
-|-------------|-----------|-------|-----|----------|-----|-----|-----|
-| **Classic Control** | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| **Box2D** | — | — | ✓ | ✓ | ✓ | ✓ | ✓ |
-| **MuJoCo** | — | — | — | — | — | ✓ | ✓ |
-| **Atari** | — | — | — | — | ✓ | ✓ | — |
+### DQN Family
+
+Value-based algorithms for discrete action spaces.
+
+| Environment | DQN | DDQN+PER |
+|-------------|-----|----------|
+| CartPole | [dqn_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_cartpole.json) | — |
+| Acrobot | [dqn_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_acrobot.json) | [ddqn_per_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_acrobot.json) |
+| LunarLander | [dqn_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_lunar.json) | [ddqn_per_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json) |
+
+### A2C
+
+On-policy actor-critic with synchronized updates.
+
+| Environment | Spec |
+|-------------|------|
+| CartPole | [a2c_gae_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_cartpole.json) |
+| Acrobot | [a2c_gae_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_acrobot.json) |
+| Pendulum | [a2c_gae_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_pendulum.json) |
+| LunarLander | [a2c_gae_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_lunar.json) |
+| BipedalWalker | [a2c_gae_bipedalwalker.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_bipedalwalker.json) |
+| MuJoCo | [a2c_gae_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_mujoco.json) (template) |
+| Atari | [a2c_gae_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_atari.json) (template) |
+
+### PPO
+
+Proximal Policy Optimization—robust across all environment types.
+
+| Environment | Spec |
+|-------------|------|
+| CartPole | [ppo_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json) |
+| Acrobot | [ppo_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_acrobot.json) |
+| Pendulum | [ppo_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_pendulum.json) |
+| LunarLander | [ppo_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_lunar.json) |
+| BipedalWalker | [ppo_bipedalwalker.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_bipedalwalker.json) |
+| MuJoCo | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) (template) |
+| Atari | [ppo_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json) (template) |
+
+### SAC
+
+Soft Actor-Critic—best for continuous control.
+
+| Environment | Spec |
+|-------------|------|
+| CartPole | [sac_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_cartpole.json) |
+| Acrobot | [sac_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_acrobot.json) |
+| Pendulum | [sac_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_pendulum.json) |
+| LunarLander | [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) |
+| BipedalWalker | [sac_bipedalwalker.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_bipedalwalker.json) |
+| HalfCheetah | [sac_halfcheetah.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_halfcheetah.json) |
+| Hopper | [sac_hopper.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_hopper.json) |
+
+### A3C (Async)
+
+Asynchronous Advantage Actor-Critic using Hogwild!. See [Async Training](async-training-a3c-hogwild.md).
+
+| Environment | Spec |
+|-------------|------|
+| Pong | [a3c_gae_pong.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a3c/a3c_gae_pong.json) |
+
+### Async SAC
+
+SAC with Hogwild! for parallel training. See [Async Training](async-training-a3c-hogwild.md).
+
+| Environment | Spec |
+|-------------|------|
+| MuJoCo | [async_sac_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/async_sac/async_sac_mujoco.json) (template) |
 
 ## Performance Results
 
