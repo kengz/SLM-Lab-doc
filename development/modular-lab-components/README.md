@@ -71,10 +71,10 @@ Types:
 Consider how algorithms are related:
 
 ```
-ActorCritic (base actor-critic)
- ├── A2C (adds n-step returns)
- ├── PPO (adds clipped objective)
- └── SAC (adds entropy regularization)
+Reinforce (policy gradient base)
+ └── ActorCritic (adds value function, GAE/n-step)
+      ├── PPO (adds clipped objective)
+      └── SAC (adds entropy regularization)
 ```
 
 PPO inherits from ActorCritic and only overrides:

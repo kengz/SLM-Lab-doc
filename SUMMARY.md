@@ -25,9 +25,9 @@
 
 * [📁 Data Locations](analyzing-results/analytics.md)
 * [📊 Graphs and Data](analyzing-results/session-graph.md)
-* [📉 TensorBoard](using-slm-lab/tensorboard-visualizing-models-and-actions.md)
+* [📉 TensorBoard](analyzing-results/tensorboard-visualizing-models-and-actions.md)
 * [🎯 Performance Metrics](analyzing-results/performance-metrics.md)
-* [🔬 Post-Hoc Analysis](using-slm-lab/post-hoc-analysis.md)
+* [🔬 Post-Hoc Analysis](analyzing-results/post-hoc-analysis.md)
 
 ## 🥇 Benchmark Results
 
@@ -57,7 +57,7 @@
   * [🖼️ CNN](development/neural-networks/cnn.md)
   * [🔁 RNN](development/neural-networks/rnn.md)
 * [⏱️ Profiling SLM Lab](development/profiling-slm-lab.md)
-* [🔌 Using SLM Lab In Your Project](using-slm-lab/using-slm-lab-in-your-project.md)
+* [🔌 Using SLM Lab In Your Project](development/using-slm-lab-in-your-project.md)
 
 ## 📖 Publications and Talks
 

@@ -15,15 +15,14 @@ Algorithm classes implement RL algorithms: network architecture, action selectio
 ```
 Algorithm (base class)
  ├── SARSA (tabular-like Q-learning)
- │    └── VanillaDQN → DQN → DoubleDQN
- ├── Reinforce (policy gradient)
- └── ActorCritic (actor + critic)
-      ├── A2C (adds value loss coefficient)
-      ├── PPO (adds clipped objective)
-      └── SAC (adds entropy regularization)
+ │    └── VanillaDQN → DQNBase → DQN → DoubleDQN
+ └── Reinforce (policy gradient)
+      └── ActorCritic (adds value function, GAE/n-step)
+           ├── PPO (adds clipped objective)
+           └── SoftActorCritic (adds entropy regularization)
 ```
 
-Each level adds only its distinguishing features. For example, PPO inherits everything from ActorCritic and only overrides the policy loss calculation.
+Each level adds only its distinguishing features. For example, PPO inherits everything from ActorCritic and only overrides the policy loss calculation. Note: ActorCritic **is** A2C—there's no separate A2C class.
 
 See [Class Inheritance: A2C > PPO](../modular-lab-components/class-inheritance-a2c-greater-than-ppo.md) for a detailed example.
 

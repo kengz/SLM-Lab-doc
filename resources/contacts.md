@@ -6,16 +6,15 @@ For questions about using SLM Lab:
 
 - **GitHub Issues**: [Report bugs or request features](https://github.com/kengz/SLM-Lab/issues)
 - **GitHub Discussions**: [Ask questions, share ideas](https://github.com/kengz/SLM-Lab/discussions)
-- **Gitter Chat**: [Real-time discussion](https://gitter.im/SLM-Lab/SLM-Lab)
 
 ## Authors
 
 SLM Lab is developed by:
 
-- **Wah Loon Keng** - [@kengzwl](https://twitter.com/kengzwl)
+- **Wah Loon Keng** - [GitHub](https://github.com/kengz)
 - **Laura Graesser**
 
-For research collaborations, teaching applications, or commercial inquiries, contact the authors directly.
+For research collaborations, teaching applications, or commercial inquiries, contact the authors via GitHub.
 
 ## Book
 

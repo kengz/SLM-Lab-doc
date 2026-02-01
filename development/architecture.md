@@ -48,22 +48,23 @@ Implements the RL algorithm: network architecture, action selection, and gradien
 ```
 Algorithm (base)
  ├── SARSA
- ├── Reinforce
- ├── VanillaDQN → DQN → DoubleDQN
- └── ActorCritic
-      ├── A2C
-      ├── PPO
-      └── SAC (SoftActorCritic)
+ │    └── VanillaDQN → DQNBase → DQN → DoubleDQN
+ └── Reinforce
+      └── ActorCritic (A2C)
+           ├── PPO
+           └── SoftActorCritic (SAC)
 ```
 
 Each algorithm extends its parent, adding only the differences:
 
 | Algorithm | Parent | Key Difference |
 |-----------|--------|----------------|
-| DQN | VanillaDQN | Adds target network |
+| VanillaDQN | SARSA | Neural network Q-function |
+| DQNBase | VanillaDQN | Adds target network infrastructure |
+| DQN | DQNBase | Periodic target updates |
 | DoubleDQN | DQN | Uses online network for action selection |
-| A2C | ActorCritic | Adds value loss coefficient |
-| PPO | ActorCritic | Adds clipped surrogate objective |
+| ActorCritic | Reinforce | Adds value function (critic), supports GAE and n-step |
+| PPO | ActorCritic | Adds clipped surrogate objective, minibatch training |
 | SAC | ActorCritic | Adds entropy regularization, twin Q-networks |
 
 See [Class Inheritance: A2C > PPO](modular-lab-components/class-inheritance-a2c-greater-than-ppo.md) for a deep dive.

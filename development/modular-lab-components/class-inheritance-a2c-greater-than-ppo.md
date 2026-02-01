@@ -74,12 +74,11 @@ class PPO(ActorCritic):
 ```
 Algorithm (base class)
  ├── SARSA
- │    └── VanillaDQN → DQN → DoubleDQN
- ├── Reinforce
- └── ActorCritic
-      ├── A2C (adds n-step returns)
-      ├── PPO (adds clipped objective)
-      └── SAC (adds entropy regularization)
+ │    └── VanillaDQN → DQNBase → DQN → DoubleDQN
+ └── Reinforce
+      └── ActorCritic (A2C with GAE/n-step)
+           ├── PPO (adds clipped objective)
+           └── SoftActorCritic (adds entropy regularization)
 ```
 
 Each level adds only its distinguishing features, making the codebase:
