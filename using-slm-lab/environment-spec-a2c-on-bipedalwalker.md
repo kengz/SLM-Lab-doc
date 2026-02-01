@@ -117,50 +117,72 @@ PPO achieves **5852** MA on HalfCheetah-v5 with this configuration.
 
 Trained models available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_halfcheetah_2026_01_30_230302).
 
-## Other MuJoCo Environments
+## All MuJoCo Environments
 
-The same spec works for other MuJoCo tasks:
+The template spec works for all 11 MuJoCo environments via variable substitution:
 
-```bash
-# Simple locomotion
-slm-lab run -s env=Walker2d-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+| Environment | Command | Frames |
+|-------------|---------|--------|
+| Hopper | `slm-lab run -s env=Hopper-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train` | 4M |
+| Walker2d | `slm-lab run -s env=Walker2d-v5 -s max_frame=4e6 ... train` | 4M |
+| HalfCheetah | `slm-lab run -s env=HalfCheetah-v5 -s max_frame=4e6 ... train` | 4M |
+| Ant | `slm-lab run -s env=Ant-v5 -s max_frame=10e6 ... train` | 10M |
+| Humanoid | `slm-lab run -s env=Humanoid-v5 -s max_frame=10e6 ... train` | 10M |
+| Swimmer | `slm-lab run -s env=Swimmer-v5 -s max_frame=4e6 ... train` | 4M |
+| Reacher | `slm-lab run -s env=Reacher-v5 -s max_frame=2e6 ... train` | 2M |
+| Pusher | `slm-lab run -s env=Pusher-v5 -s max_frame=4e6 ... train` | 4M |
+| InvertedPendulum | `slm-lab run -s env=InvertedPendulum-v5 -s max_frame=1e6 ... train` | 1M |
+| InvertedDoublePendulum | `slm-lab run -s env=InvertedDoublePendulum-v5 -s max_frame=2e6 ... train` | 2M |
+| HumanoidStandup | `slm-lab run -s env=HumanoidStandup-v5 -s max_frame=10e6 ... train` | 10M |
 
-# Complex locomotion (needs more frames)
-slm-lab run -s env=Humanoid-v5 -s max_frame=10e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
-```
+See [Continuous Benchmark](../benchmark-results/continuous-benchmark.md) for performance results.
 
-See [Continuous Benchmark](../benchmark-results/continuous-benchmark.md) for results across all 11 MuJoCo environments.
+## Environment Spec Reference
 
-## Env Spec for Other Environment Types
+All benchmark specs are in [slm_lab/spec/benchmark/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark). Here's what's available by environment category:
 
-### Atari (Discrete, Image-Based)
+### Classic Control
 
-```javascript
-"env": {
-  "name": "ALE/Pong-v5",
-  "num_envs": 16,
-  "max_frame": 1e7,
-  "life_loss_info": true  // Continue after life loss
-}
-```
+Simple environments for algorithm validation.
 
-Gymnasium's ALE wrapper handles frame preprocessing automatically (grayscale, 84x84 resize, frame stacking).
+| Environment | Spec Files |
+|-------------|------------|
+| CartPole | [ppo_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json), [dqn_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_cartpole.json), [a2c_gae_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_cartpole.json), [sac_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_cartpole.json), [reinforce_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/reinforce/reinforce_cartpole.json), [sarsa_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sarsa/sarsa_cartpole.json) |
+| Acrobot | [ppo_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_acrobot.json), [dqn_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_acrobot.json), [ddqn_per_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_acrobot.json), [a2c_gae_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_acrobot.json), [sac_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_acrobot.json) |
+| Pendulum | [ppo_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_pendulum.json), [a2c_gae_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_pendulum.json), [sac_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_pendulum.json) |
+
+### Box2D
+
+2D physics environments with more complex dynamics.
+
+| Environment | Spec Files |
+|-------------|------------|
+| LunarLander | [ppo_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_lunar.json), [dqn_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_lunar.json), [ddqn_per_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json), [a2c_gae_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_lunar.json), [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) |
+| BipedalWalker | [ppo_bipedalwalker.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_bipedalwalker.json), [a2c_gae_bipedalwalker.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_bipedalwalker.json), [sac_bipedalwalker.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_bipedalwalker.json) |
+
+### MuJoCo (Template Specs)
+
+Use variable substitution (`-s env=...`) with these templates:
+
+| Spec | Algorithm | Usage |
+|------|-----------|-------|
+| [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | PPO | `-s env=Hopper-v5 -s max_frame=4e6` |
+| [a2c_gae_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_mujoco.json) | A2C | `-s env=HalfCheetah-v5 -s max_frame=4e6` |
+
+### Atari (Template Specs)
+
+Use variable substitution (`-s env=...`) with these templates:
+
+| Spec | Algorithm | Usage |
+|------|-----------|-------|
+| [ppo_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json) | PPO | `-s env=ALE/Breakout-v5` |
+| [a2c_gae_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_atari.json) | A2C | `-s env=ALE/Pong-v5` |
 
 {% hint style="warning" %}
 **Atari requires GPU** for reasonable training speed due to the ConvNet. See [GPU Training](gpu-usage-ppo-on-pong.md).
 {% endhint %}
 
-### Classic Control (Discrete, Vector)
-
-```javascript
-"env": {
-  "name": "CartPole-v1",
-  "num_envs": 4,
-  "max_frame": 200000
-}
-```
-
-Simple environments need fewer parallel envs and frames.
+See [Discrete Benchmark](../benchmark-results/discrete-benchmark.md) and [Atari Benchmark](../benchmark-results/atari-benchmark.md) for performance results.
 
 ## Advanced Env Options
 
