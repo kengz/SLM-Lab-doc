@@ -96,7 +96,7 @@ The trial spec (`ppo_cartpole_t0_spec.json`) includes the git SHA for exact repr
 To reproduce:
 
 ```bash
-git checkout <git-sha>
+git checkout a1b2c3d
 slm-lab run data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json ppo_cartpole train
 ```
 
