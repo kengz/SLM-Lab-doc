@@ -18,15 +18,21 @@ brew install swig        # macOS
 ## Install SLM Lab
 
 ```bash
-git clone https://github.com/kengz/SLM-Lab.git && cd SLM-Lab
+# Clone
+git clone https://github.com/kengz/SLM-Lab.git
+cd SLM-Lab
+
+# Install
 uv sync
 uv tool install --editable .
-slm-lab --help
-```
 
-{% hint style="info" %}
-If `slm-lab` not found: restart terminal, add `~/.local/bin` to PATH, or use `uv run slm-lab`.
-{% endhint %}
+# Verify
+slm-lab --help                                 # list all commands
+slm-lab run --help                             # options for run command
+
+# Troubleshoot: if slm-lab not found, use uv run
+uv run slm-lab --help
+```
 
 ### Minimal Install (Orchestration Only)
 
