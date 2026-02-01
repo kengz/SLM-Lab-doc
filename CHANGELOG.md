@@ -95,6 +95,11 @@ In v4, algorithms had to guess whether `done=True` meant a real ending or just a
 * dstack integration for cloud GPU training
 * HuggingFace integration for experiment storage and sharing
 
+**Fresh benchmarks:**
+* All benchmarks rerun on Gymnasium v5 environments (Classic Control, Box2D, MuJoCo, Atari)
+* Trained models and results available on [HuggingFace](https://huggingface.co/SLM-Lab)
+* See [Benchmark Results](benchmark-results/public-benchmark-data.md) for scores, graphs, and download links
+
 ### Deprecations
 
 * **Roboschool** → Use Gymnasium MuJoCo (`Hopper-v5`, `HalfCheetah-v5`, etc.)
