@@ -105,6 +105,10 @@ Key points:
 Gymnasium's ALE environments (v5) include standard Atari preprocessing. Frame stacking, grayscale conversion, and other preprocessing are handled by the environment wrapper.
 {% endhint %}
 
+{% hint style="success" %}
+**Gymnasium API:** SLM Lab v5 uses Gymnasium's new `(obs, reward, terminated, truncated, info)` return format. This correctly distinguishes between task completion (terminated) and time limits (truncated)—important for proper value estimation in MuJoCo environments.
+{% endhint %}
+
 ## Running A2C on Pong
 
 Run in **dev** mode to see the 16 parallel environments rendering:

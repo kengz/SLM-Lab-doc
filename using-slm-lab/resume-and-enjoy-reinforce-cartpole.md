@@ -31,8 +31,31 @@ The run picks up exactly where it left off.
 
 Enjoy mode replays a trained model. It loads the best checkpoint and runs with rendering enabled.
 
+### Quick Replay (Latest Run)
+
+The easiest way to replay your most recent training:
+
+```bash
+slm-lab run _ _ enjoy@latest
+```
+
+This automatically finds the most recent run folder and replays it.
+
+### Replay Specific Run
+
+For a specific run, use the spec file path:
+
 ```bash
 slm-lab run _ _ enjoy@data/ppo_cartpole_2024_01_15_123456/ppo_cartpole_t0_spec.json
+```
+
+### Glob Patterns
+
+Use `*` to match any characters (no need to type full timestamps):
+
+```bash
+# Match any ppo_cartpole run
+slm-lab run _ _ enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
 ```
 
 {% hint style="info" %}
@@ -48,5 +71,24 @@ This creates a new Session that:
 The trained PPO agent should immediately balance the CartPole, with `total_reward_ma` starting near 500:
 
 ![](<../.gitbook/assets/cartpole enjoy.png>)
+
+## Replaying Published Benchmarks
+
+You can download and replay trained agents from [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark):
+
+```bash
+# List available experiments
+slm-lab list
+
+# Download trained model
+slm-lab pull ppo_cartpole
+
+# Replay
+slm-lab run _ _ enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
+```
+
+{% hint style="success" %}
+**All benchmark results are public.** Download any trained agent to see it in action or analyze its behavior. See [Public Benchmark Data](../benchmark-results/public-benchmark-data.md) for the full list.
+{% endhint %}
 
 Next, we'll dive into configuring the agent spec.

@@ -23,10 +23,13 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar train
 # Hyperparameter search
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari search
 
-# Resume training
+# Resume training from latest run
 slm-lab run spec.json spec_name train@latest
 
-# Replay trained model
+# Replay trained model (latest)
+slm-lab run _ _ enjoy@latest
+
+# Replay specific model (glob pattern: * matches any characters)
 slm-lab run _ _ enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
 
 # Remote training
@@ -38,6 +41,10 @@ slm-lab pull ppo_cartpole
 # List available experiments
 slm-lab list
 ```
+
+{% hint style="info" %}
+**Glob patterns:** The `*` in paths like `data/ppo_cartpole_*` matches any characters. This lets you reference experiments without typing the full timestamp. The CLI finds the matching folder automatically.
+{% endhint %}
 
 ## Commands
 
@@ -193,6 +200,21 @@ slm-lab run -s env=Hopper-v5 -s max_frame=2e6 slm_lab/spec/benchmark/ppo/ppo_muj
   }
 }
 ```
+
+### Supported Fields
+
+Variable substitution works with any spec field:
+
+| Common Use | Example |
+|------------|---------|
+| Environment name | `${env}` → `Hopper-v5` |
+| Training budget | `${max_frame}` → `1e7` |
+| Learning rate | `${lr}` → `3e-4` |
+| Hyperparameters | `${gamma}`, `${lam}`, etc. |
+
+{% hint style="info" %}
+**Type handling:** Numeric values (including scientific notation like `1e7`) are automatically converted. String values are used as-is.
+{% endhint %}
 
 ## Common Workflows
 
