@@ -80,7 +80,7 @@ This reveals relationships between hyperparameters and performance—useful for 
 
 The experiment data is also saved as `experiment_df.csv`:
 
-![](<../.gitbook/assets/experiment df.png>)
+![](../.gitbook/assets/experiment_df.png)
 
 Key features:
 - **Sorted best-first**: Top row is the best configuration
@@ -124,14 +124,13 @@ Open the HTML files in any browser for interactive exploration.
 
 ## Advanced: Additional Graphs
 
-The `graph/` folder also contains:
+The `graph/` folder also contains training diagnostic graphs:
 
 | Graph | What It Shows |
 |-------|---------------|
-| `*_loss_*.png` | Training loss over time |
-| `*_lr_*.png` | Learning rate schedule |
-| `*_explore_var_*.png` | Exploration parameter (epsilon, entropy) |
-| `*_fps_*.png` | Training speed |
+| `*_session_graph_*_loss_vs_frame.png` | Training loss over time |
+| `*_session_graph_*_entropy_vs_frame.png` | Policy entropy (exploration) |
+| `*_session_graph_*_explore_var_vs_frame.png` | Exploration parameter (if applicable) |
 
 These are useful for debugging training issues.
 

@@ -16,7 +16,7 @@ For a comprehensive, continuously updated collection:
 
 2. **Sutton and Barto**, [Reinforcement Learning: An Introduction](https://www.amazon.com/dp/0262039249)
    - The classic RL textbook; comprehensive theory
-   - [Free online version](http://incompleteideas.net/book/the-book-2nd.html)
+   - [Free online version](https://incompleteideas.net/book/the-book-2nd.html)
 
 3. **Francois-Lavet et al.**, [An Introduction to Deep Reinforcement Learning](https://www.amazon.com/dp/1680835386)
    - More technical; good for researchers
@@ -34,7 +34,7 @@ For a comprehensive, continuously updated collection:
 ## Tutorials
 
 **Getting started:**
-- [Andrew Karpathy: Pong from Pixels](http://karpathy.github.io/2016/05/31/rl/) - Classic intro, policy gradients from scratch
+- [Andrew Karpathy: Pong from Pixels](https://karpathy.github.io/2016/05/31/rl/) - Classic intro, policy gradients from scratch
 - [OpenAI Spinning Up](https://spinningup.openai.com/) - Excellent intro with clean implementations
 
 **Code-focused:**

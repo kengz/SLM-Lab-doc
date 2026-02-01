@@ -39,8 +39,8 @@ You can search any spec field using dot notation. Common hyperparameters:
 | Discount factor | `agent.algorithm.gamma` | 0.9-0.999 | High |
 | GAE lambda | `agent.algorithm.lam` | 0.7-0.99 | High |
 | Learning rate | `agent.net.optim_spec.lr` | 1e-5 to 1e-3 | High |
-| Entropy coefficient | `agent.algorithm.entropy_coef` | 0.001-0.1 | Medium |
-| Clip epsilon (PPO) | `agent.algorithm.clip_eps` | 0.1-0.3 | Medium |
+| Entropy coefficient | `agent.algorithm.entropy_coef_spec.start_val` | 0.001-0.1 | Medium |
+| Clip epsilon (PPO) | `agent.algorithm.clip_eps_spec.start_val` | 0.1-0.3 | Medium |
 | Time horizon | `agent.algorithm.time_horizon` | 64-2048 | Medium |
 | Minibatch size | `agent.algorithm.minibatch_size` | 32-512 | Low |
 | Training epochs | `agent.algorithm.training_epoch` | 3-10 | Low |
@@ -65,7 +65,10 @@ You can search any spec field using dot notation. Common hyperparameters:
 | `loguniform` | `[low, high]` | Log-uniform distribution | Learning rates, small values |
 | `choice` | `[v1, v2, ...]` | Sample from list | Discrete options, architectures |
 | `randint` | `[low, high]` | Random integer | Batch sizes, layer counts |
-| `grid_search` | `[v1, v2, ...]` | Exhaustive grid | Small grids only |
+
+{% hint style="warning" %}
+**Note:** `grid_search` is not supported with Optuna. Use `choice` instead for exhaustive enumeration.
+{% endhint %}
 
 ### Examples
 
@@ -284,8 +287,8 @@ Different algorithms have different sensitive hyperparameters:
 | Algorithm | High-Impact Parameters | Typical Search |
 |-----------|------------------------|----------------|
 | **DQN/DDQN** | `lr`, `gamma`, `explore_var_spec.end_step` | Learning rate and exploration schedule |
-| **A2C** | `lr`, `gamma`, `lam`, `entropy_coef` | GAE parameters and entropy |
-| **PPO** | `lr`, `gamma`, `lam`, `clip_eps` | GAE parameters and clipping |
+| **A2C** | `lr`, `gamma`, `lam`, `entropy_coef_spec.start_val` | GAE parameters and entropy |
+| **PPO** | `lr`, `gamma`, `lam`, `clip_eps_spec.start_val` | GAE parameters and clipping |
 | **SAC** | `lr`, `gamma`, `alpha` (entropy) | Learning rate and entropy coefficient |
 
 ### Example Search Blocks by Algorithm

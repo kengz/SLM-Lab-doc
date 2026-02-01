@@ -223,7 +223,7 @@ You'll see the LunarLander environment rendering:
 **[LunarLander-v3](https://gymnasium.farama.org/environments/box2d/lunar_lander/)** is a classic control task: land a spacecraft safely between two flags using four discrete actions (left thruster, right thruster, main engine, or nothing). The agent receives reward for moving toward the landing pad and penalty for crashing or using fuel.
 
 {% hint style="info" %}
-**v5 Note:** LunarLander-v3 (Gymnasium) has stricter termination conditions than LunarLander-v2 (OpenAI Gym). Scores are typically lower than older benchmarks. See [Gymnasium docs](https://gymnasium.farama.org/environments/box2d/lunar_lander/) for details.
+**Gymnasium Note:** LunarLander-v3 (Gymnasium) has stricter termination conditions than LunarLander-v2 (OpenAI Gym). Scores are typically lower than older benchmarks. See [Gymnasium docs](https://gymnasium.farama.org/environments/box2d/lunar_lander/) for details.
 {% endhint %}
 
 ### Train Mode (Full Training)

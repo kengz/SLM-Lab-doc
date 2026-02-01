@@ -190,7 +190,7 @@ slm-lab run --profile spec.json spec_name train
 Or use cProfile directly:
 
 ```bash
-python -m cProfile -o output.prof -c "from slm_lab.main import main; main(['spec.json', 'spec_name', 'train'])"
+python -m cProfile -o output.prof -m slm_lab.cli run spec.json spec_name train
 
 # Visualize
 uv add snakeviz

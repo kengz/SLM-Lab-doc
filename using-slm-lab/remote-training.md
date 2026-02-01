@@ -125,7 +125,7 @@ With `gpu: 0.125`, **8 trials run in parallel** on a single GPU—ideal for ASHA
 
 ### Max Duration
 
-Runs have a 4-hour safeguard (`max_duration: 4h`) to prevent runaway costs. Edit `.dstack/*.yml` to adjust.
+Runs have safeguards to prevent runaway costs: CPU runs are limited to 4 hours, GPU runs to 6 hours. Edit `.dstack/*.yml` to adjust.
 
 ### Fleet Setup (dstack 0.20+)
 

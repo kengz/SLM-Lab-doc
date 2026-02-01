@@ -112,7 +112,7 @@ Configure algorithms in the agent spec:
 |-----------|-------------|----------------|
 | `lam` | GAE lambda (bias-variance tradeoff) | 0.95 (balanced), 0.99 (high variance), 0.7 (low variance) |
 | `entropy_coef_spec` | Entropy bonus for exploration | 0.01 (typical), 0.001 (less exploration) |
-| `val_loss_coef` | Value loss weight | 0.5 (typical) |
+| `val_loss_coef` | Value loss weight | 1.0 (default) |
 
 ### PPO-Specific Parameters
 

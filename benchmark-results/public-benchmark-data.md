@@ -56,7 +56,7 @@ Downloads to `data/ppo_hopper_*/` including:
 ### Replay a Trained Agent
 
 ```bash
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco enjoy@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json
 ```
 
 ### Browse on HuggingFace
@@ -65,7 +65,7 @@ Direct links to experiment folders (example):
 
 - [ppo_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_cartpole_2026_01_30_221924)
 - [ppo_hopper_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_hopper_2026_01_31_105438)
-- [ppo_atari_breakout_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_breakout_2026_01_07_110559)
+- [ppo_atari_lam70_breakout_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_breakout_2026_01_07_110559)
 
 See the benchmark pages for complete lists:
 - [Discrete Benchmark](discrete-benchmark.md) - Classic Control & Box2D

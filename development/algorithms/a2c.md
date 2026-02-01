@@ -71,7 +71,7 @@ See [slm_lab/spec/benchmark/a2c/](https://github.com/kengz/SLM-Lab/tree/master/s
   * `action_policy` string specifying which policy to use to act. "Categorical" (for discrete action spaces), "Normal" (for continuous actions spaces with one dimension), or "default" to automatically switch between the two depending on the environment.
   * `gamma` [_general param_](./)
   * `lam` $$\in [0,1]$$ GAE lambda parameter. If set, uses Generalized Advantage Estimation. Trade-off between bias and variance: 0 = low variance/high bias, 1 = high variance/low bias. Typical value: 0.95-0.97.
-  * `num_step_returns` if set (and `lam` is not), uses n-step returns instead of GAE. Number of forward steps for advantage estimation.
+  * `num_step_returns` if set (and `lam` is not), uses n-step returns instead of GAE. Number of forward steps for advantage estimation. **Note:** When using n-step returns, `training_frequency` is automatically set to `num_step_returns`.
   * `entropy_coef_spec` schedule for entropy coefficient added to the loss to encourage exploration. Example: `{"name": "no_decay", "start_val": 0.01, "end_val": 0.01, "start_step": 0, "end_step": 0}`
   * `training_frequency` when using episodic data storage (memory) such as "OnPolicyReplay", this means how many episodes of data to collect before each training iteration - a common value is 1; or when using batch data storage (memory) such as "OnPolicyBatchReplay", how often to train the algorithm. Value of 32 means train every 32 steps the agent takes in the environment using the 32 examples since the agent was previously trained.
 * `memory`

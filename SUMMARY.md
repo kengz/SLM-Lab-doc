@@ -10,7 +10,7 @@
 ## 🚀 Using SLM Lab
 
 * [▶️ Train: PPO on CartPole](using-slm-lab/train-ppo-cartpole.md)
-* [🔄 Resume and Replay](using-slm-lab/resume-and-enjoy-reinforce-cartpole.md)
+* [🔄 Resume and Replay](using-slm-lab/resume-and-replay.md)
 * [🎓 Core Concepts](using-slm-lab/lab-organization.md)
 * [🤖 Agent Spec](using-slm-lab/agent-spec-ddqn+per-on-lunarlander.md)
 * [🌍 Env Spec](using-slm-lab/environment-spec-a2c-on-bipedalwalker.md)

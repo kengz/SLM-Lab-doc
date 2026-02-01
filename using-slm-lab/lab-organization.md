@@ -14,7 +14,7 @@ SLM Lab organizes training into three levels:
 
 **Why multiple seeds?** Deep RL results can vary significantly between runs due to random initialization, environment stochasticity, and exploration noise. Running 4 sessions with different random seeds gives you a reliable average rather than a lucky (or unlucky) single result.
 
-![The graphs for Session, Trial, and Experiment.](<../.gitbook/assets/lab org.png>)
+![The graphs for Session, Trial, and Experiment.](../.gitbook/assets/lab_org.png)
 
 ### Mapping to Lab Modes
 

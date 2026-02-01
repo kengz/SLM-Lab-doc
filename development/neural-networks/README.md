@@ -13,6 +13,7 @@ Net classes implement neural network architectures used as function approximator
 | [**MLPNet**](mlp.md) | Vectors | Low-dimensional states | CartPole, LunarLander, MuJoCo |
 | [**ConvNet**](cnn.md) | Images | Pixel observations | Atari games |
 | [**RecurrentNet**](rnn.md) | Sequences | Partial observability | POMDPs |
+| **HydraMLPNet** | Multiple vectors | Multi-head architectures | Multi-task learning |
 | **DuelingMLPNet** | Vectors | Q-learning | LunarLander (value decomposition) |
 | **DuelingConvNet** | Images | Q-learning | Atari (value decomposition) |
 
@@ -86,11 +87,12 @@ Configure networks in the agent spec:
 | `loss_spec` | Loss function | `{"name": "MSELoss"}`, `{"name": "SmoothL1Loss"}` |
 | `lr_scheduler_spec` | Learning rate schedule | See below |
 
-### ConvNet Preprocessing
+### ConvNet Parameters
 
-| Parameter | Description | Typical Values |
-|-----------|-------------|----------------|
-| `normalize` | Normalize pixel input by dividing by 255 | `true` |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `normalize` | Normalize pixel input by dividing by 255 | `false` |
+| `batch_norm` | Apply batch normalization after conv layers | `true` (ConvNet), `false` (DuelingConvNet) |
 
 ### Device
 

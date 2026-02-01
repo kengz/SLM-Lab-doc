@@ -27,7 +27,13 @@ The environment is specified using the **env** key in a spec file:
       "normalize_obs": bool,
 
       // Optional: Online reward normalization (recommended for MuJoCo)
-      "normalize_reward": bool
+      "normalize_reward": bool,
+
+      // Optional: Clip observations to [-bound, bound] (default: 10.0 if normalize_obs)
+      "clip_obs": float,
+
+      // Optional: Clip rewards to [-bound, bound] (default: 10.0 if normalize_reward)
+      "clip_reward": float
     },
     ...
   }

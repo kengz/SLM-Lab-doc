@@ -2,7 +2,7 @@
 
 SLM Lab is the companion software library of the book [Foundations of Deep Reinforcement Learning](https://www.amazon.com/dp/0135172381) by Laura Graesser and Wah Loon Keng.
 
-![](<../.gitbook/assets/book cover outline.png>)
+![](../.gitbook/assets/book_cover_outline.png)
 
 **Book website and errata:** [https://slm-lab.gitbook.io/foundations-of-deep-rl](https://slm-lab.gitbook.io/foundations-of-deep-rl/)
 

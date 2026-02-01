@@ -69,12 +69,12 @@ Two unified specs in [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/mas
 | [Walker2d-v5](https://gymnasium.farama.org/environments/mujoco/walker2d/) | Box(17) | Box(6) | 10e6 | ppo_mujoco.json | ppo_mujoco |
 | [Ant-v5](https://gymnasium.farama.org/environments/mujoco/ant/) | Box(105) | Box(8) | 10e6 | ppo_ant.json | ppo_ant |
 | [Swimmer-v5](https://gymnasium.farama.org/environments/mujoco/swimmer/) | Box(8) | Box(2) | 4e6 | ppo_swimmer.json | ppo_swimmer |
-| [Reacher-v5](https://gymnasium.farama.org/environments/mujoco/reacher/) | Box(11) | Box(2) | 4e6 | ppo_mujoco.json | ppo_mujoco_longhorizon |
+| [Reacher-v5](https://gymnasium.farama.org/environments/mujoco/reacher/) | Box(10) | Box(2) | 4e6 | ppo_mujoco.json | ppo_mujoco_longhorizon |
 | [Pusher-v5](https://gymnasium.farama.org/environments/mujoco/pusher/) | Box(23) | Box(7) | 4e6 | ppo_mujoco.json | ppo_mujoco_longhorizon |
 | [InvertedPendulum-v5](https://gymnasium.farama.org/environments/mujoco/inverted_pendulum/) | Box(4) | Box(1) | 4e6 | ppo_inverted_pendulum.json | ppo_inverted_pendulum |
-| [InvertedDoublePendulum-v5](https://gymnasium.farama.org/environments/mujoco/inverted_double_pendulum/) | Box(11) | Box(1) | 10e6 | ppo_inverted_double_pendulum.json | ppo_inverted_double_pendulum |
-| [Humanoid-v5](https://gymnasium.farama.org/environments/mujoco/humanoid/) | Box(376) | Box(17) | 10e6 | ppo_mujoco.json | ppo_mujoco |
-| [HumanoidStandup-v5](https://gymnasium.farama.org/environments/mujoco/humanoid_standup/) | Box(376) | Box(17) | 4e6 | ppo_mujoco.json | ppo_mujoco |
+| [InvertedDoublePendulum-v5](https://gymnasium.farama.org/environments/mujoco/inverted_double_pendulum/) | Box(9) | Box(1) | 10e6 | ppo_inverted_double_pendulum.json | ppo_inverted_double_pendulum |
+| [Humanoid-v5](https://gymnasium.farama.org/environments/mujoco/humanoid/) | Box(348) | Box(17) | 10e6 | ppo_mujoco.json | ppo_mujoco |
+| [HumanoidStandup-v5](https://gymnasium.farama.org/environments/mujoco/humanoid_standup/) | Box(348) | Box(17) | 4e6 | ppo_mujoco.json | ppo_mujoco |
 
 ### Results
 

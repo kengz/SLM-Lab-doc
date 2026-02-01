@@ -81,12 +81,12 @@ A3C ([Mnih et al., 2016](https://arxiv.org/abs/1602.01783)) uses `"synced"` mode
     },
     "env": {
       "name": "ALE/Pong-v5",
-      "num_envs": 4,
-      "max_frame": 5e5
+      "num_envs": 8,
+      "max_frame": 1e7
     },
     "meta": {
       "distributed": "synced",
-      "max_session": 4
+      "max_session": 16
     }
   }
 }

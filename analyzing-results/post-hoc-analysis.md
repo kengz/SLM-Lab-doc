@@ -79,7 +79,6 @@ For papers or presentations, you may want higher-resolution or different formats
 
 ```python
 from slm_lab.experiment import retro_analysis
-from slm_lab.lib import viz
 
 # Regenerate with custom settings
 retro_analysis.retro_analyze('data/ppo_lunar_2026_01_30_221924')

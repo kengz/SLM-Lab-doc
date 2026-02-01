@@ -44,7 +44,7 @@ slm-lab run [OPTIONS] [SPEC_FILE] [SPEC_NAME] [MODE]
 |----------|---------|-------------|
 | `SPEC_FILE` | `slm_lab/spec/benchmark/ppo/ppo_cartpole.json` | JSON spec file path |
 | `SPEC_NAME` | `ppo_cartpole` | Spec name within the file |
-| `MODE` | `dev` | Execution mode: `dev`, `train`, `search`, `enjoy` |
+| `MODE` | `dev` | Execution mode: `dev`, `train`, `search`, `enjoy`, `eval` |
 
 ### Modes
 
@@ -54,6 +54,7 @@ slm-lab run [OPTIONS] [SPEC_FILE] [SPEC_NAME] [MODE]
 | `train` | 4 (configurable) | No | Yes | Full training runs |
 | `search` | 1 per trial | No | Yes | Hyperparameter search |
 | `enjoy@{path}` | 1 | Yes | No | Replay trained model |
+| `eval@{path}` | 1 | No | No | Evaluate model (no rendering) |
 | `train@{path}` | From checkpoint | No | Yes | Resume training |
 
 ### Options
@@ -109,6 +110,10 @@ Launch experiments on cloud GPUs via dstack with automatic HuggingFace upload.
 ```bash
 slm-lab run-remote [OPTIONS] SPEC_FILE SPEC_NAME [MODE]
 ```
+
+{% hint style="info" %}
+**Supported modes:** `run-remote` only supports `train` and `search` modes. Use local `run` for `dev`, `enjoy`, and `eval` modes.
+{% endhint %}
 
 ### Hardware Configuration
 

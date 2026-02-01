@@ -1,16 +1,25 @@
 # TensorBoard 📈
 
-[TensorBoard](https://www.tensorflow.org/tensorboard) provides real-time visualization of training metrics. SLM Lab automatically logs data for TensorBoard during training.
+[TensorBoard](https://www.tensorflow.org/tensorboard) provides real-time visualization of training metrics. SLM Lab logs data for TensorBoard in **dev mode** only (not train mode) to minimize overhead during full training runs.
 
 ## Quick Start
 
+TensorBoard event files are generated only in **dev mode**:
+
 ```bash
-# During or after training
+# Run in dev mode to enable TensorBoard logging
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole dev
+
+# Start TensorBoard
 uv run tensorboard --log_dir=data
 
 # Open in browser
 # http://localhost:6006
 ```
+
+{% hint style="info" %}
+**Train mode**: In train mode, SLM Lab generates CSV files and graphs instead of TensorBoard events to reduce overhead. Use the [generated graphs](session-graph.md) for analysis.
+{% endhint %}
 
 ## What's Logged
 

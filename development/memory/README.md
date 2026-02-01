@@ -135,8 +135,8 @@ batch = memory.sample()
 #     'rewards': tensor of shape (batch_size,),
 #     'next_states': tensor of shape (batch_size, *state_shape),
 #     'dones': tensor of shape (batch_size,),
-#     'terminated': tensor of shape (batch_size,),
-#     'truncated': tensor of shape (batch_size,),
+#     'terminateds': tensor of shape (batch_size,),
+#     'truncateds': tensor of shape (batch_size,),
 # }
 ```
 

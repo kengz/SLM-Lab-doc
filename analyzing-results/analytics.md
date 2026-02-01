@@ -52,9 +52,14 @@ Time series of metrics, one row per checkpoint:
 | `loss` | Training loss |
 | `fps` | Frames per second |
 | `wall_t` | Wall-clock time (seconds) |
+| `t` | Step counter |
 | `epi` | Episode count |
 | `opt_step` | Optimization steps |
 | `lr` | Current learning rate |
+| `entropy` | Policy entropy (policy gradient algorithms) |
+| `clip_eps` | PPO clipping epsilon (PPO only) |
+
+Note: Some columns are algorithm-specific (e.g., `clip_eps` only appears for PPO, `entropy` for policy gradient algorithms).
 
 **Example usage:**
 

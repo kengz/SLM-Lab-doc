@@ -70,11 +70,10 @@ See [slm_lab/spec/benchmark/reinforce/](https://github.com/kengz/SLM-Lab/tree/ma
   * `action_policy` string specifying which policy to use to act. For example, "Categorical" (for discrete action spaces), "Normal" (for continuous actions spaces with one dimension), or "default" to automatically switch between the two depending on the environment.
   * `gamma` [_general param_](./)
   * `training_frequency` how many episodes of data to collect before each training iteration. A common value is 1.
-  * `entropy` whether to add entropy to the $$f(\tau)_t$$ to encourage exploration
-  * `entropy_coef` coefficient to multiply the entropy of the distribution with when adding it to $$f(\tau)_t$$
+  * `entropy_coef_spec` schedule for entropy coefficient added to the loss to encourage exploration. Example: `{"name": "no_decay", "start_val": 0.01, "end_val": 0.01, "start_step": 0, "end_step": 0}`
+  * `center_return` (optional, default `false`) whether to center returns by subtracting the mean before computing policy gradient. Can improve training stability.
 * `memory`
   * `name` [_general param_](./). Compatible types; ["OnPolicyReplay", "OnPolicyBatchReplay"](../memory/)
-  * `batch_size` number of examples to collect before training. Only relevant for batch on policy memory: "OnPolicyBatchReplay"
 * `net`
   * `type` [_general param_](./). Compatible types; [all networks](../neural-networks/).
   * `hid_layers` [_general param_](./)

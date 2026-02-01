@@ -56,16 +56,16 @@ ASHA (Asynchronous Successive Halving) terminates unpromising trials early, focu
   "meta": {
     "max_session": 1,
     "max_trial": 16,
-    "search_resources": {"cpu": 1, "gpu": 0.125},
+    "search_resources": {"cpu": 2, "gpu": 0.25},
     "search_scheduler": {
-      "grace_period": 100000,
+      "grace_period": 500000,
       "reduction_factor": 3
     }
   },
   "search": {
-    "agent.algorithm.gamma__uniform": [0.98, 0.999],
-    "agent.algorithm.lam__uniform": [0.9, 0.98],
-    "agent.net.optim_spec.lr__loguniform": [1e-4, 1e-3]
+    "agent.algorithm.lam__uniform": [0.7, 0.98],
+    "agent.algorithm.entropy_coef_spec.start_val__loguniform": [0.005, 0.03],
+    "agent.net.optim_spec.lr__loguniform": [1e-4, 5e-4]
   }
 }
 ```
@@ -121,8 +121,8 @@ Focus on these first—they have the largest effect on performance:
 | **1** | Learning rate | `agent.net.optim_spec.lr` | 1e-5 to 1e-3 |
 | **2** | Discount factor | `agent.algorithm.gamma` | 0.98-0.999 |
 | **3** | GAE lambda | `agent.algorithm.lam` | 0.9-0.99 |
-| 4 | Entropy coefficient | `agent.algorithm.entropy_coef` | 0.001-0.1 |
-| 5 | Clip epsilon | `agent.algorithm.clip_eps` | 0.1-0.3 |
+| 4 | Entropy coefficient | `agent.algorithm.entropy_coef_spec.start_val` | 0.001-0.1 |
+| 5 | Clip epsilon | `agent.algorithm.clip_eps_spec.start_val` | 0.1-0.3 |
 
 **Less impactful** (fix based on successful runs): `minibatch_size`, `training_epoch`, network architecture.
 
