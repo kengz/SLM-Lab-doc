@@ -1,180 +1,50 @@
 # Installation
 
-```bash
-# Prerequisites: uv and swig
-curl -LsSf https://astral.sh/uv/install.sh | sh  # install uv
-brew install swig  # macOS (or: apt-get install -y swig for Linux)
+## System Dependencies
 
-# Install SLM Lab
+```bash
+# uv - fast Python package manager (handles Python 3.10+ automatically)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# swig - required for Box2D environments (LunarLander, BipedalWalker)
+brew install swig        # macOS
+# apt-get install -y swig  # Linux/WSL
+```
+
+{% hint style="warning" %}
+**Windows:** Use [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install) and follow Linux instructions.
+{% endhint %}
+
+## Install SLM Lab
+
+```bash
 git clone https://github.com/kengz/SLM-Lab.git && cd SLM-Lab
 uv sync
 uv tool install --editable .
-
-# Verify
 slm-lab --help
 ```
 
-{% hint style="warning" %}
-**Windows users:** Use [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install) and follow Linux instructions.
-{% endhint %}
-
----
-
-## Details
-
-### uv Package Manager
-
-[uv](https://docs.astral.sh/uv/) is a fast Python package manager that handles Python installation automatically (requires Python 3.10+).
-
-After installing uv, restart your terminal or run `source ~/.bashrc` (or `~/.zshrc`).
-
-### System Dependencies
-
-**swig** is required for Box2D environments (LunarLander, BipedalWalker):
-
-```bash
-# macOS
-brew install swig
-
-# Ubuntu/Debian/WSL
-sudo apt-get install -y swig
-```
-
 {% hint style="info" %}
-You can skip swig if you only plan to use CartPole, Atari, or MuJoCo environments. It's only needed for Box2D physics simulation.
+If `slm-lab` not found: restart terminal, add `~/.local/bin` to PATH, or use `uv run slm-lab`.
 {% endhint %}
 
-{% hint style="warning" %}
-**PATH issues:** If `slm-lab` is not found, either:
-- Restart your terminal
-- Add `~/.local/bin` to your PATH
-- Or use `uv run slm-lab` instead
-{% endhint %}
+### Minimal Install (Orchestration Only)
 
-### Minimal Installation (Orchestration Only)
-
-For machines that only dispatch remote training (no local training):
+For dispatching remote training without local ML dependencies:
 
 ```bash
-git clone https://github.com/kengz/SLM-Lab.git
-cd SLM-Lab
+git clone https://github.com/kengz/SLM-Lab.git && cd SLM-Lab
 uv sync --only-group minimal
 uv tool install dstack
 ```
 
-This installs only the CLI and dstack integration, without heavy ML dependencies.
+See [Remote Training](../using-slm-lab/remote-training.md) for dstack setup.
 
-### MuJoCo Setup
-
-MuJoCo environments work out of the box since MuJoCo became free in 2022. No additional setup needed.
+## Docker
 
 ```bash
-# Test MuJoCo
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper dev
-```
-
-### GPU Setup (Optional)
-
-SLM Lab automatically uses GPU if available. PyTorch's default installation includes CUDA support.
-
-**Verify GPU detection:**
-```bash
-python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
-```
-
-For specific CUDA versions, see [PyTorch installation guide](https://pytorch.org/get-started/locally/).
-
-## Alternative Installations
-
-### Docker
-
-SLM Lab publishes Docker images:
-
-```bash
-# Pull the image
 docker pull ghcr.io/kengz/slm-lab:latest
-
-# Run a command
-docker run -it ghcr.io/kengz/slm-lab:latest slm-lab --help
-
-# Run training (mount data folder for results)
+docker run -it ghcr.io/kengz/slm-lab:latest uv run slm-lab --help
 docker run -v $(pwd)/data:/app/data ghcr.io/kengz/slm-lab:latest \
-    slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
+    uv run slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
 ```
-
-### Google Colab
-
-Community member [@isacciobota](https://github.com/isacciobota) maintains Colab installation instructions:
-
-{% hint style="info" %}
-[SLM Lab Colab notebook (2024)](https://github.com/isacciobota/SLMLab-x-GoogleColab)
-{% endhint %}
-
-## Book Readers
-
-If you're following *Foundations of Deep Reinforcement Learning*, use the book-compatible version:
-
-```bash
-git clone https://github.com/kengz/SLM-Lab.git
-cd SLM-Lab
-
-# Checkout the book version
-git checkout v4.1.1
-
-# v4 uses conda
-./bin/setup
-```
-
-{% hint style="warning" %}
-**Version differences:**
-- v4.1.1 uses conda, OpenAI Gym, and `python run_lab.py`
-- v5+ uses uv, Gymnasium, and `slm-lab run`
-
-The algorithms and concepts are identical; only the tooling and environment APIs changed.
-{% endhint %}
-
-## Hardware Requirements
-
-| Use Case | Hardware | Notes |
-|----------|----------|-------|
-| **Learning/Development** | Laptop (no GPU) | CartPole, LunarLander work fine |
-| **Atari Training** | GPU recommended | ~4 hours per game on RTX 3060+ |
-| **MuJoCo Training** | CPU sufficient | GPU helps but not required |
-| **Benchmarking** | Cloud GPU | Use dstack for on-demand GPUs |
-
-{% hint style="info" %}
-**No local GPU?** Use [Remote Training with dstack](../using-slm-lab/remote-training.md) to train on cloud GPUs. Fractional GPU sharing makes it cost-effective ($0.39/hr for L4).
-{% endhint %}
-
-## Troubleshooting
-
-### "slm-lab: command not found"
-
-```bash
-# Option 1: Add to PATH
-export PATH="$HOME/.local/bin:$PATH"
-
-# Option 2: Use uv run
-uv run slm-lab --help
-```
-
-### Import errors
-
-Ensure you're in the SLM-Lab directory and dependencies are installed:
-
-```bash
-cd /path/to/SLM-Lab
-uv sync
-```
-
-### CUDA/GPU issues
-
-```bash
-# Check PyTorch CUDA
-python -c "import torch; print(torch.cuda.is_available(), torch.cuda.device_count())"
-
-# Force CPU if GPU issues
-# Add to spec: "net": {"gpu": false}
-```
-
-For more help, see [Help](../resources/help.md) or [open an issue](https://github.com/kengz/SLM-Lab/issues).
