@@ -34,11 +34,11 @@ This runs the default experiment: PPO on CartPole in dev mode.
 
 **Terminal output:**
 ```
-[2024-01-15 12:00:00] INFO: Starting ppo_cartpole trial t0
-[2024-01-15 12:00:05] INFO: frame: 1000 | total_reward: 23.5 | total_reward_ma: 23.5 | loss: 0.012
-[2024-01-15 12:00:10] INFO: frame: 2000 | total_reward: 45.2 | total_reward_ma: 34.3 | loss: 0.008
+[2026-01-15 12:00:00] INFO: Starting ppo_cartpole trial t0
+[2026-01-15 12:00:05] INFO: frame: 1000 | total_reward: 23.5 | total_reward_ma: 23.5 | loss: 0.012
+[2026-01-15 12:00:10] INFO: frame: 2000 | total_reward: 45.2 | total_reward_ma: 34.3 | loss: 0.008
 ...
-[2024-01-15 12:02:30] INFO: frame: 50000 | total_reward: 500.0 | total_reward_ma: 487.2 | loss: 0.002
+[2026-01-15 12:02:30] INFO: frame: 50000 | total_reward: 500.0 | total_reward_ma: 487.2 | loss: 0.002
 ```
 
 Key metrics:

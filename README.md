@@ -22,26 +22,6 @@ SLM Lab is a software framework for **reinforcement learning** (RL) research and
 **Book readers:** For the exact code from *Foundations of Deep Reinforcement Learning*, use `git checkout v4.1.1`. The book's [website and errata is here](https://slm-lab.gitbook.io/foundations-of-deep-rl/).
 {% endhint %}
 
-## Quick Start 🚀
-
-Install and run in under 2 minutes:
-
-```bash
-# Install uv (package manager)
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Clone and install
-git clone https://github.com/kengz/SLM-Lab.git
-cd SLM-Lab
-uv sync
-uv tool install --editable .
-
-# Train PPO on CartPole with visualization
-slm-lab run --render
-```
-
-You should see a CartPole balancing task with rewards climbing toward 500. See [Quick Start](setup/quick-start.md) for details.
-
 ## Core Concepts 🏗️
 
 SLM Lab organizes experiments hierarchically:
