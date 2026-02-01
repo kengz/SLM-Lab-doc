@@ -1,4 +1,4 @@
-# Atari Environment Benchmark
+# Atari Environment Benchmark 👾
 
 ## PPO Atari Results (v5)
 

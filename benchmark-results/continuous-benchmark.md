@@ -1,4 +1,4 @@
-# Continuous Environment Benchmark
+# Continuous Environment Benchmark 🏃
 
 ## MuJoCo Benchmark Results (v5)
 

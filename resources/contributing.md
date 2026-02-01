@@ -1,4 +1,4 @@
-# Contributing
+# Contributing 🤝
 
 Thank you for your interest in contributing to SLM Lab!
 

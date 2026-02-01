@@ -2,7 +2,7 @@
 description: Test your installation with a quick demo.
 ---
 
-# Quick Start
+# Quick Start 🚀
 
 ## PPO on CartPole
 
@@ -60,7 +60,7 @@ Early in training, the pole falls quickly. As `total_reward_ma` climbs toward 40
 | `total_reward_ma` | ~20-30 | 450+ |
 | Episode length | ~20 steps | 500 steps (max) |
 
-PPO typically solves CartPole within 50,000-100,000 frames (1-3 minutes).
+PPO typically solves CartPole within 50,000-100,000 frames.
 
 **Training curve (from benchmark run):**
 

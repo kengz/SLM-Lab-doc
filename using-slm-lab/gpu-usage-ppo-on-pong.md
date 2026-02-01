@@ -1,4 +1,4 @@
-# GPU Usage: PPO on Pong
+# GPU Usage: PPO on Pong 🎮
 
 ## GPU for Network Training
 
@@ -70,13 +70,19 @@ Let's now run a Trial using the spec file above with variable substitution for P
 slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 ```
 
-We should now see a speed up in the **fps** (frame per second) logged in the terminal during training. The trial should take a few hours to finish. It will then save its data to `data/ppo_atari_{ts}`. The trial graphs should look like the following:
+We should now see a speed up in the **fps** (frame per second) logged in the terminal during training. The trial should take a few hours to finish. It will then save its data to `data/ppo_atari_{ts}`.
 
-![](../.gitbook/assets/ppo_pong_t0_trial_graph_mean_returns_vs_frames.png)
+### 📊 Results
 
-We can also smoothen the trial graph by plotting its moving average over a window of 100 to obtain the graph below.
+**Trial graph** (average of 4 sessions):
 
-![](../.gitbook/assets/ppo_pong_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![PPO Pong trial graph](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/graph/ppo_atari_lam85_t0_trial_graph_mean_returns_vs_frames.png)
+
+**Moving average** (100-checkpoint window) — the primary success metric:
+
+![PPO Pong trial graph MA](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/graph/ppo_atari_lam85_t0_trial_graph_mean_returns_ma_vs_frames.png)
+
+PPO achieves **16.9** MA on Pong-v5 (max score is 21). Trained models available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_pong_2026_01_08_094454).
 
 ## Using Multiple GPUs
 

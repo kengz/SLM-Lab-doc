@@ -1,4 +1,4 @@
-# Discrete Environment Benchmark
+# Discrete Environment Benchmark 🎯
 
 ## Classic Control & Box2D Results (v5)
 
