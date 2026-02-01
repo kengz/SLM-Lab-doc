@@ -45,18 +45,22 @@ Add a **search** section to your spec with `{key}__{space_type}` syntax:
 
 ### Search Space Types
 
-| space\_type | value | description |
-|-------------|-------|-------------|
-| choice | `[v1, v2, ...]` | Sample from list |
-| uniform | `[low, high]` | Uniform distribution |
-| loguniform | `[low, high]` | Log-uniform distribution |
-| randint | `[low, high]` | Random integer |
-| grid\_search | `[v1, v2, ...]` | Exhaustive grid (multiplies trials) |
+| space\_type | value | description | when to use |
+|-------------|-------|-------------|-------------|
+| uniform | `[low, high]` | Uniform distribution | Bounded params (gamma, lam) |
+| loguniform | `[low, high]` | Log-uniform distribution | Learning rates, small values |
+| choice | `[v1, v2, ...]` | Sample from list | Discrete options, architecture |
+| randint | `[low, high]` | Random integer | Batch sizes, layer counts |
+| grid\_search | `[v1, v2, ...]` | Exhaustive grid | Small grids only (multiplies trials) |
 
 Examples:
-* `"gamma__choice": [0.9, 0.99, 0.999]` - sample from list
-* `"lr__loguniform": [1e-5, 1e-3]` - log-uniform between values
-* `"lam__grid_search": [0.9, 0.95, 0.99]` - run all values (3x trials)
+* `"gamma__uniform": [0.95, 0.999]` - bounded continuous (recommended)
+* `"lr__loguniform": [1e-5, 1e-3]` - log-scale for learning rates
+* `"lam__choice": [0.7, 0.85, 0.95]` - specific values to compare
+
+{% hint style="warning" %}
+**Prefer continuous distributions** (`uniform`, `loguniform`) over `choice` when possible. Continuous distributions allow ASHA to interpolate and find optimal values, while `choice` only samples from a fixed list.
+{% endhint %}
 
 ## ASHA Early Stopping
 
@@ -85,9 +89,30 @@ The key v5 feature for efficient search. Add `search_scheduler` to your meta spe
 
 ASHA evaluates trials at checkpoints and terminates the bottom 2/3, focusing resources on promising runs. A 16-trial search might only run 5-6 trials to completion.
 
-{% hint style="info" %}
-**Search budget rule:** ~3-4 trials per search dimension minimum. 8 trials = 2-3 dims, 16 trials = 3-4 dims, 20+ trials = 5+ dims.
+### Search Budget Sizing
+
+**Rule: ~3-4 trials per search dimension minimum.**
+
+| max_trial | Max Dimensions | Use case |
+|-----------|----------------|----------|
+| 8 | 2-3 | Very focused search |
+| 12-16 | 3-4 | Typical refinement |
+| 20 | 5 | Wide exploration |
+| 30 | 6-7 | Broad ASHA search |
+
+{% hint style="warning" %}
+**Common mistake:** Too many dimensions wastes trials on under-sampled combinations. Focus on high-impact hyperparameters first:
+- **Most impactful:** Learning rates, gamma, lam
+- **Less impactful:** minibatch_size, training_epoch (fix these based on successful runs)
 {% endhint %}
+
+### After Search: Narrowing
+
+After analyzing search results:
+1. Check `experiment_df.csv` for top-performing configurations
+2. Narrow the search range around best values
+3. Re-run with tighter bounds if needed
+4. Update spec defaults with final values
 
 ## Three-Stage Search Process
 

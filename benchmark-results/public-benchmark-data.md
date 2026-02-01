@@ -97,12 +97,14 @@ The trial score is the mean across 4 sessions, providing statistically meaningfu
 
 Standardized settings for fair comparison across environment categories:
 
-| Category | num_envs | max_frame | log_frequency |
-|----------|----------|-----------|---------------|
-| Classic Control | 4 | 2e5-3e5 | 500 |
-| Box2D | 8 | 3e5 | 1000 |
-| MuJoCo | 16 | 4e6-10e6 | 10000 |
-| Atari | 16 | 10e6 | 10000 |
+| Category | num_envs | max_frame | log_frequency | ASHA grace_period |
+|----------|----------|-----------|---------------|-------------------|
+| Classic Control | 4 | 2e5-3e5 | 500 | 1e4 |
+| Box2D | 8 | 3e5 | 1000 | 5e4 |
+| MuJoCo | 16 | 4e6-10e6 | 10000 | 1e5-1e6 |
+| Atari | 16 | 10e6 | 10000 | 5e5 |
+
+The `grace_period` is the minimum frames before ASHA can terminate underperforming trials. Set it high enough for meaningful learning signal (typically 5-10% of max_frame).
 
 ### Contributing Benchmark Results
 

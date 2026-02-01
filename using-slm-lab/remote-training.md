@@ -127,6 +127,22 @@ resources:
 
 Available GPU types depend on your dstack backends (AWS, GCP, etc.).
 
+### Fractional GPU Sharing
+
+For hyperparameter search, run multiple trials on a single GPU using fractional allocation:
+
+```json
+"meta": {
+  "search_resources": {"cpu": 1, "gpu": 0.125}
+}
+```
+
+With `gpu: 0.125`, you can run **8 trials in parallel** on a single GPU. This is ideal for ASHA search where many trials run briefly before early termination.
+
+{% hint style="info" %}
+**Cost tip:** GPU instances ($0.39/hr L4) are often cheaper than equivalent CPU instances ($0.54/hr 16-CPU) due to fractional GPU sharing. Always use `--gpu` unless your algorithm is CPU-bound.
+{% endhint %}
+
 ### Max Duration
 
 All runs have a 4-hour safeguard (`max_duration: 4h`) to prevent runaway costs. Edit the dstack YAML files to adjust.
@@ -151,6 +167,27 @@ slm-lab pull ppo_hopper
 ls data/ppo_hopper_*/
 ```
 
+## Efficient Batch Running
+
+For systematic benchmarking, maximize GPU utilization by running multiple experiments:
+
+```bash
+# Launch multiple runs in parallel
+source .env
+slm-lab run-remote --gpu spec1.json spec1 train -n run1
+slm-lab run-remote --gpu spec2.json spec2 train -n run2
+slm-lab run-remote --gpu spec3.json spec3 train -n run3
+
+# Monitor all runs
+dstack ps
+```
+
+For ASHA search with 8 trials per GPU, you can run **~30 concurrent trials** on 4 GPUs.
+
+{% hint style="success" %}
+**Workflow tip:** Launch runs, monitor with `dstack ps` and `dstack logs`, pull completed results with `slm-lab pull`, then immediately launch the next batch. Don't wait idle—iterate quickly on failures.
+{% endhint %}
+
 ## Troubleshooting
 
 ### Run fails to start
@@ -169,3 +206,24 @@ Ensure `HF_TOKEN` and `HF_REPO` are set in `.env` and sourced.
 ### GPU not available
 
 Try a different GPU type in `.dstack/run-gpu-train.yml` or wait for availability.
+
+### Low GPU utilization
+
+Check resource usage to identify bottlenecks:
+
+```bash
+dstack metrics my-experiment
+```
+
+Low GPU utilization often indicates:
+- **Environment stepping is slow** - increase `num_envs` or use GPU-accelerated environments
+- **Batch size too small** - increase `minibatch_size`
+- **Config mismatch** - verify spec settings match the environment category
+
+### Comparing with Reference Implementations
+
+If results differ significantly from expected, compare against reference implementations:
+- [CleanRL](https://github.com/vwxyzjn/cleanrl) - single-file implementations
+- [Stable Baselines3](https://github.com/DLR-RM/stable-baselines3) - production-ready RL
+
+Check hyperparameters, normalization settings, and reward scaling.

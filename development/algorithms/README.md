@@ -230,6 +230,47 @@ class MyDQN(DQN):
 
 See [Architecture](../architecture.md) for more on extending SLM Lab.
 
+## Algorithm Performance Notes
+
+Based on v5 benchmark results, here's guidance on algorithm selection:
+
+### Recommended by Environment
+
+| Environment Type | Best Algorithm | Notes |
+|------------------|----------------|-------|
+| **Classic Control** | PPO, A2C | Fast convergence, reliable |
+| **Box2D Discrete** | DDQN+PER | Better than DQN, PPO close second |
+| **Box2D Continuous** | SAC | Best for continuous LunarLander |
+| **MuJoCo** | PPO | Robust across all 11 envs |
+| **Atari** | PPO | Validated on 54 games |
+
+### Known Limitations
+
+These algorithm-environment combinations underperform:
+
+| Algorithm | Environment | Issue | Alternative |
+|-----------|-------------|-------|-------------|
+| **DQN** | CartPole | Slow convergence (188 vs 499 PPO) | Use DDQN+PER or PPO |
+| **A2C** | LunarLander | Fails discrete (9.5) and continuous (-38) | Use PPO or SAC |
+| **A2C** | Pendulum | Poor performance (-553 vs -168 PPO) | Use PPO or SAC |
+| **SAC** | Discrete envs | Mixed results, high variance | Use PPO or DDQN+PER |
+
+{% hint style="info" %}
+**SAC on MuJoCo:** Not included in v5 benchmarks due to compute requirements. Off-policy algorithms require significantly more resources for systematic benchmarking. Use PPO for validated MuJoCo results.
+{% endhint %}
+
+### Lambda Tuning for Atari
+
+Different games benefit from different GAE lambda values:
+
+| Lambda | Best For | Examples |
+|--------|----------|----------|
+| 0.95 | Strategic games | Qbert, BeamRider, Seaquest |
+| 0.85 | Mixed games | Pong, MsPacman, Enduro |
+| 0.70 | Action games | Breakout, KungFuMaster |
+
+See [Atari Benchmark](../../benchmark-results/atari-benchmark.md) for per-game results.
+
 ## Learning Resources
 
 For deep dives into these algorithms:

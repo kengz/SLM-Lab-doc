@@ -158,6 +158,10 @@ The algorithms and concepts are identical; only the tooling and environment APIs
 | **MuJoCo Training** | CPU sufficient | GPU helps but not required |
 | **Benchmarking** | Cloud GPU | Use dstack for on-demand GPUs |
 
+{% hint style="info" %}
+**No local GPU?** Use [Remote Training with dstack](../using-slm-lab/remote-training.md) to train on cloud GPUs. Fractional GPU sharing makes it cost-effective ($0.39/hr for L4).
+{% endhint %}
+
 ## Verify Installation
 
 Run the quick test:

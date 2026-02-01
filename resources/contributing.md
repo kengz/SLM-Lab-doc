@@ -6,18 +6,44 @@ Thank you for your interest in contributing to SLM Lab!
 
 ### 1. Run Benchmark Experiments
 
-Help validate algorithms across environments. The easiest way to start:
+Help validate algorithms across environments. Follow this protocol:
 
+#### Before Running
+
+1. **Audit spec settings** - Verify `num_envs`, `max_frame`, and `max_session` match environment category standards:
+
+| Category | num_envs | max_frame | max_session |
+|----------|----------|-----------|-------------|
+| Classic Control | 4 | 2e5-3e5 | 4 |
+| Box2D | 8 | 3e5 | 4 |
+| MuJoCo | 16 | 4e6-10e6 | 4 |
+| Atari | 16 | 10e6 | 4 |
+
+2. **Set up HuggingFace credentials** in `.env`:
 ```bash
-# Pick an environment from the benchmark pages
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train
-
-# Upload results
-source .env
-slm-lab push data/ppo_hopper_*
+HF_TOKEN=hf_xxxxxxxxxxxx
+HF_REPO=SLM-Lab/benchmark  # or your own repo
 ```
 
-See [Benchmark Results](../benchmark-results/public-benchmark-data.md) for what's needed.
+#### Running
+
+```bash
+source .env
+
+# Local training
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train
+
+# Or remote training (faster, uses cloud GPU)
+slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train -n ppo-hopper
+```
+
+#### After Running
+
+1. **Record scores** - Extract `total_reward_ma` from logs
+2. **Update results table** - Add HuggingFace folder link
+3. **Generate plots**: `slm-lab plot -t "Hopper-v5" -f folder1,folder2`
+
+See [Public Benchmark Data](../benchmark-results/public-benchmark-data.md) for full methodology.
 
 ### 2. Reproduce Published Results
 

@@ -94,14 +94,18 @@ See [Benchmark Results](benchmark-results/public-benchmark-data.md) for detailed
 
 SLM Lab uses [Gymnasium](https://gymnasium.farama.org/) (the maintained fork of OpenAI Gym):
 
-| Category | Examples | Difficulty |
-|----------|----------|------------|
-| **Classic Control** | CartPole, Pendulum, Acrobot, MountainCar | Easy |
-| **Box2D** | LunarLander, BipedalWalker | Medium |
-| **MuJoCo** | Hopper, HalfCheetah, Walker2d, Ant, Humanoid | Hard |
-| **Atari** | Pong, Breakout, Qbert, and 54 more games | Varied |
+| Category | Examples | Difficulty | Docs |
+|----------|----------|------------|------|
+| **Classic Control** | CartPole, Pendulum, Acrobot | Easy | [Gymnasium Classic](https://gymnasium.farama.org/environments/classic_control/) |
+| **Box2D** | LunarLander, BipedalWalker | Medium | [Gymnasium Box2D](https://gymnasium.farama.org/environments/box2d/) |
+| **MuJoCo** | Hopper, HalfCheetah, Humanoid | Hard | [Gymnasium MuJoCo](https://gymnasium.farama.org/environments/mujoco/) |
+| **Atari** | Pong, Breakout, and 54 more | Varied | [Gymnasium ALE](https://gymnasium.farama.org/environments/atari/) |
 
 Any gymnasium-compatible environment works—just specify its name in the spec.
+
+{% hint style="warning" %}
+**v5 vs v4:** Gymnasium environments are harder than OpenAI Gym. Expect 10-30% lower scores vs older benchmarks. See [Benchmark Results](benchmark-results/public-benchmark-data.md) for validated scores.
+{% endhint %}
 
 ## Key RL Terms
 
