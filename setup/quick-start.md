@@ -92,24 +92,6 @@ If you see rewards climbing, SLM Lab is working correctly. Continue to [Train: P
 
 ## Next Steps
 
-Now that you've verified the installation:
-
-1. **[Train: PPO on CartPole](../using-slm-lab/train-ppo-cartpole.md)** - Run a full training with saved results
+1. **[Train: PPO on CartPole](../using-slm-lab/train-ppo-cartpole.md)** - Full training with saved results
 2. **[Resume and Replay](../using-slm-lab/resume-and-enjoy-reinforce-cartpole.md)** - Resume training and replay trained models
-3. **[Understanding Experiments](../using-slm-lab/lab-organization.md)** - Sessions, Trials, and Experiments explained
-
-## Understanding the Output
-
-When you run `slm-lab run --render`, SLM Lab:
-
-1. **Loads the default spec** (`slm_lab/spec/benchmark/ppo/ppo_cartpole.json`)
-2. **Creates the environment** (CartPole-v1 with 4 parallel instances)
-3. **Initializes the agent** (PPO with MLPNet)
-4. **Runs the training loop**:
-   - Agent selects actions based on current policy
-   - Environment returns rewards and next states
-   - Memory stores the experience
-   - Every 256 steps, PPO trains on the collected data
-5. **Logs metrics** every 500 frames
-
-The `--render` flag enables visualization, which slows training but lets you watch the agent learn.
+3. **[Understanding Experiments](../using-slm-lab/lab-organization.md)** - Sessions, Trials, and Experiments
