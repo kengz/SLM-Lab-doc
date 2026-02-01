@@ -218,7 +218,7 @@ After training, graphs are saved to `data/ddqn_per_concat_lunar_{timestamp}/grap
 
 **Trial graph (average of 4 sessions):**
 
-![DDQN+PER LunarLander trial graph](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ddqn_per_concat_lunar_2026_01_30_215532/graph/ddqn_per_concat_lunar_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![DDQN+PER LunarLander trial graph](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ddqn_per_concat_lunar_2026_01_30_215532/graph/ddqn_per_concat_lunar_t0_trial_graph_mean_returns_vs_frames.png)
 
 **Moving average (100-checkpoint window):**
 
