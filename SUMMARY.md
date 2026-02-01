@@ -18,8 +18,8 @@
 * [🔍 Search Spec](using-slm-lab/search-spec-ppo-on-breakout.md)
 * [🎮 GPU Training](using-slm-lab/gpu-usage-ppo-on-pong.md)
 * [☁️ Remote Training](using-slm-lab/remote-training.md)
+* [⚡ Async Training: Hogwild!](using-slm-lab/async-training-a3c-hogwild.md)
 * [📋 Running Benchmarks](using-slm-lab/benchmark-specs.md)
-* [⚡ Async Training: A3C Hogwild](using-slm-lab/async-training-a3c-hogwild.md)
 * [💻 CLI Reference](using-slm-lab/slm-lab-command.md)
 
 ## 📈 Analyzing Results
