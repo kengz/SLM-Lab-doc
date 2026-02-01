@@ -188,102 +188,102 @@ Shows scores for all three lambda variants where tested. **Bold** = best score, 
 Multi-trial comparison plots showing mean returns (moving average) vs training frames. Each curve represents a different lambda variant, with shaded regions showing standard deviation across 4 sessions.
 
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/AirRaid_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Alien_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Amidar_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/AirRaid_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Alien_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Amidar_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Assault_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Asterix_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Asteroids_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Assault_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Asterix_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Asteroids_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Atlantis_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/BankHeist_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/BattleZone_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Atlantis_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/BankHeist_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/BattleZone_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/BeamRider_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Berzerk_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Bowling_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/BeamRider_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Berzerk_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Bowling_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Boxing_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Breakout_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Carnival_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Boxing_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Breakout_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Carnival_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Centipede_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/ChopperCommand_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/CrazyClimber_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Centipede_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/ChopperCommand_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/CrazyClimber_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Defender_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/DemonAttack_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/DoubleDunk_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Defender_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/DemonAttack_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/DoubleDunk_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/ElevatorAction_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Enduro_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/FishingDerby_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/ElevatorAction_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Enduro_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/FishingDerby_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Freeway_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Frostbite_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Gopher_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Freeway_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Frostbite_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Gopher_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Gravitar_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Hero_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/IceHockey_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Gravitar_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Hero_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/IceHockey_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Jamesbond_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/JourneyEscape_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Kangaroo_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Jamesbond_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/JourneyEscape_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Kangaroo_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Krull_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/KungFuMaster_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/MsPacman_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Krull_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/KungFuMaster_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/MsPacman_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/NameThisGame_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Phoenix_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Pong_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/NameThisGame_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Phoenix_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Pong_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Pooyan_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Qbert_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Riverraid_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Pooyan_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Qbert_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Riverraid_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/RoadRunner_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Robotank_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Seaquest_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/RoadRunner_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Robotank_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Seaquest_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Skiing_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Solaris_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/SpaceInvaders_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Skiing_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Solaris_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/SpaceInvaders_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/StarGunner_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Surround_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Tennis_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/StarGunner_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Surround_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Tennis_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/TimePilot_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Tutankham_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/UpNDown_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/TimePilot_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Tutankham_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/UpNDown_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/VideoPinball_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/WizardOfWor_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/YarsRevenge_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/VideoPinball_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/WizardOfWor_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/YarsRevenge_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 <p>
-<img src="https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Zaxxon_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
+<img src="https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Zaxxon_multi_trial_graph_mean_returns_ma_vs_frames.png" width="32%">
 </p>
 
 ### Running Atari Benchmarks
