@@ -97,17 +97,19 @@ print(df.iloc[0])
 
 ## Graph File Locations
 
-After a run, find graphs in `data/{spec_name}_{timestamp}/graph/`:
+After a run, find graphs in `data/{spec_name}_{timestamp}/`:
 
 ```
-graph/
-├── *_session_graph_train_mean_returns_vs_frames.png      # Session raw
-├── *_session_graph_train_mean_returns_ma_vs_frames.png   # Session MA
-├── *_trial_graph_mean_returns_vs_frames.png              # Trial raw
-├── *_trial_graph_mean_returns_ma_vs_frames.png           # Trial MA
-├── *_multi_trial_graph_*.png                             # Experiment comparison
-└── *_experiment_graph.png                                # Variable analysis
+data/ppo_cartpole_2026_01_30_221924/
+├── ppo_cartpole_t0_trial_graph_mean_returns_vs_frames.png    # Trial raw (root)
+├── ppo_cartpole_t0_trial_graph_mean_returns_ma_vs_frames.png # Trial MA (root)
+│
+└── graph/                                                     # Session graphs
+    ├── ppo_cartpole_t0_s0_session_graph_train_mean_returns_vs_frames.png
+    └── ppo_cartpole_t0_s0_session_graph_train_mean_returns_ma_vs_frames.png
 ```
+
+**Note:** Trial-level graphs are in the root folder; session-level graphs are in `graph/`.
 
 ## Interactive Graphs
 

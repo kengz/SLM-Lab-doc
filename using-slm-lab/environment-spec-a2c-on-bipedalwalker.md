@@ -34,7 +34,28 @@ The environment is specified using the **env** key in a spec file:
 }
 ```
 
-## PPO on HalfCheetah
+## Supported Environments
+
+SLM Lab works with any [Gymnasium](https://gymnasium.farama.org/) environment. Common categories:
+
+| Category | Examples | Action Space | Notes |
+|----------|----------|--------------|-------|
+| **Classic Control** | CartPole-v1, Acrobot-v1 | Discrete | Fast training, good for testing |
+| **Box2D** | LunarLander-v3, BipedalWalker-v3 | Discrete/Continuous | Medium complexity |
+| **MuJoCo** | HalfCheetah-v5, Humanoid-v5 | Continuous | Physics simulation, use normalization |
+| **Atari** | ALE/Breakout-v5, ALE/Pong-v5 | Discrete | Image observations, use GPU |
+
+**Environment-specific settings:**
+
+| Environment Type | Recommended Settings |
+|-----------------|---------------------|
+| Classic/Box2D | `num_envs: 8`, `gpu: auto` |
+| MuJoCo | `num_envs: 16`, `normalize_obs: true`, `normalize_reward: true` |
+| Atari | `num_envs: 16`, `gpu: auto` (ConvNet benefits from GPU) |
+
+See [Benchmark Specs](benchmark-specs.md) for complete spec files for each environment.
+
+## Example: PPO on HalfCheetah
 
 [**HalfCheetah-v5**](https://gymnasium.farama.org/environments/mujoco/half_cheetah/) is a classic MuJoCo benchmark—a 2D cheetah robot that learns to run forward. It has a 17-dimensional observation space and 6-dimensional continuous action space.
 
@@ -117,16 +138,111 @@ PPO achieves **5852** MA on HalfCheetah-v5 with this configuration.
 
 Trained models available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_halfcheetah_2026_01_30_230302).
 
-## Other MuJoCo Environments
+## Using Other Environments
 
-The template spec works for all 11 MuJoCo environments via `-s env=...`:
+To use a different environment, find a spec for that environment category and modify `env.name`. Spec files are organized by algorithm in `slm_lab/spec/benchmark/`:
+
+### Environment Categories
+
+| Category | Environments | Spec Examples |
+|----------|--------------|---------------|
+| **Classic Control** | CartPole-v1, Acrobot-v1, Pendulum-v1, MountainCar-v0 | `ppo_cartpole.json`, `dqn_cartpole.json` |
+| **Box2D** | LunarLander-v3, BipedalWalker-v3 | `ppo_lunar.json`, `ddqn_per_lunar.json` |
+| **MuJoCo** | Hopper-v5, HalfCheetah-v5, Walker2d-v5, Ant-v5, Humanoid-v5, Swimmer-v5, etc. | `ppo_mujoco.json`, `sac_mujoco.json` |
+| **Atari** | 54 games (ALE/Breakout-v5, ALE/Pong-v5, etc.) | `ppo_atari.json`, `dqn_atari.json` |
+
+### Switching Environments
+
+1. **Find a spec** for your target environment category
+2. **Change `env.name`** to the Gymnasium environment name
+3. **Adjust settings** as needed (num_envs, max_frame, normalization)
+
+Example—use the same algorithm on different environments:
 
 ```bash
-slm-lab run -s env=Walker2d-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
-slm-lab run -s env=Humanoid-v5 -s max_frame=10e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+# PPO on CartPole (Classic Control)
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
+
+# PPO on LunarLander (Box2D)
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar train
+
+# PPO on HalfCheetah (MuJoCo) - uses variable substitution
+slm-lab run -s env=HalfCheetah-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+
+# PPO on Breakout (Atari) - uses variable substitution
+slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 ```
 
-See [Benchmark Specs](benchmark-specs.md) for the full list of available algorithm × environment combinations.
+### Template Specs with Variable Substitution
+
+Some specs use `${var}` placeholders for flexibility. Use `-s var=value` to substitute:
+
+```bash
+# MuJoCo template - works for any MuJoCo environment
+slm-lab run -s env=Hopper-v5 -s max_frame=2e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+slm-lab run -s env=Walker2d-v5 -s max_frame=5e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+
+# Atari template - works for any ALE game
+slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+```
+
+### Finding Environment Specs
+
+```bash
+# List all benchmark specs
+ls slm_lab/spec/benchmark/
+
+# Find specs for a specific environment
+grep -r "CartPole" slm_lab/spec/benchmark/
+grep -r "LunarLander" slm_lab/spec/benchmark/
+grep -r "HalfCheetah" slm_lab/spec/benchmark/
+```
+
+{% hint style="info" %}
+**Any Gymnasium environment works.** Just set `env.name` to a valid [Gymnasium](https://gymnasium.farama.org/) environment ID. Use the benchmark specs as starting points for hyperparameters.
+{% endhint %}
+
+## Standard Settings for Fair Comparison
+
+When comparing algorithms, use consistent environment settings. Different `num_envs` or `max_frame` values make comparisons invalid.
+
+### Recommended Settings by Category
+
+| Category | num_envs | max_frame | log_frequency | Notes |
+|----------|----------|-----------|---------------|-------|
+| **Classic Control** | 4 | 2e5-3e5 | 500 | Fast training |
+| **Box2D** | 8 | 3e5 | 1000 | Medium complexity |
+| **MuJoCo** | 16 | 4e6-10e6 | 10000 | Use normalization |
+| **Atari** | 16 | 10e6 | 10000 | GPU recommended |
+
+### What to Keep Consistent
+
+When comparing algorithms on the same environment:
+
+| Parameter | Keep Same? | Why |
+|-----------|------------|-----|
+| `num_envs` | **Yes** | Affects data collection rate and batch statistics |
+| `max_frame` | **Yes** | Total training budget must match |
+| `max_t` | **Yes** | Episode length affects learning signal |
+| `normalize_obs` | **Yes** | Changes observation distribution |
+| `normalize_reward` | **Yes** | Changes reward scale |
+
+### Example: Fair Algorithm Comparison
+
+To compare DQN vs PPO on LunarLander fairly:
+
+```bash
+# Both use: num_envs=8, max_frame=3e5, max_session=4
+slm-lab run slm_lab/spec/benchmark/dqn/dqn_lunar.json dqn_concat_lunar train
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar train
+```
+
+Check that both specs have matching env settings before comparing results.
+
+{% hint style="warning" %}
+**Benchmark specs are pre-configured.** The specs in `slm_lab/spec/benchmark/` use standardized settings for each environment category. When creating custom specs, match these settings for comparable results.
+{% endhint %}
 
 ## Advanced Env Options
 

@@ -15,13 +15,11 @@
 * [🌍 Env Spec](using-slm-lab/environment-spec-a2c-on-bipedalwalker.md)
 * [⚙️ Meta Spec](using-slm-lab/meta-spec-high-level-specifications.md)
 * [🔍 Search Spec](using-slm-lab/search-spec-ppo-on-breakout.md)
-* [📋 Benchmark Specs](using-slm-lab/benchmark-specs.md)
-* [📊 Running Benchmarks](using-slm-lab/run-benchmark-a2c-on-atari-games.md)
 * [🎮 GPU Training](using-slm-lab/gpu-usage-ppo-on-pong.md)
 * [🔄 Resume and Replay](using-slm-lab/resume-and-enjoy-reinforce-cartpole.md)
+* [📋 Benchmark Specs](using-slm-lab/benchmark-specs.md)
+* [📊 Running Benchmarks](using-slm-lab/run-benchmark-a2c-on-atari-games.md)
 * [☁️ Remote Training](using-slm-lab/remote-training.md)
-* [📉 TensorBoard](using-slm-lab/tensorboard-visualizing-models-and-actions.md)
-* [🔬 Post-Hoc Analysis](using-slm-lab/post-hoc-analysis.md)
 * [💻 CLI Reference](using-slm-lab/slm-lab-command.md)
 * [🔌 Using SLM Lab In Your Project](using-slm-lab/using-slm-lab-in-your-project.md)
 
@@ -30,6 +28,8 @@
 * [📁 Data Locations](analyzing-results/analytics.md)
 * [📊 Graphs and Data](analyzing-results/session-graph.md)
 * [🎯 Performance Metrics](analyzing-results/performance-metrics.md)
+* [📉 TensorBoard](using-slm-lab/tensorboard-visualizing-models-and-actions.md)
+* [🔬 Post-Hoc Analysis](using-slm-lab/post-hoc-analysis.md)
 
 ## 🥇 Benchmark Results
 

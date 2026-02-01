@@ -48,20 +48,20 @@ The output folder structure:
 
 ```
 data/ppo_cartpole_2026_01_30_221924/
-├── ppo_cartpole_spec.json                      # Original spec
-├── ppo_cartpole_t0_spec.json                   # Trial spec (for reproduction)
-├── ppo_cartpole_t0_trial_graph_*.png           # Trial graphs (aggregated)
-├── ppo_cartpole_t0_trial_metrics_scalar.json   # Trial scalar metrics
+├── ppo_cartpole_spec.json                              # Original spec
+├── ppo_cartpole_t0_spec.json                           # Trial spec (for reproduction)
+├── ppo_cartpole_t0_trial_graph_mean_returns_vs_frames.png    # Trial training curve
+├── ppo_cartpole_t0_trial_graph_mean_returns_ma_vs_frames.png # Trial moving average
+├── ppo_cartpole_t0_trial_metrics_scalar.json           # Trial metrics
 ├── graph/
-│   └── ppo_cartpole_t0_s*_session_graph_*.png  # Per-session graphs
+│   └── ppo_cartpole_t0_s0_session_graph_*.png          # Per-session graphs
 ├── info/
-│   ├── ppo_cartpole_t0_s*_session_df_train.csv # Training metrics
-│   └── ppo_cartpole_t0_s*_session_df_eval.csv  # Evaluation metrics
-├── log/                                        # TensorBoard events
+│   └── ppo_cartpole_t0_s0_session_df.csv               # Session time series
+├── log/                                                # TensorBoard events
 └── model/
-    ├── ppo_cartpole_t0_s0_net_model.pt         # Session 0 final model
-    ├── ppo_cartpole_t0_s0_ckpt-best_net_model.pt  # Session 0 best model
-    └── ...                                     # (same for s1, s2, s3)
+    ├── ppo_cartpole_t0_s0_net_model.pt                 # Session 0 final model
+    ├── ppo_cartpole_t0_s0_ckpt-best_net_model.pt       # Session 0 best model
+    └── ...                                             # (same for s1, s2, s3)
 ```
 
 ### Naming Convention

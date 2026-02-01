@@ -34,7 +34,29 @@ Every agent in SLM Lab is configured with three components:
 }
 ```
 
-## Complete DDQN+PER Spec
+## Available Algorithms
+
+SLM Lab implements these RL algorithms:
+
+| Algorithm | Action Space | Use Case |
+|-----------|--------------|----------|
+| **REINFORCE** | Discrete/Continuous | Simple policy gradient baseline |
+| **SARSA** | Discrete | On-policy TD learning baseline |
+| **DQN** | Discrete | Value-based learning with experience replay |
+| **DDQN** | Discrete | DQN with reduced overestimation |
+| **A2C** | Discrete/Continuous | Synchronous actor-critic |
+| **PPO** | Discrete/Continuous | Robust policy gradient (recommended default) |
+| **SAC** | Continuous | Off-policy actor-critic with entropy regularization |
+
+**Quick guide:**
+- **New to RL?** Start with PPO—it's robust and works well across most environments
+- **Discrete actions (Atari, CartPole)?** Try DQN/DDQN for sample efficiency or PPO for stability
+- **Continuous actions (MuJoCo, robotics)?** Use PPO or SAC
+- **Need sample efficiency?** SAC with high replay ratio or DDQN+PER
+
+See [Benchmark Specs](benchmark-specs.md) for complete spec files for each algorithm.
+
+## Example: DDQN+PER Spec
 
 Here's the full spec from [slm\_lab/spec/benchmark/dqn/ddqn\_per\_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json):
 
@@ -266,16 +288,50 @@ Use a larger network:
 }
 ```
 
-## Other Algorithms
+## Using Other Algorithms
 
-LunarLander has benchmark specs for multiple algorithms: DQN, DDQN+PER, A2C, PPO, and SAC.
+To use a different algorithm, find its spec file and change `algorithm.name`. All algorithm specs are in `slm_lab/spec/benchmark/`:
+
+| Algorithm | Spec Directory | Example Spec |
+|-----------|----------------|--------------|
+| **REINFORCE** | `slm_lab/spec/benchmark/reinforce/` | `reinforce_cartpole.json` |
+| **SARSA** | `slm_lab/spec/benchmark/sarsa/` | `sarsa_cartpole.json` |
+| **DQN** | `slm_lab/spec/benchmark/dqn/` | `dqn_cartpole.json`, `dqn_lunar.json` |
+| **DDQN+PER** | `slm_lab/spec/benchmark/dqn/` | `ddqn_per_lunar.json` |
+| **A2C** | `slm_lab/spec/benchmark/a2c/` | `a2c_cartpole.json`, `a2c_gae_lunar.json` |
+| **PPO** | `slm_lab/spec/benchmark/ppo/` | `ppo_cartpole.json`, `ppo_lunar.json`, `ppo_atari.json` |
+| **SAC** | `slm_lab/spec/benchmark/sac/` | `sac_lunar.json`, `sac_pendulum.json` |
+
+### Switching Algorithms
+
+1. **Find a spec** for your target algorithm in the directories above
+2. **Copy and modify** the agent section, or use the spec directly
+3. **Run** with `slm-lab run <spec_file> <spec_name> train`
+
+Example—switch from DDQN to PPO on the same environment:
 
 ```bash
-# Example: Try PPO instead
+# DDQN
+slm-lab run slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar train
+
+# PPO (same environment, different algorithm)
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar train
 ```
 
-See [Benchmark Specs](benchmark-specs.md) for the full list of available algorithm × environment combinations.
+### Algorithm-Specific Notes
+
+| Algorithm | Memory Type | Action Space | Key Parameters |
+|-----------|-------------|--------------|----------------|
+| **REINFORCE** | `OnPolicyReplay` | Discrete/Continuous | `gamma` |
+| **SARSA** | `OnPolicyReplay` | Discrete | `gamma`, `lam` |
+| **DQN/DDQN** | `Replay`, `PrioritizedReplay` | Discrete | `gamma`, `explore_var_spec`, `training_frequency` |
+| **A2C** | `OnPolicyBatchReplay` | Discrete/Continuous | `gamma`, `lam`, `entropy_coef` |
+| **PPO** | `OnPolicyBatchReplay` | Discrete/Continuous | `gamma`, `lam`, `clip_eps`, `time_horizon` |
+| **SAC** | `Replay` | Continuous | `gamma`, `alpha` (entropy), `training_iter` |
+
+{% hint style="info" %}
+**Finding more specs:** Run `ls slm_lab/spec/benchmark/` to see all algorithm directories. Each contains spec files for various environments.
+{% endhint %}
 
 ## What's Next
 

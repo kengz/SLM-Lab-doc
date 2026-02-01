@@ -317,17 +317,27 @@ After a training run, results are saved to `data/{spec_name}_{timestamp}/`:
 
 ```
 data/ppo_cartpole_2026_01_30_221924/
-├── graph/                      # Training curves (PNG)
-│   ├── *_session_graph_*.png   # Per-session plots
-│   └── *_trial_graph_*.png     # Aggregated plots
-├── info/                       # Metrics data
-│   ├── *_session_df.csv        # Time series
-│   └── *_trial_metrics.json    # Summary stats
-├── log/                        # TensorBoard events
-├── model/                              # PyTorch checkpoints
-│   ├── *_ckpt-best_net_model.pt        # Best model
-│   └── *_net_model.pt                  # Final model
-└── *_spec.json                 # Saved spec (for reproduction)
+├── ppo_cartpole_spec.json                              # Original spec
+├── ppo_cartpole_t0_spec.json                           # Trial spec (for reproduction)
+├── ppo_cartpole_t0_trial_graph_mean_returns_vs_frames.png    # Trial training curve
+├── ppo_cartpole_t0_trial_graph_mean_returns_ma_vs_frames.png # Trial moving average
+├── ppo_cartpole_t0_trial_metrics_scalar.json           # Trial metrics
+│
+├── graph/                  # Per-session graphs
+│   └── ppo_cartpole_t0_s0_session_graph_*.png
+│
+├── info/                   # Session data and experiment results
+│   ├── ppo_cartpole_t0_s0_session_df.csv              # Session time series
+│   └── experiment_df.csv                               # Search results (if search mode)
+│
+├── log/                    # TensorBoard event files
+│   └── events.out.tfevents.*
+│
+└── model/                  # PyTorch checkpoints
+    ├── ppo_cartpole_t0_s0_ckpt-best_net_model.pt      # Best model (session 0)
+    └── ppo_cartpole_t0_s0_net_model.pt                # Final model (session 0)
 ```
+
+**Naming convention:** `{spec_name}_t{trial}_s{session}_{type}.{ext}`
 
 See [Data Locations](../analyzing-results/analytics.md) for details.

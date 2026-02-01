@@ -31,15 +31,14 @@ This regenerates:
 
 ## What Gets Regenerated
 
-| Artifact | Original Location | Effect |
-|----------|-------------------|--------|
+| Artifact | Location | Effect |
+|----------|----------|--------|
+| Trial graphs | `*_trial_graph_*.png` (root) | Overwritten |
+| Trial metrics | `*_trial_metrics_scalar.json` (root) | Overwritten |
 | Session graphs | `graph/*_session_graph_*.png` | Overwritten |
-| Trial graphs | `graph/*_trial_graph_*.png` | Overwritten |
-| Experiment graphs | `graph/*_experiment_graph.png` | Overwritten |
-| Trial metrics | `info/*_trial_metrics.json` | Overwritten |
 | Session data | `info/*_session_df.csv` | **Preserved** |
 | Model checkpoints | `model/*.pt` | **Preserved** |
-| Spec file | `*_spec.json` | **Preserved** |
+| Spec file | `*_spec.json` (root) | **Preserved** |
 
 {% hint style="success" %}
 **Safe to run**: Retro analysis only overwrites derived data. Your raw session data, trained models, and spec files are never modified.
@@ -71,7 +70,7 @@ If you modify the analysis module (e.g., add a new metric):
 uv run python -c 'from slm_lab.experiment import retro_analysis; retro_analysis.retro_analyze("data/ppo_lunar_2026_01_30_221924")'
 
 # Check updated metrics
-cat data/ppo_lunar_2026_01_30_221924/info/*_trial_metrics_scalar.json
+cat data/ppo_lunar_2026_01_30_221924/ppo_lunar_t0_trial_metrics_scalar.json
 ```
 
 ### Generate Publication-Quality Graphs

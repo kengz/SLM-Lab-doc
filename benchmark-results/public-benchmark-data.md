@@ -8,7 +8,7 @@ All SLM Lab benchmark results are publicly available on HuggingFace for reproduc
 
 Each experiment includes:
 
-- **Trained models** - PyTorch checkpoints (`*_ckpt-best.pt`)
+- **Trained models** - PyTorch checkpoints (`*_ckpt-best_net_model.pt`)
 - **Training curves** - Full learning history (`*_session_df.csv`)
 - **Specs** - Exact configurations for reproduction (`*_spec.json`)
 - **Graphs** - Plotly visualizations (PNG and HTML)
@@ -30,7 +30,7 @@ slm-lab pull ppo_hopper
 ```
 
 Downloads to `data/ppo_hopper_*/` including:
-- Model checkpoints (`model/*_ckpt-best.pt`)
+- Model checkpoints (`model/*_ckpt-best_net_model.pt`)
 - Training metrics (`info/*_session_df.csv`)
 - Saved spec (`*_spec.json`)
 
