@@ -28,10 +28,14 @@ Options:
 The full command format is:
 
 ```bash
-slm-lab run spec.json spec_name train
+slm-lab run spec.json spec_name mode
 ```
 
-Running `slm-lab run` without arguments uses the defaults above—PPO on CartPole in dev mode.
+So `slm-lab run` is equivalent to:
+
+```bash
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole dev
+```
 
 ## Run the Demo
 
