@@ -2,9 +2,12 @@
 
 This tutorial shows how to train on Atari games using GPU acceleration.
 
-![Qbert](https://user-images.githubusercontent.com/8209263/63994672-54f36880-caaa-11e9-9757-7780725b53af.gif)
+|||||
+|:---:|:---:|:---:|:---:|
+| ![Qbert](https://user-images.githubusercontent.com/8209263/63994672-54f36880-caaa-11e9-9757-7780725b53af.gif) | ![MsPacman](https://user-images.githubusercontent.com/8209263/63994685-5cb30d00-caaa-11e9-8f35-78e29a7d60f5.gif) | ![Breakout](https://user-images.githubusercontent.com/8209263/63994695-650b4800-caaa-11e9-9982-2462738caa45.gif) | ![Seaquest](https://user-images.githubusercontent.com/8209263/63994665-4dcc5a80-caaa-11e9-80bf-c21db818115b.gif) |
+| [Q*bert](https://ale.farama.org/environments/qbert/) | [MsPacman](https://ale.farama.org/environments/ms_pacman/) | [Breakout](https://ale.farama.org/environments/breakout/) | [Seaquest](https://ale.farama.org/environments/seaquest/) |
 
-**[Q*bert](https://ale.farama.org/environments/qbert/)** is a classic Atari puzzle game—hop around a pyramid changing tile colors while avoiding enemies. It's a great environment for learning GPU-accelerated training because the ConvNet architecture benefits significantly from GPU.
+Atari games are classic benchmarks for deep RL—image-based observations require ConvNet architectures that benefit significantly from GPU acceleration.
 
 ## Why GPU for Atari?
 
