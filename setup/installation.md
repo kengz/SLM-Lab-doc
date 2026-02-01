@@ -1,7 +1,5 @@
 # Installation 🛠️
 
-Get SLM Lab running in under 5 minutes.
-
 ## Prerequisites
 
 ### Python Version
