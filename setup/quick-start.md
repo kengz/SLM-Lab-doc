@@ -43,7 +43,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole dev
 slm-lab run --render
 ```
 
-This runs PPO on CartPole with visualization. **CartPole** is a classic RL benchmark: balance a pole on a cart by moving left or right. The agent receives +1 reward per timestep the pole stays upright (max 500 per episode).
+This runs PPO on CartPole with visualization (single session, slower due to rendering). **CartPole** is a classic RL benchmark: balance a pole on a cart by moving left or right. The agent receives +1 reward per timestep the pole stays upright (max 500 per episode).
 
 ### What to Expect
 
@@ -81,10 +81,6 @@ Random actions score ~20-30. PPO solves CartPole (450+ reward) within 50,000-100
 ### Stopping the Demo
 
 Press `Ctrl+C` to stop. In dev mode, partial results are not saved.
-
-{% hint style="info" %}
-`--render` runs a single session and is slower due to visualization overhead. For faster multi-session training, see [Train: PPO on CartPole](../using-slm-lab/train-ppo-cartpole.md).
-{% endhint %}
 
 {% hint style="success" %}
 If you see rewards climbing, SLM Lab is working correctly. Continue to [Train: PPO on CartPole](../using-slm-lab/train-ppo-cartpole.md) for a full training run.
