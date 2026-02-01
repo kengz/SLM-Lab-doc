@@ -2,9 +2,20 @@
 
 ## MuJoCo Benchmark Results (v5)
 
-SLM Lab v5 validates PPO on Gymnasium MuJoCo environments. Results below are from January 2026 benchmark reruns using MuJoCo v5 environments.
+SLM Lab v5 validates PPO on [Gymnasium MuJoCo environments](https://gymnasium.farama.org/environments/mujoco/). MuJoCo (Multi-Joint dynamics with Contact) provides physics simulation for continuous control tasks ranging from simple pendulums to complex humanoid locomotion.
+
+Results below are from January 2026 benchmark reruns using MuJoCo v5 environments.
 
 All trained models and metrics are publicly available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
+
+{% hint style="warning" %}
+**v5 vs v4 Difficulty:** Gymnasium MuJoCo v5 environments are significantly harder than v4. Key changes include:
+- Updated physics engine with more accurate contact dynamics
+- Revised reward functions with stricter success criteria
+- Termination conditions more closely match real-world failure modes
+
+Expect **10-30% lower scores** compared to v4 benchmarks. See [Gymnasium Migration Guide](https://gymnasium.farama.org/content/migration-guide/) for details.
+{% endhint %}
 
 {% hint style="info" %}
 **January 2026 Rerun:** SAC benchmarks are omitted in this rerun due to compute constraints (off-policy algorithms require significantly more resources for systematic benchmarking). PPO results cover all 11 MuJoCo environments.
@@ -47,6 +58,30 @@ Two unified specs in [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/mas
 | HumanoidStandup-v5 | >100k | 165841 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_humanoidstandup_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_humanoidstandup_2026_01_30_215802) |
 
 **Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed
+
+### Training Curves
+
+![Hopper-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Hopper-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+![HalfCheetah-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/HalfCheetah-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+![Walker2d-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Walker2d-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+![Ant-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Ant-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+![Swimmer-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Swimmer-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+![Reacher-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Reacher-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+![Pusher-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Pusher-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+![InvertedPendulum-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/InvertedPendulum-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+![InvertedDoublePendulum-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/InvertedDoublePendulum-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+![Humanoid-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Humanoid-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+![HumanoidStandup-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/HumanoidStandup-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
 ### Running MuJoCo Benchmarks
 

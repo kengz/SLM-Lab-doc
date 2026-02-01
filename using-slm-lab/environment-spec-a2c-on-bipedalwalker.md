@@ -95,9 +95,11 @@ Let's look at the A2C Pong spec from [slm\_lab/spec/benchmark/a2c/a2c\_gae\_pong
 
 Key points:
 
-* **"name": "ALE/Pong-v5"**: Gymnasium's Arcade Learning Environment. The ALE wrapper handles frame preprocessing (grayscale, 84x84 resize, frame stacking) automatically.
+* **"name": "ALE/Pong-v5"**: [Gymnasium's Arcade Learning Environment](https://gymnasium.farama.org/environments/atari/pong/). The ALE wrapper handles frame preprocessing (grayscale, 84x84 resize, frame stacking) automatically.
 * **"num_envs": 16**: Run 16 parallel environment instances. Each step returns a batch of 16 states.
 * **"max_frame": 1e7**: Train for 10 million total frames across all environments.
+
+**Pong** is a classic Atari benchmark—first-to-21 points wins. The agent controls a paddle to return the ball. Optimal performance is +21 (never losing a point).
 
 {% hint style="info" %}
 Gymnasium's ALE environments (v5) include standard Atari preprocessing. Frame stacking, grayscale conversion, and other preprocessing are handled by the environment wrapper.
@@ -122,6 +124,12 @@ slm-lab run slm_lab/spec/benchmark/a2c/a2c_gae_pong.json a2c_gae_pong train
 ```
 
 Pong's maximum score is 21. With 16 parallel environments, the 10M frames complete in about a day on CPU.
+
+{% hint style="info" %}
+**v5 Note:** Gymnasium ALE environments (v5) are more challenging than OpenAI Gym versions. The ALE wrapper uses deterministic frame skipping and stricter action handling. See [Gymnasium ALE docs](https://gymnasium.farama.org/environments/atari/) for details.
+{% endhint %}
+
+For validated Atari training curves, see [Atari Benchmark](../benchmark-results/atari-benchmark.md). The graphs below are from v4 A2C training:
 
 ![Trial graph averaged over 4 sessions](../.gitbook/assets/a2c_gae_pong_t0_trial_graph_mean_returns_vs_frames.png)
 

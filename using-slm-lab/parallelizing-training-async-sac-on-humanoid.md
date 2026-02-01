@@ -47,6 +47,12 @@ Hogwild! works with GPU training. See the [A3C spec](https://github.com/kengz/SL
 
 ## Async SAC on Humanoid
 
+[**Humanoid-v5**](https://gymnasium.farama.org/environments/mujoco/humanoid/) is one of the most challenging MuJoCo environments—a 17-joint humanoid robot must learn to walk. It has a 376-dimensional observation space and 17-dimensional continuous action space.
+
+{% hint style="info" %}
+**v5 Note:** Gymnasium MuJoCo v5 environments have updated physics and reward functions. Humanoid-v5 is significantly harder than v4, with lower typical scores. See [Gymnasium MuJoCo docs](https://gymnasium.farama.org/environments/mujoco/) for details.
+{% endhint %}
+
 SAC is sample-efficient but slow to train due to its multiple networks. Humanoid requires ~50 million frames for good performance—without parallelization, this takes weeks.
 
 The async SAC spec at [slm\_lab/spec/benchmark/async\_sac/async\_sac\_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/async_sac/async_sac_mujoco.json) shows this pattern:
@@ -109,9 +115,13 @@ slm-lab run slm_lab/spec/benchmark/async_sac/async_sac_mujoco.json async_sac_hum
 
 The trial graph shows rewards climbing past 1000 within 10M frames (measured per-session). Since sessions share networks, their performance is nearly identical—hence the small error envelope.
 
+These graphs are from v4 async SAC training (pending v5 re-validation):
+
 ![](../.gitbook/assets/async_sac_humanoid_t0_trial_graph_mean_returns_vs_frames.png)
 
 ![Moving average over 100 checkpoints](../.gitbook/assets/async_sac_humanoid_t0_trial_graph_mean_returns_ma_vs_frames.png)
+
+For validated Humanoid results using synchronous PPO, see [Continuous Benchmark](../benchmark-results/continuous-benchmark.md)—PPO achieves **3774** on Humanoid-v5.
 
 {% hint style="info" %}
 The x-axis shows per-session frames. To get total frames, multiply by number of sessions (16 here).

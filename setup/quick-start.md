@@ -62,6 +62,10 @@ Early in training, the pole falls quickly. As `total_reward_ma` climbs toward 40
 
 PPO typically solves CartPole within 50,000-100,000 frames (1-3 minutes).
 
+**Training curve (from benchmark run):**
+
+![CartPole-v1 Training Curve](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/CartPole-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
 ### Stopping the Demo
 
 Press `Ctrl+C` to stop. In dev mode, partial results are not saved.

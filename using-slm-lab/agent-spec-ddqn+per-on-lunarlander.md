@@ -198,7 +198,11 @@ You'll see the LunarLander environment rendering:
 
 ![LunarLander environment](../.gitbook/assets/LunarLander.png)
 
-The goal is to land the spacecraft between the flags. The agent controls four thrusters (left, right, main engine, or do nothing).
+**[LunarLander-v3](https://gymnasium.farama.org/environments/box2d/lunar_lander/)** is a classic control task: land a spacecraft safely between two flags using four discrete actions (left thruster, right thruster, main engine, or nothing). The agent receives reward for moving toward the landing pad and penalty for crashing or using fuel.
+
+{% hint style="info" %}
+**v5 Note:** LunarLander-v3 (Gymnasium) has stricter termination conditions than LunarLander-v2 (OpenAI Gym). Scores are typically lower than older benchmarks. See [Gymnasium docs](https://gymnasium.farama.org/environments/box2d/lunar_lander/) for details.
+{% endhint %}
 
 ### Train Mode (Full Training)
 
@@ -214,13 +218,15 @@ After training, graphs are saved to `data/ddqn_per_concat_lunar_{timestamp}/grap
 
 **Trial graph (average of 4 sessions):**
 
-![DDQN+PER LunarLander trial graph](../.gitbook/assets/ddqn_per_concat_lunar_t0_trial_graph_mean_returns_vs_frames.png)
+![DDQN+PER LunarLander trial graph](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ddqn_per_concat_lunar_2026_01_30_215532/graph/ddqn_per_concat_lunar_t0_trial_graph_mean_returns_vs_frames.png)
 
 **Moving average (100-checkpoint window):**
 
-![DDQN+PER LunarLander trial graph MA](../.gitbook/assets/ddqn_per_concat_lunar_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![DDQN+PER LunarLander trial graph MA](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ddqn_per_concat_lunar_2026_01_30_215532/graph/ddqn_per_concat_lunar_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
-The target score for LunarLander is 200. DDQN+PER typically reaches 250+ with this configuration.
+The target score for LunarLander-v3 is 200. DDQN+PER reaches **261.5** MA with this configuration. See [Discrete Benchmark](../benchmark-results/discrete-benchmark.md) for full results.
+
+Trained models are available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ddqn_per_concat_lunar_2026_01_30_215532).
 
 ## Modifying the Spec
 
