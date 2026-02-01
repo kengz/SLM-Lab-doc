@@ -41,6 +41,10 @@ See [Class Inheritance: A2C > PPO](../modular-lab-components/class-inheritance-a
 | **PPO** | Actor-Critic | Both | + Clipped surrogate objective |
 | **SAC** | Actor-Critic | Continuous | + Maximum entropy RL |
 
+{% hint style="info" %}
+**Documentation coverage:** The sub-pages cover algorithm families (DQN, REINFORCE, Actor-Critic). Individual variants like DoubleDQN, A2C, PPO, and SAC inherit from these families—see [Class Inheritance](../modular-lab-components/class-inheritance-a2c-greater-than-ppo.md) for how this works in code.
+{% endhint %}
+
 ## Algorithm Interface
 
 All algorithms implement this interface:
