@@ -214,7 +214,7 @@ This runs 4 sessions with different random seeds. Expect ~1-2 hours for completi
 
 ### Results
 
-After training, graphs are saved to `data/ddqn_per_concat_lunar_{timestamp}/`:
+After training, graphs are saved to `data/ddqn_per_concat_lunar_{timestamp}/` (e.g., `ddqn_per_concat_lunar_2026_01_30_215532`):
 
 **Trial graph (average of 4 sessions):**
 
