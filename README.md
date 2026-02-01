@@ -10,8 +10,12 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
   <a href="https://github.com/kengz/SLM-Lab">GitHub</a> · <a href="benchmark-results/public-benchmark-data.md">Benchmark Results</a>
 </p>
 
+**Companion library of the book** [**Foundations of Deep Reinforcement Learning**](https://www.amazon.com/dp/0135172381)**.**
+
 {% hint style="info" %}
 **v5.0** updates to Gymnasium, `uv` tooling, and modern dependencies with ARM support—see [Changelog](CHANGELOG.md).
+
+**Book readers:** use `git checkout v4.1.1` for the book code. See [book website and errata](https://slm-lab.gitbook.io/foundations-of-deep-rl/).
 {% endhint %}
 
 |||||
@@ -65,13 +69,7 @@ SLM Lab is a software framework for **reinforcement learning** (RL) research and
 | **Automatic analysis** | Training curves, metrics, and TensorBoard logging out of the box |
 | **Cloud integration** | dstack for GPU training, HuggingFace for sharing results |
 
-**SLM Lab is also the companion library of the book** [**Foundations of Deep Reinforcement Learning**](https://www.amazon.com/dp/0135172381)**.**
-
-{% hint style="info" %}
-**Book readers:** For the exact code from *Foundations of Deep Reinforcement Learning*, use `git checkout v4.1.1`. The book's [website and errata is here](https://slm-lab.gitbook.io/foundations-of-deep-rl/).
-{% endhint %}
-
-## Core Concepts 🏗️
+## Core Concepts
 
 SLM Lab organizes experiments hierarchically:
 
@@ -104,7 +102,7 @@ Run it: `slm-lab run spec.json ppo_cartpole train`
 
 See [Understanding Experiments](using-slm-lab/lab-organization.md) for the full picture.
 
-## Algorithms 🧠
+## Algorithms
 
 SLM Lab implements the canonical RL algorithms with a [taxonomy-based inheritance](development/modular-lab-components/algorithm-taxonomy.md) design:
 
@@ -119,7 +117,7 @@ SLM Lab implements the canonical RL algorithms with a [taxonomy-based inheritanc
 
 See [Benchmark Results](benchmark-results/public-benchmark-data.md) for detailed performance data.
 
-## Environments 🌍
+## Environments
 
 SLM Lab uses [Gymnasium](https://gymnasium.farama.org/) (the maintained fork of OpenAI Gym):
 
@@ -136,7 +134,7 @@ Any gymnasium-compatible environment works—just specify its name in the spec.
 **v5 vs v4:** Gymnasium environments are harder than OpenAI Gym. Expect 10-30% lower scores vs older benchmarks. See [Benchmark Results](benchmark-results/public-benchmark-data.md) for validated scores.
 {% endhint %}
 
-## Key RL Terms 📚
+## Key RL Terms
 
 Quick reference for terms used throughout this documentation. For deeper coverage, see [Foundations of Deep Reinforcement Learning](https://www.amazon.com/dp/0135172381).
 
@@ -154,7 +152,7 @@ Quick reference for terms used throughout this documentation. For deeper coverag
 | **On-policy** | Learn from actions taken by current policy (PPO, A2C) |
 | **Off-policy** | Learn from any actions, including past data (DQN, SAC) |
 
-## Documentation Guide 📖
+## Documentation Guide
 
 **Getting Started:**
 1. [Installation](setup/installation.md) - Set up SLM Lab
@@ -173,7 +171,7 @@ Quick reference for terms used throughout this documentation. For deeper coverag
 - [Remote Training](using-slm-lab/remote-training.md) - Cloud GPU training with dstack
 - [Architecture](development/architecture.md) - How SLM Lab works
 
-## Citation 📝
+## Citation
 
 If you use SLM Lab in your publication, please cite:
 
