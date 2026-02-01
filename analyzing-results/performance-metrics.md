@@ -1,4 +1,4 @@
-# Performance Metrics
+# Performance Metrics 📏
 
 The [analysis module](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/experiment/analysis.py) of SLM Lab calculates a set of metrics to measure the performance of an RL agent, which are logged during a run. These metrics can be computed from a time series of returns computed from periodic evaluation.
 

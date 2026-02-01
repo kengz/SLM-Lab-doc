@@ -1,4 +1,4 @@
-# Talks and Presentations
+# Talks and Presentations 🎤
 
 SLM Lab has been presented at conferences, meetups, and podcasts since 2016.
 

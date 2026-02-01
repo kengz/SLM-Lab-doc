@@ -1,4 +1,4 @@
-# Motivation
+# Motivation 💡
 
 ## Why SLM Lab Exists
 

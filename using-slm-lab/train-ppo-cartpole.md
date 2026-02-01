@@ -1,4 +1,4 @@
-# Train: PPO CartPole
+# Train: PPO CartPole 🎓
 
 ## Train Mode
 
@@ -21,6 +21,10 @@ This runs a `Trial` with 4 `Sessions` using different random seeds. The training
 {% hint style="success" %}
 PPO reliably solves CartPole when `total_reward_ma` reaches 450-500 (the maximum score).
 {% endhint %}
+
+**Training curve** (from benchmark run):
+
+![CartPole-v1 Training Curve](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/CartPole-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
 When complete, all metrics, graphs, and data are saved to a timestamped folder like `data/ppo_cartpole_2024_01_15_123456/`. SLM Lab saves two model checkpoints:
 

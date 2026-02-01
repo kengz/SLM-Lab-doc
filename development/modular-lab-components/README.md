@@ -1,4 +1,4 @@
-# Modular Design
+# Modular Design 🧩
 
 ## Why Modularity Matters
 

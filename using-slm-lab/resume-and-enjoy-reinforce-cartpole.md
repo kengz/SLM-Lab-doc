@@ -1,4 +1,4 @@
-# Resume and Enjoy
+# Resume and Enjoy 🔄
 
 ## Train@ (Resume) Mode
 

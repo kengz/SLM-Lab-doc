@@ -1,4 +1,4 @@
-# Lab Command
+# Lab Command 💻
 
 The `slm-lab` CLI is your primary interface to SLM Lab. This page covers all commands and options.
 

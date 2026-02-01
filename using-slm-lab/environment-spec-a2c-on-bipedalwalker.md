@@ -1,4 +1,4 @@
-# Env Spec: A2C on Pong
+# Env Spec: A2C on Pong 🎮
 
 {% hint style="warning" %}
 **v5 Status**: A2C on Atari has not been re-validated in v5. For validated Atari training, use PPO—see [Run Benchmark: PPO on Atari](run-benchmark-a2c-on-atari-games.md). This tutorial focuses on the **env spec** configuration which applies to all algorithms.

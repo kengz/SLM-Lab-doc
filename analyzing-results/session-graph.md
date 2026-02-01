@@ -1,4 +1,4 @@
-# Graphs and Data
+# Graphs and Data 📊
 
 SLM Lab automatically generates graphs showing how your agent learns over time. These help you:
 

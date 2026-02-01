@@ -1,4 +1,4 @@
-# Post-Hoc Analysis
+# Post-Hoc Analysis 🔬
 
 ## Regenerating Graphs and Metrics
 

@@ -1,4 +1,4 @@
-# Parallelizing Training: Async SAC on Humanoid
+# Parallelizing Training: Async SAC on Humanoid ⚡
 
 {% hint style="warning" %}
 **v5 Status**: Async algorithms (A3C, Async SAC, DPPO) have not been re-validated in v5. The synchronous versions (SAC, PPO) are fully validated—see [Benchmark Results](../benchmark-results/continuous-benchmark.md). This tutorial documents the async architecture for reference; re-validation is pending.

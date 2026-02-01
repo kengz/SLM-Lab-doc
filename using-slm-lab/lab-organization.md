@@ -1,4 +1,4 @@
-# Lab Organization
+# Lab Organization 🏗️
 
 ## Session, Trial, and Experiment
 

@@ -1,4 +1,4 @@
-# Deep RL Resources
+# Deep RL Resources 📖
 
 ## Master List
 

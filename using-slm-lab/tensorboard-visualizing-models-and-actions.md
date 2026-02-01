@@ -1,4 +1,4 @@
-# TensorBoard
+# TensorBoard 📈
 
 [TensorBoard](https://www.tensorflow.org/tensorboard) provides real-time visualization of training metrics. SLM Lab automatically logs data for TensorBoard during training.
 

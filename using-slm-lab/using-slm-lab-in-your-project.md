@@ -1,4 +1,4 @@
-# Using SLM Lab In Your Project
+# Using SLM Lab In Your Project 🔧
 
 ## SLM Lab As a Python Module
 

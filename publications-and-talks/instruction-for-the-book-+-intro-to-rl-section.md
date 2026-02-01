@@ -1,4 +1,4 @@
-# Book: Foundations of Deep Reinforcement Learning
+# Book: Foundations of Deep Reinforcement Learning 📚
 
 ## Book
 

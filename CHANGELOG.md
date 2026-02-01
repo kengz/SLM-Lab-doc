@@ -1,4 +1,4 @@
-# Changelog
+# Changelog 📋
 
 This page documents changes to the SLM Lab documentation and major framework releases.
 

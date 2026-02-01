@@ -1,4 +1,4 @@
-# Profiling SLM Lab
+# Profiling SLM Lab ⚡
 
 Understanding performance bottlenecks helps optimize training throughput. SLM Lab includes built-in profiling support and works well with Python's standard profiling tools.
 

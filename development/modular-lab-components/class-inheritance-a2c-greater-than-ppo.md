@@ -1,4 +1,4 @@
-# Class Inheritance: A2C > PPO
+# Class Inheritance: A2C → PPO 🔗
 
 ## REINFORCE → ActorCritic → PPO
 

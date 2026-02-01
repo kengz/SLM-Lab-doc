@@ -1,6 +1,6 @@
-# Algorithm Taxonomy
+# Algorithm Taxonomy 🌳
 
-## :herb: Algorithm Taxonomy
+## Algorithm Family Tree
 
 Deep RL algorithms can be classified into a family tree based on their methods / functions they learn, such as the one shown below.
 

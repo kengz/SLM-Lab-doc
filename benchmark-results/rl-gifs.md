@@ -2,7 +2,7 @@
 description: Trained agents in action—watch SLM Lab's PPO and SAC algorithms play games and control robots.
 ---
 
-# Agent Replays
+# Agent Replays 🎬
 
 These GIFs show trained agents running in "enjoy" mode. Generate your own with:
 

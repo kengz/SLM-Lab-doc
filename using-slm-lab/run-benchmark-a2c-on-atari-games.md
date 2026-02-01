@@ -1,4 +1,4 @@
-# Run Benchmark: PPO on Atari
+# Run Benchmark: PPO on Atari 🏆
 
 ## Running Benchmarks with Variable Substitution
 
