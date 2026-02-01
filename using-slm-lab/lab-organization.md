@@ -76,13 +76,13 @@ Output files follow: `{spec_name}_t{trial}_s{session}_{type}.{ext}`
 
 Every experiment in SLM Lab can be reproduced exactly. When you run an experiment, SLM Lab saves:
 
-1. **Spec file** (`*_spec.json`) - all hyperparameters and settings
-2. **Git SHA** - the exact code version used (in `info/` folder)
+1. **Trial spec file** (`*_t0_spec.json`) - all hyperparameters with fixed values (no search ranges)
+2. **Git SHA** - the exact code version, saved in the trial spec's `meta.git_sha`
 3. **Random seeds** - deterministic per session
 
 ### Reproducing Results
 
-The saved spec (`ppo_cartpole_t0_spec.json`) includes the git SHA for exact reproduction:
+The trial spec (`ppo_cartpole_t0_spec.json`) includes the git SHA for exact reproduction:
 
 ```json
 {
