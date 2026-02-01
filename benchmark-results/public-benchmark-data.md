@@ -13,12 +13,31 @@ Each experiment includes:
 - **Specs** - Exact configurations for reproduction (`*_spec.json`)
 - **Graphs** - Plotly visualizations (PNG and HTML)
 
+## Setup
+
+To access the public benchmarks, set `HF_REPO` in your `.env` file:
+
+```bash
+# .env
+HF_REPO=SLM-Lab/benchmark
+```
+
+Then source it before running commands:
+
+```bash
+source .env
+```
+
+{% hint style="info" %}
+**No token needed for read-only access.** `HF_TOKEN` is only required for uploading to your own repo.
+{% endhint %}
+
 ## Accessing Results 🔗
 
 ### List Available Experiments
 
 ```bash
-slm-lab list
+source .env && slm-lab list
 ```
 
 Shows all experiments on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
@@ -26,7 +45,7 @@ Shows all experiments on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/b
 ### Download an Experiment
 
 ```bash
-slm-lab pull ppo_hopper
+source .env && slm-lab pull ppo_hopper
 ```
 
 Downloads to `data/ppo_hopper_*/` including:
@@ -125,13 +144,13 @@ Every experiment can be exactly reproduced:
 
 ```bash
 # 1. Download the experiment
-slm-lab pull ppo_hopper
+source .env && slm-lab pull ppo_hopper
 
 # 2. Check the spec for settings and git SHA
 cat data/ppo_hopper_*/ppo_hopper_t0_spec.json
 
-# 3. Run with saved spec
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json
+# 3. Replay the trained model
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo_hopper_*/ppo_hopper_t0_spec.json
 ```
 
 For exact code version, checkout the git SHA in the spec file.
