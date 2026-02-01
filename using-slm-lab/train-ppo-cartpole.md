@@ -54,4 +54,4 @@ See [Data Locations](../analyzing-results/analytics.md) for full details.
 
 ## Next Steps
 
-Now that you have trained models, let's [resume and replay](resume-and-enjoy-reinforce-cartpole.md) them.
+Learn how SLM Lab organizes experiments in [Understanding Experiments](lab-organization.md).

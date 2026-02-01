@@ -87,5 +87,4 @@ If you see rewards climbing, SLM Lab is working correctly. Continue to [Train: P
 ## Next Steps
 
 1. **[Train: PPO on CartPole](../using-slm-lab/train-ppo-cartpole.md)** - Full training with saved results
-2. **[Resume and Replay](../using-slm-lab/resume-and-enjoy-reinforce-cartpole.md)** - Resume training and replay trained models
-3. **[Understanding Experiments](../using-slm-lab/lab-organization.md)** - Sessions, Trials, and Experiments
+2. **[Understanding Experiments](../using-slm-lab/lab-organization.md)** - Sessions, Trials, and Experiments
