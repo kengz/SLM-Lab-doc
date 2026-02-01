@@ -119,7 +119,7 @@ source .env && slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_atari.jso
 source .env && slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari search -n ppo-search
 
 # With variable substitution
-source .env && slm-lab run-remote --gpu -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n ppo-pong
+source .env && slm-lab run-remote --gpu -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n ppo-qbert
 ```
 
 ### `slm-lab list`
@@ -262,7 +262,7 @@ slm-lab pull ppo_hopper
 
 ```bash
 # Using template spec with variable substitution
-for env in ALE/Pong-v5 ALE/Breakout-v5 ALE/Qbert-v5; do
+for env in ALE/Qbert-v5 ALE/MsPacman-v5 ALE/Breakout-v5; do
     slm-lab run -s env=$env slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 done
 ```

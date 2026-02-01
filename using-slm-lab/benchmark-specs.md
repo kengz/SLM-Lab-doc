@@ -189,7 +189,7 @@ Template specs use `${env}` and `${max_frame}` placeholders for flexibility:
 slm-lab run -s env=HalfCheetah-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
 
 # Multiple substitutions
-slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 ```
 
 ### Available Templates

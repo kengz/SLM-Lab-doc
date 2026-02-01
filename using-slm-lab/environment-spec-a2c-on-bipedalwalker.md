@@ -43,7 +43,7 @@ SLM Lab works with any [Gymnasium](https://gymnasium.farama.org/) environment. C
 | **Classic Control** | CartPole-v1, Acrobot-v1 | Discrete | Fast training, good for testing |
 | **Box2D** | LunarLander-v3, BipedalWalker-v3 | Discrete/Continuous | Medium complexity |
 | **MuJoCo** | HalfCheetah-v5, Humanoid-v5 | Continuous | Physics simulation, use normalization |
-| **Atari** | ALE/Breakout-v5, ALE/Pong-v5 | Discrete | Image observations, use GPU |
+| **Atari** | ALE/Qbert-v5, ALE/MsPacman-v5 | Discrete | Image observations, use GPU |
 
 **Environment-specific settings:**
 
@@ -149,7 +149,7 @@ To use a different environment, find a spec for that environment category and mo
 | **Classic Control** | CartPole-v1, Acrobot-v1, Pendulum-v1, MountainCar-v0 | `ppo_cartpole.json`, `dqn_cartpole.json` |
 | **Box2D** | LunarLander-v3, BipedalWalker-v3 | `ppo_lunar.json`, `ddqn_per_lunar.json` |
 | **MuJoCo** | Hopper-v5, HalfCheetah-v5, Walker2d-v5, Ant-v5, Humanoid-v5, Swimmer-v5, etc. | `ppo_mujoco.json`, `sac_mujoco.json` |
-| **Atari** | 54 games (ALE/Breakout-v5, ALE/Pong-v5, etc.) | `ppo_atari.json`, `dqn_atari.json` |
+| **Atari** | 54 games (ALE/Qbert-v5, ALE/MsPacman-v5, etc.) | `ppo_atari.json`, `dqn_atari.json` |
 
 ### Switching Environments
 
@@ -183,7 +183,7 @@ slm-lab run -s env=Hopper-v5 -s max_frame=2e6 slm_lab/spec/benchmark/ppo/ppo_muj
 slm-lab run -s env=Walker2d-v5 -s max_frame=5e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
 
 # Atari template - works for any ALE game
-slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 ```
 
