@@ -90,10 +90,10 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari search
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@latest
 
 # Resume from specific run
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@data/ppo_cartpole_2024_01_15_123456
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@data/ppo_cartpole_2026_01_30_221924
 
 # Replay trained model (placeholders for spec_file and spec_name)
-slm-lab run _ _ enjoy@data/ppo_cartpole_2024_01_15_123456/ppo_cartpole_t0_spec.json
+slm-lab run _ _ enjoy@data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json
 ```
 
 ### `slm-lab run-remote`
@@ -159,7 +159,7 @@ slm-lab push <data_folder>
 **Example:**
 
 ```bash
-slm-lab push data/ppo_cartpole_2024_01_15_123456
+slm-lab push data/ppo_cartpole_2026_01_30_221924
 ```
 
 ## Global Options
@@ -319,7 +319,7 @@ See [Understanding Experiments](lab-organization.md) for the spec system and exp
 After a training run, results are saved to `data/{spec_name}_{timestamp}/`:
 
 ```
-data/ppo_cartpole_2024_01_15_123456/
+data/ppo_cartpole_2026_01_30_221924/
 ├── graph/                      # Training curves (PNG)
 │   ├── *_session_graph_*.png   # Per-session plots
 │   └── *_trial_graph_*.png     # Aggregated plots

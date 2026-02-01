@@ -1,10 +1,10 @@
-# Train: PPO CartPole 🎓
+# Train: PPO on CartPole 🎓
 
-## Train Mode
+Now let's run a full training and save the results. This is your first "real" training run.
 
-This tutorial shows how to train an agent in SLM Lab and use the saved model for replay in enjoy mode.
+## Running Full Training
 
-We'll use PPO (Proximal Policy Optimization) on CartPole—the same algorithm and environment from the Quick Start demo. PPO is a widely-used RL algorithm that works well across many environments.
+We'll train PPO on CartPole—the same setup from Quick Start, but this time saving everything for later analysis.
 
 The spec file is at [slm\_lab/spec/benchmark/ppo/ppo\_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json). To run a full training:
 
@@ -28,11 +28,29 @@ PPO reliably solves CartPole when `total_reward_ma` reaches 450-500 (the maximum
 
 ![PPO CartPole Moving Average](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
-When complete, all metrics, graphs, and data are saved to a timestamped folder like `data/ppo_cartpole_2024_01_15_123456/`. SLM Lab saves two model checkpoints:
+When complete, all metrics, graphs, and data are saved to a timestamped folder like `data/ppo_cartpole_2026_01_30_221924/`. SLM Lab saves two model checkpoints:
 
 * **best**: The model with highest evaluation score during training
 * **final**: The model at the end of training
 
 Usually these are similar, but "best" is useful if performance dropped near the end.
 
-Next, we'll look at how to resume training and replay a trained model.
+## What's in the Output Folder? 📁
+
+```
+data/ppo_cartpole_2026_01_30_221924/
+├── ppo_cartpole_t0_spec.json              # Saved spec (for reproduction)
+├── ppo_cartpole_t0_trial_graph_*.png      # Training curves
+├── graph/                                  # Per-session graphs
+├── info/                                   # Metrics CSV files
+├── log/                                    # TensorBoard events
+└── model/                                  # PyTorch checkpoints
+    ├── ppo_cartpole_t0_s0_ckpt-best.pt
+    └── ppo_cartpole_t0_s0_ckpt-last.pt
+```
+
+See [Data Locations](../analyzing-results/analytics.md) for full details.
+
+## Next Steps
+
+Now that you have trained models, let's [resume and replay](resume-and-enjoy-reinforce-cartpole.md) them.

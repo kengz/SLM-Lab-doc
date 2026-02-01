@@ -90,7 +90,7 @@ Key features:
 ```python
 import pandas as pd
 
-df = pd.read_csv('data/experiment_2024_01_15/info/experiment_df.csv')
+df = pd.read_csv('data/experiment_2026_01_30/info/experiment_df.csv')
 print("Best configuration:")
 print(df.iloc[0])
 ```
@@ -138,7 +138,7 @@ These are useful for debugging training issues.
 To regenerate graphs with updated styling:
 
 ```bash
-uv run python -c 'from slm_lab.experiment import retro_analysis; retro_analysis.retro_analyze("data/ppo_lunar_2024_01_15_123456")'
+uv run python -c 'from slm_lab.experiment import retro_analysis; retro_analysis.retro_analyze("data/ppo_lunar_2026_01_30_221924")'
 ```
 
 This recomputes all derived data and graphs without re-running training.

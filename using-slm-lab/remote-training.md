@@ -102,7 +102,7 @@ Shows all experiments stored on your HuggingFace repo.
 Upload a local experiment:
 
 ```bash
-slm-lab push data/ppo_atari_2024_01_15_123456
+slm-lab push data/ppo_atari_2026_01_30_221924
 ```
 
 ## Configuration

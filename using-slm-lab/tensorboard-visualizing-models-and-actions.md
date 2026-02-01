@@ -49,7 +49,7 @@ Reveals distributions that change over training:
 TensorBoard can be slow with many experiments. Specify a single run:
 
 ```bash
-uv run tensorboard --log_dir=data/ppo_lunar_2024_01_15_123456/log
+uv run tensorboard --log_dir=data/ppo_lunar_2026_01_30_221924/log
 ```
 
 ### Compare Multiple Runs

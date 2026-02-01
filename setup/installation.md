@@ -1,6 +1,6 @@
 # Installation 🛠️
 
-## Prerequisites
+## Prerequisites ✅
 
 ### Python Version
 
@@ -39,7 +39,7 @@ choco install swig
 You can skip swig if you only plan to use CartPole, Atari, or MuJoCo environments. It's only needed for Box2D physics simulation.
 {% endhint %}
 
-## Installing SLM Lab
+## Installing SLM Lab 📦
 
 ### Standard Installation
 
@@ -100,7 +100,7 @@ python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
 
 For specific CUDA versions, see [PyTorch installation guide](https://pytorch.org/get-started/locally/).
 
-## Alternative Installations
+## Alternative Installations 🐳
 
 ### Docker
 
@@ -126,7 +126,7 @@ Community member [@isacciobota](https://github.com/isacciobota) maintains Colab 
 [SLM Lab Colab notebook (2024)](https://github.com/isacciobota/SLMLab-x-GoogleColab)
 {% endhint %}
 
-## Book Readers
+## Book Readers 📖
 
 If you're following *Foundations of Deep Reinforcement Learning*, use the book-compatible version:
 
@@ -162,7 +162,7 @@ The algorithms and concepts are identical; only the tooling and environment APIs
 **No local GPU?** Use [Remote Training with dstack](../using-slm-lab/remote-training.md) to train on cloud GPUs. Fractional GPU sharing makes it cost-effective ($0.39/hr for L4).
 {% endhint %}
 
-## Verify Installation
+## Verify Installation ✨
 
 Run the quick test:
 

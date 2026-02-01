@@ -151,7 +151,7 @@ Use HuggingFace integration (recommended):
 ```bash
 # On remote server
 source .env
-slm-lab push data/ppo_lunar_2024_01_15_123456
+slm-lab push data/ppo_lunar_2026_01_30_221924
 
 # On local machine
 slm-lab pull ppo_lunar

@@ -17,7 +17,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@latest
 
 # Or specify a specific run folder
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@data/ppo_cartpole_2024_01_15_123456
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@data/ppo_cartpole_2026_01_30_221924
 ```
 
 ### Extending Training
@@ -48,7 +48,7 @@ This automatically finds the most recent run folder and replays it.
 For a specific run, use the spec file path:
 
 ```bash
-slm-lab run _ _ enjoy@data/ppo_cartpole_2024_01_15_123456/ppo_cartpole_t0_spec.json
+slm-lab run _ _ enjoy@data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json
 ```
 
 ### Glob Patterns

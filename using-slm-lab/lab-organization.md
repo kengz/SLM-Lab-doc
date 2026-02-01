@@ -47,7 +47,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
 The output folder structure looks like:
 
 ```
-data/ppo_cartpole_2024_01_15_123456/
+data/ppo_cartpole_2026_01_30_221924/
 ├── graph/
 │   ├── ppo_cartpole_t0_s0_session_graph_*.png  # Session 0 graphs
 │   ├── ppo_cartpole_t0_s1_session_graph_*.png  # Session 1 graphs

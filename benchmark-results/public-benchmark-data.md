@@ -13,7 +13,7 @@ Each experiment includes:
 - **Specs** - Exact configurations for reproduction (`*_spec.json`)
 - **Graphs** - Plotly visualizations (PNG and HTML)
 
-## Accessing Results
+## Accessing Results 🔗
 
 ### List Available Experiments
 
@@ -161,7 +161,7 @@ Then push your results:
 
 ```bash
 source .env
-slm-lab push data/my_experiment_2024_01_15_123456
+slm-lab push data/my_experiment_2026_01_30_221924
 ```
 
 ## Terminology

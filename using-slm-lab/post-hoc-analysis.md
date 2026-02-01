@@ -21,7 +21,7 @@ Use `retro_analyze` to regenerate graphs and metrics without re-running training
 ## Basic Usage
 
 ```bash
-uv run python -c 'from slm_lab.experiment import retro_analysis; retro_analysis.retro_analyze("data/ppo_lunar_2024_01_15_123456")'
+uv run python -c 'from slm_lab.experiment import retro_analysis; retro_analysis.retro_analyze("data/ppo_lunar_2026_01_30_221924")'
 ```
 
 This regenerates:
@@ -68,10 +68,10 @@ If you modify the analysis module (e.g., add a new metric):
 
 ```bash
 # After modifying slm_lab/experiment/analysis.py
-uv run python -c 'from slm_lab.experiment import retro_analysis; retro_analysis.retro_analyze("data/ppo_lunar_2024_01_15_123456")'
+uv run python -c 'from slm_lab.experiment import retro_analysis; retro_analysis.retro_analyze("data/ppo_lunar_2026_01_30_221924")'
 
 # Check updated metrics
-cat data/ppo_lunar_2024_01_15_123456/info/*_trial_metrics_scalar.json
+cat data/ppo_lunar_2026_01_30_221924/info/*_trial_metrics_scalar.json
 ```
 
 ### Generate Publication-Quality Graphs
@@ -83,7 +83,7 @@ from slm_lab.experiment import retro_analysis
 from slm_lab.lib import viz
 
 # Regenerate with custom settings
-retro_analysis.retro_analyze('data/ppo_lunar_2024_01_15_123456')
+retro_analysis.retro_analyze('data/ppo_lunar_2026_01_30_221924')
 
 # The HTML files support interactive exploration
 # PNG files are ready for documents
