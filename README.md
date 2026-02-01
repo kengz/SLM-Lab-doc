@@ -47,12 +47,12 @@ SLM Lab implements the canonical RL algorithms with a [taxonomy-based inheritanc
 
 | Algorithm | Type | Best For | Validated Environments |
 |-----------|------|----------|------------------------|
-| **PPO** | On-policy | General purpose | Classic, Box2D, MuJoCo (11), Atari (54) |
-| **SAC** | Off-policy | Continuous control | Classic, Box2D, MuJoCo |
-| **DQN/DDQN+PER** | Off-policy | Discrete actions | Classic, Box2D, Atari |
-| **A2C** | On-policy | Fast iteration | Classic, Box2D, Atari |
 | **REINFORCE** | On-policy | Learning/teaching | Classic |
 | **SARSA** | On-policy | Tabular-like | Classic |
+| **DQN/DDQN+PER** | Off-policy | Discrete actions | Classic, Box2D, Atari |
+| **A2C** | On-policy | Fast iteration | Classic, Box2D, Atari |
+| **PPO** | On-policy | General purpose | Classic, Box2D, MuJoCo (11), Atari (54) |
+| **SAC** | Off-policy | Continuous control | Classic, Box2D, MuJoCo |
 
 See [Benchmark Results](benchmark-results/public-benchmark-data.md) for detailed performance data.
 
@@ -68,10 +68,6 @@ SLM Lab uses [Gymnasium](https://gymnasium.farama.org/) (the maintained fork of 
 | **Atari** | Pong, Breakout, and 54 more | Varied | [Gymnasium ALE](https://gymnasium.farama.org/environments/atari/) |
 
 Any gymnasium-compatible environment works—just specify its name in the spec.
-
-{% hint style="warning" %}
-**v5 vs v4:** Gymnasium environments are harder than OpenAI Gym. Expect 10-30% lower scores vs older benchmarks. See [Benchmark Results](benchmark-results/public-benchmark-data.md) for validated scores.
-{% endhint %}
 
 ## Citation
 
