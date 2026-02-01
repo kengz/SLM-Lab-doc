@@ -10,8 +10,6 @@ SLM Lab v5 validates PPO on [ALE (Arcade Learning Environment)](https://ale.fara
 
 **54 games tested** with all results available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
 
-For the complete methodology and full results table, see [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md) in the code repository.
-
 {% hint style="warning" %}
 **v5 vs v4 Difficulty:** Gymnasium ALE v5 is significantly harder than OpenAI Gym's NoFrameskip-v4:
 - **Sticky actions** (`repeat_action_probability=0.25`) per [Machado et al. (2018)](https://arxiv.org/abs/1709.06009)
@@ -21,11 +19,24 @@ For the complete methodology and full results table, see [docs/BENCHMARKS.md](ht
 Expect **10-40% lower scores** compared to older benchmarks. Some games (Bowling, Skiing) are much harder in v5.
 {% endhint %}
 
+### Methodology
+
+Results show **Trial-level** performance:
+
+1. **Trial** = 4 Sessions with different random seeds
+2. **Session** = One complete training run
+3. **Score** = Final 100-checkpoint moving average (`total_reward_ma`)
+
+The trial score is the mean across 4 sessions, providing statistically meaningful results.
+
 ### Configuration
 
+**Settings**: max_frame 10e6 | num_envs 16 | max_session 4 | log_frequency 10000
+
 * **Specs:** [ppo_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json)
-* **Training:** 10M frames, 16 parallel envs, ConvNet [32,64,64]+512fc (Nature CNN)
-* **Key settings:** `life_loss_info=true`, `clip_vloss=true`, AdamW (lr=2.5e-4), minibatch=256
+* **Environment:** Gymnasium ALE v5 with `life_loss_info=true`, sticky actions (`repeat_action_probability=0.25`) per [Machado et al. (2018)](https://arxiv.org/abs/1709.06009)
+* **Network:** ConvNet [32,64,64]+512fc (Nature CNN), AdamW (lr=2.5e-4)
+* **PPO settings:** minibatch=256, horizon=128, epochs=4, `clip_vloss=true`
 
 ### Lambda Variants
 
@@ -54,9 +65,9 @@ Different games benefit from different lambda values for GAE. All variants use t
 
 **Skipped** (hard exploration): Adventure, MontezumaRevenge, Pitfall, PrivateEye, Venture
 
-### Full Game Table
+### Full Results Table
 
-See [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md) for the complete table with all 54 games and direct HuggingFace links.
+All 54 games with scores and HuggingFace links.
 
 <details>
 <summary><b>All 54 Games with HuggingFace Links</b> - click to expand</summary>
@@ -192,38 +203,31 @@ Shows scores for all three lambda variants where tested. **Bold** = best score, 
 
 </details>
 
-### Training Curves (Selected Games)
-
-Session-level training curves from representative runs:
-
-| Breakout (lam70) | Pong (lam85) |
-|:---:|:---:|
-| ![Breakout](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam70_breakout_2026_01_07_110559/graph/ppo_atari_lam70_breakout_t0_s3_session_graph_train_mean_returns_ma_vs_frames.png) | ![Pong](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/graph/ppo_atari_lam85_pong_t0_s0_session_graph_train_mean_returns_ma_vs_frames.png) |
-
-{% hint style="success" %}
-**All 54 Training Curves:** Each game's training curves are available in the HuggingFace links above. Navigate to any experiment's `graph/` folder to view session graphs.
-{% endhint %}
-
 ### Running Atari Benchmarks
 
+All games use the same spec file with variable substitution for the environment:
+
 ```bash
-# Using template spec with variable substitution
+# Local training
 slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train
 slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam85 train
+
+# Remote training with GPU (runs ~2-3 hours)
+source .env && slm-lab run-remote --gpu -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n pong
 ```
 
 ### Download and Replay
 
 ```bash
-# List Atari experiments
-slm-lab list | grep atari
+# List Atari experiments (requires HF_REPO=SLM-Lab/benchmark in .env)
+source .env && slm-lab list | grep atari
 
 # Download a specific game
-slm-lab pull ppo_atari_breakout
+source .env && slm-lab pull ppo_atari_breakout
 
 # Replay
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari enjoy@data/ppo_atari_lam70_breakout_2026_01_07_110559/ppo_atari_lam70_breakout_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 enjoy@data/ppo_atari_lam70_breakout_*/ppo_atari_lam70_breakout_t0_spec.json
 ```
 
 ## Historical Results (v4)

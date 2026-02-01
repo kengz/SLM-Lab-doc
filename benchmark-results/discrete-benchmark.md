@@ -11,6 +11,25 @@ Results below are from January 2026 benchmark reruns using Gymnasium v5 environm
 
 All trained models and metrics are publicly available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
 
+### Methodology
+
+Results show **Trial-level** performance:
+
+1. **Trial** = 4 Sessions with different random seeds
+2. **Session** = One complete training run
+3. **Score** = Final 100-checkpoint moving average (`total_reward_ma`)
+
+The trial score is the mean across 4 sessions, providing statistically meaningful results.
+
+### Standardized Settings
+
+| Category | num_envs | max_frame | log_frequency | ASHA grace_period |
+|----------|----------|-----------|---------------|-------------------|
+| Classic Control | 4 | 2e5-3e5 | 500 | 1e4 |
+| Box2D | 8 | 3e5 | 1000 | 5e4 |
+
+The `grace_period` is the minimum frames before ASHA early stopping can terminate underperforming trials.
+
 {% hint style="warning" %}
 **v5 vs v4 Difficulty:** Gymnasium environments have stricter termination and reward handling:
 - **LunarLander-v3** is notably harder than v2—stricter landing criteria, lower typical scores
@@ -101,27 +120,26 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 ### Running Discrete Benchmarks
 
 ```bash
-# PPO on CartPole
+# Local training
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
-
-# DDQN+PER on LunarLander
 slm-lab run slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar train
-
-# SAC on Pendulum
 slm-lab run slm_lab/spec/benchmark/sac/sac_pendulum.json sac_pendulum train
+
+# Remote training (dstack)
+source .env && slm-lab run-remote slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train -n cartpole
 ```
 
 ### Download and Replay
 
 ```bash
-# List all available experiments
-slm-lab list
+# List all available experiments (requires HF_REPO=SLM-Lab/benchmark in .env)
+source .env && slm-lab list
 
 # Download a specific experiment
-slm-lab pull ppo_cartpole
+source .env && slm-lab pull ppo_cartpole
 
 # Replay the trained agent
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
 ```
 
 ## Historical Results (v4)

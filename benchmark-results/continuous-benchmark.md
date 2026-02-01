@@ -8,6 +8,27 @@ Results below are from January 2026 benchmark reruns using MuJoCo v5 environment
 
 All trained models and metrics are publicly available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
 
+### Methodology
+
+Results show **Trial-level** performance:
+
+1. **Trial** = 4 Sessions with different random seeds
+2. **Session** = One complete training run
+3. **Score** = Final 100-checkpoint moving average (`total_reward_ma`)
+
+The trial score is the mean across 4 sessions, providing statistically meaningful results.
+
+### Standardized Settings
+
+| Setting | Value |
+|---------|-------|
+| num_envs | 16 |
+| max_frame | 4e6-10e6 (varies by env) |
+| log_frequency | 10000 |
+| ASHA grace_period | 1e5-1e6 |
+
+The `grace_period` is the minimum frames before ASHA early stopping can terminate underperforming trials.
+
 {% hint style="warning" %}
 **v5 vs v4 Difficulty:** Gymnasium MuJoCo v5 environments are significantly harder than v4. Key changes include:
 - Updated physics engine with more accurate contact dynamics
@@ -38,6 +59,22 @@ Two unified specs in [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/mas
 | ppo_mujoco | HalfCheetah, Walker, Humanoid, HumanoidStandup | gamma=0.99, lam=0.95 |
 | ppo_mujoco_longhorizon | Reacher, Pusher | gamma=0.997, lam=0.97 |
 | Individual specs | Hopper, Swimmer, Ant, IP, IDP | See spec files |
+
+**Quick Reference**: Copy `ENV`, `SPEC_FILE`, `SPEC_NAME` from the table below for reproduction:
+
+| ENV | MAX_FRAME | SPEC_FILE | SPEC_NAME |
+|-----|-----------|-----------|-----------|
+| HalfCheetah-v5 | 10e6 | ppo_mujoco.json | ppo_mujoco |
+| Walker2d-v5 | 10e6 | ppo_mujoco.json | ppo_mujoco |
+| Humanoid-v5 | 10e6 | ppo_mujoco.json | ppo_mujoco |
+| HumanoidStandup-v5 | 4e6 | ppo_mujoco.json | ppo_mujoco |
+| Hopper-v5 | 4e6 | ppo_hopper.json | ppo_hopper |
+| Swimmer-v5 | 4e6 | ppo_swimmer.json | ppo_swimmer |
+| Ant-v5 | 10e6 | ppo_ant.json | ppo_ant |
+| Reacher-v5 | 4e6 | ppo_mujoco.json | ppo_mujoco_longhorizon |
+| Pusher-v5 | 4e6 | ppo_mujoco.json | ppo_mujoco_longhorizon |
+| InvertedPendulum-v5 | 4e6 | ppo_inverted_pendulum.json | ppo_inverted_pendulum |
+| InvertedDoublePendulum-v5 | 10e6 | ppo_inverted_double_pendulum.json | ppo_inverted_double_pendulum |
 
 ### Results
 
@@ -86,27 +123,31 @@ Two unified specs in [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/mas
 ### Running MuJoCo Benchmarks
 
 ```bash
-# PPO on Hopper (individual spec)
+# Local training - individual spec
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train
 
-# Generic MuJoCo spec with variable substitution
+# Local training - unified spec with variable substitution
 slm-lab run -s env=Humanoid-v5 -s max_frame=10e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
 
 # Long-horizon spec for Reacher/Pusher
 slm-lab run -s env=Reacher-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco_longhorizon train
+
+# Remote training with GPU (recommended for MuJoCo)
+source .env && slm-lab run-remote --gpu -s env=Humanoid-v5 -s max_frame=10e6 \
+  slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train -n humanoid
 ```
 
 ### Download and Replay
 
 ```bash
-# List all available experiments
-slm-lab list
+# List all available experiments (requires HF_REPO=SLM-Lab/benchmark in .env)
+source .env && slm-lab list
 
 # Download a specific experiment
-slm-lab pull ppo_hopper
+source .env && slm-lab pull ppo_hopper
 
 # Replay the trained agent
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco enjoy@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json
 ```
 
 ## Historical Results
