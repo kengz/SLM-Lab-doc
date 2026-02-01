@@ -1,6 +1,6 @@
 # Table of contents
 
-* [🧪 SLM Lab](README.md)
+* [⚗️ SLM Lab](README.md)
 
 ## 🖥 Setup
 
