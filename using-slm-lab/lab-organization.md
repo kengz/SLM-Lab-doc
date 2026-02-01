@@ -156,13 +156,13 @@ A **spec file** is a JSON file that completely defines an experiment. From [`ppo
 
 ### Key Spec Sections
 
-| Section | Purpose | Key Parameters |
-|---------|---------|----------------|
-| **agent.algorithm** | RL algorithm settings | `gamma`, `lam`, `training_epoch` |
-| **agent.memory** | Experience storage | `name`, `batch_size`, `max_size` |
-| **agent.net** | Neural network architecture | `type`, `hid_layers`, `optim_spec` |
-| **env** | Environment configuration | `name`, `num_envs`, `max_frame` |
-| **meta** | Experiment settings | `max_session`, `max_trial` |
+| Section | Purpose |
+|---------|---------|
+| **agent.algorithm** | RL algorithm settings (gamma, lam, etc.) |
+| **agent.memory** | Experience storage configuration |
+| **agent.net** | Neural network architecture and optimizer |
+| **env** | Environment name and training budget |
+| **meta** | Experiment settings (sessions, trials) |
 
 ## What's Next
 
