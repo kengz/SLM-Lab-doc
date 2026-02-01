@@ -116,8 +116,11 @@ Usually these are similar, but "best" is useful if performance dropped near the 
 ```python
 from slm_lab.agent.net import net_util
 
-# Load weights into an agent
-net_util.load(agent.algorithm, 'data/ppo_cartpole_2026_01_30_221924/model/ppo_cartpole_t0_s0_ckpt-best_net_model.pt')
+# Load weights into a network
+net_util.load(agent.algorithm.net, 'data/ppo_cartpole_2026_01_30_221924/model/ppo_cartpole_t0_s0_ckpt-best_net_model.pt')
+
+# Or load all nets for an algorithm (recommended)
+net_util.load_algorithm(agent.algorithm)
 ```
 
 ### Spec File (`*_spec.json`)
