@@ -4,7 +4,7 @@ This tutorial shows how to train on Atari games using GPU acceleration.
 
 ![Qbert](https://user-images.githubusercontent.com/8209263/63994672-54f36880-caaa-11e9-9757-7780725b53af.gif)
 
-**[Q*bert](https://gymnasium.farama.org/environments/atari/qbert/)** is a classic Atari puzzle game—hop around a pyramid changing tile colors while avoiding enemies. It's a great environment for learning GPU-accelerated training because the ConvNet architecture benefits significantly from GPU.
+**[Q*bert](https://ale.farama.org/environments/qbert/)** is a classic Atari puzzle game—hop around a pyramid changing tile colors while avoiding enemies. It's a great environment for learning GPU-accelerated training because the ConvNet architecture benefits significantly from GPU.
 
 ## Why GPU for Atari?
 

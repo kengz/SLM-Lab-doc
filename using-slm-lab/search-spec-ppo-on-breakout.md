@@ -158,7 +158,7 @@ For robust hyperparameter tuning:
 
 ## Example: PPO Lambda Search on Breakout
 
-[**Breakout**](https://gymnasium.farama.org/environments/atari/breakout/) is a classic Atari benchmark—break bricks by bouncing a ball with a paddle.
+[**Breakout**](https://ale.farama.org/environments/breakout/) is a classic Atari benchmark—break bricks by bouncing a ball with a paddle.
 
 {% code title="slm_lab/spec/experimental/ppo/ppo_lam_search.json (excerpt)" %}
 ```javascript

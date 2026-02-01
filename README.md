@@ -65,7 +65,7 @@ SLM Lab uses [Gymnasium](https://gymnasium.farama.org/) (the maintained fork of 
 | **Classic Control** | CartPole, Pendulum, Acrobot | Easy | [Gymnasium Classic](https://gymnasium.farama.org/environments/classic_control/) |
 | **Box2D** | LunarLander, BipedalWalker | Medium | [Gymnasium Box2D](https://gymnasium.farama.org/environments/box2d/) |
 | **MuJoCo** | Hopper, HalfCheetah, Humanoid | Hard | [Gymnasium MuJoCo](https://gymnasium.farama.org/environments/mujoco/) |
-| **Atari** | Qbert, MsPacman, and 54 more | Varied | [Gymnasium ALE](https://gymnasium.farama.org/environments/atari/) |
+| **Atari** | Qbert, MsPacman, and 54 more | Varied | [ALE](https://ale.farama.org/environments/) |
 
 Any gymnasium-compatible environment works—just specify its name in the spec.
 

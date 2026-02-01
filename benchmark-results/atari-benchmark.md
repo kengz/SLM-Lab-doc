@@ -2,7 +2,7 @@
 
 ## PPO Atari Results (v5)
 
-SLM Lab v5 validates PPO on [Gymnasium ALE (Arcade Learning Environment)](https://gymnasium.farama.org/environments/atari/) environments. The ALE provides 50+ classic Atari 2600 games as standardized RL benchmarks.
+SLM Lab v5 validates PPO on [ALE (Arcade Learning Environment)](https://ale.farama.org/environments/) environments. The ALE provides 50+ classic Atari 2600 games as standardized RL benchmarks.
 
 | MsPacman | Breakout | Qbert | BeamRider |
 |:---:|:---:|:---:|:---:|
