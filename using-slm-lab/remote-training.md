@@ -1,12 +1,6 @@
 # Remote Training ☁️
 
-## Overview
-
-SLM Lab uses [dstack](https://dstack.ai/) for cloud GPU training and HuggingFace for experiment storage. This allows you to:
-
-* Run experiments on cloud GPUs without managing infrastructure
-* Automatically upload results to HuggingFace
-* Pull results back for local analysis
+SLM Lab uses [dstack](https://dstack.ai/) for cloud GPU training and HuggingFace for experiment storage.
 
 ## Setup
 
@@ -18,7 +12,7 @@ uv tool install dstack
 
 ### 2. Configure dstack
 
-Create an account at [dstack.ai](https://sky.dstack.ai/) and get your token:
+Create an account at [dstack Sky](https://sky.dstack.ai/) and get your token:
 
 ```bash
 dstack project add --name your-project --url https://sky.dstack.ai --token $DSTACK_TOKEN -y
@@ -28,14 +22,14 @@ This saves configuration to `~/.dstack/config.yml`.
 
 ### 3. Set up HuggingFace credentials
 
-Create a `.env` file in your SLM-Lab directory with your HuggingFace token:
+Create a `.env` file in your SLM-Lab directory:
 
 ```bash
 HF_TOKEN=hf_xxxxxxxxxxxx
 HF_REPO=your-username/slm-lab-results
 ```
 
-Source the environment before running:
+Source before running:
 
 ```bash
 source .env
@@ -43,39 +37,40 @@ source .env
 
 ## Running Remote Experiments
 
-### Basic Usage
+### Basic Commands
 
 ```bash
-# Run training on cloud GPU
+# Train on cloud GPU
 source .env && slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n my-experiment
 
-# Run hyperparameter search
+# Hyperparameter search
 source .env && slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari search -n my-search
+
+# With variable substitution
+source .env && slm-lab run-remote --gpu -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n ppo-qbert
 ```
 
-The `-n` flag names your dstack run for easy identification.
-
-### Using Variable Substitution
-
-```bash
-source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n ppo-breakout
-```
+The `-n` flag names your run for easy identification.
 
 ### Monitoring Runs
 
 ```bash
-# List running jobs
-dstack ps
-
-# View logs
-dstack logs my-experiment
-
-# Check resource usage
-dstack metrics my-experiment
-
-# Stop a run
-dstack stop my-experiment -y
+dstack ps                    # List running jobs
+dstack logs my-experiment    # View logs
+dstack metrics my-experiment # Check GPU/CPU utilization
+dstack stop my-experiment -y # Stop a run
 ```
+
+### Checking Results
+
+When a run completes, check the final score in logs:
+
+```bash
+dstack logs my-experiment | grep "trial_metrics"
+# Output: trial_metrics: frame:1.00e+07 | total_reward_ma:15094 | ...
+```
+
+The `total_reward_ma` is the final moving average score.
 
 ## Managing Results
 
@@ -87,19 +82,13 @@ Download completed experiments from HuggingFace:
 slm-lab pull ppo_atari
 ```
 
-This downloads to `data/` for local analysis.
-
 ### List Experiments
 
 ```bash
 slm-lab list
 ```
 
-Shows all experiments stored on your HuggingFace repo.
-
 ### Push Local Results
-
-Upload a local experiment:
 
 ```bash
 slm-lab push data/ppo_atari_2026_01_30_221924
@@ -107,29 +96,24 @@ slm-lab push data/ppo_atari_2026_01_30_221924
 
 ## Configuration
 
-### Fleet Setup (dstack 0.20+)
+### Hardware
 
-For dstack 0.20+, create a fleet before running tasks:
+SLM Lab defaults to **L4 GPU** ($0.39/hr) which handles all benchmark environments. The configuration is in `.dstack/run-gpu-train.yml`.
 
-```bash
-dstack apply -f .dstack/fleet-gpu.yml
-```
-
-### Hardware Selection
-
-Edit `.dstack/run-gpu-train.yml` to customize hardware:
+For very large models or faster training, you can switch to V100:
 
 ```yaml
 resources:
-  gpu: L4
-  memory: 16GB
+  gpu: V100
 ```
 
-Available GPU types depend on your dstack backends (AWS, GCP, etc.).
+{% hint style="info" %}
+**Cost tip:** GPU instances are often cheaper than equivalent CPU instances due to fractional GPU sharing. Always use `--gpu` unless your workload is CPU-bound.
+{% endhint %}
 
-### Fractional GPU Sharing
+### Fractional GPU for Search
 
-For hyperparameter search, run multiple trials on a single GPU using fractional allocation:
+In search mode, multiple trials share one GPU:
 
 ```json
 "meta": {
@@ -137,17 +121,21 @@ For hyperparameter search, run multiple trials on a single GPU using fractional 
 }
 ```
 
-With `gpu: 0.125`, you can run **8 trials in parallel** on a single GPU. This is ideal for ASHA search where many trials run briefly before early termination.
-
-{% hint style="info" %}
-**Cost tip:** GPU instances ($0.39/hr L4) are often cheaper than equivalent CPU instances ($0.54/hr 16-CPU) due to fractional GPU sharing. Always use `--gpu` unless your algorithm is CPU-bound.
-{% endhint %}
+With `gpu: 0.125`, **8 trials run in parallel** on a single GPU—ideal for ASHA search.
 
 ### Max Duration
 
-All runs have a 4-hour safeguard (`max_duration: 4h`) to prevent runaway costs. Edit the dstack YAML files to adjust.
+Runs have a 4-hour safeguard (`max_duration: 4h`) to prevent runaway costs. Edit `.dstack/*.yml` to adjust.
 
-## Example Workflow
+### Fleet Setup (dstack 0.20+)
+
+For dstack 0.20+, create a fleet before running:
+
+```bash
+dstack apply -f .dstack/fleet-gpu.yml
+```
+
+## Workflow Example
 
 ```bash
 # 1. Source credentials
@@ -156,74 +144,64 @@ source .env
 # 2. Launch experiment
 slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train -n ppo-hopper
 
-# 3. Monitor progress
+# 3. Monitor
 dstack ps
 dstack logs ppo-hopper
 
-# 4. When complete, pull results
+# 4. When complete, check score
+dstack logs ppo-hopper | grep "trial_metrics"
+
+# 5. Pull results
 slm-lab pull ppo_hopper
 
-# 5. Analyze locally
+# 6. Analyze locally
 ls data/ppo_hopper_*/
 ```
 
-## Efficient Batch Running
+## Batch Running
 
-For systematic benchmarking, maximize GPU utilization by running multiple experiments:
+Launch multiple experiments to maximize GPU utilization:
 
 ```bash
-# Launch multiple runs in parallel
 source .env
-slm-lab run-remote --gpu spec1.json spec1 train -n run1
-slm-lab run-remote --gpu spec2.json spec2 train -n run2
-slm-lab run-remote --gpu spec3.json spec3 train -n run3
+slm-lab run-remote --gpu -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n qbert
+slm-lab run-remote --gpu -s env=ALE/MsPacman-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam85 train -n mspacman
+slm-lab run-remote --gpu -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train -n breakout
 
-# Monitor all runs
-dstack ps
+dstack ps  # Monitor all
 ```
 
-For ASHA search with 8 trials per GPU, you can run **~30 concurrent trials** on 4 GPUs.
-
 {% hint style="success" %}
-**Workflow tip:** Launch runs, monitor with `dstack ps` and `dstack logs`, pull completed results with `slm-lab pull`, then immediately launch the next batch. Don't wait idle—iterate quickly on failures.
+**Iterate quickly:** Launch runs, monitor with `dstack ps`, pull completed results, launch the next batch. Don't wait idle.
 {% endhint %}
 
 ## Troubleshooting
 
 ### Run fails to start
 
-Check dstack status and ensure your fleet is ready:
-
 ```bash
 dstack ps
 dstack fleet list
 ```
 
+Check fleet status and GPU availability.
+
 ### Results not uploading
 
 Ensure `HF_TOKEN` and `HF_REPO` are set in `.env` and sourced.
 
-### GPU not available
-
-Try a different GPU type in `.dstack/run-gpu-train.yml` or wait for availability.
-
 ### Low GPU utilization
-
-Check resource usage to identify bottlenecks:
 
 ```bash
 dstack metrics my-experiment
 ```
 
-Low GPU utilization often indicates:
-- **Environment stepping is slow** - increase `num_envs` or use GPU-accelerated environments
+Low GPU util often means:
+- **Environment stepping is slow** - increase `num_envs`
 - **Batch size too small** - increase `minibatch_size`
-- **Config mismatch** - verify spec settings match the environment category
+- **Config issue** - verify spec settings
 
-### Comparing with Reference Implementations
+## More Resources
 
-If results differ significantly from expected, compare against reference implementations:
-- [CleanRL](https://github.com/vwxyzjn/cleanrl) - single-file implementations
-- [Stable Baselines3](https://github.com/DLR-RM/stable-baselines3) - production-ready RL
-
-Check hyperparameters, normalization settings, and reward scaling.
+- [dstack Documentation](https://dstack.ai/docs/) - Full dstack reference
+- [BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md) - Benchmark methodology and commands
