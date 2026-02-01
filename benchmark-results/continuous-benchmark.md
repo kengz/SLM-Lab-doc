@@ -98,27 +98,29 @@ Two unified specs in [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/mas
 
 ### Training Curves
 
-![Hopper-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_trial_graph_mean_returns_ma_vs_frames.png)
+Multi-trial comparison plots showing mean returns (moving average) vs training frames. Shaded regions show standard deviation across 4 sessions.
 
-![HalfCheetah-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_mujoco_halfcheetah_2026_01_30_230302/ppo_mujoco_halfcheetah_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![Hopper-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Hopper-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
-![Walker2d-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_mujoco_walker2d_2026_01_30_222124/ppo_mujoco_walker2d_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![HalfCheetah-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/HalfCheetah-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
-![Ant-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_ant_2026_01_31_042006/ppo_ant_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![Walker2d-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Walker2d-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
-![Swimmer-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_swimmer_2026_01_30_215922/ppo_swimmer_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![Ant-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Ant-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
-![Reacher-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_mujoco_longhorizon_reacher_2026_01_30_215805/ppo_mujoco_longhorizon_reacher_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![Swimmer-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Swimmer-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
-![Pusher-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_mujoco_longhorizon_pusher_2026_01_30_215824/ppo_mujoco_longhorizon_pusher_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![Reacher-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Reacher-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
-![InvertedPendulum-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_inverted_pendulum_2026_01_30_230211/ppo_inverted_pendulum_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![Pusher-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Pusher-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
-![InvertedDoublePendulum-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_inverted_double_pendulum_2026_01_30_220651/ppo_inverted_double_pendulum_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![InvertedPendulum-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/InvertedPendulum-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
-![Humanoid-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_mujoco_humanoid_2026_01_30_222339/ppo_mujoco_humanoid_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![InvertedDoublePendulum-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/InvertedDoublePendulum-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
-![HumanoidStandup-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_mujoco_humanoidstandup_2026_01_30_215802/ppo_mujoco_humanoidstandup_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![Humanoid-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Humanoid-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+![HumanoidStandup-v5](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/HumanoidStandup-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
 ### Running MuJoCo Benchmarks
 
