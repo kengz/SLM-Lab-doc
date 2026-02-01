@@ -22,6 +22,7 @@
 * [📉 TensorBoard](using-slm-lab/tensorboard-visualizing-models-and-actions.md)
 * [🔬 Post-Hoc Analysis](using-slm-lab/post-hoc-analysis.md)
 * [💻 CLI Reference](using-slm-lab/slm-lab-command.md)
+* [📋 Benchmark Specs](using-slm-lab/benchmark-specs.md)
 * [🔌 Using SLM Lab In Your Project](using-slm-lab/using-slm-lab-in-your-project.md)
 
 ## 📈 Analyzing Results

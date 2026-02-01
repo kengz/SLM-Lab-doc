@@ -266,71 +266,16 @@ Use a larger network:
 }
 ```
 
-## Other Algorithms for LunarLander
+## Other Algorithms
 
-LunarLander has specs for multiple algorithms. Choose based on your needs:
-
-| Algorithm | Spec File | Best For |
-|-----------|-----------|----------|
-| **DQN** | [dqn_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_lunar.json) | Baseline comparison |
-| **DDQN+PER** | [ddqn_per_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json) | Best discrete performance |
-| **A2C** | [a2c_gae_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_lunar.json) | Policy gradient baseline |
-| **PPO** | [ppo_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_lunar.json) | Robust on-policy |
-| **SAC** | [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) | Best for continuous variant |
+LunarLander has benchmark specs for multiple algorithms: DQN, DDQN+PER, A2C, PPO, and SAC.
 
 ```bash
-# Example: Try PPO on LunarLander
+# Example: Try PPO instead
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar train
 ```
 
-## Algorithm Spec Reference
-
-All benchmark specs are in [slm_lab/spec/benchmark/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark). Here's what's available for each algorithm family:
-
-### DQN Family
-Value-based algorithms for discrete action spaces.
-
-| Spec | Environments |
-|------|--------------|
-| [dqn_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_cartpole.json) | CartPole |
-| [dqn_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_lunar.json) | LunarLander |
-| [dqn_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_acrobot.json) | Acrobot |
-| [ddqn_per_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json) | LunarLander (with PER) |
-| [ddqn_per_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_acrobot.json) | Acrobot (with PER) |
-
-### REINFORCE / SARSA
-Simple algorithms for learning fundamentals.
-
-| Spec | Environments |
-|------|--------------|
-| [reinforce_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/reinforce/reinforce_cartpole.json) | CartPole |
-| [sarsa_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sarsa/sarsa_cartpole.json) | CartPole |
-
-### A2C / PPO
-On-policy actor-critic algorithms. Work with both discrete and continuous actions.
-
-| Spec | Environments |
-|------|--------------|
-| [ppo_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json) | CartPole |
-| [ppo_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_lunar.json) | LunarLander |
-| [ppo_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_pendulum.json) | Pendulum |
-| [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | MuJoCo (template) |
-| [ppo_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json) | Atari (template) |
-| [a2c_gae_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_cartpole.json) | CartPole |
-| [a2c_gae_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_lunar.json) | LunarLander |
-
-### SAC
-Off-policy maximum entropy RL. Best for continuous control.
-
-| Spec | Environments |
-|------|--------------|
-| [sac_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_cartpole.json) | CartPole |
-| [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) | LunarLander |
-| [sac_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_pendulum.json) | Pendulum |
-| [sac_halfcheetah.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_halfcheetah.json) | HalfCheetah |
-| [sac_hopper.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_hopper.json) | Hopper |
-
-See [Discrete Benchmark](../benchmark-results/discrete-benchmark.md) and [Continuous Benchmark](../benchmark-results/continuous-benchmark.md) for performance results.
+See [Benchmark Specs](benchmark-specs.md) for the full list of available algorithm × environment combinations.
 
 ## What's Next
 
