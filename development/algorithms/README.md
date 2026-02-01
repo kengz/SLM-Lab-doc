@@ -1,7 +1,7 @@
 # Algorithm Families 🧠
 
 {% hint style="info" %}
-**v4 Book Readers:** This documentation uses v5 spec format. If using v4.1.1, see [Changelog](../CHANGELOG.md) for spec format differences.
+**v4 Book Readers:** This documentation uses v5 spec format. If using v4.1.1, see [Changelog](../../CHANGELOG.md) for spec format differences.
 {% endhint %}
 
 ## Overview

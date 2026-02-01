@@ -173,7 +173,7 @@ For most use cases, **vectorized environments are simpler and faster**:
 
 ```bash
 # Recommended: PPO with vectorized envs
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_pong.json ppo_pong train
+slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 
 # Educational: A3C Hogwild
 slm-lab run slm_lab/spec/benchmark/a3c/a3c_gae_pong.json a3c_gae_pong train

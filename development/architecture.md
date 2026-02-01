@@ -1,6 +1,6 @@
 # Architecture 🏛️
 
-This page describes SLM-Lab's architecture and control flow. For the detailed code reference, see [ARCHITECTURE.md](https://github.com/kengz/SLM-Lab/blob/master/ARCHITECTURE.md) in the code repository.
+This page describes SLM-Lab's architecture and control flow.
 
 ## Control Hierarchy
 

@@ -99,7 +99,7 @@ See [slm_lab/spec/benchmark/dqn/](https://github.com/kengz/SLM-Lab/tree/master/s
         "seq_len": int,
         "update_type": str,
         "update_frequency": int,
-        "polyak_weight": float,
+        "polyak_coef": float,
         "clip_grad_val": float,
         "loss_spec": dict,
         "lr_scheduler_spec": dict,
@@ -116,9 +116,9 @@ See [slm_lab/spec/benchmark/dqn/](https://github.com/kengz/SLM-Lab/tree/master/s
   * `rnn_hidden_size` [_general param_](./)
   * `rnn_num_layers` [_general param_](./)
   * `seq_len` [_general param_](./)
-  * `update_type` method of updating `target_net`. "replace" or "polyak". "replace" replaces `target_net` with `net` every `update_frequency` time steps. "polyak" updates `target_net` with `polyak_weight`  _`target_net` + (1 - `polyak_weight`)_ `net` each time step.
+  * `update_type` method of updating `target_net`. "replace" or "polyak". "replace" replaces `target_net` with `net` every `update_frequency` time steps. "polyak" updates `target_net` with `polyak_coef`  _`target_net` + (1 - `polyak_coef`)_ `net` each time step.
   * `update_frequency` how often to update `target_net` with `net` when using "replace" `update_type`.
-  * `polyak_weight` $$\in [0, 1]$$ how much weight to give the old `target_net` when updating the `target_net` using "polyak" `update_type`
+  * `polyak_coef` $$\in [0, 1]$$ how much weight to give the old `target_net` when updating the `target_net` using "polyak" `update_type`
   * `clip_grad`: [_general param_](./)
   * `clip_grad_val`: [_general param_](./)
   * `loss_spec`: [_general param_](./)

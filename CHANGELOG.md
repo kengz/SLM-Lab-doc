@@ -86,7 +86,6 @@ In v4, algorithms had to guess whether `done=True` meant a real ending or just a
 
 **Algorithm improvements:**
 * `normalize_v_targets`: Running statistics normalization for value targets (helps with varying reward scales)
-* `symlog_transform`: DreamerV3-style value transform for environments with large rewards
 * `clip_vloss`: CleanRL-style value loss clipping for stability
 * `life_loss_info`: Proper Atari game-over handling (continue after life loss)
 

@@ -26,7 +26,6 @@ This specification instantiates an MLP with 3 hidden layers of 256, 128, and 64 
         "out_layer_activation": null,  // output layer activation
         "init_fn": "xavier_uniform_",  // weight initialization
         "clip_grad_val": 1.0,  // clip gradient by norm
-        "layer_norm": false,  // v5: add LayerNorm after hidden layers
         "loss_spec": {  // default loss function used for regression
           "name": "MSELoss"
         },
@@ -40,9 +39,5 @@ This specification instantiates an MLP with 3 hidden layers of 256, 128, and 64 
     ...
 }
 ```
-
-### v5 Options
-
-* **layer_norm**: Add LayerNorm after each hidden layer (before activation). Can improve training stability for some environments by normalizing activations.
 
 For more concrete examples of net spec specific to algorithms, refer to the existing [spec files](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec).

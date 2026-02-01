@@ -171,8 +171,8 @@ slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_at
 | Problem | Solution |
 |---------|----------|
 | Reward not improving | Try higher `training_iter` (8-16) for more gradient updates |
-| Unstable learning | Enable `layer_norm: true` in net spec |
-| Negative rewards | Consider `symlog_transform: true` for value normalization |
+| Unstable learning | Try lower learning rate or enable `clip_vloss: true` |
+| Large reward variance | Enable `normalize_v_targets: true` for value normalization |
 
 ## Atari Tips
 

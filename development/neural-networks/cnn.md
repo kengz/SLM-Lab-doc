@@ -6,7 +6,7 @@ Code: [slm\_lab/agent/net/conv.py](https://github.com/kengz/SLM-Lab/blob/master/
 
 These networks take a single state as input and produce one or more outputs. It consists of zero or more convolutional layers, followed by zero or more dense layers. Finally, there are one or more dense output layers. CNNs excel at image processing and processing inputs with 2D or 3D structure. This makes them well suited for environments with pixel level inputs or inputs with a spatial component.
 
-For more information on each of the elements see this [tutorial](https://github.com/lgraesser/CNN-Tutorial) on CNNs or the [PyTorch documentation](http://pytorch.org/docs/0.3.0/nn.html#convolution-layers)
+For more information on each of the elements see this [tutorial](https://github.com/lgraesser/CNN-Tutorial) on CNNs or the [PyTorch documentation](https://pytorch.org/docs/stable/nn.html#convolution-layers)
 
 ### Source Documentation
 

@@ -86,12 +86,11 @@ Configure networks in the agent spec:
 | `loss_spec` | Loss function | `{"name": "MSELoss"}`, `{"name": "SmoothL1Loss"}` |
 | `lr_scheduler_spec` | Learning rate schedule | See below |
 
-### v5 Features
+### ConvNet Preprocessing
 
 | Parameter | Description | Typical Values |
 |-----------|-------------|----------------|
-| `layer_norm` | Add LayerNorm after hidden layers | `true`, `false` |
-| `normalize` | Normalize input (for ConvNet) | `true` |
+| `normalize` | Normalize pixel input to [0, 1] | `true` |
 
 ### Device
 
@@ -194,7 +193,7 @@ For DQN algorithms, a separate target network is created automatically:
     "update_frequency": 100,      // Steps between updates
     // Or use soft updates:
     // "update_type": "polyak",
-    // "polyak_weight": 0.995
+    // "polyak_coef": 0.995
   }
 }
 ```
