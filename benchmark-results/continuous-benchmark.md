@@ -60,21 +60,21 @@ Two unified specs in [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/mas
 | ppo_mujoco_longhorizon | Reacher, Pusher | gamma=0.997, lam=0.97 |
 | Individual specs | Hopper, Swimmer, Ant, IP, IDP | See spec files |
 
-**Quick Reference**: Copy `ENV`, `SPEC_FILE`, `SPEC_NAME` from the table below for reproduction:
+**Quick Reference**: Copy `ENV`, `SPEC_FILE`, `SPEC_NAME` from the table below for reproduction.
 
-| ENV | MAX_FRAME | SPEC_FILE | SPEC_NAME |
-|-----|-----------|-----------|-----------|
-| HalfCheetah-v5 | 10e6 | ppo_mujoco.json | ppo_mujoco |
-| Walker2d-v5 | 10e6 | ppo_mujoco.json | ppo_mujoco |
-| Humanoid-v5 | 10e6 | ppo_mujoco.json | ppo_mujoco |
-| HumanoidStandup-v5 | 4e6 | ppo_mujoco.json | ppo_mujoco |
-| Hopper-v5 | 4e6 | ppo_hopper.json | ppo_hopper |
-| Swimmer-v5 | 4e6 | ppo_swimmer.json | ppo_swimmer |
-| Ant-v5 | 10e6 | ppo_ant.json | ppo_ant |
-| Reacher-v5 | 4e6 | ppo_mujoco.json | ppo_mujoco_longhorizon |
-| Pusher-v5 | 4e6 | ppo_mujoco.json | ppo_mujoco_longhorizon |
-| InvertedPendulum-v5 | 4e6 | ppo_inverted_pendulum.json | ppo_inverted_pendulum |
-| InvertedDoublePendulum-v5 | 10e6 | ppo_inverted_double_pendulum.json | ppo_inverted_double_pendulum |
+| ENV | State | Action | MAX_FRAME | SPEC_FILE | SPEC_NAME |
+|-----|-------|--------|-----------|-----------|-----------|
+| [Hopper-v5](https://gymnasium.farama.org/environments/mujoco/hopper/) | Box(11) | Box(3) | 4e6 | ppo_hopper.json | ppo_hopper |
+| [HalfCheetah-v5](https://gymnasium.farama.org/environments/mujoco/half_cheetah/) | Box(17) | Box(6) | 10e6 | ppo_mujoco.json | ppo_mujoco |
+| [Walker2d-v5](https://gymnasium.farama.org/environments/mujoco/walker2d/) | Box(17) | Box(6) | 10e6 | ppo_mujoco.json | ppo_mujoco |
+| [Ant-v5](https://gymnasium.farama.org/environments/mujoco/ant/) | Box(105) | Box(8) | 10e6 | ppo_ant.json | ppo_ant |
+| [Swimmer-v5](https://gymnasium.farama.org/environments/mujoco/swimmer/) | Box(8) | Box(2) | 4e6 | ppo_swimmer.json | ppo_swimmer |
+| [Reacher-v5](https://gymnasium.farama.org/environments/mujoco/reacher/) | Box(11) | Box(2) | 4e6 | ppo_mujoco.json | ppo_mujoco_longhorizon |
+| [Pusher-v5](https://gymnasium.farama.org/environments/mujoco/pusher/) | Box(23) | Box(7) | 4e6 | ppo_mujoco.json | ppo_mujoco_longhorizon |
+| [InvertedPendulum-v5](https://gymnasium.farama.org/environments/mujoco/inverted_pendulum/) | Box(4) | Box(1) | 4e6 | ppo_inverted_pendulum.json | ppo_inverted_pendulum |
+| [InvertedDoublePendulum-v5](https://gymnasium.farama.org/environments/mujoco/inverted_double_pendulum/) | Box(11) | Box(1) | 10e6 | ppo_inverted_double_pendulum.json | ppo_inverted_double_pendulum |
+| [Humanoid-v5](https://gymnasium.farama.org/environments/mujoco/humanoid/) | Box(376) | Box(17) | 10e6 | ppo_mujoco.json | ppo_mujoco |
+| [HumanoidStandup-v5](https://gymnasium.farama.org/environments/mujoco/humanoid_standup/) | Box(376) | Box(17) | 4e6 | ppo_mujoco.json | ppo_mujoco |
 
 ### Results
 

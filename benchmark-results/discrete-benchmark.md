@@ -43,7 +43,9 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 
 #### CartPole-v1
 
-**Target**: reward MA > 400 | **Settings**: max_frame 2e5 | num_envs 4 | max_session 4
+[Docs](https://gymnasium.farama.org/environments/classic_control/cart_pole/) | State: Box(4) | Action: Discrete(2) | Target: >400
+
+**Settings**: max_frame 2e5 | num_envs 4 | max_session 4 | log_frequency 500
 
 | Algorithm | Status | MA | Spec | HuggingFace |
 |-----------|--------|-----|------|-------------|
@@ -59,7 +61,9 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 
 #### Acrobot-v1
 
-**Target**: reward MA > -100 | **Settings**: max_frame 3e5 | num_envs 4 | max_session 4
+[Docs](https://gymnasium.farama.org/environments/classic_control/acrobot/) | State: Box(6) | Action: Discrete(3) | Target: >-100
+
+**Settings**: max_frame 3e5 | num_envs 4 | max_session 4 | log_frequency 500
 
 | Algorithm | Status | MA | Spec | HuggingFace |
 |-----------|--------|-----|------|-------------|
@@ -73,7 +77,9 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 
 #### Pendulum-v1
 
-**Target**: reward MA > -200 | **Settings**: max_frame 3e5 | num_envs 4 | max_session 4
+[Docs](https://gymnasium.farama.org/environments/classic_control/pendulum/) | State: Box(3) | Action: Box(1) | Target: >-200
+
+**Settings**: max_frame 3e5 | num_envs 4 | max_session 4 | log_frequency 500
 
 | Algorithm | Status | MA | Spec | HuggingFace |
 |-----------|--------|-----|------|-------------|
@@ -87,7 +93,9 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 
 #### LunarLander-v3 (Discrete)
 
-**Target**: reward MA > 200 | **Settings**: max_frame 3e5 | num_envs 8 | max_session 4
+[Docs](https://gymnasium.farama.org/environments/box2d/lunar_lander/) | State: Box(8) | Action: Discrete(4) | Target: >200
+
+**Settings**: max_frame 3e5 | num_envs 8 | max_session 4 | log_frequency 1000
 
 | Algorithm | Status | MA | Spec | HuggingFace |
 |-----------|--------|-----|------|-------------|
@@ -101,7 +109,9 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 
 #### LunarLander-v3 (Continuous)
 
-**Target**: reward MA > 200 | **Settings**: max_frame 3e5 | num_envs 8 | max_session 4
+[Docs](https://gymnasium.farama.org/environments/box2d/lunar_lander/) | State: Box(8) | Action: Box(2) | Target: >200
+
+**Settings**: max_frame 3e5 | num_envs 8 | max_session 4 | log_frequency 1000
 
 | Algorithm | Status | MA | Spec | HuggingFace |
 |-----------|--------|-----|------|-------------|
