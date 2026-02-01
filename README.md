@@ -7,10 +7,10 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
 <p align="center">
   <i>Modular Deep Reinforcement Learning framework in PyTorch.</i>
   <br>
+  <i>Companion library of the book <a href="https://www.amazon.com/dp/0135172381">Foundations of Deep Reinforcement Learning</a>.</i>
+  <br>
   <a href="https://github.com/kengz/SLM-Lab">GitHub</a> · <a href="benchmark-results/public-benchmark-data.md">Benchmark Results</a>
 </p>
-
-**Companion library of the book** [**Foundations of Deep Reinforcement Learning**](https://www.amazon.com/dp/0135172381)**.**
 
 {% hint style="info" %}
 **v5.0** updates to Gymnasium, `uv` tooling, and modern dependencies with ARM support—see [Changelog](CHANGELOG.md).
