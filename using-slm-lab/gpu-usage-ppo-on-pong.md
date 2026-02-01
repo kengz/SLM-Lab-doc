@@ -112,8 +112,8 @@ The key setting is **"gpu": "auto"** in the net spec.
 
 | Environment Type | Network | GPU Benefit |
 |------------------|---------|-------------|
-| Atari (images) | ConvNet | **High** - 5-10x speedup |
-| MuJoCo (vectors) | Large MLP [256,256] | Moderate - 2-3x speedup |
+| Atari (images) | ConvNet | **High** |
+| MuJoCo (vectors) | Large MLP [256,256] | Moderate |
 | CartPole (vectors) | Small MLP [64,64] | **None** - CPU is faster |
 
 {% hint style="info" %}
