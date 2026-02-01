@@ -11,14 +11,14 @@ SLM Lab requires Python 3.10+. The `uv` package manager handles Python installat
 [uv](https://docs.astral.sh/uv/) is a fast Python package manager that replaces pip and conda:
 
 ```bash
-# macOS/Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Windows
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
 After installation, restart your terminal or run `source ~/.bashrc` (or `~/.zshrc`).
+
+{% hint style="warning" %}
+**Windows users:** SLM Lab is developed and tested on macOS/Linux. For Windows, use [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install) (Windows Subsystem for Linux) and follow the Linux instructions.
+{% endhint %}
 
 ### Install System Dependencies
 
@@ -28,11 +28,8 @@ After installation, restart your terminal or run `source ~/.bashrc` (or `~/.zshr
 # macOS
 brew install swig
 
-# Ubuntu/Debian
+# Ubuntu/Debian/WSL
 sudo apt-get install -y swig
-
-# Windows (via chocolatey)
-choco install swig
 ```
 
 {% hint style="info" %}
