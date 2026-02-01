@@ -64,7 +64,7 @@ PPO typically solves CartPole within 50,000-100,000 frames.
 
 **Training curve (from benchmark run):**
 
-![CartPole-v1 Training Curve](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/CartPole-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![PPO CartPole Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_cartpole_2026_01_30_221924/graph/ppo_cartpole_t0_trial_graph_mean_returns_vs_frames.png)
 
 ### Stopping the Demo
 

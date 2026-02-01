@@ -36,7 +36,7 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 | PPO | ✅ | 499.5 | [ppo_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json) | [ppo_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_cartpole_2026_01_30_221924) |
 | SAC | ⚠️ | 359.7 | [sac_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_cartpole.json) | [sac_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_cartpole_2026_01_30_221934) |
 
-![CartPole-v1 Training Curves](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/CartPole-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![PPO CartPole Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_cartpole_2026_01_30_221924/graph/ppo_cartpole_t0_trial_graph_mean_returns_vs_frames.png)
 
 #### Acrobot-v1
 
@@ -50,7 +50,7 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 | PPO | ✅ | -81.4 | [ppo_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_acrobot.json) | [ppo_acrobot_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_acrobot_2026_01_30_215352) |
 | SAC | ✅ | -97.1 | [sac_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_acrobot.json) | [sac_acrobot_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_acrobot_2026_01_30_215401) |
 
-![Acrobot-v1 Training Curves](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Acrobot-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![PPO Acrobot Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_acrobot_2026_01_30_215352/graph/ppo_acrobot_t0_trial_graph_mean_returns_vs_frames.png)
 
 #### Pendulum-v1
 
@@ -62,7 +62,7 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 | PPO | ✅ | -168.3 | [ppo_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_pendulum.json) | [ppo_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_pendulum_2026_01_30_215944) |
 | SAC | ✅ | -152.3 | [sac_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_pendulum.json) | [sac_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_pendulum_2026_01_30_215454) |
 
-![Pendulum-v1 Training Curves](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Pendulum-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![PPO Pendulum Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_pendulum_2026_01_30_215944/graph/ppo_pendulum_t0_trial_graph_mean_returns_vs_frames.png)
 
 ### Box2D
 
@@ -78,7 +78,7 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 | PPO | ⚠️ | 159.0 | [ppo_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_lunar.json) | [ppo_lunar_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_lunar_2026_01_30_215550) |
 | SAC | ❌ | -75.4 | [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) | [sac_lunar_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_lunar_2026_01_30_215552) |
 
-![LunarLander-v3 Training Curves](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/LunarLander-v3_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![DDQN+PER LunarLander Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ddqn_per_concat_lunar_2026_01_30_215532/graph/ddqn_per_concat_lunar_t0_trial_graph_mean_returns_vs_frames.png)
 
 #### LunarLander-v3 (Continuous)
 
@@ -90,7 +90,7 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 | PPO | ⚠️ | 165.5 | [ppo_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_lunar.json) | [ppo_lunar_continuous_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_lunar_continuous_2026_01_31_104549) |
 | SAC | ✅ | 208.6 | [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) | [sac_lunar_continuous_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_lunar_continuous_2026_01_31_104537) |
 
-![LunarLander-v3 Continuous Training Curves](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/LunarLander-v3_Continuous_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![SAC LunarLander Continuous Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/sac_lunar_continuous_2026_01_31_104537/graph/sac_lunar_continuous_t0_trial_graph_mean_returns_vs_frames.png)
 
 **Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed
 

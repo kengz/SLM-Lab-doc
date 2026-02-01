@@ -190,75 +190,21 @@ Shows scores for all three lambda variants where tested. **Bold** = best score, 
 
 ### Training Curves (Selected Games)
 
-![Breakout](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Breakout_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![Breakout](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam70_breakout_2026_01_07_110559/graph/ppo_atari_lam70_breakout_t0_trial_graph_mean_returns_vs_frames.png)
 
-![Pong](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Pong_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![Pong](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/graph/ppo_atari_lam85_pong_t0_trial_graph_mean_returns_vs_frames.png)
 
-![Qbert](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Qbert_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![Qbert](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_qbert_2026_01_06_111801/graph/ppo_atari_qbert_t0_trial_graph_mean_returns_vs_frames.png)
 
-![BeamRider](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/BeamRider_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![BeamRider](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_beamrider_2026_01_06_112533/graph/ppo_atari_beamrider_t0_trial_graph_mean_returns_vs_frames.png)
 
-![Seaquest](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Seaquest_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![Seaquest](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_seaquest_2026_01_06_183440/graph/ppo_atari_seaquest_t0_trial_graph_mean_returns_vs_frames.png)
 
-![SpaceInvaders](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/SpaceInvaders_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![SpaceInvaders](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_spaceinvaders_2026_01_07_102346/graph/ppo_atari_spaceinvaders_t0_trial_graph_mean_returns_vs_frames.png)
 
-<details>
-<summary><b>All Atari Training Curves</b> - click to expand</summary>
-
-![AirRaid](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/AirRaid_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Alien](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Alien_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Amidar](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Amidar_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Assault](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Assault_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Asterix](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Asterix_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Asteroids](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Asteroids_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Atlantis](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Atlantis_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![BankHeist](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/BankHeist_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![BattleZone](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/BattleZone_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Berzerk](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Berzerk_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Bowling](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Bowling_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Boxing](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Boxing_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Carnival](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Carnival_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Centipede](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Centipede_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![ChopperCommand](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/ChopperCommand_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![CrazyClimber](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/CrazyClimber_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Defender](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Defender_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![DemonAttack](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/DemonAttack_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![DoubleDunk](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/DoubleDunk_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![ElevatorAction](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/ElevatorAction_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Enduro](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Enduro_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![FishingDerby](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/FishingDerby_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Freeway](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Freeway_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Frostbite](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Frostbite_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Gopher](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Gopher_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Gravitar](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Gravitar_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Hero](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Hero_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![IceHockey](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/IceHockey_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Jamesbond](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Jamesbond_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![JourneyEscape](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/JourneyEscape_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Kangaroo](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Kangaroo_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Krull](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Krull_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![KungFuMaster](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/KungFuMaster_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![MsPacman](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/MsPacman_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![NameThisGame](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/NameThisGame_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Phoenix](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Phoenix_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Pooyan](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Pooyan_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Riverraid](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Riverraid_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![RoadRunner](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/RoadRunner_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Robotank](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Robotank_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Skiing](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Skiing_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Solaris](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Solaris_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![StarGunner](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/StarGunner_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Surround](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Surround_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Tennis](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Tennis_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![TimePilot](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/TimePilot_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Tutankham](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Tutankham_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![UpNDown](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/UpNDown_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![VideoPinball](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/VideoPinball_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![WizardOfWor](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/WizardOfWor_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![YarsRevenge](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/YarsRevenge_multi_trial_graph_mean_returns_ma_vs_frames.png)
-![Zaxxon](https://raw.githubusercontent.com/kengz/SLM-Lab/master/docs/plots/Zaxxon_multi_trial_graph_mean_returns_ma_vs_frames.png)
-
-</details>
+{% hint style="success" %}
+**All 54 Training Curves:** Each game's training curves are available in the HuggingFace links above. Navigate to any experiment's `graph/` folder to view the trial graphs.
+{% endhint %}
 
 ### Running Atari Benchmarks
 

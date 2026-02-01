@@ -1,7 +1,6 @@
 # Table of contents
 
 * [SLM Lab](README.md)
-* [Changelog](CHANGELOG.md)
 
 ## 🖥 Setup
 
@@ -74,3 +73,4 @@
 * [Motivation](resources/motivation.md)
 * [Help](resources/help.md)
 * [Contact](resources/contacts.md)
+* [Changelog](CHANGELOG.md)
