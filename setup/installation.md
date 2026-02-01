@@ -34,17 +34,16 @@ slm-lab run --help                             # options for run command
 uv run slm-lab --help
 ```
 
-### Minimal Install (Orchestration Only)
+### Minimal Install
 
-For dispatching remote training without local ML dependencies:
+For [remote training](../using-slm-lab/remote-training.md) in the cloud with [dstack](https://dstack.ai), a minimal installation without ML dependencies is available:
 
 ```bash
-git clone https://github.com/kengz/SLM-Lab.git && cd SLM-Lab
+git clone https://github.com/kengz/SLM-Lab.git
+cd SLM-Lab
 uv sync --only-group minimal
 uv tool install dstack
 ```
-
-See [Remote Training](../using-slm-lab/remote-training.md) for dstack setup.
 
 ## Docker
 
