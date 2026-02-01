@@ -11,7 +11,7 @@ brew install swig        # macOS
 # apt-get install -y swig  # Linux/WSL
 ```
 
-{% hint style="warning" %}
+{% hint style="info" %}
 **Windows:** Use [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install) and follow Linux instructions.
 {% endhint %}
 
