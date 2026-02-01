@@ -116,39 +116,39 @@ A **spec file** is a JSON file that completely defines an experiment. From [`ppo
 
 ```javascript
 {
-  "ppo_cartpole": {                    // Spec name - used in output folders
+  "ppo_cartpole": {                    // Spec name - used in CLI and output folders
     "agent": {
-      "name": "PPO",
+      "name": "PPO",                   // Agent name for logging
       "algorithm": {
-        "name": "PPO",
-        "gamma": 0.9769,               // Discount factor
-        "lam": 0.9112,                 // GAE lambda
-        "time_horizon": 256,           // Steps per update
-        "minibatch_size": 128,
-        "training_epoch": 15
+        "name": "PPO",                 // Algorithm class to use
+        "gamma": 0.9769,               // Discount factor (value future rewards)
+        "lam": 0.9112,                 // GAE lambda (bias-variance tradeoff)
+        "time_horizon": 256,           // Steps collected before each update
+        "minibatch_size": 128,         // Batch size for gradient updates
+        "training_epoch": 15           // Passes through collected data per update
       },
       "memory": {
-        "name": "OnPolicyBatchReplay"
+        "name": "OnPolicyBatchReplay"  // Memory type (on-policy for PPO)
       },
       "net": {
-        "type": "MLPNet",
-        "hid_layers": [64, 64],
+        "type": "MLPNet",              // Network architecture
+        "hid_layers": [64, 64],        // Two hidden layers, 64 units each
         "hid_layers_activation": "tanh",
-        "actor_optim_spec": {"name": "Adam", "lr": 0.0005909},
-        "critic_optim_spec": {"name": "Adam", "lr": 0.0006352},
-        "gpu": "auto"
+        "actor_optim_spec": {"name": "Adam", "lr": 0.0005909},  // Policy optimizer
+        "critic_optim_spec": {"name": "Adam", "lr": 0.0006352}, // Value optimizer
+        "gpu": "auto"                  // Use GPU if available
       }
     },
     "env": {
-      "name": "CartPole-v1",
-      "num_envs": 4,
-      "max_frame": 200000
+      "name": "CartPole-v1",           // Gymnasium environment name
+      "num_envs": 4,                   // Parallel environments for data collection
+      "max_frame": 200000              // Total training frames (stop condition)
     },
     "meta": {
-      "max_session": 4,
-      "max_trial": 1,
-      "log_frequency": 500,
-      "eval_frequency": 256
+      "max_session": 4,                // Sessions per trial (different seeds)
+      "max_trial": 1,                  // Trials per experiment
+      "log_frequency": 500,            // Log metrics every N frames
+      "eval_frequency": 256            // Evaluate every N frames
     }
   }
 }
