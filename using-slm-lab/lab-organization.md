@@ -100,9 +100,11 @@ slm-lab run path/to/spec.json spec_name train
 Benchmark results are published to [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark):
 
 ```bash
-slm-lab list                    # List available experiments
-slm-lab pull ppo_cartpole       # Download
-slm-lab run _ _ enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json  # Replay
+slm-lab list              # List available experiments
+slm-lab pull ppo_cartpole # Download
+
+# Replay (spec_file and spec_name are ignored in enjoy mode)
+slm-lab run spec.json spec_name enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
 ```
 
 ## The Spec File
