@@ -191,13 +191,11 @@ Results are saved to `data/ppo_breakout_{ts}/` with:
 * `experiment_df.csv` - all trial results, sorted best-first
 * Per-trial subdirectories with session data
 
-The experiment produces comparison graphs:
+The search produces training curves and comparison data:
 
-![PPO Breakout Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam70_breakout_2026_01_07_110559/ppo_atari_lam70_breakout_t0_trial_graph_mean_returns_vs_frames.png)
+![PPO Breakout Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam70_breakout_2026_01_07_110559/graph/ppo_atari_lam70_breakout_t0_s3_session_graph_train_mean_returns_ma_vs_frames.png)
 
-![PPO Breakout Moving Average](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam70_breakout_2026_01_07_110559/ppo_atari_lam70_breakout_t0_trial_graph_mean_returns_ma_vs_frames.png)
-
-PPO achieves **395** MA on Breakout-v5 with λ=0.70. Trained models are available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_breakout_2026_01_06_182709).
+PPO achieves **327** MA on Breakout-v5 with λ=0.70. Trained models available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_breakout_2026_01_07_110559).
 
 {% hint style="info" %}
 For full benchmarking methodology and results across 54 Atari games, see [Atari Benchmark](../benchmark-results/atari-benchmark.md).

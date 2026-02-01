@@ -74,13 +74,13 @@ We should now see a speed up in the **fps** (frame per second) logged in the ter
 
 ### 📊 Results
 
-**Training curves** (average of 4 sessions):
+PPO achieves **16.9** MA on Pong-v5 (max score is 21).
 
-![PPO Pong Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/ppo_atari_lam85_pong_t0_trial_graph_mean_returns_vs_frames.png)
+**Training curve** (session 0):
 
-![PPO Pong Moving Average](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/ppo_atari_lam85_pong_t0_trial_graph_mean_returns_ma_vs_frames.png)
+![PPO Pong Training](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/graph/ppo_atari_lam85_pong_t0_s0_session_graph_train_mean_returns_ma_vs_frames.png)
 
-PPO achieves **16.9** MA on Pong-v5 (max score is 21). Trained models available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_pong_2026_01_08_094454).
+Trained models and all session graphs available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_pong_2026_01_08_094454).
 
 ## Using Multiple GPUs
 
