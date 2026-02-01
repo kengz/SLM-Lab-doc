@@ -1,22 +1,8 @@
 # Changelog 📋
 
-This page documents changes to the SLM Lab documentation and major framework releases.
+This page documents major framework releases.
 
 For detailed code changes, see the [GitHub releases](https://github.com/kengz/SLM-Lab/releases) and [CHANGELOG.md](https://github.com/kengz/SLM-Lab/blob/master/CHANGELOG.md) in the code repository.
-
----
-
-## Documentation Updates
-
-### January 2026
-
-**Benchmark Rerun:** All Phase 1-3 benchmarks (Classic Control, Box2D, MuJoCo) rerun on Gymnasium v5 environments. Results available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
-
-**Documentation Changes:**
-* Updated benchmark pages with January 2026 results
-* Added Docker installation instructions
-* Added minimal install option for orchestration machines
-* Historical v4 results moved to expandable sections (not directly comparable due to different environment versions)
 
 ---
 
