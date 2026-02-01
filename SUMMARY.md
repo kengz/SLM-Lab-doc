@@ -10,7 +10,7 @@
 ## 🚀 Using SLM Lab
 
 * [🎓 Train: PPO on CartPole](using-slm-lab/train-ppo-cartpole.md)
-* [🧪 Understanding Experiments](using-slm-lab/lab-organization.md)
+* [🧪 Core Concepts](using-slm-lab/lab-organization.md)
 * [🤖 Agent Spec: DDQN+PER on LunarLander](using-slm-lab/agent-spec-ddqn+per-on-lunarlander.md)
 * [🏃 Env Spec: PPO on HalfCheetah](using-slm-lab/environment-spec-a2c-on-bipedalwalker.md)
 * [🎮 GPU Training: PPO on Breakout](using-slm-lab/gpu-usage-ppo-on-pong.md)

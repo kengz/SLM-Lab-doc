@@ -1,4 +1,4 @@
-# Understanding Experiments 🧪
+# Core Concepts
 
 After running your first training, you'll notice SLM Lab creates folders with names like `ppo_cartpole_t0_s0`. This page explains SLM Lab's experiment hierarchy.
 
