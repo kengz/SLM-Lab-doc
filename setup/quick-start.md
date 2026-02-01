@@ -72,14 +72,6 @@ Early in training, the pole falls quickly. As `total_reward_ma` climbs toward 40
 
 Random actions score ~20-30. PPO solves CartPole (450+ reward) within 50,000-100,000 frames.
 
-**Training curves** (from benchmark run):
-
-![PPO CartPole Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_trial_graph_mean_returns_vs_frames.png)
-
-**Moving average** smooths out episode-to-episode noise to show the learning trend:
-
-![PPO CartPole Moving Average](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_trial_graph_mean_returns_ma_vs_frames.png)
-
 ### Stopping the Demo
 
 Press `Ctrl+C` to stop. In dev mode, partial results are not saved.
