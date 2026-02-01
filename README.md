@@ -29,34 +29,6 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
 | ![sac doublependulum](https://user-images.githubusercontent.com/8209263/63994879-07c3c680-caab-11e9-974c-06cdd25bfd68.gif) | ![sac pendulum](https://user-images.githubusercontent.com/8209263/63994880-085c5d00-caab-11e9-850d-049401540e3b.gif) | ![sac reacher](https://user-images.githubusercontent.com/8209263/63994881-098d8a00-caab-11e9-8e19-a3b32d601b10.gif) | ![sac walker](https://user-images.githubusercontent.com/8209263/63994882-0abeb700-caab-11e9-9e19-b59dc5c43393.gif) |
 | Inv.DoublePendulum | InvertedPendulum | Reacher | Walker |
 
-## Quick Start
-
-```bash
-# Install
-git clone https://github.com/kengz/SLM-Lab.git && cd SLM-Lab
-uv sync
-uv tool install --editable .
-
-# Run demo (PPO CartPole)
-slm-lab run                                    # PPO CartPole
-slm-lab run --render                           # with visualization
-
-# Run custom experiment
-slm-lab run spec.json spec_name train          # local training
-slm-lab run-remote spec.json spec_name train   # cloud training (dstack)
-
-# Help (CLI uses Typer)
-slm-lab --help                                 # list all commands
-slm-lab run --help                             # options for run command
-
-# Troubleshoot: if slm-lab not found, use uv run
-uv run slm-lab run
-```
-
-See [Installation](setup/installation.md) for prerequisites and detailed setup.
-
----
-
 SLM Lab is a software framework for **reinforcement learning** (RL) research and application in PyTorch. RL trains agents to make decisions by learning from trial and error—like teaching a robot to walk or an AI to play games.
 
 ## What SLM Lab Offers
