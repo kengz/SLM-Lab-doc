@@ -1,35 +1,28 @@
-# Async Training: A3C Hogwild! ⚡
+# Async Training: Hogwild! ⚡
 
-This tutorial covers asynchronous training using Hogwild!—a technique for parallelizing network training across multiple CPU processes.
+This tutorial covers asynchronous training using Hogwild!—a technique for parallelizing network training across multiple processes with shared parameters.
 
 {% hint style="info" %}
-**Educational Purpose:** A3C Hogwild! is included primarily for learning about async RL architectures. For production training, use **PPO with vectorized environments** (`num_envs`)—it's simpler, faster, and GPU-accelerated.
+**Educational Purpose:** Hogwild! is included primarily for learning about async RL architectures. For production training, use **PPO with vectorized environments** (`num_envs`)—it's simpler and more efficient.
 {% endhint %}
-
-## When to Use Async Training
-
-| Approach | Best For | GPU Support |
-|----------|----------|-------------|
-| **Vectorized envs** (`num_envs`) | Most cases—simple and efficient | Yes |
-| **A3C Hogwild!** | Learning async RL, CPU-bound training | CPU only |
 
 ## How Hogwild! Works
 
 [Hogwild!](https://arxiv.org/abs/1106.5730) enables lock-free parallel training by having multiple workers update shared network parameters simultaneously. SLM Lab implements this using [PyTorch multiprocessing](https://pytorch.org/docs/stable/notes/multiprocessing.html) with shared memory.
 
 ```
-Worker 1 ─┬─→ Shared Network ←─┬─ Worker 3
-Worker 2 ─┘                    └─ Worker 4
+Worker 1 ─┬─→ Shared Global Network ←─┬─ Worker 3
+Worker 2 ─┘        (CPU)              └─ Worker 4
 ```
 
 Each worker:
-1. Copies the shared network
-2. Collects experience from its own environment
-3. Computes gradients
-4. Pushes gradients to the shared network
+1. Collects experience from its own environment
+2. Computes gradients on its local network
+3. Pushes gradients to the shared global network
+4. Pulls updated weights from global network
 
 {% hint style="warning" %}
-**CPU Only:** A3C Hogwild! runs on CPU because PyTorch's `share_memory_()` requires CPU tensors. For GPU-accelerated training, use PPO or A2C with vectorized environments instead.
+**Global Networks on CPU:** PyTorch's `share_memory_()` requires CPU tensors, so global networks are automatically moved to CPU. Local worker networks can still use GPU for forward/backward passes, but gradient sync happens on CPU.
 {% endhint %}
 
 ## Meta Spec for Hogwild!
@@ -38,20 +31,9 @@ Enable distributed training in the **meta spec**:
 
 ```javascript
 {
-  "a3c_gae_pong": {
-    "agent": {
-      "net": {
-        "gpu": false,  // Required: Hogwild! is CPU-only
-        "optim_spec": {
-          "name": "GlobalAdam",  // Shared-memory optimizer
-          "lr": 0.0007
-        }
-      }
-    },
-    "meta": {
-      "distributed": "synced",  // or "shared"
-      "max_session": 4          // Number of parallel workers
-    }
+  "meta": {
+    "distributed": "synced",  // or "shared"
+    "max_session": 4          // Number of parallel workers
   }
 }
 ```
@@ -61,18 +43,19 @@ Enable distributed training in the **meta spec**:
 | Mode | Behavior | Use Case |
 |------|----------|----------|
 | `"synced"` | Sync parameters after each training step | A3C (on-policy) |
-| `"shared"` | Continuous parameter sharing | Off-policy algorithms |
+| `"shared"` | Continuous parameter sharing | Async SAC (off-policy) |
 | `false` | Disabled (default) | Standard training |
 
 ### Key Requirements
 
-1. **`gpu: false`** — Hogwild! requires CPU tensors for shared memory
-2. **`GlobalAdam` or `GlobalRMSprop`** — Special optimizers that support shared state
-3. **`max_session > 1`** — Number of parallel workers
+- **`GlobalAdam` or `GlobalRMSprop`** — Optimizers that support shared state across processes
+- **`max_session > 1`** — Number of parallel workers
 
 ## A3C on Pong
 
-The A3C spec at [slm_lab/spec/benchmark/a3c/a3c_gae_pong.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a3c/a3c_gae_pong.json) demonstrates async training:
+A3C ([Mnih et al., 2016](https://arxiv.org/abs/1602.01783)) uses `"synced"` mode for on-policy training.
+
+**Spec:** [slm_lab/spec/benchmark/a3c/a3c_gae_pong.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a3c/a3c_gae_pong.json)
 
 ```javascript
 {
@@ -103,47 +86,113 @@ The A3C spec at [slm_lab/spec/benchmark/a3c/a3c_gae_pong.json](https://github.co
     },
     "meta": {
       "distributed": "synced",
-      "max_session": 4,
-      "max_trial": 1
+      "max_session": 4
     }
   }
 }
 ```
 
-### Running A3C
-
+**Run:**
 ```bash
 slm-lab run slm_lab/spec/benchmark/a3c/a3c_gae_pong.json a3c_gae_pong train
 ```
 
-With 4 workers (`max_session: 4`), each running 4 parallel environments (`num_envs: 4`), you get 16 environments collecting experience simultaneously.
+## Async SAC on Humanoid
+
+For off-policy algorithms like SAC, use `"shared"` mode for continuous parameter sharing.
+
+**Spec:** [slm_lab/spec/benchmark/async_sac/async_sac_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/async_sac/async_sac_mujoco.json)
+
+```javascript
+{
+  "async_sac_humanoid": {
+    "agent": {
+      "name": "SoftActorCritic",
+      "algorithm": {
+        "name": "SoftActorCritic",
+        "gamma": 0.99,
+        "training_frequency": 1
+      },
+      "memory": {
+        "name": "Replay",
+        "batch_size": 256,
+        "max_size": 200000,
+        "use_cer": true
+      },
+      "net": {
+        "type": "MLPNet",
+        "hid_layers": [256, 256],
+        "optim_spec": {"name": "GlobalAdam", "lr": 5e-05},
+        "gpu": "auto"
+      }
+    },
+    "env": {
+      "name": "Humanoid-v5",
+      "num_envs": 8,
+      "max_frame": 5e7
+    },
+    "meta": {
+      "distributed": "shared",
+      "max_session": 16
+    }
+  }
+}
+```
+
+**Run:**
+```bash
+slm-lab run slm_lab/spec/benchmark/async_sac/async_sac_mujoco.json async_sac_humanoid train
+```
+
+With 16 parallel sessions, a 50M frame run completes much faster than sequential training.
+
+{% hint style="info" %}
+**Frame counting:** The x-axis shows per-session frames. Total frames = per-session × max_session.
+{% endhint %}
+
+## Historical Results (v4)
+
+These graphs are from v4 async SAC training:
+
+![Async SAC Humanoid returns](../.gitbook/assets/async_sac_humanoid_t0_trial_graph_mean_returns_vs_frames.png)
+
+![Async SAC Humanoid moving average](../.gitbook/assets/async_sac_humanoid_t0_trial_graph_mean_returns_ma_vs_frames.png)
+
+For validated v5 Humanoid results using synchronous PPO, see [Continuous Benchmark](../benchmark-results/continuous-benchmark.md)—PPO achieves **3774** on Humanoid-v5.
 
 ## Comparison: Async vs Vectorized
 
 For most use cases, **vectorized environments are simpler and faster**:
 
+| Aspect | Vectorized (`num_envs`) | Hogwild! (`distributed`) |
+|--------|-------------------------|--------------------------|
+| **Parallelism** | Environment stepping | Network training |
+| **Complexity** | Simple | Complex (multiprocessing) |
+| **GPU** | Full GPU acceleration | Global nets on CPU |
+| **Use case** | Production | Learning, CPU-bound |
+
 ```bash
-# Recommended: PPO with vectorized envs (GPU-accelerated)
+# Recommended: PPO with vectorized envs
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_pong.json ppo_pong train
 
-# Educational: A3C Hogwild (CPU-only)
+# Educational: A3C Hogwild
 slm-lab run slm_lab/spec/benchmark/a3c/a3c_gae_pong.json a3c_gae_pong train
 ```
 
-| Aspect | Vectorized (PPO) | Hogwild (A3C) |
-|--------|------------------|---------------|
-| **GPU** | Yes | No (CPU only) |
-| **Complexity** | Simple | Complex (multiprocessing) |
-| **Throughput** | Higher | Lower |
-| **Use case** | Production | Learning |
+## When Hogwild! Helps
+
+Hogwild! can help when:
+- Network training is the bottleneck (not environment stepping)
+- You have many CPU cores available
+- Learning about async RL architectures
+
+For most RL workloads, environment stepping is the bottleneck, so vectorized environments (`num_envs`) are more effective.
 
 ## Historical Context
 
-A3C ([Mnih et al., 2016](https://arxiv.org/abs/1602.01783)) was groundbreaking when GPUs were expensive and CPU parallelism was the main scaling strategy. Today, GPU-accelerated vectorized training (PPO, A2C) is more practical.
+A3C was groundbreaking when GPUs were expensive and CPU parallelism was the main scaling strategy. Today, GPU-accelerated vectorized training (PPO, A2C) is more practical for most use cases.
 
-SLM Lab includes A3C for:
+SLM Lab includes async training for:
 - Understanding async RL architectures
 - Reproducing classic papers
 - CPU-only training scenarios
-
-For validated benchmark results, see [Discrete Benchmark](../benchmark-results/discrete-benchmark.md) and [Atari Benchmark](../benchmark-results/atari-benchmark.md)—all using synchronous PPO.
