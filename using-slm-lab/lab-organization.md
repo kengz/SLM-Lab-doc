@@ -44,34 +44,33 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
 3. **Trial completes**: Aggregates results across all Sessions
 4. **Output**: Trial graph showing mean ± std across sessions
 
-The output folder structure looks like:
+The output folder structure:
 
 ```
 data/ppo_cartpole_2026_01_30_221924/
+├── ppo_cartpole_spec.json                      # Original spec
+├── ppo_cartpole_t0_spec.json                   # Trial spec (for reproduction)
+├── ppo_cartpole_t0_trial_graph_*.png           # Trial graphs (aggregated)
+├── ppo_cartpole_t0_trial_metrics_scalar.json   # Trial scalar metrics
 ├── graph/
-│   ├── ppo_cartpole_t0_s0_session_graph_*.png  # Session 0 graphs
-│   ├── ppo_cartpole_t0_s1_session_graph_*.png  # Session 1 graphs
-│   ├── ppo_cartpole_t0_s2_session_graph_*.png  # Session 2 graphs
-│   ├── ppo_cartpole_t0_s3_session_graph_*.png  # Session 3 graphs
-│   └── ppo_cartpole_t0_trial_graph_*.png       # Trial graph (aggregated)
+│   └── ppo_cartpole_t0_s*_session_graph_*.png  # Per-session graphs
 ├── info/
-│   ├── ppo_cartpole_t0_s0_session_df.csv       # Session 0 metrics
-│   └── ...
-├── model/
-│   ├── ppo_cartpole_t0_s0_ckpt-best.pt         # Best model for session 0
-│   ├── ppo_cartpole_t0_s0_ckpt-last.pt         # Final model for session 0
-│   └── ...
-└── ppo_cartpole_t0_spec.json                   # Saved spec for reproduction
+│   ├── ppo_cartpole_t0_s*_session_df_train.csv # Training metrics
+│   └── ppo_cartpole_t0_s*_session_df_eval.csv  # Evaluation metrics
+├── log/                                        # TensorBoard events
+└── model/
+    ├── ppo_cartpole_t0_s0_net_model.pt         # Session 0 final model
+    ├── ppo_cartpole_t0_s0_ckpt-best_net_model.pt  # Session 0 best model
+    └── ...                                     # (same for s1, s2, s3)
 ```
 
 ### Naming Convention
 
-Output files follow this pattern: `{spec_name}_t{trial}_s{session}_{type}.{ext}`
+Output files follow: `{spec_name}_t{trial}_s{session}_{type}.{ext}`
 
-- `t0` = Trial index 0
-- `s0` = Session index 0
+- `t0` = Trial 0, `s0` = Session 0
 - `ckpt-best` = Best checkpoint (highest `total_reward_ma`)
-- `ckpt-last` = Final checkpoint
+- No prefix = final checkpoint
 
 ## Reproducibility
 
@@ -83,31 +82,27 @@ Every experiment in SLM Lab can be reproduced exactly. When you run an experimen
 
 ### Reproducing Results
 
-To reproduce someone else's results (or your own from months ago):
+To reproduce results, run with the saved spec:
 
 ```bash
-# 1. Check out the exact code version
-git checkout <git-sha-from-their-experiment>
-
-# 2. Run with their spec file
-slm-lab run _ _ enjoy@path/to/their_spec.json
+slm-lab run path/to/spec.json spec_name train
 ```
 
-{% hint style="success" %}
-This makes it easy to share and verify results. If you report results in a paper, others can reproduce them exactly.
-{% endhint %}
+For exact reproduction (same code version):
+
+```bash
+git checkout <git-sha-from-experiment>
+slm-lab run path/to/spec.json spec_name train
+```
 
 ### Downloading Published Results
 
-SLM Lab benchmark results are published to HuggingFace:
+Benchmark results are published to [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark):
 
 ```bash
-# List available experiments
-slm-lab list
-
-# Download and replay
-slm-lab pull ppo_cartpole
-slm-lab run _ _ enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
+slm-lab list                    # List available experiments
+slm-lab pull ppo_cartpole       # Download
+slm-lab run _ _ enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json  # Replay
 ```
 
 ## The Spec File
