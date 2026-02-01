@@ -117,7 +117,7 @@ Usually these are similar, but "best" is useful if performance dropped near the 
 from slm_lab.agent.net import net_util
 
 # Load weights into an agent
-net_util.load(agent.algorithm, 'data/ppo_cartpole_*/model/ppo_cartpole_t0_s0_ckpt-best_net_model.pt')
+net_util.load(agent.algorithm, 'data/ppo_cartpole_2026_01_30_221924/model/ppo_cartpole_t0_s0_ckpt-best_net_model.pt')
 ```
 
 ### Spec File (`*_spec.json`)
@@ -138,7 +138,7 @@ This file is all you need to reproduce the experiment.
 | Training curves | `*_trial_graph_mean_returns_ma_vs_frames.png` (root folder) |
 | Best hyperparameters | First row of `info/experiment_df.csv` |
 | Model for inference | `model/*_ckpt-best_net_model.pt` |
-| Reproduce this run | `slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json` |
+| Reproduce this run | `slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json` |
 | TensorBoard data | `log/` folder |
 
 ## Working with Results

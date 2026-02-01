@@ -106,7 +106,7 @@ slm-lab list
 slm-lab pull ppo_hopper
 
 # Replay the trained agent
-slm-lab run _ _ enjoy@data/ppo_hopper_*/ppo_hopper_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco enjoy@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json
 ```
 
 ## Historical Results

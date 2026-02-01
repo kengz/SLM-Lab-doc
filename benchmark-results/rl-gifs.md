@@ -7,7 +7,7 @@ description: Trained agents in action—watch SLM Lab's PPO and SAC algorithms p
 These GIFs show trained agents running in "enjoy" mode. Generate your own with:
 
 ```bash
-slm-lab run _ _ enjoy@data/your_experiment/spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json
 ```
 
 ## Atari (PPO)

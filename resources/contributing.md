@@ -50,7 +50,7 @@ See [Public Benchmark Data](../benchmark-results/public-benchmark-data.md) for f
 Reproducibility is crucial. Pick a result from our benchmarks and verify it:
 
 1. Download the spec: `slm-lab pull ppo_hopper`
-2. Run: `slm-lab run _ _ train@data/ppo_hopper_*/ppo_hopper_spec.json`
+2. Run: `slm-lab run slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json`
 3. Compare your results to published scores
 4. Report discrepancies as [issues](https://github.com/kengz/SLM-Lab/issues)
 

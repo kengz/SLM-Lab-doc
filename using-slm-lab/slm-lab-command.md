@@ -26,8 +26,8 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari search
 # Resume training from latest run
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@latest
 
-# Replay trained model (glob pattern: * matches any characters)
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
+# Replay trained model
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json
 
 # Remote training
 slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n ppo-atari
@@ -225,7 +225,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar train
 ls data/ppo_lunar_*/
 
 # 3. Replay best model
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar enjoy@data/ppo_lunar_*/ppo_lunar_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar enjoy@data/ppo_lunar_2026_01_30_215550/ppo_lunar_t0_spec.json
 ```
 
 ### Hyperparameter Search

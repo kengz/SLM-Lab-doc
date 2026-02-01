@@ -121,7 +121,7 @@ slm-lab list
 slm-lab pull ppo_cartpole
 
 # Replay the trained agent
-slm-lab run _ _ enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json
 ```
 
 ## Historical Results (v4)

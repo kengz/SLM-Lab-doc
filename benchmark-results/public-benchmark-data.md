@@ -37,7 +37,7 @@ Downloads to `data/ppo_hopper_*/` including:
 ### Replay a Trained Agent
 
 ```bash
-slm-lab run _ _ enjoy@data/ppo_hopper_*/ppo_hopper_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco enjoy@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json
 ```
 
 ### Browse on HuggingFace
@@ -131,7 +131,7 @@ slm-lab pull ppo_hopper
 cat data/ppo_hopper_*/ppo_hopper_t0_spec.json
 
 # 3. Run with saved spec
-slm-lab run _ _ train@data/ppo_hopper_*/ppo_hopper_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json
 ```
 
 For exact code version, checkout the git SHA in the spec file.

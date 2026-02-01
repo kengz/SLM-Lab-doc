@@ -28,11 +28,7 @@ To continue a completed run (e.g., 100k → 200k frames):
 Use `enjoy@{spec_file}` to replay a trained model with rendering:
 
 ```bash
-# Replay from saved spec file
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json
-
-# Glob pattern (match any timestamp)
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
 ```
 
 In enjoy mode, the spec file and spec name args are ignored—everything loads from the `enjoy@` path.
@@ -46,7 +42,7 @@ Download and replay trained agents from [HuggingFace](https://huggingface.co/dat
 ```bash
 slm-lab list              # List available experiments
 slm-lab pull ppo_cartpole # Download trained model
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json
 ```
 
 See [Public Benchmark Data](../benchmark-results/public-benchmark-data.md) for the full list.

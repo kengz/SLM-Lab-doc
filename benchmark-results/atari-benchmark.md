@@ -223,7 +223,7 @@ slm-lab list | grep atari
 slm-lab pull ppo_atari_breakout
 
 # Replay
-slm-lab run _ _ enjoy@data/ppo_atari_*/ppo_atari_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari enjoy@data/ppo_atari_lam70_breakout_2026_01_07_110559/ppo_atari_lam70_breakout_t0_spec.json
 ```
 
 ## Historical Results (v4)
