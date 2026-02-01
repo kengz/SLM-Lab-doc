@@ -25,6 +25,8 @@ This runs a Trial with 4 Sessions. Training completes in about 5-10 minutes. Wat
 
 ![PPO CartPole Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_trial_graph_mean_returns_vs_frames.png)
 
+**Moving average** smooths out episode-to-episode noise to show the learning trend:
+
 ![PPO CartPole Moving Average](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_trial_graph_mean_returns_ma_vs_frames.png)
 
 ## Output Folder
