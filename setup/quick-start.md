@@ -66,12 +66,7 @@ Early in training, the pole falls quickly. As `total_reward_ma` climbs toward 40
 
 ### Success Criteria
 
-| Metric | Starting | Solved |
-|--------|----------|--------|
-| `total_reward_ma` | ~20-30 | 450+ |
-| Episode length | ~20 steps | 500 steps (max) |
-
-PPO typically solves CartPole within 50,000-100,000 frames.
+Random actions score ~20-30. PPO solves CartPole (450+ reward) within 50,000-100,000 frames.
 
 **Training curves** (from benchmark run):
 
