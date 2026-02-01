@@ -47,6 +47,8 @@ uv tool install dstack
 
 ## Docker
 
+For containerized runs without local setup, use the [prebuilt image](https://github.com/kengz/SLM-Lab/pkgs/container/slm-lab):
+
 ```bash
 docker pull ghcr.io/kengz/slm-lab:latest
 docker run -it ghcr.io/kengz/slm-lab:latest uv run slm-lab --help
