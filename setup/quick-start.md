@@ -82,6 +82,10 @@ Random actions score ~20-30. PPO solves CartPole (450+ reward) within 50,000-100
 
 Press `Ctrl+C` to stop. In dev mode, partial results are not saved.
 
+{% hint style="info" %}
+`--render` runs a single session and is slower due to visualization overhead. For faster multi-session training, see [Train: PPO on CartPole](../using-slm-lab/train-ppo-cartpole.md).
+{% endhint %}
+
 {% hint style="success" %}
 If you see rewards climbing, SLM Lab is working correctly. Continue to [Train: PPO on CartPole](../using-slm-lab/train-ppo-cartpole.md) for a full training run.
 {% endhint %}
