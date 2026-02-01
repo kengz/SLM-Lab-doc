@@ -89,9 +89,33 @@ The trial score is the mean across 4 sessions, providing statistically meaningfu
 | Setting | Value |
 |---------|-------|
 | Sessions per trial | 4 (different random seeds) |
-| Checkpoint frequency | Varies by env (500-10000 frames) |
+| Checkpoint frequency | Varies by env (see below) |
 | Moving average window | 100 checkpoints |
 | Hardware | Cloud GPUs (L4/A10G via dstack) |
+
+### Environment Settings
+
+Standardized settings for fair comparison across environment categories:
+
+| Category | num_envs | max_frame | log_frequency |
+|----------|----------|-----------|---------------|
+| Classic Control | 4 | 2e5-3e5 | 500 |
+| Box2D | 8 | 3e5 | 1000 |
+| MuJoCo | 16 | 4e6-10e6 | 10000 |
+| Atari | 16 | 10e6 | 10000 |
+
+### Contributing Benchmark Results
+
+When adding or updating benchmarks:
+
+1. **Audit spec settings**: Ensure your `spec.json` matches the Settings line in the benchmark table
+2. **Run and commit**: Execute the benchmark, then commit the spec file to the repo
+3. **Record scores**: Extract `total_reward_ma` from logs and add HuggingFace folder link
+4. **Generate plots**: Use `slm-lab plot -t "EnvName" -f folder1,folder2,...`
+
+{% hint style="info" %}
+Only use final validation runs (not search results) for benchmark tables. Search is for hyperparameter discovery; validation confirms with committed specs.
+{% endhint %}
 
 ### Reproducibility
 

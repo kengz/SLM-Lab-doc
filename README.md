@@ -103,6 +103,24 @@ SLM Lab uses [Gymnasium](https://gymnasium.farama.org/) (the maintained fork of 
 
 Any gymnasium-compatible environment works—just specify its name in the spec.
 
+## Key RL Terms
+
+Quick reference for terms used throughout this documentation. For deeper coverage, see [Foundations of Deep Reinforcement Learning](https://www.amazon.com/dp/0135172381).
+
+| Term | Meaning |
+|------|---------|
+| **Agent** | The learner that takes actions and receives rewards |
+| **Environment** | The world the agent interacts with (e.g., CartPole, Atari game) |
+| **State** | What the agent observes (e.g., pole angle, screen pixels) |
+| **Action** | What the agent does (e.g., move left/right) |
+| **Reward** | Feedback signal indicating how good an action was |
+| **Policy** | The agent's strategy—maps states to actions |
+| **Episode** | One complete run from start to terminal state |
+| **Frame** | One environment step (action → reward → next state) |
+| **Gamma (γ)** | Discount factor—how much to value future vs immediate rewards |
+| **On-policy** | Learn from actions taken by current policy (PPO, A2C) |
+| **Off-policy** | Learn from any actions, including past data (DQN, SAC) |
+
 ## Documentation Guide
 
 **Getting Started:**
@@ -112,7 +130,7 @@ Any gymnasium-compatible environment works—just specify its name in the spec.
 4. [Lab Organization](using-slm-lab/lab-organization.md) - Core concepts
 
 **Tutorials:**
-- [Train: PPO CartPole](using-slm-lab/train-and-enjoy-dqn-cartpole.md) - First training run
+- [Train: PPO CartPole](using-slm-lab/train-ppo-cartpole.md) - First training run
 - [Agent Spec](using-slm-lab/agent-spec-ddqn+per-on-lunarlander.md) - Configure algorithms
 - [Env Spec](using-slm-lab/environment-spec-a2c-on-bipedalwalker.md) - Configure environments
 - [Hyperparameter Search](using-slm-lab/search-spec-ppo-on-breakout.md) - Find optimal settings

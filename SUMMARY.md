@@ -12,7 +12,7 @@
 
 * [Lab Command](using-slm-lab/slm-lab-command.md)
 * [Lab Organization](using-slm-lab/lab-organization.md)
-* [Train: PPO CartPole](using-slm-lab/train-and-enjoy-dqn-cartpole.md)
+* [Train: PPO CartPole](using-slm-lab/train-ppo-cartpole.md)
 * [Resume and Enjoy](using-slm-lab/resume-and-enjoy-reinforce-cartpole.md)
 * [Agent Spec: DDQN+PER on LunarLander](using-slm-lab/agent-spec-ddqn+per-on-lunarlander.md)
 * [Env Spec: A2C on Pong](using-slm-lab/environment-spec-a2c-on-bipedalwalker.md)

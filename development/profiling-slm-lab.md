@@ -126,6 +126,49 @@ glances
 
 Monitor CPU, memory, and GPU utilization during training to identify resource bottlenecks.
 
+## Memory Profiling
+
+### RAM Usage by Algorithm
+
+Expected RAM usage varies by algorithm and replay buffer size:
+
+| Algorithm | Memory Driver | Typical RAM |
+|-----------|---------------|-------------|
+| PPO/A2C | Batch size × num_envs | 1-4 GB |
+| DQN/DDQN | Replay buffer (1M transitions default) | 4-8 GB |
+| SAC | Replay buffer + twin Q-networks | 6-12 GB |
+
+For off-policy algorithms, replay buffer dominates memory. Reduce `memory.max_size` if RAM-constrained.
+
+### GPU VRAM Usage
+
+VRAM depends on network size and batch size:
+
+| Environment | Network | Batch Size | VRAM |
+|-------------|---------|------------|------|
+| CartPole | MLP [64,64] | 64 | <1 GB |
+| LunarLander | MLP [256,256] | 256 | <1 GB |
+| Atari | ConvNet + 512fc | 256 | 2-4 GB |
+| MuJoCo | MLP [256,256] | 256 | 1-2 GB |
+
+{% hint style="info" %}
+For multi-trial search with `gpu: 0.125`, 8 trials share one GPU. Ensure per-trial VRAM fits within 1/8 of total (e.g., 1-2 GB each on 16 GB GPU).
+{% endhint %}
+
+### Monitoring Memory
+
+```bash
+# Watch RAM usage
+watch -n 1 free -h
+
+# Watch GPU memory
+watch -n 1 nvidia-smi
+
+# Detailed Python memory profiling
+uv add memory_profiler
+uv run python -m memory_profiler your_script.py
+```
+
 ## Tips for Faster Training
 
 1. **Match hardware to environment**: Use CPU for simple envs, GPU for image-based
@@ -133,3 +176,4 @@ Monitor CPU, memory, and GPU utilization during training to identify resource bo
 3. **Increase `batch_size`** when using GPU to improve utilization
 4. **Reduce `training_frequency`** if algorithm trains too often
 5. **Use `--log-level WARNING`** to reduce logging overhead for benchmarks
+6. **Reduce replay buffer** for memory-constrained systems (`memory.max_size`)

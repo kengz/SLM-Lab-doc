@@ -52,8 +52,15 @@ The RL ecosystem has evolved significantly since SLM Lab v4:
 | v4 | v5 |
 |----|----|
 | `conda activate lab && python run_lab.py` | `slm-lab run` |
-| `CartPole-v0`, `PongNoFrameskip-v4` | `CartPole-v1`, `ALE/Pong-v5` |
-| `RoboschoolHopper-v1` | `Hopper-v5` |
+| `CartPole-v0` | `CartPole-v1` |
+| `Acrobot-v1` | `Acrobot-v1` (unchanged) |
+| `Pendulum-v0` | `Pendulum-v1` |
+| `LunarLander-v2` | `LunarLander-v3` |
+| `PongNoFrameskip-v4` | `ALE/Pong-v5` |
+| `BreakoutNoFrameskip-v4` | `ALE/Breakout-v5` |
+| `RoboschoolHopper-v1` | `Hopper-v5` (MuJoCo) |
+| `RoboschoolHalfCheetah-v1` | `HalfCheetah-v5` (MuJoCo) |
+| `RoboschoolHumanoid-v1` | `Humanoid-v5` (MuJoCo) |
 | `agent: [{...}]`, `env: [{...}]`, `body: {...}` | `agent: {...}`, `env: {...}` |
 
 ### Gymnasium API Change
