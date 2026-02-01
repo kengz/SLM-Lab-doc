@@ -48,29 +48,7 @@ Different games benefit from different lambda values for GAE. All variants use t
 | ppo_atari_lam85 | 0.85 | Mixed games |
 | ppo_atari_lam70 | 0.70 | Action games |
 
-### Selected v5 Results
-
-| Game | Score | Lambda | HuggingFace |
-|------|-------|--------|-------------|
-| ALE/Breakout-v5 | 327 | lam70 | [ppo_atari_lam70_breakout_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_breakout_2026_01_07_110559) |
-| ALE/Pong-v5 | 16.9 | lam85 | [ppo_atari_lam85_pong_2026_01_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_pong_2026_01_08_094454) |
-| ALE/Qbert-v5 | 15094 | lam95 | [ppo_atari_qbert_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_qbert_2026_01_06_111801) |
-| ALE/BeamRider-v5 | 2765 | lam95 | [ppo_atari_beamrider_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_beamrider_2026_01_06_112533) |
-| ALE/SpaceInvaders-v5 | 726 | lam95 | [ppo_atari_spaceinvaders_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_spaceinvaders_2026_01_07_102346) |
-| ALE/Seaquest-v5 | 1796 | lam95 | [ppo_atari_seaquest_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_seaquest_2026_01_06_183440) |
-| ALE/KungFuMaster-v5 | 29068 | lam70 | [ppo_atari_lam70_kungfumaster_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_kungfumaster_2026_01_07_111317) |
-| ALE/MsPacman-v5 | 2372 | lam85 | [ppo_atari_lam85_mspacman_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_mspacman_2026_01_07_223522) |
-| ALE/Atlantis-v5 | 792886 | lam95 | [ppo_atari_atlantis_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_atlantis_2026_01_06_120440) |
-| ALE/Enduro-v5 | 898 | lam85 | [ppo_atari_lam85_enduro_2026_01_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_enduro_2026_01_08_095448) |
-
-**Skipped** (hard exploration): Adventure, MontezumaRevenge, Pitfall, PrivateEye, Venture
-
-### Full Results Table
-
-All 54 games with scores and HuggingFace links.
-
-<details>
-<summary><b>All 54 Games with HuggingFace Links</b> - click to expand</summary>
+### Results
 
 | Game | Score | SPEC_NAME | HuggingFace |
 |------|-------|-----------|-------------|
@@ -133,7 +111,9 @@ All 54 games with scores and HuggingFace links.
 | ALE/YarsRevenge-v5 | 17120 | ppo_atari | [ppo_atari_yarsrevenge_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_yarsrevenge_2026_01_06_221154) |
 | ALE/Zaxxon-v5 | 10756 | ppo_atari | [ppo_atari_zaxxon_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_zaxxon_2026_01_06_221154) |
 
-</details>
+**Skipped** (hard exploration): Adventure, MontezumaRevenge, Pitfall, PrivateEye, Venture
+
+### Lambda Comparison
 
 <details>
 <summary><b>Lambda Comparison Table</b> - click to expand</summary>
