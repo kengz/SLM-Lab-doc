@@ -3,7 +3,7 @@
 ## System Dependencies
 
 ```bash
-# uv - fast Python package manager (handles Python 3.10+ automatically)
+# uv - fast Python package manager (handles Python 3.12+ automatically)
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # swig - required for Box2D environments (LunarLander, BipedalWalker)
@@ -41,7 +41,7 @@ For [remote training](../using-slm-lab/remote-training.md) in the cloud with [ds
 ```bash
 git clone https://github.com/kengz/SLM-Lab.git
 cd SLM-Lab
-uv sync --only-group minimal
+uv sync --no-default-groups
 uv tool install dstack
 ```
 

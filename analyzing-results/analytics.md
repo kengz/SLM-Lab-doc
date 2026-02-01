@@ -18,7 +18,8 @@ data/ppo_cartpole_2026_01_30_221924/
 │   └── ppo_cartpole_t0_s0_session_graph_*.png
 │
 ├── info/                   # Session data and experiment results
-│   ├── ppo_cartpole_t0_s0_session_df.csv              # Session time series
+│   ├── ppo_cartpole_t0_s0_session_df_train.csv        # Training metrics
+│   ├── ppo_cartpole_t0_s0_session_df_eval.csv         # Evaluation metrics
 │   └── experiment_df.csv                               # Search results (if search mode)
 │
 ├── log/                    # TensorBoard event files
@@ -35,9 +36,13 @@ data/ppo_cartpole_2026_01_30_221924/
 
 ## Key Files Explained
 
-### Session DataFrame (`*_session_df.csv`)
+### Session DataFrames (`*_session_df_{train,eval}.csv`)
 
-Time series of training metrics, one row per checkpoint:
+Two variants are saved per session:
+- **`*_session_df_train.csv`**: Metrics during training rollouts
+- **`*_session_df_eval.csv`**: Metrics during evaluation (more stable)
+
+Time series of metrics, one row per checkpoint:
 
 | Column | Description |
 |--------|-------------|
@@ -56,7 +61,7 @@ Time series of training metrics, one row per checkpoint:
 ```python
 import pandas as pd
 
-df = pd.read_csv('data/ppo_cartpole_2026_01_30_221924/info/ppo_cartpole_t0_s0_session_df.csv')
+df = pd.read_csv('data/ppo_cartpole_2026_01_30_221924/info/ppo_cartpole_t0_s0_session_df_eval.csv')
 print(f"Final reward MA: {df['total_reward_ma'].iloc[-1]:.2f}")
 print(f"Training time: {df['wall_t'].iloc[-1] / 60:.1f} minutes")
 ```
@@ -137,7 +142,7 @@ This file is all you need to reproduce the experiment.
 
 | What you want | Where to find it |
 |---------------|------------------|
-| Final reward | `total_reward_ma` in last row of `info/*_session_df.csv` |
+| Final reward | `total_reward_ma` in last row of `info/*_session_df_eval.csv` |
 | Training curves | `*_trial_graph_mean_returns_ma_vs_frames.png` (root folder) |
 | Best hyperparameters | First row of `info/experiment_df.csv` |
 | Model for inference | `model/*_ckpt-best_net_model.pt` |
@@ -154,7 +159,7 @@ SLM Lab uses Plotly for visualization. You can regenerate graphs using the retro
 uv run python -c 'from slm_lab.experiment import retro_analysis; retro_analysis.retro_analyze("data/ppo_cartpole_2026_01_30_221924")'
 ```
 
-See [Post-Hoc Analysis](../using-slm-lab/post-hoc-analysis.md) for more details.
+See [Post-Hoc Analysis](post-hoc-analysis.md) for more details.
 
 ### Viewing Graphs
 

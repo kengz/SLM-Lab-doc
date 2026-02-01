@@ -36,7 +36,7 @@ This regenerates:
 | Trial graphs | `*_trial_graph_*.png` (root) | Overwritten |
 | Trial metrics | `*_trial_metrics_scalar.json` (root) | Overwritten |
 | Session graphs | `graph/*_session_graph_*.png` | Overwritten |
-| Session data | `info/*_session_df.csv` | **Preserved** |
+| Session data | `info/*_session_df_{train,eval}.csv` | **Preserved** |
 | Model checkpoints | `model/*.pt` | **Preserved** |
 | Spec file | `*_spec.json` (root) | **Preserved** |
 
@@ -107,7 +107,7 @@ for data_dir in data_dirs:
 
 ### "Session data not found"
 
-Ensure the data folder contains `*_session_df.csv` files. These are required for analysis.
+Ensure the data folder contains `*_session_df_train.csv` and `*_session_df_eval.csv` files in the `info/` subfolder. These are required for analysis.
 
 ### Graphs look wrong
 
