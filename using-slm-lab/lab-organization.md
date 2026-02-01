@@ -102,9 +102,7 @@ Benchmark results are published to [HuggingFace](https://huggingface.co/datasets
 ```bash
 slm-lab list              # List available experiments
 slm-lab pull ppo_cartpole # Download
-
-# Replay (spec_file and spec_name are ignored in enjoy mode)
-slm-lab run spec.json spec_name enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
 ```
 
 ## The Spec File
