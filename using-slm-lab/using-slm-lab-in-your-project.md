@@ -203,7 +203,7 @@ def run_inference(agent, env, num_episodes: int = 10):
 if __name__ == '__main__':
     agent, env = load_trained_agent(
         spec_path='data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json',
-        model_path='data/ppo_cartpole_2026_01_30_221924/model/ppo_cartpole_t0_s0_ckpt-best.pt'
+        model_path='data/ppo_cartpole_2026_01_30_221924/model/ppo_cartpole_t0_s0_ckpt-best_net_model.pt'
     )
     rewards = run_inference(agent, env, num_episodes=10)
     env.close()

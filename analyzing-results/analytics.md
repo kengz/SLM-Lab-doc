@@ -25,8 +25,8 @@ data/ppo_cartpole_2026_01_30_221924/
 │   └── events.out.tfevents.*
 │
 └── model/                  # PyTorch checkpoints
-    ├── ppo_cartpole_t0_s0_ckpt-best.pt                # Best model (session 0)
-    └── ppo_cartpole_t0_s0_ckpt-last.pt                # Final model (session 0)
+    ├── ppo_cartpole_t0_s0_ckpt-best_net_model.pt      # Best model (session 0)
+    └── ppo_cartpole_t0_s0_net_model.pt                # Final model (session 0)
 ```
 
 **Naming convention:** `{spec_name}_t{trial}_s{session}_{type}.{ext}`
@@ -104,8 +104,8 @@ print(f"Best reward: {best_trial['total_reward_ma']:.2f}")
 
 Two checkpoints are saved per session:
 
-- **`*_ckpt-best.pt`**: Model with highest `total_reward_ma` during training
-- **`*_ckpt-last.pt`**: Model at the end of training
+- **`*_ckpt-best_net_model.pt`**: Model with highest `total_reward_ma` during training
+- **`*_net_model.pt`**: Model at the end of training (no `ckpt-` prefix)
 
 {% hint style="info" %}
 Usually these are similar, but "best" is useful if performance dropped near the end of training (policy collapse).
@@ -117,7 +117,7 @@ Usually these are similar, but "best" is useful if performance dropped near the 
 from slm_lab.agent.net import net_util
 
 # Load weights into an agent
-net_util.load(agent.algorithm, 'data/ppo_cartpole_*/model/ppo_cartpole_t0_s0_ckpt-best.pt')
+net_util.load(agent.algorithm, 'data/ppo_cartpole_*/model/ppo_cartpole_t0_s0_ckpt-best_net_model.pt')
 ```
 
 ### Spec File (`*_spec.json`)
@@ -137,8 +137,8 @@ This file is all you need to reproduce the experiment.
 | Final reward | `total_reward_ma` in last row of `info/*_session_df.csv` |
 | Training curves | `*_trial_graph_mean_returns_ma_vs_frames.png` (root folder) |
 | Best hyperparameters | First row of `info/experiment_df.csv` |
-| Model for inference | `model/*_ckpt-best.pt` |
-| Reproduce this run | `slm-lab run _ _ enjoy@data/*/ppo_cartpole_t0_spec.json` |
+| Model for inference | `model/*_ckpt-best_net_model.pt` |
+| Reproduce this run | `slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json` |
 | TensorBoard data | `log/` folder |
 
 ## Working with Results

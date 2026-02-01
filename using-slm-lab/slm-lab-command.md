@@ -324,9 +324,9 @@ data/ppo_cartpole_2026_01_30_221924/
 │   ├── *_session_df.csv        # Time series
 │   └── *_trial_metrics.json    # Summary stats
 ├── log/                        # TensorBoard events
-├── model/                      # PyTorch checkpoints
-│   ├── *_ckpt-best.pt          # Best model
-│   └── *_ckpt-last.pt          # Final model
+├── model/                              # PyTorch checkpoints
+│   ├── *_ckpt-best_net_model.pt        # Best model
+│   └── *_net_model.pt                  # Final model
 └── *_spec.json                 # Saved spec (for reproduction)
 ```
 
