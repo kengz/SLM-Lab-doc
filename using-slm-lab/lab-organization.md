@@ -95,9 +95,9 @@ git checkout <git-sha-from-experiment>
 slm-lab run path/to/spec.json spec_name train
 ```
 
-### Downloading Published Results
+### Published Benchmark Results
 
-Benchmark results are published to [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark):
+SLM Lab auto-uploads results to [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark) when env vars are configured (see [Train: PPO on CartPole](train-ppo-cartpole.md#auto-upload-to-huggingface)). You can download and replay any published experiment:
 
 ```bash
 slm-lab list              # List available experiments

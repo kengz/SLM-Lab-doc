@@ -52,6 +52,15 @@ data/ppo_cartpole_2026_01_30_221924/
 
 See [Data Locations](../analyzing-results/analytics.md) for full details.
 
+### Auto-Upload to HuggingFace
+
+If you set up environment variables, results auto-upload to HuggingFace after training—useful for [remote training](remote-training.md):
+
+```bash
+cp .env.example .env
+# Edit .env with your HF_TOKEN from https://huggingface.co/settings/tokens
+```
+
 ## Next Steps
 
-Learn how SLM Lab organizes experiments in [Understanding Experiments](lab-organization.md).
+Learn how SLM Lab organizes experiments in [Core Concepts](lab-organization.md).
