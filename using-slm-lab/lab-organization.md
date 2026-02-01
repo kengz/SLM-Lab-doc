@@ -82,7 +82,7 @@ Every experiment in SLM Lab can be reproduced exactly. When you run an experimen
 
 ### Reproducing Results
 
-The saved spec (`*_t0_spec.json`) includes the git SHA for exact reproduction:
+The saved spec (`ppo_cartpole_t0_spec.json`) includes the git SHA for exact reproduction:
 
 ```json
 {
@@ -97,7 +97,7 @@ To reproduce:
 
 ```bash
 git checkout <git-sha>
-slm-lab run data/ppo_cartpole_*/ppo_cartpole_t0_spec.json ppo_cartpole train
+slm-lab run data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json ppo_cartpole train
 ```
 
 ### Published Benchmark Results
@@ -107,7 +107,7 @@ SLM Lab auto-uploads results to [HuggingFace](https://huggingface.co/datasets/SL
 ```bash
 slm-lab list              # List available experiments
 slm-lab pull ppo_cartpole # Download
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json
 ```
 
 ## The Spec File
