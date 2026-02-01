@@ -8,10 +8,18 @@ This tutorial shows how to train on Atari games using GPU acceleration.
 
 ## Why GPU for Atari?
 
-Training a convolutional network is slow on a CPU due to the large network size. When training on image-based environments like Atari, GPU acceleration provides significant speedup.
+The PPO Atari spec uses the **Nature DQN ConvNet** architecture:
+
+```
+Conv layers: [32×8×8, stride 4] → [64×4×4, stride 2] → [64×3×3, stride 1]
+FC layer: 512 units
+Total parameters: ~1.7M
+```
+
+This architecture processes 84×84 grayscale frames. The convolutional layers extract spatial features, making GPU acceleration beneficial due to parallel matrix operations.
 
 {% hint style="warning" %}
-GPU does not always accelerate your training. For vector-state environments like CartPole or LunarLander, the speedup isn't enough to counteract the data transfer overhead. Use GPU only for image-based environments with large networks.
+GPU does not always accelerate your training. For vector-state environments like CartPole or LunarLander with small MLPs, the data transfer overhead exceeds the computation benefit. Use GPU only for image-based environments with ConvNets or large MLPs.
 {% endhint %}
 
 {% hint style="info" %}
@@ -112,12 +120,56 @@ The key setting is **"gpu": "auto"** in the net spec.
 
 | Environment Type | Network | GPU Benefit |
 |------------------|---------|-------------|
-| Atari (images) | ConvNet | **High** |
-| MuJoCo (vectors) | Large MLP [256,256] | Moderate |
-| CartPole (vectors) | Small MLP [64,64] | **None** - CPU is faster |
+| Atari (images) | ConvNet (~1.7M params) | **High** |
+| MuJoCo (vectors) | MLP [256,256] (~200K params) | Moderate |
+| CartPole (vectors) | Small MLP [64,64] (~5K params) | **None** - CPU is faster |
 
 {% hint style="info" %}
 **Rule of thumb:** Use GPU for ConvNets and MLPs with 256+ hidden units. For smaller networks, the data transfer overhead exceeds the computation benefit.
+{% endhint %}
+
+## Choosing a GPU
+
+### VRAM is What Matters
+
+For reinforcement learning, **VRAM (GPU memory) is the primary constraint**, not compute power. RL networks are small compared to large language models or image generation models:
+
+| Workload | Typical VRAM | GPU Tier Needed |
+|----------|--------------|-----------------|
+| Atari (ConvNet) | 2-4 GB | Entry-level |
+| MuJoCo (MLP) | 0.5-1 GB | Entry-level |
+| Large batch search | 4-8 GB | Mid-range |
+
+### Don't Overspend on GPUs
+
+A common mistake is renting expensive GPUs (A100, H100) for standard RL workloads. These high-end GPUs are designed for:
+- Large language models (billions of parameters)
+- Large batch deep learning (thousands of samples)
+- Multi-GPU distributed training
+
+**For SLM Lab workloads, entry-level GPUs are sufficient:**
+
+| GPU | VRAM | Cost (cloud) | SLM Lab Suitability |
+|-----|------|--------------|---------------------|
+| **L4** | 24 GB | ~$0.40/hr | Excellent - handles all workloads |
+| **T4** | 16 GB | ~$0.35/hr | Great - sufficient for most |
+| RTX 3060 | 12 GB | ~$0.30/hr | Good - works well |
+| V100 | 16-32 GB | ~$1.50/hr | Overkill for standard RL |
+| A100 | 40-80 GB | ~$3+/hr | Wasteful for RL |
+
+{% hint style="success" %}
+**Cost-effective choice:** The **L4 GPU** ($0.40/hr) handles all SLM Lab benchmarks comfortably. It's often cheaper than equivalent CPU instances due to fractional GPU sharing.
+{% endhint %}
+
+### What Affects VRAM Usage
+
+1. **Batch size** (`minibatch_size`) - Larger batches use more memory
+2. **Network size** - More parameters = more memory for weights and gradients
+3. **Parallel trials** - Search mode with fractional GPU shares memory
+4. **Frame stacking** - Atari stacks 4 frames, increasing input size
+
+{% hint style="info" %}
+For more detailed GPU selection guidance and performance optimization, see Chapter 12 of [Foundations of Deep Reinforcement Learning](https://www.amazon.com/dp/0135172381).
 {% endhint %}
 
 ## Running PPO on Qbert
@@ -209,17 +261,21 @@ SLM Lab uses Ray Tune for resource allocation. Fractional GPU means trials share
 
 If you hit GPU memory limits:
 
-1. **Reduce `minibatch_size`** - Most direct impact on memory
-2. **Reduce `num_envs`** - Fewer parallel environments = smaller batches
-3. **Use `gpu: 0.5`** - Force fewer concurrent trials in search mode
+1. **Reduce `minibatch_size`** - Most direct impact on memory (default: 256 for Atari, 64 for MuJoCo)
+2. **Reduce `num_envs`** - Fewer parallel environments = smaller batch buffers (default: 16)
+3. **Use larger `gpu` fraction** - In search mode, use `gpu: 0.25` or `gpu: 0.5` to run fewer concurrent trials
 
-### Typical Memory Usage
+### Estimating Memory Usage
 
-| Environment | Network | Approx. Memory |
-|-------------|---------|----------------|
-| Atari | ConvNet | 2-4 GB per session |
-| MuJoCo | MLP [256,256] | 0.5-1 GB per session |
+For the default Atari spec (`minibatch_size=256`, `num_envs=16`):
+- **Model weights**: ~7 MB (1.7M params × 4 bytes)
+- **Gradients**: ~7 MB
+- **Batch data**: ~50 MB (256 × 84 × 84 × 4 frames)
+- **Overhead**: ~100-200 MB (CUDA context, buffers)
+- **Total**: ~300-500 MB per training session
+
+This is why entry-level GPUs work well—even with 8 parallel search trials, total usage stays under 4 GB.
 
 {% hint style="warning" %}
-**Multi-session training:** With `max_session=4`, each session runs sequentially by default, so memory usage doesn't multiply. In search mode with fractional GPU, multiple trials share memory.
+**Multi-session training:** With `max_session=4`, sessions run sequentially by default, so memory doesn't multiply. In search mode with `gpu: 0.125`, 8 trials share the GPU via time-slicing.
 {% endhint %}
