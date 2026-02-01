@@ -102,10 +102,6 @@ See [slm_lab/spec/benchmark/reinforce/](https://github.com/kengz/SLM-Lab/tree/ma
   * `rnn_hidden_size` [_general param_](./)
   * `rnn_num_layers` [_general param_](./)
   * `seq_len` [_general param_](./)
-  * `clip_grad`: [_general param_](./)
   * `clip_grad_val`: [_general param_](./)
-  * `lr_decay`: [_general param_](./)
-  * `lr_decay_frequency`: [_general param_](./)
-  * `lr_decay_min_timestep`: [_general param_](./)
-  * `lr_anneal_timestep`: [_general param_](./)
+  * `lr_scheduler_spec`: optional learning rate scheduler config
   * `gpu`: [_general param_](./)

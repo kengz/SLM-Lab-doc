@@ -21,7 +21,7 @@ $$
 & \quad \quad \quad \quad \quad \quad y_i = r_i + \gamma \ \max\limits_{a'} Q(s'_i, a'; \theta_{TAR})|s_i, a_i \\
 & \quad \quad \quad \quad\text{2. Update network parameters, using MSE loss} \\
 & \quad \quad \quad \quad\quad \quad L_j(\theta) = \frac{1}{2} \sum_i || (y_i - Q(s_i,a_i; \theta)) ||^2 \\
-& \quad \text{Periodically udpate} ~\theta_{TAR} ~ \text{with}~ \theta ~\text{or a mix of}~ \theta ~\text{and}~ \theta_{TAR} \\
+& \quad \text{Periodically update} ~\theta_{TAR} ~ \text{with}~ \theta ~\text{or a mix of}~ \theta ~\text{and}~ \theta_{TAR} \\
 \end{aligned}
 $$
 
@@ -119,11 +119,7 @@ See [slm_lab/spec/benchmark/dqn/](https://github.com/kengz/SLM-Lab/tree/master/s
   * `update_type` method of updating `target_net`. "replace" or "polyak". "replace" replaces `target_net` with `net` every `update_frequency` time steps. "polyak" updates `target_net` with `polyak_coef`  _`target_net` + (1 - `polyak_coef`)_ `net` each time step.
   * `update_frequency` how often to update `target_net` with `net` when using "replace" `update_type`.
   * `polyak_coef` $$\in [0, 1]$$ how much weight to give the old `target_net` when updating the `target_net` using "polyak" `update_type`
-  * `clip_grad`: [_general param_](./)
   * `clip_grad_val`: [_general param_](./)
   * `loss_spec`: [_general param_](./)
-  * `lr_decay`: [_general param_](./)
-  * `lr_decay_frequency`: [_general param_](./)
-  * `lr_decay_min_timestep`: [_general param_](./)
-  * `lr_anneal_timestep`: [_general param_](./)
+  * `lr_scheduler_spec`: optional learning rate scheduler config
   * `gpu`: [_general param_](./)

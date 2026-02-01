@@ -14,8 +14,8 @@ source .env && slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_cartpole.
 # Download trained models
 slm-lab pull ppo_cartpole
 
-# Replay trained model
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy
+# Replay trained model (after pulling)
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
 ```
 
 {% hint style="info" %}

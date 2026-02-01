@@ -70,12 +70,9 @@ See [slm_lab/spec/benchmark/a2c/](https://github.com/kengz/SLM-Lab/tree/master/s
   * `action_pdtype` [_general param_](./)
   * `action_policy` string specifying which policy to use to act. "Categorical" (for discrete action spaces), "Normal" (for continuous actions spaces with one dimension), or "default" to automatically switch between the two depending on the environment.
   * `gamma` [_general param_](./)
-  * `use_gae` whether to calculate the advantage using generalized advantage estimation.
-  * `lam` $$\in [0,1]$$ trade off between bias and variance when using generalized advantage estimation. 0 corresponds to low variance and high bias. 1 corresponds to high variance and low bias.
-  * `use_nstep`: whether to calculate the advantage using n-step forward returns. If `use_gae` is `true` this parameter will be ignored.
-  * `num_step_returns` number of forward steps to use when calculating the target for advantage estimation using nstep forward returns.
-  * `add_entropy` whether to add entropy to the advantage to encourage exploration
-  * `entropy_coef` coefficient to multiply the entropy of the distribution with when adding it to advantage
+  * `lam` $$\in [0,1]$$ GAE lambda parameter. If set, uses Generalized Advantage Estimation. Trade-off between bias and variance: 0 = low variance/high bias, 1 = high variance/low bias. Typical value: 0.95-0.97.
+  * `num_step_returns` if set (and `lam` is not), uses n-step returns instead of GAE. Number of forward steps for advantage estimation.
+  * `entropy_coef_spec` schedule for entropy coefficient added to the loss to encourage exploration. Example: `{"name": "no_decay", "start_val": 0.01, "end_val": 0.01, "start_step": 0, "end_step": 0}`
   * `training_frequency` when using episodic data storage (memory) such as "OnPolicyReplay", this means how many episodes of data to collect before each training iteration - a common value is 1; or when using batch data storage (memory) such as "OnPolicyBatchReplay", how often to train the algorithm. Value of 32 means train every 32 steps the agent takes in the environment using the 32 examples since the agent was previously trained.
 * `memory`
   * `name` [_general param_](./). Compatible types; ["OnPolicyReplay", "OnPolicyBatchReplay"](../memory/)
@@ -114,16 +111,12 @@ See [slm_lab/spec/benchmark/a2c/](https://github.com/kengz/SLM-Lab/tree/master/s
   * `val_loss_coef` how much weight to give to the critic component of the loss when the actor and critic have shared parameters, so are trained jointly.
   * `normalize_v_targets` normalize value targets to prevent gradient explosion. Uses running statistics normalization (like SB3's VecNormalize).
 * `net`
-  * `use_same_optim` whether to use the `optim_actor` for both the actor and critic. This can be useful when using conducting a parameter search.
+  * `use_same_optim` whether to use the same optimizer for both actor and critic. Useful for parameter search.
   * `rnn_hidden_size` [_general param_](./)
   * `rnn_num_layers` [_general param_](./)
   * `seq_len` [_general param_](./)
-  * `clip_grad`: [_general param_](./)
   * `clip_grad_val`: [_general param_](./)
-  * `lr_decay`: [_general param_](./)
-  * `lr_decay_frequency`: [_general param_](./)
-  * `lr_decay_min_timestep`: [_general param_](./)
-  * `lr_anneal_timestep`: [_general param_](./)
+  * `lr_scheduler_spec`: optional learning rate scheduler config
   * `gpu`: [_general param_](./)
 
 ## PPO (Proximal Policy Optimization)
