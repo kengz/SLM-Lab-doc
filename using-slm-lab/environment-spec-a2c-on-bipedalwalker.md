@@ -52,7 +52,8 @@ The PPO MuJoCo spec from [slm\_lab/spec/benchmark/ppo/ppo\_mujoco.json](https://
         "lam": 0.95,
         "time_horizon": 2048,
         "minibatch_size": 64,
-        "training_epoch": 10
+        "training_epoch": 10,
+        "normalize_v_targets": true
       },
       "memory": {"name": "OnPolicyBatchReplay"},
       "net": {
@@ -60,7 +61,6 @@ The PPO MuJoCo spec from [slm\_lab/spec/benchmark/ppo/ppo\_mujoco.json](https://
         "hid_layers": [256, 256],
         "hid_layers_activation": "tanh",
         "init_fn": "orthogonal_",
-        "normalize_v_targets": true,
         "gpu": "auto"
       }
     },
