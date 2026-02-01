@@ -1,4 +1,4 @@
-# Algorithm 🧠
+# Algorithm Families 🧠
 
 {% hint style="info" %}
 **v4 Book Readers:** This documentation uses v5 spec format. If using v4.1.1, see [Changelog](../CHANGELOG.md) for spec format differences.
@@ -40,10 +40,6 @@ See [Class Inheritance: A2C > PPO](../modular-lab-components/class-inheritance-a
 | **A2C** | Actor-Critic | Both | + Synchronized updates |
 | **PPO** | Actor-Critic | Both | + Clipped surrogate objective |
 | **SAC** | Actor-Critic | Continuous | + Maximum entropy RL |
-
-{% hint style="info" %}
-**Documentation coverage:** The sub-pages cover algorithm families (DQN, REINFORCE, Actor-Critic). Individual variants like DoubleDQN, A2C, PPO, and SAC inherit from these families—see [Class Inheritance](../modular-lab-components/class-inheritance-a2c-greater-than-ppo.md) for how this works in code.
-{% endhint %}
 
 ## Algorithm Interface
 
