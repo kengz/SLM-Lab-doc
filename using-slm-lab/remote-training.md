@@ -1,4 +1,4 @@
-# Remote Training with dstack ☁️
+# Remote Training ☁️
 
 ## Overview
 

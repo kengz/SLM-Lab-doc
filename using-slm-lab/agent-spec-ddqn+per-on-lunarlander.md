@@ -1,4 +1,4 @@
-# Agent Spec: DDQN+PER on LunarLander 🚀
+# Agent Spec 🤖
 
 This tutorial shows how to configure an agent's algorithm, memory, and neural network. We'll train a **DDQN+PER** agent on LunarLander—a spacecraft landing task.
 

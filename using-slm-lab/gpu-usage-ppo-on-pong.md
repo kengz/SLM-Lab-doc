@@ -1,4 +1,4 @@
-# GPU Training: PPO on Breakout 🎮
+# GPU Training 🎮
 
 This tutorial shows how to train on Atari games using GPU acceleration.
 

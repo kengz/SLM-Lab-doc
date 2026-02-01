@@ -1,4 +1,4 @@
-# Env Spec: PPO on HalfCheetah 🏃
+# Env Spec 🌍
 
 This tutorial shows how to configure the **env spec** for continuous control environments. We'll train PPO on HalfCheetah—a MuJoCo locomotion task.
 

@@ -1,4 +1,4 @@
-# Meta Spec: Experiment Settings ⚙️
+# Meta Spec ⚙️
 
 The **meta spec** controls experiment-level settings: how many sessions to run, how often to checkpoint, and more.
 

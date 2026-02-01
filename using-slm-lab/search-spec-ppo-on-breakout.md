@@ -1,4 +1,4 @@
-# Hyperparameter Search with ASHA 🔍
+# Search Spec 🔍
 
 ## Overview
 
