@@ -2,7 +2,11 @@
 
 ## PPO Atari Results (v5)
 
-SLM Lab v5 validates PPO on [Gymnasium ALE (Arcade Learning Environment)](https://gymnasium.farama.org/environments/atari/) environments. The ALE provides 50+ classic Atari 2600 games as standardized RL benchmarks, from simple action games (Pong, Breakout) to complex exploration challenges (Montezuma's Revenge).
+SLM Lab v5 validates PPO on [Gymnasium ALE (Arcade Learning Environment)](https://gymnasium.farama.org/environments/atari/) environments. The ALE provides 50+ classic Atari 2600 games as standardized RL benchmarks.
+
+| MsPacman | Breakout | Qbert | BeamRider |
+|:---:|:---:|:---:|:---:|
+| ![MsPacman](https://user-images.githubusercontent.com/8209263/63994685-5cb30d00-caaa-11e9-8f35-78e29a7d60f5.gif) | ![Breakout](https://user-images.githubusercontent.com/8209263/63994695-650b4800-caaa-11e9-9982-2462738caa45.gif) | ![Qbert](https://user-images.githubusercontent.com/8209263/63994672-54f36880-caaa-11e9-9757-7780725b53af.gif) | ![BeamRider](https://user-images.githubusercontent.com/8209263/63994698-689ecf00-caaa-11e9-991f-0a5e9c2f5804.gif) |
 
 **54 games tested** with all results available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
 

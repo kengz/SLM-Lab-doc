@@ -14,7 +14,7 @@
 * [🧪 Understanding Experiments](using-slm-lab/lab-organization.md)
 * [🤖 Agent Spec: DDQN+PER on LunarLander](using-slm-lab/agent-spec-ddqn+per-on-lunarlander.md)
 * [🏃 Env Spec: PPO on HalfCheetah](using-slm-lab/environment-spec-a2c-on-bipedalwalker.md)
-* [🎮 GPU Training: PPO on Pong](using-slm-lab/gpu-usage-ppo-on-pong.md)
+* [🎮 GPU Training: PPO on Breakout](using-slm-lab/gpu-usage-ppo-on-pong.md)
 * [⚙️ Meta Spec: Experiment Settings](using-slm-lab/meta-spec-high-level-specifications.md)
 * [🔍 Hyperparameter Search with ASHA](using-slm-lab/search-spec-ppo-on-breakout.md)
 * [📊 Running Benchmarks](using-slm-lab/run-benchmark-a2c-on-atari-games.md)

@@ -1,28 +1,37 @@
-# GPU Usage: PPO on Pong 🎮
+# GPU Training: PPO on Breakout 🎮
 
-## GPU for Network Training
+This tutorial shows how to train on Atari games using GPU acceleration.
 
-This tutorial requires a machine with a GPU with CUDA enabled. The default PyTorch installation supports GPU, so we don't need to do anything else.
+![Breakout](https://user-images.githubusercontent.com/8209263/63994695-650b4800-caaa-11e9-9982-2462738caa45.gif)
 
-{% hint style="info" %}
-If you are installing NVIDIA CUDA driver on your own hardware and encounter issues, consult [Help](../resources/help.md).
-{% endhint %}
+**[Breakout](https://gymnasium.farama.org/environments/atari/breakout/)** is a classic Atari benchmark—break bricks by bouncing a ball with a paddle. It's a great environment for learning GPU-accelerated training because the ConvNet architecture benefits significantly from GPU.
 
-Training a convolutional network is slow on a CPU primarily due to the large network size. When training a large network, we can use a GPU to speed up the process. In this simple tutorial we will train PPO on Pong using a GPU.
+## Why GPU for Atari?
+
+Training a convolutional network is slow on a CPU due to the large network size. When training on image-based environments like Atari, GPU acceleration provides significant speedup.
 
 {% hint style="warning" %}
-GPU does not always accelerate your training. For instance, if we use GPU to train a feedforward network with 2 layers for LunarLander, the speedup is not enough to counteract the data transfer overhead to a GPU, so the training becomes slower overall. Use GPU only for a large network.
+GPU does not always accelerate your training. For vector-state environments like CartPole or LunarLander, the speedup isn't enough to counteract the data transfer overhead. Use GPU only for image-based environments with large networks.
 {% endhint %}
 
-### GPU Monitoring
+{% hint style="info" %}
+If you encounter CUDA driver issues, see [Help](../resources/help.md) for troubleshooting.
+{% endhint %}
 
-We can easily monitor the CPU and RAM consumption using [glances](https://github.com/nicolargo/glances). To monitor GPU usage, simply install an additional plugin `nvidia-ml-py3`.
+## GPU Monitoring
+
+Monitor GPU usage with [glances](https://github.com/nicolargo/glances):
+
+```bash
+uv tool install glances
+glances
+```
 
 {% embed url="https://glances.readthedocs.io/en/stable/aoa/gpu.html" %}
 
-## Agent Spec for Network Using GPU
+## The Atari Spec
 
-We now look at an example spec with GPU enabled for PPO on Atari from [slm\_lab/spec/benchmark/ppo/ppo\_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json).
+The PPO Atari spec from [slm\_lab/spec/benchmark/ppo/ppo\_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json):
 
 {% code title="slm_lab/spec/benchmark/ppo/ppo_atari.json (excerpt)" %}
 ```javascript
@@ -60,55 +69,67 @@ We now look at an example spec with GPU enabled for PPO on Atari from [slm\_lab/
 ```
 {% endcode %}
 
-Once your machine is set up for GPU, then using it for training is as simple as specifying **"gpu": "auto"** in the agent **net spec**. This will automatically use GPU if available, or fall back to CPU otherwise. You can also use **"gpu": true** to force GPU usage.
+The key setting is **"gpu": "auto"** in the net spec. This automatically uses GPU if available, or falls back to CPU. You can also use `"gpu": true` to force GPU usage.
 
-## Running PPO on Pong
-
-Let's now run a Trial using the spec file above with variable substitution for Pong.
+## Running PPO on Breakout
 
 ```bash
-slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train
 ```
 
-We should now see a speed up in the **fps** (frame per second) logged in the terminal during training. The trial should take a few hours to finish. It will then save its data to `data/ppo_atari_{ts}`.
+You should see higher **fps** (frames per second) compared to CPU training. The trial takes a few hours to complete on a modern GPU.
 
 ### 📊 Results
 
-PPO achieves **16.9** MA on Pong-v5 (max score is 21).
+PPO achieves **327** MA on Breakout-v5.
 
-**Training curve** (session 0):
+**Training curve** (session 3):
 
-![PPO Pong Training](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam85_pong_2026_01_08_094454/graph/ppo_atari_lam85_pong_t0_s0_session_graph_train_mean_returns_ma_vs_frames.png)
+![PPO Breakout Training](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_atari_lam70_breakout_2026_01_07_110559/graph/ppo_atari_lam70_breakout_t0_s3_session_graph_train_mean_returns_ma_vs_frames.png)
 
-Trained models and all session graphs available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_pong_2026_01_08_094454).
+Trained models available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_breakout_2026_01_07_110559).
+
+## Other Atari Games
+
+The same spec works for all 54 Atari games:
+
+| Game | Command | Lambda |
+|------|---------|--------|
+| MsPacman | `slm-lab run -s env=ALE/MsPacman-v5 ... ppo_atari_lam85 train` | 0.85 |
+| Qbert | `slm-lab run -s env=ALE/Qbert-v5 ... ppo_atari train` | 0.95 |
+| Pong | `slm-lab run -s env=ALE/Pong-v5 ... ppo_atari_lam85 train` | 0.85 |
+
+{% hint style="info" %}
+**Lambda tuning:** Different games benefit from different lambda values. See [Atari Benchmark](../benchmark-results/atari-benchmark.md) for optimal settings per game.
+{% endhint %}
+
+{% hint style="warning" %}
+**v5 vs v4 Difficulty:** Gymnasium ALE v5 environments use sticky actions and stricter termination, making them harder than OpenAI Gym v4. Expect 10-40% lower scores. Pong is notably harder in v5 (16.9 vs 20.6 in v4).
+{% endhint %}
 
 ## Using Multiple GPUs
 
 ### Automatic GPU Rotation
 
-If your hardware has multiple GPUs, then SLM Lab will automatically cycle through the GPU devices available when running the sessions in each trial. For example, if a trial has 4 sessions and your machine has 2 GPUs, then the sessions will get assigned:
+SLM Lab automatically cycles through available GPUs. With 4 sessions and 2 GPUs:
 
-* session 0: GPU 0
-* session 1: GPU 1
-* session 2: GPU 0
-* session 3: GPU 1
+* Session 0: GPU 0
+* Session 1: GPU 1
+* Session 2: GPU 0
+* Session 3: GPU 1
 
 ### Using CUDA\_OFFSET
 
-Sometimes it is useful to offset the GPU that a trial starts cycling through. This can be achieved by passing the shell environment variable `CUDA_OFFSET=4` for example. Let's say a machine has 8 GPUs and we are running 2 trials of 4 sessions each, we'd want to utilize all the GPUs evenly. Suppose we are running PPO on Pong and PPO on QBert. Then we can do the following:
+For manual control when running multiple experiments:
 
 ```bash
-slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
-```
+# First experiment uses GPUs 0-3
+slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train
 
-This first trial will use GPUs 0, 1, 2, 3 for its four sessions. Next, we run the second trial using:
-
-```bash
+# Second experiment uses GPUs 4-7
 slm-lab run --cuda-offset 4 -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
 ```
 
-The second trial will then use GPUs 4, 5, 6, 7 for its four sessions. This way we can fully utilize all the 8 GPUs.
-
 {% hint style="info" %}
-SLM Lab automatically cycle through GPUs within a single run time. This means that when running search or benchmark that involves multiple trials, it will automatically cycle through the GPUs for all the trials and sessions, so we do not need to deal with CUDA\_OFFSET manually.
+For search mode and benchmarks, SLM Lab automatically handles GPU allocation across all trials and sessions.
 {% endhint %}
