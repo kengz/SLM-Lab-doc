@@ -41,39 +41,6 @@ SLM Lab is a software framework for **reinforcement learning** (RL) research and
 | **Automatic analysis** | Training curves, metrics, and TensorBoard logging out of the box |
 | **Cloud integration** | dstack for GPU training, HuggingFace for sharing results |
 
-## Core Concepts
-
-SLM Lab organizes experiments hierarchically:
-
-```
-Experiment (hyperparameter search)
- └── Trial (one configuration, multiple seeds)
-      └── Session (one training run)
-           ├── Agent (algorithm + memory + network)
-           └── Env (gymnasium environment)
-```
-
-A **spec file** defines everything:
-
-```javascript
-{
-  "ppo_cartpole": {
-    "agent": {
-      "name": "PPO",
-      "algorithm": {"name": "PPO", "gamma": 0.99, "lam": 0.95},
-      "memory": {"name": "OnPolicyBatchReplay"},
-      "net": {"type": "MLPNet", "hid_layers": [64, 64]}
-    },
-    "env": {"name": "CartPole-v1", "num_envs": 4, "max_frame": 200000},
-    "meta": {"max_session": 4}
-  }
-}
-```
-
-Run it: `slm-lab run spec.json ppo_cartpole train`
-
-See [Understanding Experiments](using-slm-lab/lab-organization.md) for the full picture.
-
 ## Algorithms
 
 SLM Lab implements the canonical RL algorithms with a [taxonomy-based inheritance](development/modular-lab-components/algorithm-taxonomy.md) design:
