@@ -42,50 +42,16 @@ The environment is specified using the **env** key in a spec file:
 
 ## Supported Environments
 
-SLM Lab works with any [Gymnasium](https://gymnasium.farama.org/) environment. Below are the validated benchmark environments.
+SLM Lab uses [Gymnasium](https://gymnasium.farama.org/) (the maintained fork of OpenAI Gym):
 
-### Classic Control (3 envs)
+| Category | Examples | Difficulty | Docs |
+|----------|----------|------------|------|
+| **Classic Control** | CartPole, Pendulum, Acrobot | Easy | [Gymnasium Classic](https://gymnasium.farama.org/environments/classic_control/) |
+| **Box2D** | LunarLander, BipedalWalker | Medium | [Gymnasium Box2D](https://gymnasium.farama.org/environments/box2d/) |
+| **MuJoCo** | Hopper, HalfCheetah, Humanoid | Hard | [Gymnasium MuJoCo](https://gymnasium.farama.org/environments/mujoco/) |
+| **Atari** | Qbert, MsPacman, and 54 more | Varied | [ALE](https://ale.farama.org/environments/) |
 
-| Environment | State | Action | Target | Notes |
-|-------------|-------|--------|--------|-------|
-| [CartPole-v1](https://gymnasium.farama.org/environments/classic_control/cart_pole/) | Box(4) | Discrete(2) | >400 | Balance pole, fast training |
-| [Acrobot-v1](https://gymnasium.farama.org/environments/classic_control/acrobot/) | Box(6) | Discrete(3) | >-100 | Swing up double pendulum |
-| [Pendulum-v1](https://gymnasium.farama.org/environments/classic_control/pendulum/) | Box(3) | Box(1) | >-200 | Continuous control intro |
-
-### Box2D (2 envs)
-
-| Environment | State | Action | Target | Notes |
-|-------------|-------|--------|--------|-------|
-| [LunarLander-v3](https://gymnasium.farama.org/environments/box2d/lunar_lander/) | Box(8) | Discrete(4) | >200 | Land spacecraft |
-| [BipedalWalker-v3](https://gymnasium.farama.org/environments/box2d/bipedal_walker/) | Box(24) | Box(4) | >300 | Walking robot |
-
-### MuJoCo (11 envs)
-
-| Environment | State | Action | Target | Notes |
-|-------------|-------|--------|--------|-------|
-| [Hopper-v5](https://gymnasium.farama.org/environments/mujoco/hopper/) | Box(11) | Box(3) | ~2000 | One-legged hopping |
-| [HalfCheetah-v5](https://gymnasium.farama.org/environments/mujoco/half_cheetah/) | Box(17) | Box(6) | >5000 | 2D running |
-| [Walker2d-v5](https://gymnasium.farama.org/environments/mujoco/walker2d/) | Box(17) | Box(6) | >3500 | Bipedal walking |
-| [Ant-v5](https://gymnasium.farama.org/environments/mujoco/ant/) | Box(105) | Box(8) | >2000 | Quadruped locomotion |
-| [Swimmer-v5](https://gymnasium.farama.org/environments/mujoco/swimmer/) | Box(8) | Box(2) | >200 | Swimming snake |
-| [Reacher-v5](https://gymnasium.farama.org/environments/mujoco/reacher/) | Box(10) | Box(2) | >-10 | Reach target |
-| [Pusher-v5](https://gymnasium.farama.org/environments/mujoco/pusher/) | Box(23) | Box(7) | >-50 | Push object |
-| [InvertedPendulum-v5](https://gymnasium.farama.org/environments/mujoco/inverted_pendulum/) | Box(4) | Box(1) | ~1000 | Balance pendulum |
-| [InvertedDoublePendulum-v5](https://gymnasium.farama.org/environments/mujoco/inverted_double_pendulum/) | Box(9) | Box(1) | ~8000 | Balance double pendulum |
-| [Humanoid-v5](https://gymnasium.farama.org/environments/mujoco/humanoid/) | Box(348) | Box(17) | >1000 | Humanoid locomotion |
-| [HumanoidStandup-v5](https://gymnasium.farama.org/environments/mujoco/humanoid_standup/) | Box(348) | Box(17) | >100k | Stand up from ground |
-
-### Atari (54+ games)
-
-All Atari games use ALE (Arcade Learning Environment) with `ALE/{Game}-v5` naming:
-
-| Category | Examples | Notes |
-|----------|----------|-------|
-| **Action** | ALE/Pong-v5, ALE/Breakout-v5, ALE/SpaceInvaders-v5 | Fast reflexes |
-| **Strategic** | ALE/Qbert-v5, ALE/Seaquest-v5, ALE/MsPacman-v5 | Planning required |
-| **Exploration** | ALE/MontezumaRevenge-v5, ALE/Pitfall-v5 | Hard exploration (skipped) |
-
-See [Atari Benchmark](../benchmark-results/atari-benchmark.md) for the full list of 54 tested games.
+Any gymnasium-compatible environment works—just specify its name in the spec.
 
 ### Environment-Specific Settings
 

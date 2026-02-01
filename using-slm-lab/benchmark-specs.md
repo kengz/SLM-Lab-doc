@@ -232,57 +232,23 @@ After a successful run:
 
 ## Algorithms
 
-SLM Lab validates these algorithm families across benchmark environments:
-
-| Family | Algorithm | Variants | Action Space |
-|--------|-----------|----------|--------------|
-| **Policy Gradient** | REINFORCE | — | Discrete/Continuous |
-| | A2C | GAE, n-step | Discrete/Continuous |
-| | A3C | GAE, n-step | Discrete/Continuous |
-| | PPO | — | Discrete/Continuous |
-| **Value-Based** | SARSA | — | Discrete |
-| | DQN | vanilla, Double, PER, DDQN+PER, Dueling | Discrete |
-| **Actor-Critic** | SAC | — | Discrete/Continuous |
-| | Async SAC | — | Continuous |
+| Algorithm | Type | Best For | Validated Environments |
+|-----------|------|----------|------------------------|
+| **REINFORCE** | On-policy | Learning/teaching | Classic |
+| **SARSA** | On-policy | Tabular-like | Classic |
+| **DQN/DDQN+PER** | Off-policy | Discrete actions | Classic, Box2D, Atari |
+| **A2C** | On-policy | Fast iteration | Classic, Box2D, Atari |
+| **PPO** | On-policy | General purpose | Classic, Box2D, MuJoCo (11), Atari (54) |
+| **SAC** | Off-policy | Continuous control | Classic, Box2D, MuJoCo |
 
 ## Environments
 
-Benchmarks are organized into four phases by environment category:
-
-### Phase 1: Classic Control (3 envs)
-
-| Environment | State | Action | Target | Algorithms |
-|-------------|-------|--------|--------|------------|
-| CartPole-v1 | Box(4) | Discrete(2) | >400 | All |
-| Acrobot-v1 | Box(6) | Discrete(3) | >-100 | DQN, A2C, PPO, SAC |
-| Pendulum-v1 | Box(3) | Box(1) | >-200 | A2C, PPO, SAC |
-
-### Phase 2: Box2D (2 envs)
-
-| Environment | State | Action | Target | Algorithms |
-|-------------|-------|--------|--------|------------|
-| LunarLander-v3 | Box(8) | Discrete(4) | >200 | DQN, A2C, PPO, SAC |
-| BipedalWalker-v3 | Box(24) | Box(4) | >300 | A2C, PPO, SAC |
-
-### Phase 3: MuJoCo (11 envs)
-
-| Environment | State | Action | Target | Algorithms |
-|-------------|-------|--------|--------|------------|
-| Hopper-v5 | Box(11) | Box(3) | ~2000 | PPO, SAC |
-| HalfCheetah-v5 | Box(17) | Box(6) | >5000 | PPO, SAC |
-| Walker2d-v5 | Box(17) | Box(6) | >3500 | PPO |
-| Ant-v5 | Box(105) | Box(8) | >2000 | PPO |
-| Swimmer-v5 | Box(8) | Box(2) | >200 | PPO |
-| Reacher-v5 | Box(10) | Box(2) | >-10 | PPO |
-| Pusher-v5 | Box(23) | Box(7) | >-50 | PPO |
-| InvertedPendulum-v5 | Box(4) | Box(1) | ~1000 | PPO |
-| InvertedDoublePendulum-v5 | Box(9) | Box(1) | ~8000 | PPO |
-| Humanoid-v5 | Box(348) | Box(17) | >1000 | PPO |
-| HumanoidStandup-v5 | Box(348) | Box(17) | >100k | PPO |
-
-### Phase 4: Atari (54 games)
-
-All 54 tested Atari games use PPO with `ALE/{Game}-v5` naming. See [Atari Benchmark](../benchmark-results/atari-benchmark.md) for full results.
+| Category | Examples | Difficulty | Docs |
+|----------|----------|------------|------|
+| **Classic Control** | CartPole, Pendulum, Acrobot | Easy | [Gymnasium Classic](https://gymnasium.farama.org/environments/classic_control/) |
+| **Box2D** | LunarLander, BipedalWalker | Medium | [Gymnasium Box2D](https://gymnasium.farama.org/environments/box2d/) |
+| **MuJoCo** | Hopper, HalfCheetah, Humanoid | Hard | [Gymnasium MuJoCo](https://gymnasium.farama.org/environments/mujoco/) |
+| **Atari** | Qbert, MsPacman, and 54 more | Varied | [ALE](https://ale.farama.org/environments/) |
 
 ## Benchmark Spec Reference
 
