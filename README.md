@@ -2,7 +2,7 @@
 description: Modular Deep Reinforcement Learning framework in PyTorch.
 ---
 
-# SLM Lab ⚗️
+# SLM Lab
 
 <p align="center">
   <i>Modular Deep Reinforcement Learning framework in PyTorch.</i>
@@ -105,43 +105,6 @@ Any gymnasium-compatible environment works—just specify its name in the spec.
 {% hint style="warning" %}
 **v5 vs v4:** Gymnasium environments are harder than OpenAI Gym. Expect 10-30% lower scores vs older benchmarks. See [Benchmark Results](benchmark-results/public-benchmark-data.md) for validated scores.
 {% endhint %}
-
-## Key RL Terms
-
-Quick reference for terms used throughout this documentation. For deeper coverage, see [Foundations of Deep Reinforcement Learning](https://www.amazon.com/dp/0135172381).
-
-| Term | Meaning |
-|------|---------|
-| **Agent** | The learner that takes actions and receives rewards |
-| **Environment** | The world the agent interacts with (e.g., CartPole, Atari game) |
-| **State** | What the agent observes (e.g., pole angle, screen pixels) |
-| **Action** | What the agent does (e.g., move left/right) |
-| **Reward** | Feedback signal indicating how good an action was |
-| **Policy** | The agent's strategy—maps states to actions |
-| **Episode** | One complete run from start to terminal state |
-| **Frame** | One environment step (action → reward → next state) |
-| **Gamma (γ)** | Discount factor—how much to value future vs immediate rewards |
-| **On-policy** | Learn from actions taken by current policy (PPO, A2C) |
-| **Off-policy** | Learn from any actions, including past data (DQN, SAC) |
-
-## Documentation Guide
-
-**Getting Started:**
-1. [Installation](setup/installation.md) - Set up SLM Lab
-2. [Quick Start](setup/quick-start.md) - Verify installation
-3. [Train: PPO on CartPole](using-slm-lab/train-ppo-cartpole.md) - First training run
-
-**Tutorials:**
-- [Agent Spec](using-slm-lab/agent-spec-ddqn+per-on-lunarlander.md) - Configure algorithms (LunarLander)
-- [Env Spec](using-slm-lab/environment-spec-a2c-on-bipedalwalker.md) - Configure environments (MuJoCo)
-- [GPU Training](using-slm-lab/gpu-usage-ppo-on-pong.md) - Train on Atari with GPU
-- [Hyperparameter Search](using-slm-lab/search-spec-ppo-on-breakout.md) - Find optimal settings
-
-**Reference & Advanced:**
-- [CLI Reference](using-slm-lab/slm-lab-command.md) - All CLI commands and options
-- [Understanding Experiments](using-slm-lab/lab-organization.md) - Sessions, Trials, Experiments
-- [Remote Training](using-slm-lab/remote-training.md) - Cloud GPU training with dstack
-- [Architecture](development/architecture.md) - How SLM Lab works
 
 ## Citation
 
