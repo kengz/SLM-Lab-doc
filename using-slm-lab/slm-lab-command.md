@@ -1,6 +1,6 @@
-# Lab Command 💻
+# CLI Reference 💻
 
-The `slm-lab` CLI is your primary interface to SLM Lab. This page covers all commands and options.
+This reference covers all `slm-lab` CLI commands and options. For hands-on tutorials, start with [Train: PPO on CartPole](train-ppo-cartpole.md).
 
 ## Command Structure
 
@@ -312,7 +312,7 @@ A spec file is a JSON document defining your experiment:
 }
 ```
 
-See [Lab Organization](lab-organization.md) for detailed spec documentation.
+See [Understanding Experiments](lab-organization.md) for the spec system and experiment hierarchy.
 
 ## Output Structure
 

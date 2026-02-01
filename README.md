@@ -73,7 +73,7 @@ A **spec file** defines everything:
 
 Run it: `slm-lab run spec.json ppo_cartpole train`
 
-See [Lab Organization](using-slm-lab/lab-organization.md) for the full picture.
+See [Understanding Experiments](using-slm-lab/lab-organization.md) for the full picture.
 
 ## Algorithms 🧠
 
@@ -130,19 +130,19 @@ Quick reference for terms used throughout this documentation. For deeper coverag
 **Getting Started:**
 1. [Installation](setup/installation.md) - Set up SLM Lab
 2. [Quick Start](setup/quick-start.md) - Verify installation
-3. [Lab Command](using-slm-lab/slm-lab-command.md) - CLI reference
-4. [Lab Organization](using-slm-lab/lab-organization.md) - Core concepts
+3. [Train: PPO on CartPole](using-slm-lab/train-ppo-cartpole.md) - First training run
 
 **Tutorials:**
-- [Train: PPO CartPole](using-slm-lab/train-ppo-cartpole.md) - First training run
-- [Agent Spec](using-slm-lab/agent-spec-ddqn+per-on-lunarlander.md) - Configure algorithms
-- [Env Spec](using-slm-lab/environment-spec-a2c-on-bipedalwalker.md) - Configure environments
+- [Agent Spec](using-slm-lab/agent-spec-ddqn+per-on-lunarlander.md) - Configure algorithms (LunarLander)
+- [Env Spec](using-slm-lab/environment-spec-a2c-on-bipedalwalker.md) - Configure environments (MuJoCo)
+- [GPU Training](using-slm-lab/gpu-usage-ppo-on-pong.md) - Train on Atari with GPU
 - [Hyperparameter Search](using-slm-lab/search-spec-ppo-on-breakout.md) - Find optimal settings
 
-**Advanced:**
+**Reference & Advanced:**
+- [CLI Reference](using-slm-lab/slm-lab-command.md) - All CLI commands and options
+- [Understanding Experiments](using-slm-lab/lab-organization.md) - Sessions, Trials, Experiments
+- [Remote Training](using-slm-lab/remote-training.md) - Cloud GPU training with dstack
 - [Architecture](development/architecture.md) - How SLM Lab works
-- [Using SLM Lab In Your Project](using-slm-lab/using-slm-lab-in-your-project.md) - Integration guide
-- [Remote Training](using-slm-lab/remote-training.md) - Cloud GPU training
 
 ## Citation 📝
 

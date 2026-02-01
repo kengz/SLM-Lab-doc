@@ -2,7 +2,7 @@
 
 ## Overview
 
-SLM Lab integrates with [dstack](https://dstack.ai/) for cloud GPU training and HuggingFace for experiment storage. This allows you to:
+SLM Lab uses [dstack](https://dstack.ai/) for cloud GPU training and HuggingFace for experiment storage. This allows you to:
 
 * Run experiments on cloud GPUs without managing infrastructure
 * Automatically upload results to HuggingFace

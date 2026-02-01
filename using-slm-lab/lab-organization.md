@@ -1,6 +1,8 @@
-# Lab Organization 🏗️
+# Understanding Experiments 🧪
 
-## Session, Trial, and Experiment
+After running your first training, you'll notice SLM Lab creates folders with names like `ppo_cartpole_t0_s0`. This page explains SLM Lab's experiment hierarchy.
+
+## Sessions, Trials, and Experiments
 
 SLM Lab organizes training into three levels:
 
@@ -166,10 +168,9 @@ A **spec file** is a JSON file that completely defines an experiment. Here's a c
 
 ## What's Next
 
-The following tutorials walk through common SLM Lab workflows:
+Continue with these tutorials:
 
-* [Train: PPO CartPole](train-and-enjoy-dqn-cartpole.md) - Your first full training run
-* [Resume and Enjoy](resume-and-enjoy-reinforce-cartpole.md) - Resume training and replay trained models
 * [Agent Spec](agent-spec-ddqn+per-on-lunarlander.md) - Configure algorithms and networks
-* [Env Spec](environment-spec-a2c-on-bipedalwalker.md) - Configure environments
-* [Search Spec](search-spec-ppo-on-breakout.md) - Hyperparameter tuning
+* [Env Spec](environment-spec-a2c-on-bipedalwalker.md) - Configure environments for MuJoCo
+* [GPU Training](gpu-usage-ppo-on-pong.md) - Train on Atari with GPU
+* [Hyperparameter Search](search-spec-ppo-on-breakout.md) - Find optimal settings with ASHA

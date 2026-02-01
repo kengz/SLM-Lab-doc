@@ -1,6 +1,6 @@
-# Meta Spec: High Level Specifications ⚙️
+# Meta Spec: Experiment Settings ⚙️
 
-The **meta spec** controls experiment-level settings: how many sessions to run, how often to checkpoint, and parallelization options.
+The **meta spec** controls experiment-level settings: how many sessions to run, how often to checkpoint, and more.
 
 ## The Meta Spec
 

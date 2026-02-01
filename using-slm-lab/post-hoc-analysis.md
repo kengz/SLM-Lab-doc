@@ -1,13 +1,22 @@
 # Post-Hoc Analysis 🔬
 
-## Regenerating Graphs and Metrics
+After training, SLM Lab automatically generates graphs and metrics. You can regenerate these anytime with updated styling or new metrics.
 
-After training completes, you may want to regenerate analysis with:
-- Updated visualization styling
-- New metrics added to SLM Lab
-- Different graph parameters
+## What SLM Lab Generates
 
-The `retro_analysis` module recomputes all derived data without re-running training.
+Every training run produces:
+
+**Training curves** showing reward over time:
+
+![Example Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_trial_graph_mean_returns_vs_frames.png)
+
+**Moving average curves** for smoother visualization:
+
+![Example Moving Average](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_trial_graph_mean_returns_ma_vs_frames.png)
+
+## Regenerating Analysis
+
+Use `retro_analyze` to regenerate graphs and metrics without re-running training:
 
 ## Basic Usage
 

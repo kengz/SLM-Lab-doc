@@ -73,7 +73,7 @@ PPO typically solves CartPole within 50,000-100,000 frames.
 Press `Ctrl+C` to stop. In dev mode, partial results are not saved.
 
 {% hint style="success" %}
-If you see rewards climbing, SLM Lab is working correctly. Continue to [Lab Command](../using-slm-lab/slm-lab-command.md) to learn the CLI.
+If you see rewards climbing, SLM Lab is working correctly. Continue to [Train: PPO on CartPole](../using-slm-lab/train-ppo-cartpole.md) for a full training run.
 {% endhint %}
 
 {% hint style="warning" %}
@@ -84,9 +84,9 @@ If you see rewards climbing, SLM Lab is working correctly. Continue to [Lab Comm
 
 Now that you've verified the installation:
 
-1. **[Lab Command](../using-slm-lab/slm-lab-command.md)** - Learn CLI options and modes
-2. **[Lab Organization](../using-slm-lab/lab-organization.md)** - Understand Sessions, Trials, Experiments
-3. **[Train: PPO CartPole](../using-slm-lab/train-and-enjoy-dqn-cartpole.md)** - Run a full training with saved results
+1. **[Train: PPO on CartPole](../using-slm-lab/train-ppo-cartpole.md)** - Run a full training with saved results
+2. **[Resume and Replay](../using-slm-lab/resume-and-enjoy-reinforce-cartpole.md)** - Resume training and replay trained models
+3. **[Understanding Experiments](../using-slm-lab/lab-organization.md)** - Sessions, Trials, and Experiments explained
 
 ## Understanding the Output
 

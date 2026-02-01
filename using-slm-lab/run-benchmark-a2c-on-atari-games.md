@@ -1,8 +1,10 @@
-# Run Benchmark: PPO on Atari 🏆
+# Running Benchmarks 🏆
 
-## Running Benchmarks with Variable Substitution
+This tutorial shows how to run systematic benchmarks across multiple environments using variable substitution.
 
-Benchmarking requires running the same algorithm across multiple environments. SLM Lab makes this easy with **variable substitution** using the `-s` flag.
+## Variable Substitution
+
+Benchmarking requires running the same algorithm across multiple environments. SLM Lab makes this easy with the `-s` flag.
 
 ## Template Specs
 

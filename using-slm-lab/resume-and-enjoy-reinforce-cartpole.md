@@ -1,10 +1,12 @@
-# Resume and Enjoy 🔄
+# Resume and Replay 🔄
 
-## Train@ (Resume) Mode
+After training, you can resume interrupted runs or replay trained models. This tutorial shows both.
+
+## Resume Training
 
 Training can be resumed using `train@{predir}` syntax, where `{predir}` is a previous run's data directory. Use `train@latest` to automatically resume from the most recent run.
 
-Continuing from the [previous tutorial](train-and-enjoy-dqn-cartpole.md):
+Continuing from the [previous tutorial](train-ppo-cartpole.md):
 
 ```bash
 # Start a run
@@ -27,9 +29,9 @@ You can also extend a completed run. For example, if you ran 100k frames and wan
 
 The run picks up exactly where it left off.
 
-## Enjoy Mode
+## Replay Mode
 
-Enjoy mode replays a trained model. It loads the best checkpoint and runs with rendering enabled.
+Replay mode (`enjoy@`) loads a trained model and runs with rendering enabled, so you can watch your agent perform.
 
 ### Quick Replay (Latest Run)
 

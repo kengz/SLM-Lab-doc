@@ -1,12 +1,8 @@
-# Env Spec: A2C on Pong 🎮
+# Env Spec: PPO on HalfCheetah 🏃
 
-{% hint style="warning" %}
-**v5 Status**: A2C on Atari has not been re-validated in v5. For validated Atari training, use PPO—see [Run Benchmark: PPO on Atari](run-benchmark-a2c-on-atari-games.md). This tutorial focuses on the **env spec** configuration which applies to all algorithms.
-{% endhint %}
+This tutorial shows how to configure the **env spec** for continuous control environments. We'll train PPO on HalfCheetah—a MuJoCo locomotion task.
 
 ## The Env Spec
-
-In this tutorial we look at how to configure an **env spec** to specify an environment. We'll train an A2C agent on Atari Pong.
 
 The environment is specified using the **env** key in a spec file:
 
@@ -27,168 +23,171 @@ The environment is specified using the **env** key in a spec file:
       // Total training frames
       "max_frame": int,
 
-      // Optional: Frame stacking mode ("concat" or "stack")
-      "frame_op": str|null,
-
-      // Optional: Number of frames to stack (typically 4)
-      "frame_op_len": int|null,
-
-      // Optional: Reward scaling ("sign" for Atari, or a number)
-      "reward_scale": str|int|float|null,
-
-      // Optional: Online state normalization (MuJoCo)
+      // Optional: Online state normalization (recommended for MuJoCo)
       "normalize_obs": bool,
 
-      // Optional: Online reward normalization (MuJoCo)
-      "normalize_reward": bool,
-
-      // Atari-specific: Continue after life loss (see Advanced Env Options)
-      "life_loss_info": bool
+      // Optional: Online reward normalization (recommended for MuJoCo)
+      "normalize_reward": bool
     },
     ...
   }
 }
 ```
 
-## Env Spec for Atari Pong
+## PPO on HalfCheetah
 
-Let's look at the A2C Pong spec from [slm\_lab/spec/benchmark/a2c/a2c\_gae\_pong.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_pong.json):
+[**HalfCheetah-v5**](https://gymnasium.farama.org/environments/mujoco/half_cheetah/) is a classic MuJoCo benchmark—a 2D cheetah robot that learns to run forward. It has a 17-dimensional observation space and 6-dimensional continuous action space.
 
-{% code title="slm_lab/spec/benchmark/a2c/a2c_gae_pong.json" %}
+The PPO MuJoCo spec from [slm\_lab/spec/benchmark/ppo/ppo\_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json):
+
+{% code title="slm_lab/spec/benchmark/ppo/ppo_mujoco.json (excerpt)" %}
 ```javascript
 {
-  "a2c_gae_pong": {
+  "ppo_mujoco": {
     "agent": {
-      "name": "A2C",
+      "name": "PPO",
       "algorithm": {
-        "name": "ActorCritic",
+        "name": "PPO",
         "gamma": 0.99,
         "lam": 0.95,
-        "training_frequency": 32
+        "time_horizon": 2048,
+        "minibatch_size": 64,
+        "training_epoch": 10
       },
-      "memory": {
-        "name": "OnPolicyBatchReplay"
-      },
+      "memory": {"name": "OnPolicyBatchReplay"},
       "net": {
-        "type": "ConvNet",
-        "shared": true,
+        "type": "MLPNet",
+        "hid_layers": [256, 256],
+        "hid_layers_activation": "tanh",
+        "init_fn": "orthogonal_",
+        "normalize_v_targets": true,
         "gpu": "auto"
       }
     },
     "env": {
-      "name": "ALE/Pong-v5",
+      "name": "${env}",
       "num_envs": 16,
-      "max_t": null,
-      "max_frame": 1e7
+      "max_frame": "${max_frame}",
+      "normalize_obs": true,
+      "normalize_reward": true
     },
     "meta": {
-      "distributed": false,
-      "log_frequency": 10000,
-      "eval_frequency": 10000,
       "max_session": 4,
-      "max_trial": 1
+      "max_trial": 1,
+      "log_frequency": 10000
     }
   }
 }
 ```
 {% endcode %}
 
-Key points:
+Key env settings for MuJoCo:
 
-* **"name": "ALE/Pong-v5"**: [Gymnasium's Arcade Learning Environment](https://gymnasium.farama.org/environments/atari/pong/). The ALE wrapper handles frame preprocessing (grayscale, 84x84 resize, frame stacking) automatically.
-* **"num_envs": 16**: Run 16 parallel environment instances. Each step returns a batch of 16 states.
-* **"max_frame": 1e7**: Train for 10 million total frames across all environments.
-
-**Pong** is a classic Atari benchmark—first-to-21 points wins. The agent controls a paddle to return the ball. Optimal performance is +21 (never losing a point).
-
-{% hint style="info" %}
-Gymnasium's ALE environments (v5) include standard Atari preprocessing. Frame stacking, grayscale conversion, and other preprocessing are handled by the environment wrapper.
-{% endhint %}
-
-{% hint style="success" %}
-**Gymnasium API:** SLM Lab v5 uses Gymnasium's new `(obs, reward, terminated, truncated, info)` return format. This correctly distinguishes between task completion (terminated) and time limits (truncated)—important for proper value estimation in MuJoCo environments.
-{% endhint %}
-
-## Running A2C on Pong
-
-Run in **dev** mode to see the 16 parallel environments rendering:
-
-```bash
-slm-lab run slm_lab/spec/benchmark/a2c/a2c_gae_pong.json a2c_gae_pong dev
-```
-
-![](../.gitbook/assets/vec_env_pong.png)
-
-The environments run independently with different random seeds, providing diverse experience for training.
-
-For full training, run in **train** mode:
-
-```bash
-slm-lab run slm_lab/spec/benchmark/a2c/a2c_gae_pong.json a2c_gae_pong train
-```
-
-Pong's maximum score is 21. With 16 parallel environments, the 10M frames complete in about a day on CPU.
+| Parameter | Value | Why |
+|-----------|-------|-----|
+| `num_envs: 16` | 16 parallel environments | Faster data collection for on-policy learning |
+| `normalize_obs: true` | Normalize observations | MuJoCo observations have varying scales |
+| `normalize_reward: true` | Normalize rewards | Stabilizes value function learning |
 
 {% hint style="info" %}
-**v5 Note:** Gymnasium ALE environments (v5) are more challenging than OpenAI Gym versions. The ALE wrapper uses deterministic frame skipping and stricter action handling. See [Gymnasium ALE docs](https://gymnasium.farama.org/environments/atari/) for details.
+**MuJoCo became free in 2022.** No license needed—Gymnasium includes MuJoCo out of the box.
 {% endhint %}
 
-For validated Atari training curves, see [Atari Benchmark](../benchmark-results/atari-benchmark.md). The graphs below are from v4 A2C training:
+## Running PPO on HalfCheetah
 
-![Trial graph averaged over 4 sessions](../.gitbook/assets/a2c_gae_pong_t0_trial_graph_mean_returns_vs_frames.png)
+```bash
+# Dev mode (quick test with rendering)
+slm-lab run -s env=HalfCheetah-v5 -s max_frame=1e5 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco dev
 
-![Moving average over 100 checkpoints](../.gitbook/assets/a2c_gae_pong_t0_trial_graph_mean_returns_ma_vs_frames.png)
-
-Next, we'll see how to use GPU to speed up training on image-based environments.
-
-## Advanced Env Options
-
-### Atari: life_loss_info
-
-For Atari games, `life_loss_info: true` enables proper game-over handling:
-
-```javascript
-"env": {
-  "name": "ALE/Breakout-v5",
-  "num_envs": 16,
-  "max_frame": 1e7,
-  "life_loss_info": true  // Continue game after life loss
-}
+# Full training (4M frames)
+slm-lab run -s env=HalfCheetah-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
 ```
 
-With this option:
-- The environment continues after losing a life (like CleanRL's EpisodicLifeEnv)
-- Episode only ends when all lives are lost (true game over)
-- This matches standard Atari benchmarking methodology
+The variable substitution (`-s env=...`) lets you use the same spec for different MuJoCo environments.
 
-{% hint style="warning" %}
-Without `life_loss_info: true`, Atari games terminate after each life loss, leading to artificially short episodes and incorrect scores.
-{% endhint %}
+### Results
 
-### MuJoCo: Observation and Reward Normalization
+PPO achieves **5852** MA on HalfCheetah-v5 with this configuration.
 
-For continuous control tasks, online normalization improves stability:
+**Training curves** (average of 4 sessions):
 
-```javascript
-"env": {
-  "name": "Hopper-v5",
-  "num_envs": 1,
-  "max_frame": 1e6,
-  "normalize_obs": true,    // Normalize observations with running stats
-  "normalize_reward": true  // Normalize rewards with running stats
-}
+![HalfCheetah Training Curve](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_mujoco_halfcheetah_2026_01_30_230302/ppo_mujoco_halfcheetah_t0_trial_graph_mean_returns_vs_frames.png)
+
+![HalfCheetah Moving Average](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/data/ppo_mujoco_halfcheetah_2026_01_30_230302/ppo_mujoco_halfcheetah_t0_trial_graph_mean_returns_ma_vs_frames.png)
+
+Trained models available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_halfcheetah_2026_01_30_230302).
+
+## Other MuJoCo Environments
+
+The same spec works for other MuJoCo tasks:
+
+```bash
+# Simple locomotion
+slm-lab run -s env=Walker2d-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+
+# Complex locomotion (needs more frames)
+slm-lab run -s env=Humanoid-v5 -s max_frame=10e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
 ```
 
-These options use gymnasium's `NormalizeObservation` and `NormalizeReward` wrappers, which maintain running statistics to standardize inputs. Recommended for MuJoCo environments.
+See [Continuous Benchmark](../benchmark-results/continuous-benchmark.md) for results across all 11 MuJoCo environments.
 
-### Environment Kwargs
+## Env Spec for Other Environment Types
 
-Any additional keys in the env spec are passed directly to `gymnasium.make()`:
+### Atari (Discrete, Image-Based)
 
 ```javascript
 "env": {
   "name": "ALE/Pong-v5",
   "num_envs": 16,
-  "repeat_action_probability": 0.25  // Passed to ALE
+  "max_frame": 1e7,
+  "life_loss_info": true  // Continue after life loss
 }
 ```
+
+Gymnasium's ALE wrapper handles frame preprocessing automatically (grayscale, 84x84 resize, frame stacking).
+
+{% hint style="warning" %}
+**Atari requires GPU** for reasonable training speed due to the ConvNet. See [GPU Training](gpu-usage-ppo-on-pong.md).
+{% endhint %}
+
+### Classic Control (Discrete, Vector)
+
+```javascript
+"env": {
+  "name": "CartPole-v1",
+  "num_envs": 4,
+  "max_frame": 200000
+}
+```
+
+Simple environments need fewer parallel envs and frames.
+
+## Advanced Env Options
+
+### Environment Kwargs
+
+Any additional keys in the env spec are passed to `gymnasium.make()`:
+
+```javascript
+"env": {
+  "name": "HalfCheetah-v5",
+  "num_envs": 16,
+  "max_frame": 4e6,
+  "exclude_current_positions_from_observation": false  // Passed to MuJoCo
+}
+```
+
+### Normalization Details
+
+The normalization wrappers maintain running statistics:
+
+| Option | What It Does | When to Use |
+|--------|--------------|-------------|
+| `normalize_obs` | Centers observations, scales to unit variance | MuJoCo, continuous control |
+| `normalize_reward` | Scales rewards using running std | Environments with varying reward scales |
+
+{% hint style="success" %}
+**Gymnasium API:** SLM Lab v5 uses Gymnasium's `(obs, reward, terminated, truncated, info)` return format. This correctly distinguishes task completion (terminated) from time limits (truncated)—important for proper value estimation.
+{% endhint %}
+
+Next, we'll use GPU to train on Atari games where image processing is the bottleneck.
