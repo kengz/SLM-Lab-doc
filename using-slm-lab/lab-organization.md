@@ -82,17 +82,22 @@ Every experiment in SLM Lab can be reproduced exactly. When you run an experimen
 
 ### Reproducing Results
 
-To reproduce results, run with the saved spec:
+The saved spec (`*_t0_spec.json`) includes the git SHA for exact reproduction:
 
-```bash
-slm-lab run path/to/spec.json spec_name train
+```json
+{
+  "meta": {
+    "git_sha": "a1b2c3d",
+    ...
+  }
+}
 ```
 
-For exact reproduction (same code version):
+To reproduce:
 
 ```bash
-git checkout <git-sha-from-experiment>
-slm-lab run path/to/spec.json spec_name train
+git checkout <git-sha>
+slm-lab run data/ppo_cartpole_*/ppo_cartpole_t0_spec.json ppo_cartpole train
 ```
 
 ### Published Benchmark Results
