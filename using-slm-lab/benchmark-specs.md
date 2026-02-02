@@ -4,17 +4,45 @@ This guide covers how to run reproducible benchmarks with SLM Lab, including hyp
 
 ## Quick Start
 
+After [installation](../setup/installation.md), copy `SPEC_FILE` and `SPEC_NAME` from result tables in the [benchmark pages](../benchmark-results/public-benchmark-data.md).
+
+### Running Benchmarks
+
+**Local** - runs on your machine (Classic Control: minutes):
 ```bash
-# Run a benchmark locally
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
+slm-lab run SPEC_FILE SPEC_NAME train
+```
 
-# Run on cloud GPU (faster, auto-syncs results)
-source .env && slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train -n ppo-cartpole
+**Remote** - cloud GPU via [dstack](https://dstack.ai), auto-syncs to HuggingFace:
+```bash
+source .env && slm-lab run-remote --gpu SPEC_FILE SPEC_NAME train -n NAME
+```
 
-# Download trained models
-slm-lab pull ppo_cartpole
+Remote setup: `cp .env.example .env` then set `HF_TOKEN`. See [Remote Training](remote-training.md) for dstack config.
 
-# Replay trained model (after pulling)
+{% hint style="info" %}
+**Recommended:** Use `run-remote` for MuJoCo and Atari benchmarks. Cloud GPUs are faster and cheaper than local training for longer runs.
+{% endhint %}
+
+### Atari
+
+All games share one spec file (54 tested, 5 hard exploration skipped). Use `-s env=ENV` to substitute:
+
+```bash
+source .env && slm-lab run-remote --gpu -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n pong
+```
+
+### Download Results
+
+Trained models and metrics sync to [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark). Pull locally:
+```bash
+source .env && slm-lab pull SPEC_NAME
+slm-lab list  # see available experiments
+```
+
+### Replay Trained Model
+
+```bash
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
 ```
 
@@ -71,7 +99,8 @@ ASHA (Asynchronous Successive Halving) terminates unpromising trials early, focu
 ```
 
 ```bash
-slm-lab run spec.json spec_name search
+slm-lab run spec.json spec_name search                                        # local
+source .env && slm-lab run-remote --gpu spec.json spec_name search -n NAME    # remote
 ```
 
 ### Stage 2: Multi-Seed Validation
@@ -94,7 +123,8 @@ Single runs can be lucky—averaging 4 independent runs reveals true performance
 Update spec defaults with best hyperparameters, then run in train mode:
 
 ```bash
-slm-lab run spec.json spec_name train
+slm-lab run spec.json spec_name train                                        # local
+source .env && slm-lab run-remote --gpu spec.json spec_name train -n NAME    # remote
 ```
 
 {% hint style="warning" %}
