@@ -118,7 +118,36 @@ Shows scores for all three lambda variants where tested. **Bold** = best score, 
 
 </details>
 
-### Results
+### Running Benchmarks
+
+All games use the same spec file with variable substitution for the environment:
+
+```bash
+# A2C
+source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 -s max_frame=1e7 \
+  slm_lab/spec/benchmark/a2c/a2c_gae_atari.json a2c_gae_atari train -n breakout-a2c
+
+# PPO
+source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 -s max_frame=1e7 \
+  slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train -n breakout-ppo
+```
+
+### Download and Replay
+
+```bash
+# List Atari experiments (requires HF_REPO=SLM-Lab/benchmark in .env)
+source .env && slm-lab list | grep atari
+
+# Download a specific game
+source .env && slm-lab pull ppo_atari_breakout
+
+# Replay
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 enjoy@data/ppo_atari_lam70_breakout_*/ppo_atari_lam70_breakout_t0_spec.json
+```
+
+---
+
+## Results
 
 | ENV | Score | SPEC_NAME | HF Repo |
 |-----|-------|-----------|---------|
@@ -268,32 +297,7 @@ Multi-trial comparison plots showing A2C vs PPO mean returns (moving average) vs
 | ![VideoPinball](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/VideoPinball_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![WizardOfWor](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/WizardOfWor_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![YarsRevenge](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/YarsRevenge_multi_trial_graph_mean_returns_ma_vs_frames.png) |
 | ![Zaxxon](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Zaxxon_multi_trial_graph_mean_returns_ma_vs_frames.png) | | |
 
-### Running Atari Benchmarks
-
-All games use the same spec file with variable substitution for the environment:
-
-```bash
-# A2C
-source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 -s max_frame=1e7 \
-  slm_lab/spec/benchmark/a2c/a2c_gae_atari.json a2c_gae_atari train -n breakout-a2c
-
-# PPO
-source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 -s max_frame=1e7 \
-  slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train -n breakout-ppo
-```
-
-### Download and Replay
-
-```bash
-# List Atari experiments (requires HF_REPO=SLM-Lab/benchmark in .env)
-source .env && slm-lab list | grep atari
-
-# Download a specific game
-source .env && slm-lab pull ppo_atari_breakout
-
-# Replay
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 enjoy@data/ppo_atari_lam70_breakout_*/ppo_atari_lam70_breakout_t0_spec.json
-```
+---
 
 ## Historical Results (v4)
 

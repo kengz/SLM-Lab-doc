@@ -39,6 +39,35 @@ The `grace_period` is the minimum frames before ASHA early stopping can terminat
 See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific changes.
 {% endhint %}
 
+### Running Benchmarks
+
+```bash
+# Local training
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
+slm-lab run slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar train
+slm-lab run slm_lab/spec/benchmark/sac/sac_pendulum.json sac_pendulum train
+
+# Remote training (dstack)
+source .env && slm-lab run-remote slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train -n cartpole
+```
+
+### Download and Replay
+
+```bash
+# List all available experiments (requires HF_REPO=SLM-Lab/benchmark in .env)
+source .env && slm-lab list
+
+# Download a specific experiment
+source .env && slm-lab pull ppo_cartpole
+
+# Replay the trained agent
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
+```
+
+---
+
+## Results
+
 ### Classic Control
 
 #### CartPole-v1
@@ -123,34 +152,7 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 
 **Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed
 
-{% hint style="info" %}
-**v5 vs v4 Environment Differences:** Gymnasium environments have stricter termination conditions and different reward scales than OpenAI Gym. LunarLander-v3 is notably harder than v2. See [Gymnasium docs](https://gymnasium.farama.org/) for details.
-{% endhint %}
-
-### Running Discrete Benchmarks
-
-```bash
-# Local training
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
-slm-lab run slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar train
-slm-lab run slm_lab/spec/benchmark/sac/sac_pendulum.json sac_pendulum train
-
-# Remote training (dstack)
-source .env && slm-lab run-remote slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train -n cartpole
-```
-
-### Download and Replay
-
-```bash
-# List all available experiments (requires HF_REPO=SLM-Lab/benchmark in .env)
-source .env && slm-lab list
-
-# Download a specific experiment
-source .env && slm-lab pull ppo_cartpole
-
-# Replay the trained agent
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
-```
+---
 
 ## Historical Results (v4)
 

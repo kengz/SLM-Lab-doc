@@ -76,7 +76,39 @@ Two unified specs in [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/mas
 | [Humanoid-v5](https://gymnasium.farama.org/environments/mujoco/humanoid/) | Box(348) | Box(17) | 10e6 | ppo_mujoco.json | ppo_mujoco |
 | [HumanoidStandup-v5](https://gymnasium.farama.org/environments/mujoco/humanoid_standup/) | Box(348) | Box(17) | 4e6 | ppo_mujoco.json | ppo_mujoco |
 
-### Results
+### Running Benchmarks
+
+```bash
+# Local training - individual spec
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train
+
+# Local training - unified spec with variable substitution
+slm-lab run -s env=Humanoid-v5 -s max_frame=10e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+
+# Long-horizon spec for Reacher/Pusher
+slm-lab run -s env=Reacher-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco_longhorizon train
+
+# Remote training with GPU (recommended for MuJoCo)
+source .env && slm-lab run-remote --gpu -s env=Humanoid-v5 -s max_frame=10e6 \
+  slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train -n humanoid
+```
+
+### Download and Replay
+
+```bash
+# List all available experiments (requires HF_REPO=SLM-Lab/benchmark in .env)
+source .env && slm-lab list
+
+# Download a specific experiment
+source .env && slm-lab pull ppo_hopper
+
+# Replay the trained agent
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json
+```
+
+---
+
+## Results
 
 **Settings**: max_frame 4e6-10e6 | num_envs 16 | max_session 4 | log_frequency 1e4
 
@@ -122,35 +154,7 @@ Multi-trial comparison plots showing mean returns (moving average) vs training f
 
 ![HumanoidStandup-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/HumanoidStandup-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
-### Running MuJoCo Benchmarks
-
-```bash
-# Local training - individual spec
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train
-
-# Local training - unified spec with variable substitution
-slm-lab run -s env=Humanoid-v5 -s max_frame=10e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
-
-# Long-horizon spec for Reacher/Pusher
-slm-lab run -s env=Reacher-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco_longhorizon train
-
-# Remote training with GPU (recommended for MuJoCo)
-source .env && slm-lab run-remote --gpu -s env=Humanoid-v5 -s max_frame=10e6 \
-  slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train -n humanoid
-```
-
-### Download and Replay
-
-```bash
-# List all available experiments (requires HF_REPO=SLM-Lab/benchmark in .env)
-source .env && slm-lab list
-
-# Download a specific experiment
-source .env && slm-lab pull ppo_hopper
-
-# Replay the trained agent
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json
-```
+---
 
 ## Historical Results
 
