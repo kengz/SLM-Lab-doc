@@ -1,8 +1,8 @@
 # Atari Environment Benchmark 👾
 
-## PPO Atari Results (v5)
+## A2C & PPO Atari Results (v5)
 
-SLM Lab v5 validates PPO on [ALE (Arcade Learning Environment)](https://ale.farama.org/environments/) environments. The ALE provides 50+ classic Atari 2600 games as standardized RL benchmarks.
+SLM Lab v5 validates A2C and PPO on [ALE (Arcade Learning Environment)](https://ale.farama.org/environments/) environments. The ALE provides 50+ classic Atari 2600 games as standardized RL benchmarks.
 
 | MsPacman | Breakout | Qbert | BeamRider |
 |:---:|:---:|:---:|:---:|
@@ -33,12 +33,14 @@ The trial score is the mean across 4 sessions, providing statistically meaningfu
 
 **Settings**: max_frame 10e6 | num_envs 16 | max_session 4 | log_frequency 10000
 
-* **Specs:** [ppo_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json)
-* **Environment:** Gymnasium ALE v5 with `life_loss_info=true`, sticky actions (`repeat_action_probability=0.25`) per [Machado et al. (2018)](https://arxiv.org/abs/1709.06009)
-* **Network:** ConvNet [32,64,64]+512fc (Nature CNN), AdamW (lr=2.5e-4)
-* **PPO settings:** minibatch=256, horizon=128, epochs=4, `clip_vloss=true`
+**Algorithm Specs** (all use Nature CNN [32,64,64] + 512fc):
+- **DDQN+PER**: Skipped - off-policy variants ~6x slower (~230 fps vs ~1500 fps), not cost effective at 10M frames
+- **A2C**: [a2c_gae_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_atari.json) - RMSprop (lr=7e-4), training_frequency=32
+- **PPO**: [ppo_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json) - AdamW (lr=2.5e-4), minibatch=256, horizon=128, epochs=4
 
-### Lambda Variants
+**Environment:** Gymnasium ALE v5 with `life_loss_info=true`, sticky actions (`repeat_action_probability=0.25`)
+
+### PPO Lambda Variants
 
 Different games benefit from different lambda values for GAE. All variants use the same spec file:
 
@@ -50,70 +52,101 @@ Different games benefit from different lambda values for GAE. All variants use t
 
 ### Results
 
-| Game | Score | SPEC_NAME | HuggingFace |
-|------|-------|-----------|-------------|
-| ALE/AirRaid-v5 | 8245 | ppo_atari | [ppo_atari_airraid_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_airraid_2026_01_06_113119) |
-| ALE/Alien-v5 | 1453 | ppo_atari | [ppo_atari_alien_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_alien_2026_01_06_112514) |
-| ALE/Amidar-v5 | 580 | ppo_atari_lam85 | [ppo_atari_lam85_amidar_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_amidar_2026_01_07_223416) |
-| ALE/Assault-v5 | 4293 | ppo_atari_lam85 | [ppo_atari_lam85_assault_2026_01_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_assault_2026_01_08_130044) |
-| ALE/Asterix-v5 | 3482 | ppo_atari_lam85 | [ppo_atari_lam85_asterix_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_asterix_2026_01_07_223445) |
-| ALE/Asteroids-v5 | 1554 | ppo_atari_lam85 | [ppo_atari_lam85_asteroids_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_asteroids_2026_01_07_224245) |
-| ALE/Atlantis-v5 | 792886 | ppo_atari | [ppo_atari_atlantis_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_atlantis_2026_01_06_120440) |
-| ALE/BankHeist-v5 | 1045 | ppo_atari | [ppo_atari_bankheist_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_bankheist_2026_01_06_121042) |
-| ALE/BattleZone-v5 | 26383 | ppo_atari_lam85 | [ppo_atari_lam85_battlezone_2026_01_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_battlezone_2026_01_08_094729) |
-| ALE/BeamRider-v5 | 2765 | ppo_atari | [ppo_atari_beamrider_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_beamrider_2026_01_06_112533) |
-| ALE/Berzerk-v5 | 1072 | ppo_atari | [ppo_atari_berzerk_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_berzerk_2026_01_06_112515) |
-| ALE/Bowling-v5 | 46.45 | ppo_atari | [ppo_atari_bowling_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_bowling_2026_01_06_113148) |
-| ALE/Boxing-v5 | 91.17 | ppo_atari | [ppo_atari_boxing_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_boxing_2026_01_06_112531) |
-| ALE/Breakout-v5 | 327 | ppo_atari_lam70 | [ppo_atari_lam70_breakout_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_breakout_2026_01_07_110559) |
-| ALE/Carnival-v5 | 3967 | ppo_atari_lam70 | [ppo_atari_lam70_carnival_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_carnival_2026_01_07_144738) |
-| ALE/Centipede-v5 | 4915 | ppo_atari_lam70 | [ppo_atari_lam70_centipede_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_centipede_2026_01_07_223557) |
-| ALE/ChopperCommand-v5 | 5355 | ppo_atari | [ppo_atari_choppercommand_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_choppercommand_2026_01_07_110539) |
-| ALE/CrazyClimber-v5 | 107370 | ppo_atari_lam85 | [ppo_atari_lam85_crazyclimber_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_crazyclimber_2026_01_07_223609) |
-| ALE/Defender-v5 | 51439 | ppo_atari_lam70 | [ppo_atari_lam70_defender_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_defender_2026_01_07_205238) |
-| ALE/DemonAttack-v5 | 16558 | ppo_atari_lam70 | [ppo_atari_lam70_demonattack_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_demonattack_2026_01_07_111315) |
-| ALE/DoubleDunk-v5 | -2.38 | ppo_atari | [ppo_atari_doubledunk_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_doubledunk_2026_01_07_110802) |
-| ALE/ElevatorAction-v5 | 5446 | ppo_atari | [ppo_atari_elevatoraction_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_elevatoraction_2026_01_06_113129) |
-| ALE/Enduro-v5 | 898 | ppo_atari_lam85 | [ppo_atari_lam85_enduro_2026_01_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_enduro_2026_01_08_095448) |
-| ALE/FishingDerby-v5 | 27.10 | ppo_atari_lam85 | [ppo_atari_lam85_fishingderby_2026_01_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_fishingderby_2026_01_08_094158) |
-| ALE/Freeway-v5 | 31.30 | ppo_atari | [ppo_atari_freeway_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_freeway_2026_01_06_182318) |
-| ALE/Frostbite-v5 | 301 | ppo_atari | [ppo_atari_frostbite_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_frostbite_2026_01_06_112556) |
-| ALE/Gopher-v5 | 6508 | ppo_atari_lam70 | [ppo_atari_lam70_gopher_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_gopher_2026_01_07_170451) |
-| ALE/Gravitar-v5 | 599 | ppo_atari | [ppo_atari_gravitar_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_gravitar_2026_01_06_112548) |
-| ALE/Hero-v5 | 28238 | ppo_atari_lam85 | [ppo_atari_lam85_hero_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_hero_2026_01_07_223619) |
-| ALE/IceHockey-v5 | -3.93 | ppo_atari | [ppo_atari_icehockey_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_icehockey_2026_01_06_183721) |
-| ALE/Jamesbond-v5 | 662 | ppo_atari | [ppo_atari_jamesbond_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_jamesbond_2026_01_06_183717) |
-| ALE/JourneyEscape-v5 | -1252 | ppo_atari_lam85 | [ppo_atari_lam85_journeyescape_2026_01_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_journeyescape_2026_01_08_094842) |
-| ALE/Kangaroo-v5 | 9912 | ppo_atari_lam85 | [ppo_atari_lam85_kangaroo_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_kangaroo_2026_01_07_110838) |
-| ALE/Krull-v5 | 7841 | ppo_atari | [ppo_atari_krull_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_krull_2026_01_07_110747) |
-| ALE/KungFuMaster-v5 | 29068 | ppo_atari_lam70 | [ppo_atari_lam70_kungfumaster_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_kungfumaster_2026_01_07_111317) |
-| ALE/MsPacman-v5 | 2372 | ppo_atari_lam85 | [ppo_atari_lam85_mspacman_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_mspacman_2026_01_07_223522) |
-| ALE/NameThisGame-v5 | 5993 | ppo_atari | [ppo_atari_namethisgame_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_namethisgame_2026_01_06_182952) |
-| ALE/Phoenix-v5 | 15659 | ppo_atari_lam70 | [ppo_atari_lam70_phoenix_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_phoenix_2026_01_07_110832) |
-| ALE/Pong-v5 | 16.91 | ppo_atari_lam85 | [ppo_atari_lam85_pong_2026_01_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_pong_2026_01_08_094454) |
-| ALE/Pooyan-v5 | 5716 | ppo_atari_lam70 | [ppo_atari_lam70_pooyan_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_pooyan_2026_01_07_224346) |
-| ALE/Qbert-v5 | 15094 | ppo_atari | [ppo_atari_qbert_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_qbert_2026_01_06_111801) |
-| ALE/Riverraid-v5 | 9428 | ppo_atari_lam85 | [ppo_atari_lam85_riverraid_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_riverraid_2026_01_07_204356) |
-| ALE/RoadRunner-v5 | 37015 | ppo_atari_lam85 | [ppo_atari_lam85_roadrunner_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_roadrunner_2026_01_07_145913) |
-| ALE/Robotank-v5 | 20.07 | ppo_atari | [ppo_atari_robotank_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_robotank_2026_01_06_183413) |
-| ALE/Seaquest-v5 | 1796 | ppo_atari | [ppo_atari_seaquest_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_seaquest_2026_01_06_183440) |
-| ALE/Skiing-v5 | -19340 | ppo_atari | [ppo_atari_skiing_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_skiing_2026_01_06_183424) |
-| ALE/Solaris-v5 | 2094 | ppo_atari | [ppo_atari_solaris_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_solaris_2026_01_06_192643) |
-| ALE/SpaceInvaders-v5 | 726 | ppo_atari | [ppo_atari_spaceinvaders_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_spaceinvaders_2026_01_07_102346) |
-| ALE/StarGunner-v5 | 47495 | ppo_atari_lam70 | [ppo_atari_lam70_stargunner_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_stargunner_2026_01_07_111404) |
-| ALE/Surround-v5 | -2.52 | ppo_atari | [ppo_atari_surround_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_surround_2026_01_07_102404) |
-| ALE/Tennis-v5 | -4.41 | ppo_atari_lam85 | [ppo_atari_lam85_tennis_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_tennis_2026_01_07_223532) |
-| ALE/TimePilot-v5 | 4668 | ppo_atari | [ppo_atari_timepilot_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_timepilot_2026_01_07_101010) |
-| ALE/Tutankham-v5 | 217 | ppo_atari_lam85 | [ppo_atari_lam85_tutankham_2026_01_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam85_tutankham_2026_01_08_095251) |
-| ALE/UpNDown-v5 | 182472 | ppo_atari | [ppo_atari_upndown_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_upndown_2026_01_07_105708) |
-| ALE/VideoPinball-v5 | 56746 | ppo_atari_lam70 | [ppo_atari_lam70_videopinball_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_videopinball_2026_01_07_224359) |
-| ALE/WizardOfWor-v5 | 5814 | ppo_atari | [ppo_atari_wizardofwor_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_wizardofwor_2026_01_06_221154) |
-| ALE/YarsRevenge-v5 | 17120 | ppo_atari | [ppo_atari_yarsrevenge_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_yarsrevenge_2026_01_06_221154) |
-| ALE/Zaxxon-v5 | 10756 | ppo_atari | [ppo_atari_zaxxon_2026_01_06](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_zaxxon_2026_01_06_221154) |
+Table shows best result per game for each algorithm. PPO results show best lambda variant.
+
+| Game | A2C Score | PPO Score | PPO Variant |
+|------|-----------|-----------|-------------|
+| ALE/AirRaid-v5 | 5067 | **8245** | ppo_atari |
+| ALE/Alien-v5 | **1488** | 1453 | ppo_atari |
+| ALE/Amidar-v5 | 330 | **580** | ppo_atari_lam85 |
+| ALE/Assault-v5 | 1646 | **4293** | ppo_atari_lam85 |
+| ALE/Asterix-v5 | 2712 | **3482** | ppo_atari_lam85 |
+| ALE/Asteroids-v5 | **2106** | 1554 | ppo_atari_lam85 |
+| ALE/Atlantis-v5 | **873365** | 792886 | ppo_atari |
+| ALE/BankHeist-v5 | **1099** | 1045 | ppo_atari |
+| ALE/BattleZone-v5 | 2437 | **26383** | ppo_atari_lam85 |
+| ALE/BeamRider-v5 | **2767** | 2765 | ppo_atari |
+| ALE/Berzerk-v5 | 439 | **1072** | ppo_atari |
+| ALE/Bowling-v5 | 23.96 | **46.45** | ppo_atari |
+| ALE/Boxing-v5 | 1.80 | **91.17** | ppo_atari |
+| ALE/Breakout-v5 | 273 | **327** | ppo_atari_lam70 |
+| ALE/Carnival-v5 | 2170 | **3967** | ppo_atari_lam70 |
+| ALE/Centipede-v5 | 1382 | **4915** | ppo_atari_lam70 |
+| ALE/ChopperCommand-v5 | 2446 | **5355** | ppo_atari |
+| ALE/CrazyClimber-v5 | 96943 | **107370** | ppo_atari_lam85 |
+| ALE/Defender-v5 | 33149 | **51439** | ppo_atari_lam70 |
+| ALE/DemonAttack-v5 | 2962 | **16558** | ppo_atari_lam70 |
+| ALE/DoubleDunk-v5 | **-1.69** | -2.38 | ppo_atari |
+| ALE/ElevatorAction-v5 | 731 | **5446** | ppo_atari |
+| ALE/Enduro-v5 | 681 | **898** | ppo_atari_lam85 |
+| ALE/FishingDerby-v5 | -16.38 | **27.10** | ppo_atari_lam85 |
+| ALE/Freeway-v5 | 23.13 | **31.30** | ppo_atari |
+| ALE/Frostbite-v5 | 266 | **301** | ppo_atari |
+| ALE/Gopher-v5 | 984 | **6508** | ppo_atari_lam70 |
+| ALE/Gravitar-v5 | 270 | **599** | ppo_atari |
+| ALE/Hero-v5 | 18680 | **28238** | ppo_atari_lam85 |
+| ALE/IceHockey-v5 | **-5.92** | -3.93 | ppo_atari |
+| ALE/Jamesbond-v5 | 460 | **662** | ppo_atari |
+| ALE/JourneyEscape-v5 | **-965** | -1252 | ppo_atari_lam85 |
+| ALE/Kangaroo-v5 | 322 | **9912** | ppo_atari_lam85 |
+| ALE/Krull-v5 | 7519 | **7841** | ppo_atari |
+| ALE/KungFuMaster-v5 | 23006 | **29068** | ppo_atari_lam70 |
+| ALE/MsPacman-v5 | 2110 | **2372** | ppo_atari_lam85 |
+| ALE/NameThisGame-v5 | 5412 | **5993** | ppo_atari |
+| ALE/Phoenix-v5 | 5635 | **15659** | ppo_atari_lam70 |
+| ALE/Pong-v5 | 10.17 | **16.91** | ppo_atari_lam85 |
+| ALE/Pooyan-v5 | 2997 | **5716** | ppo_atari_lam70 |
+| ALE/Qbert-v5 | 12619 | **15094** | ppo_atari |
+| ALE/Riverraid-v5 | 6558 | **9428** | ppo_atari_lam85 |
+| ALE/RoadRunner-v5 | 29810 | **37015** | ppo_atari_lam85 |
+| ALE/Robotank-v5 | 2.80 | **20.07** | ppo_atari |
+| ALE/Seaquest-v5 | 850 | **1796** | ppo_atari |
+| ALE/Skiing-v5 | **-14235** | -19340 | ppo_atari |
+| ALE/Solaris-v5 | - | **2094** | ppo_atari |
+| ALE/SpaceInvaders-v5 | **784** | 726 | ppo_atari |
+| ALE/StarGunner-v5 | 8665 | **47495** | ppo_atari_lam70 |
+| ALE/Surround-v5 | -9.72 | **-2.52** | ppo_atari |
+| ALE/Tennis-v5 | -2873 | **-4.41** | ppo_atari_lam85 |
+| ALE/TimePilot-v5 | 3376 | **4668** | ppo_atari |
+| ALE/Tutankham-v5 | 167 | **217** | ppo_atari_lam85 |
+| ALE/UpNDown-v5 | 57099 | **182472** | ppo_atari |
+| ALE/VideoPinball-v5 | 25310 | **56746** | ppo_atari_lam70 |
+| ALE/WizardOfWor-v5 | 2682 | **5814** | ppo_atari |
+| ALE/YarsRevenge-v5 | **24371** | 17120 | ppo_atari |
+| ALE/Zaxxon-v5 | 29.46 | **10756** | ppo_atari |
+
+**Bold** = best score between A2C and PPO. `-` = not tested.
 
 **Skipped** (hard exploration): Adventure, MontezumaRevenge, Pitfall, PrivateEye, Venture
 
-### Lambda Comparison
+### Training Curves
+
+Multi-trial comparison plots showing A2C vs PPO mean returns (moving average) vs training frames. Shaded regions show standard deviation across 4 sessions.
+
+| | | |
+|:---:|:---:|:---:|
+| ![AirRaid](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/AirRaid_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Alien](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Alien_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Amidar](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Amidar_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Assault](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Assault_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Asterix](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Asterix_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Asteroids](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Asteroids_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Atlantis](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Atlantis_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![BankHeist](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/BankHeist_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![BattleZone](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/BattleZone_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![BeamRider](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/BeamRider_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Berzerk](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Berzerk_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Bowling](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Bowling_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Boxing](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Boxing_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Breakout](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Breakout_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Carnival](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Carnival_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Centipede](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Centipede_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![ChopperCommand](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/ChopperCommand_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![CrazyClimber](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/CrazyClimber_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Defender](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Defender_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![DemonAttack](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/DemonAttack_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![DoubleDunk](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/DoubleDunk_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![ElevatorAction](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/ElevatorAction_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Enduro](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Enduro_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![FishingDerby](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/FishingDerby_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Freeway](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Freeway_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Frostbite](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Frostbite_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Gopher](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Gopher_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Gravitar](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Gravitar_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Hero](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Hero_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![IceHockey](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/IceHockey_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Jamesbond](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Jamesbond_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![JourneyEscape](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/JourneyEscape_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Kangaroo](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Kangaroo_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Krull](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Krull_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![KungFuMaster](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/KungFuMaster_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![MsPacman](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/MsPacman_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![NameThisGame](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/NameThisGame_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Phoenix](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Phoenix_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Pong](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Pong_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Pooyan](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Pooyan_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Qbert](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Qbert_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Riverraid](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Riverraid_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![RoadRunner](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/RoadRunner_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Robotank](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Robotank_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Seaquest](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Seaquest_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Skiing](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Skiing_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Solaris](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Solaris_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![SpaceInvaders](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/SpaceInvaders_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![StarGunner](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/StarGunner_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Surround](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Surround_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Tennis](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Tennis_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![TimePilot](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/TimePilot_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Tutankham](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Tutankham_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![UpNDown](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/UpNDown_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![VideoPinball](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/VideoPinball_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![WizardOfWor](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/WizardOfWor_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![YarsRevenge](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/YarsRevenge_multi_trial_graph_mean_returns_ma_vs_frames.png) |
+| ![Zaxxon](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Zaxxon_multi_trial_graph_mean_returns_ma_vs_frames.png) | | |
+
+### PPO Lambda Comparison
 
 <details>
 <summary><b>Lambda Comparison Table</b> - click to expand</summary>
@@ -183,45 +216,18 @@ Shows scores for all three lambda variants where tested. **Bold** = best score, 
 
 </details>
 
-### Training Curves
-
-Multi-trial comparison plots showing mean returns (moving average) vs training frames. Each curve represents a different lambda variant, with shaded regions showing standard deviation across 4 sessions.
-
-| | | |
-|:---:|:---:|:---:|
-| ![AirRaid](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/AirRaid_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Alien](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Alien_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Amidar](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Amidar_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Assault](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Assault_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Asterix](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Asterix_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Asteroids](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Asteroids_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Atlantis](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Atlantis_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![BankHeist](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/BankHeist_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![BattleZone](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/BattleZone_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![BeamRider](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/BeamRider_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Berzerk](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Berzerk_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Bowling](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Bowling_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Boxing](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Boxing_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Breakout](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Breakout_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Carnival](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Carnival_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Centipede](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Centipede_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![ChopperCommand](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/ChopperCommand_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![CrazyClimber](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/CrazyClimber_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Defender](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Defender_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![DemonAttack](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/DemonAttack_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![DoubleDunk](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/DoubleDunk_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![ElevatorAction](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/ElevatorAction_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Enduro](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Enduro_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![FishingDerby](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/FishingDerby_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Freeway](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Freeway_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Frostbite](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Frostbite_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Gopher](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Gopher_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Gravitar](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Gravitar_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Hero](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Hero_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![IceHockey](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/IceHockey_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Jamesbond](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Jamesbond_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![JourneyEscape](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/JourneyEscape_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Kangaroo](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Kangaroo_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Krull](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Krull_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![KungFuMaster](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/KungFuMaster_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![MsPacman](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/MsPacman_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![NameThisGame](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/NameThisGame_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Phoenix](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Phoenix_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Pong](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Pong_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Pooyan](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Pooyan_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Qbert](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Qbert_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Riverraid](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Riverraid_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![RoadRunner](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/RoadRunner_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Robotank](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Robotank_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Seaquest](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Seaquest_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Skiing](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Skiing_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Solaris](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Solaris_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![SpaceInvaders](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/SpaceInvaders_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![StarGunner](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/StarGunner_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Surround](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Surround_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Tennis](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Tennis_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![TimePilot](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/TimePilot_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Tutankham](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Tutankham_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![UpNDown](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/UpNDown_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![VideoPinball](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/VideoPinball_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![WizardOfWor](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/WizardOfWor_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![YarsRevenge](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/YarsRevenge_multi_trial_graph_mean_returns_ma_vs_frames.png) |
-| ![Zaxxon](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Zaxxon_multi_trial_graph_mean_returns_ma_vs_frames.png) | | |
-
 ### Running Atari Benchmarks
 
 All games use the same spec file with variable substitution for the environment:
 
 ```bash
-# Local training
-slm-lab run -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train
-slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
-slm-lab run -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam85 train
+# A2C
+source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 -s max_frame=1e7 \
+  slm_lab/spec/benchmark/a2c/a2c_gae_atari.json a2c_gae_atari train -n breakout-a2c
 
-# Remote training with GPU (runs ~2-3 hours)
-source .env && slm-lab run-remote --gpu -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n pong
+# PPO
+source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 -s max_frame=1e7 \
+  slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train -n breakout-ppo
 ```
 
 ### Download and Replay
