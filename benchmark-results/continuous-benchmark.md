@@ -20,12 +20,9 @@ The trial score is the mean across 4 sessions, providing statistically meaningfu
 
 ### Standardized Settings
 
-| Setting | Value |
-|---------|-------|
-| num_envs | 16 |
-| max_frame | 4e6-10e6 (varies by env) |
-| log_frequency | 10000 |
-| ASHA grace_period | 1e5-1e6 |
+| Category | num_envs | max_frame | log_frequency | ASHA grace_period |
+|----------|----------|-----------|---------------|-------------------|
+| MuJoCo | 16 | 4e6-10e6 | 10000 | 1e5-1e6 |
 
 The `grace_period` is the minimum frames before ASHA early stopping can terminate underperforming trials.
 
@@ -38,44 +35,6 @@ The `grace_period` is the minimum frames before ASHA early stopping can terminat
 Expect **10-30% lower scores** compared to v4 benchmarks. See [Gymnasium Migration Guide](https://gymnasium.farama.org/content/migration-guide/) for details.
 {% endhint %}
 
-{% hint style="info" %}
-**January 2026 Rerun:** SAC benchmarks are omitted in this rerun due to compute constraints (off-policy algorithms require significantly more resources for systematic benchmarking). PPO results cover all 11 MuJoCo environments.
-{% endhint %}
-
-### PPO MuJoCo Configuration
-
-Standard configuration used across MuJoCo environments:
-
-* **Network:** `[256, 256]` hidden layers with tanh activation, orthogonal init
-* **Normalization:** `normalize_obs=true`, `normalize_reward=true`, `normalize_v_targets=true`
-* **Training:** num_envs=16, max_frame varies by difficulty (4M-10M)
-
-### Spec Variants
-
-Two unified specs in [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json), plus individual specs for tuned hyperparameters:
-
-| SPEC_NAME | Envs | Key Config |
-|-----------|------|------------|
-| ppo_mujoco | HalfCheetah, Walker, Humanoid, HumanoidStandup | gamma=0.99, lam=0.95 |
-| ppo_mujoco_longhorizon | Reacher, Pusher | gamma=0.997, lam=0.97 |
-| Individual specs | Hopper, Swimmer, Ant, IP, IDP | See spec files |
-
-**Quick Reference**: Copy `ENV`, `SPEC_FILE`, `SPEC_NAME` from the table below for reproduction.
-
-| ENV | State | Action | MAX_FRAME | SPEC_FILE | SPEC_NAME |
-|-----|-------|--------|-----------|-----------|-----------|
-| [Hopper-v5](https://gymnasium.farama.org/environments/mujoco/hopper/) | Box(11) | Box(3) | 4e6 | ppo_hopper.json | ppo_hopper |
-| [HalfCheetah-v5](https://gymnasium.farama.org/environments/mujoco/half_cheetah/) | Box(17) | Box(6) | 10e6 | ppo_mujoco.json | ppo_mujoco |
-| [Walker2d-v5](https://gymnasium.farama.org/environments/mujoco/walker2d/) | Box(17) | Box(6) | 10e6 | ppo_mujoco.json | ppo_mujoco |
-| [Ant-v5](https://gymnasium.farama.org/environments/mujoco/ant/) | Box(105) | Box(8) | 10e6 | ppo_ant.json | ppo_ant |
-| [Swimmer-v5](https://gymnasium.farama.org/environments/mujoco/swimmer/) | Box(8) | Box(2) | 4e6 | ppo_swimmer.json | ppo_swimmer |
-| [Reacher-v5](https://gymnasium.farama.org/environments/mujoco/reacher/) | Box(10) | Box(2) | 4e6 | ppo_mujoco.json | ppo_mujoco_longhorizon |
-| [Pusher-v5](https://gymnasium.farama.org/environments/mujoco/pusher/) | Box(23) | Box(7) | 4e6 | ppo_mujoco.json | ppo_mujoco_longhorizon |
-| [InvertedPendulum-v5](https://gymnasium.farama.org/environments/mujoco/inverted_pendulum/) | Box(4) | Box(1) | 4e6 | ppo_inverted_pendulum.json | ppo_inverted_pendulum |
-| [InvertedDoublePendulum-v5](https://gymnasium.farama.org/environments/mujoco/inverted_double_pendulum/) | Box(9) | Box(1) | 10e6 | ppo_inverted_double_pendulum.json | ppo_inverted_double_pendulum |
-| [Humanoid-v5](https://gymnasium.farama.org/environments/mujoco/humanoid/) | Box(348) | Box(17) | 10e6 | ppo_mujoco.json | ppo_mujoco |
-| [HumanoidStandup-v5](https://gymnasium.farama.org/environments/mujoco/humanoid_standup/) | Box(348) | Box(17) | 4e6 | ppo_mujoco.json | ppo_mujoco |
-
 ### Running Benchmarks
 
 ```bash
@@ -84,9 +43,6 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train
 
 # Local training - unified spec with variable substitution
 slm-lab run -s env=Humanoid-v5 -s max_frame=10e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
-
-# Long-horizon spec for Reacher/Pusher
-slm-lab run -s env=Reacher-v5 -s max_frame=4e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco_longhorizon train
 
 # Remote training with GPU (recommended for MuJoCo)
 source .env && slm-lab run-remote --gpu -s env=Humanoid-v5 -s max_frame=10e6 \
@@ -110,53 +66,147 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 
 ## Results
 
-**Settings**: max_frame 4e6-10e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+{% hint style="info" %}
+**January 2026 Rerun:** SAC benchmarks are omitted due to compute constraints (off-policy algorithms require significantly more resources). PPO results cover all 11 MuJoCo environments.
+{% endhint %}
 
-| Environment | Target | PPO | Status | Spec | HuggingFace |
-|-------------|--------|-----|--------|------|-------------|
-| Hopper-v5 | ~2000 | 1972 | ✅ | [ppo_hopper.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_hopper.json) | [ppo_hopper_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_hopper_2026_01_31_105438) |
-| HalfCheetah-v5 | >5000 | 5852 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_halfcheetah_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_halfcheetah_2026_01_30_230302) |
-| Walker2d-v5 | >3500 | 4042 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_walker2d_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_walker2d_2026_01_30_222124) |
-| Ant-v5 | >2000 | 2515 | ✅ | [ppo_ant.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_ant.json) | [ppo_ant_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_ant_2026_01_31_042006) |
-| Swimmer-v5 | >200 | 229 | ✅ | [ppo_swimmer.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_swimmer.json) | [ppo_swimmer_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_swimmer_2026_01_30_215922) |
-| Reacher-v5 | >-10 | -5.08 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_longhorizon_reacher_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_longhorizon_reacher_2026_01_30_215805) |
-| Pusher-v5 | >-50 | -49.1 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_longhorizon_pusher_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_longhorizon_pusher_2026_01_30_215824) |
-| InvertedPendulum-v5 | ~1000 | 945 | ✅ | [ppo_inverted_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_inverted_pendulum.json) | [ppo_inverted_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_inverted_pendulum_2026_01_30_230211) |
-| InvertedDoublePendulum-v5 | ~8000 | 7622 | ✅ | [ppo_inverted_double_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_inverted_double_pendulum.json) | [ppo_inverted_double_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_inverted_double_pendulum_2026_01_30_220651) |
-| Humanoid-v5 | >1000 | 3774 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_humanoid_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_humanoid_2026_01_30_222339) |
-| HumanoidStandup-v5 | >100k | 165841 | ✅ | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_humanoidstandup_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_humanoidstandup_2026_01_30_215802) |
+### Hopper-v5
 
-**Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed
+[Docs](https://gymnasium.farama.org/environments/mujoco/hopper/) | State: Box(11) | Action: Box(3) | Target: ~2000
 
-### Training Curves
+**Settings**: max_frame 4e6 | num_envs 16 | max_session 4 | log_frequency 1e4
 
-Multi-trial comparison plots showing mean returns (moving average) vs training frames. Shaded regions show standard deviation across 4 sessions.
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| PPO | ✅ | 1972 | [ppo_hopper.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_hopper.json) | [ppo_hopper_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_hopper_2026_01_31_105438) |
 
 ![Hopper-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Hopper-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
+### HalfCheetah-v5
+
+[Docs](https://gymnasium.farama.org/environments/mujoco/half_cheetah/) | State: Box(17) | Action: Box(6) | Target: >5000
+
+**Settings**: max_frame 10e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| PPO | ✅ | 5852 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_halfcheetah_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_halfcheetah_2026_01_30_230302) |
+
 ![HalfCheetah-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/HalfCheetah-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+### Walker2d-v5
+
+[Docs](https://gymnasium.farama.org/environments/mujoco/walker2d/) | State: Box(17) | Action: Box(6) | Target: >3500
+
+**Settings**: max_frame 10e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| PPO | ✅ | 4042 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_walker2d_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_walker2d_2026_01_30_222124) |
 
 ![Walker2d-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Walker2d-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
+### Ant-v5
+
+[Docs](https://gymnasium.farama.org/environments/mujoco/ant/) | State: Box(105) | Action: Box(8) | Target: >2000
+
+**Settings**: max_frame 10e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| PPO | ✅ | 2515 | [ppo_ant.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_ant.json) | [ppo_ant_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_ant_2026_01_31_042006) |
+
 ![Ant-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Ant-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+### Swimmer-v5
+
+[Docs](https://gymnasium.farama.org/environments/mujoco/swimmer/) | State: Box(8) | Action: Box(2) | Target: >200
+
+**Settings**: max_frame 4e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| PPO | ✅ | 229 | [ppo_swimmer.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_swimmer.json) | [ppo_swimmer_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_swimmer_2026_01_30_215922) |
 
 ![Swimmer-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Swimmer-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
+### Reacher-v5
+
+[Docs](https://gymnasium.farama.org/environments/mujoco/reacher/) | State: Box(10) | Action: Box(2) | Target: >-10
+
+**Settings**: max_frame 4e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| PPO | ✅ | -5.08 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_longhorizon_reacher_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_longhorizon_reacher_2026_01_30_215805) |
+
 ![Reacher-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Reacher-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+### Pusher-v5
+
+[Docs](https://gymnasium.farama.org/environments/mujoco/pusher/) | State: Box(23) | Action: Box(7) | Target: >-50
+
+**Settings**: max_frame 4e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| PPO | ✅ | -49.1 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_longhorizon_pusher_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_longhorizon_pusher_2026_01_30_215824) |
 
 ![Pusher-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Pusher-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
+### InvertedPendulum-v5
+
+[Docs](https://gymnasium.farama.org/environments/mujoco/inverted_pendulum/) | State: Box(4) | Action: Box(1) | Target: ~1000
+
+**Settings**: max_frame 4e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| PPO | ✅ | 945 | [ppo_inverted_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_inverted_pendulum.json) | [ppo_inverted_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_inverted_pendulum_2026_01_30_230211) |
+
 ![InvertedPendulum-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/InvertedPendulum-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+### InvertedDoublePendulum-v5
+
+[Docs](https://gymnasium.farama.org/environments/mujoco/inverted_double_pendulum/) | State: Box(9) | Action: Box(1) | Target: ~8000
+
+**Settings**: max_frame 10e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| PPO | ✅ | 7622 | [ppo_inverted_double_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_inverted_double_pendulum.json) | [ppo_inverted_double_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_inverted_double_pendulum_2026_01_30_220651) |
 
 ![InvertedDoublePendulum-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/InvertedDoublePendulum-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
+### Humanoid-v5
+
+[Docs](https://gymnasium.farama.org/environments/mujoco/humanoid/) | State: Box(348) | Action: Box(17) | Target: >1000
+
+**Settings**: max_frame 10e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| PPO | ✅ | 3774 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_humanoid_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_humanoid_2026_01_30_222339) |
+
 ![Humanoid-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Humanoid-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
+
+### HumanoidStandup-v5
+
+[Docs](https://gymnasium.farama.org/environments/mujoco/humanoid_standup/) | State: Box(348) | Action: Box(17) | Target: >100k
+
+**Settings**: max_frame 4e6 | num_envs 16 | max_session 4 | log_frequency 1e4
+
+| Algorithm | Status | MA | Spec | HuggingFace |
+|-----------|--------|-----|------|-------------|
+| PPO | ✅ | 165841 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_humanoidstandup_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_humanoidstandup_2026_01_30_215802) |
 
 ![HumanoidStandup-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/HumanoidStandup-v5_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
+**Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed
+
 ---
 
-## Historical Results
+## Historical Results (v4)
 
 <details>
 <summary><b>Roboschool Results (v4)</b> - click to expand</summary>
