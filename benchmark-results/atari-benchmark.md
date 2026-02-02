@@ -50,6 +50,74 @@ Different games benefit from different lambda values for GAE. All variants use t
 | ppo_atari_lam85 | 0.85 | Mixed games |
 | ppo_atari_lam70 | 0.70 | Action games |
 
+<details>
+<summary><b>Lambda Comparison Table</b> - click to expand</summary>
+
+Shows scores for all three lambda variants where tested. **Bold** = best score, `-` = not tested.
+
+| Game | ppo_atari (0.95) | ppo_atari_lam85 (0.85) | ppo_atari_lam70 (0.70) |
+|------|------------------|------------------------|------------------------|
+| ALE/AirRaid-v5 | **8245** | - | - |
+| ALE/Alien-v5 | **1453** | 1353 | 1274 |
+| ALE/Amidar-v5 | 574 | **580** | - |
+| ALE/Assault-v5 | 4059 | **4293** | 3314 |
+| ALE/Asterix-v5 | 2967 | **3482** | - |
+| ALE/Asteroids-v5 | 1497 | **1554** | - |
+| ALE/Atlantis-v5 | **792886** | 754k | 710k |
+| ALE/BankHeist-v5 | **1045** | 1045 | - |
+| ALE/BattleZone-v5 | 21270 | **26383** | 13857 |
+| ALE/BeamRider-v5 | **2765** | - | - |
+| ALE/Berzerk-v5 | **1072** | - | - |
+| ALE/Bowling-v5 | **46.45** | - | - |
+| ALE/Boxing-v5 | **91.17** | - | - |
+| ALE/Breakout-v5 | 191 | 292 | **327** |
+| ALE/Carnival-v5 | 3071 | 3013 | **3967** |
+| ALE/Centipede-v5 | 3917 | - | **4915** |
+| ALE/ChopperCommand-v5 | **5355** | - | - |
+| ALE/CrazyClimber-v5 | 107183 | **107370** | - |
+| ALE/Defender-v5 | 37162 | - | **51439** |
+| ALE/DemonAttack-v5 | 7755 | - | **16558** |
+| ALE/DoubleDunk-v5 | **-2.38** | - | - |
+| ALE/ElevatorAction-v5 | **5446** | 363 | 3933 |
+| ALE/Enduro-v5 | 414 | **898** | 872 |
+| ALE/FishingDerby-v5 | 22.80 | **27.10** | - |
+| ALE/Freeway-v5 | **31.30** | - | - |
+| ALE/Frostbite-v5 | **301** | 275 | 267 |
+| ALE/Gopher-v5 | 4172 | - | **6508** |
+| ALE/Gravitar-v5 | **599** | 253 | 145 |
+| ALE/Hero-v5 | 21052 | **28238** | - |
+| ALE/IceHockey-v5 | **-3.93** | -5.58 | -7.36 |
+| ALE/Jamesbond-v5 | **662** | - | - |
+| ALE/JourneyEscape-v5 | -1582 | **-1252** | -1547 |
+| ALE/Kangaroo-v5 | 2623 | **9912** | - |
+| ALE/Krull-v5 | **7841** | - | - |
+| ALE/KungFuMaster-v5 | 18973 | 28334 | **29068** |
+| ALE/MsPacman-v5 | 2308 | **2372** | 2297 |
+| ALE/NameThisGame-v5 | **5993** | - | - |
+| ALE/Phoenix-v5 | 7940 | - | **15659** |
+| ALE/Pong-v5 | 15.01 | **16.91** | 12.85 |
+| ALE/Pooyan-v5 | 4704 | - | **5716** |
+| ALE/Qbert-v5 | **15094** | - | - |
+| ALE/Riverraid-v5 | 7319 | **9428** | - |
+| ALE/RoadRunner-v5 | 24204 | **37015** | - |
+| ALE/Robotank-v5 | **20.07** | 8.24 | 2.59 |
+| ALE/Seaquest-v5 | **1796** | - | - |
+| ALE/Skiing-v5 | **-19340** | -22980 | -29975 |
+| ALE/Solaris-v5 | **2094** | - | - |
+| ALE/SpaceInvaders-v5 | **726** | - | - |
+| ALE/StarGunner-v5 | 31862 | - | **47495** |
+| ALE/Surround-v5 | **-2.52** | - | -6.79 |
+| ALE/Tennis-v5 | -7.66 | **-4.41** | - |
+| ALE/TimePilot-v5 | **4668** | - | - |
+| ALE/Tutankham-v5 | 203 | **217** | - |
+| ALE/UpNDown-v5 | **182472** | - | - |
+| ALE/VideoPinball-v5 | 31385 | - | **56746** |
+| ALE/WizardOfWor-v5 | **5814** | 5466 | 4740 |
+| ALE/YarsRevenge-v5 | **17120** | - | - |
+| ALE/Zaxxon-v5 | **10756** | - | - |
+
+</details>
+
 ### Results
 
 | ENV | Score | SPEC_NAME | HF Repo |
@@ -199,76 +267,6 @@ Multi-trial comparison plots showing A2C vs PPO mean returns (moving average) vs
 | ![TimePilot](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/TimePilot_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![Tutankham](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Tutankham_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![UpNDown](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/UpNDown_multi_trial_graph_mean_returns_ma_vs_frames.png) |
 | ![VideoPinball](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/VideoPinball_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![WizardOfWor](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/WizardOfWor_multi_trial_graph_mean_returns_ma_vs_frames.png) | ![YarsRevenge](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/YarsRevenge_multi_trial_graph_mean_returns_ma_vs_frames.png) |
 | ![Zaxxon](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Zaxxon_multi_trial_graph_mean_returns_ma_vs_frames.png) | | |
-
-### PPO Lambda Comparison
-
-<details>
-<summary><b>Lambda Comparison Table</b> - click to expand</summary>
-
-Shows scores for all three lambda variants where tested. **Bold** = best score, `-` = not tested.
-
-| Game | ppo_atari (0.95) | ppo_atari_lam85 (0.85) | ppo_atari_lam70 (0.70) |
-|------|------------------|------------------------|------------------------|
-| ALE/AirRaid-v5 | **8245** | - | - |
-| ALE/Alien-v5 | **1453** | 1353 | 1274 |
-| ALE/Amidar-v5 | 574 | **580** | - |
-| ALE/Assault-v5 | 4059 | **4293** | 3314 |
-| ALE/Asterix-v5 | 2967 | **3482** | - |
-| ALE/Asteroids-v5 | 1497 | **1554** | - |
-| ALE/Atlantis-v5 | **792886** | 754k | 710k |
-| ALE/BankHeist-v5 | **1045** | 1045 | - |
-| ALE/BattleZone-v5 | 21270 | **26383** | 13857 |
-| ALE/BeamRider-v5 | **2765** | - | - |
-| ALE/Berzerk-v5 | **1072** | - | - |
-| ALE/Bowling-v5 | **46.45** | - | - |
-| ALE/Boxing-v5 | **91.17** | - | - |
-| ALE/Breakout-v5 | 191 | 292 | **327** |
-| ALE/Carnival-v5 | 3071 | 3013 | **3967** |
-| ALE/Centipede-v5 | 3917 | - | **4915** |
-| ALE/ChopperCommand-v5 | **5355** | - | - |
-| ALE/CrazyClimber-v5 | 107183 | **107370** | - |
-| ALE/Defender-v5 | 37162 | - | **51439** |
-| ALE/DemonAttack-v5 | 7755 | - | **16558** |
-| ALE/DoubleDunk-v5 | **-2.38** | - | - |
-| ALE/ElevatorAction-v5 | **5446** | 363 | 3933 |
-| ALE/Enduro-v5 | 414 | **898** | 872 |
-| ALE/FishingDerby-v5 | 22.80 | **27.10** | - |
-| ALE/Freeway-v5 | **31.30** | - | - |
-| ALE/Frostbite-v5 | **301** | 275 | 267 |
-| ALE/Gopher-v5 | 4172 | - | **6508** |
-| ALE/Gravitar-v5 | **599** | 253 | 145 |
-| ALE/Hero-v5 | 21052 | **28238** | - |
-| ALE/IceHockey-v5 | **-3.93** | -5.58 | -7.36 |
-| ALE/Jamesbond-v5 | **662** | - | - |
-| ALE/JourneyEscape-v5 | -1582 | **-1252** | -1547 |
-| ALE/Kangaroo-v5 | 2623 | **9912** | - |
-| ALE/Krull-v5 | **7841** | - | - |
-| ALE/KungFuMaster-v5 | 18973 | 28334 | **29068** |
-| ALE/MsPacman-v5 | 2308 | **2372** | 2297 |
-| ALE/NameThisGame-v5 | **5993** | - | - |
-| ALE/Phoenix-v5 | 7940 | - | **15659** |
-| ALE/Pong-v5 | 15.01 | **16.91** | 12.85 |
-| ALE/Pooyan-v5 | 4704 | - | **5716** |
-| ALE/Qbert-v5 | **15094** | - | - |
-| ALE/Riverraid-v5 | 7319 | **9428** | - |
-| ALE/RoadRunner-v5 | 24204 | **37015** | - |
-| ALE/Robotank-v5 | **20.07** | 8.24 | 2.59 |
-| ALE/Seaquest-v5 | **1796** | - | - |
-| ALE/Skiing-v5 | **-19340** | -22980 | -29975 |
-| ALE/Solaris-v5 | **2094** | - | - |
-| ALE/SpaceInvaders-v5 | **726** | - | - |
-| ALE/StarGunner-v5 | 31862 | - | **47495** |
-| ALE/Surround-v5 | **-2.52** | - | -6.79 |
-| ALE/Tennis-v5 | -7.66 | **-4.41** | - |
-| ALE/TimePilot-v5 | **4668** | - | - |
-| ALE/Tutankham-v5 | 203 | **217** | - |
-| ALE/UpNDown-v5 | **182472** | - | - |
-| ALE/VideoPinball-v5 | 31385 | - | **56746** |
-| ALE/WizardOfWor-v5 | **5814** | 5466 | 4740 |
-| ALE/YarsRevenge-v5 | **17120** | - | - |
-| ALE/Zaxxon-v5 | **10756** | - | - |
-
-</details>
 
 ### Running Atari Benchmarks
 
