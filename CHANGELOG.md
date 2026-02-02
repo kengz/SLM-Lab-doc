@@ -14,6 +14,10 @@ Modernization release for the current RL ecosystem. This release updates SLM Lab
 **Book readers:** For exact code from *Foundations of Deep Reinforcement Learning*, use `git checkout v4.1.1`
 {% endhint %}
 
+### Critical: Atari v5 Sticky Actions
+
+**SLM-Lab uses Gymnasium ALE v5 defaults.** v5 default `repeat_action_probability=0.25` (sticky actions) randomly repeats agent actions to simulate console stochasticity, making evaluation harder but more realistic than v4 default 0.0 used by most benchmarks (CleanRL, SB3, RL Zoo). This follows [Machado et al. (2018)](https://arxiv.org/abs/1709.06009) research best practices. See [ALE version history](https://ale.farama.org/environments/#version-history-and-naming-schemes).
+
 ### Why v5?
 
 The RL ecosystem has evolved significantly since SLM Lab v4:
@@ -85,8 +89,9 @@ In v4, algorithms had to guess whether `done=True` meant a real ending or just a
 ### New v5 Features
 
 **Algorithm improvements:**
-* `normalize_v_targets`: Running statistics normalization for value targets (helps with varying reward scales)
-* `clip_vloss`: CleanRL-style value loss clipping for stability
+* **PPO:** `normalize_v_targets` for running statistics normalization, `symlog_transform` (from DreamerV3), `clip_vloss` (CleanRL-style)
+* **SAC:** Discrete action support uses exact expectation (Christodoulou 2019). Target entropy auto-calculated.
+* **Networks:** Optional `layer_norm` for MLP hidden layers
 * `life_loss_info`: Proper Atari game-over handling (continue after life loss)
 
 **Infrastructure:**
@@ -94,10 +99,20 @@ In v4, algorithms had to guess whether `done=True` meant a real ending or just a
 * dstack integration for cloud GPU training
 * HuggingFace integration for experiment storage and sharing
 
-**Fresh benchmarks:**
-* All benchmarks rerun on Gymnasium v5 environments (Classic Control, Box2D, MuJoCo, Atari)
-* Trained models and results available on [HuggingFace](https://huggingface.co/SLM-Lab)
-* See [Benchmark Results](benchmark-results/public-benchmark-data.md) for scores, graphs, and download links
+**Benchmarks:**
+
+All algorithms validated on Gymnasium. Full results in [Benchmark Results](benchmark-results/public-benchmark-data.md).
+
+| Category | REINFORCE | SARSA | DQN | DDQN+PER | A2C | PPO | SAC |
+|----------|-----------|-------|-----|----------|-----|-----|-----|
+| Classic Control | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Box2D | — | — | ✅ | ✅ | ⚠️ | ✅ | ✅ |
+| MuJoCo (11 envs) | — | — | — | — | ⚠️ | ✅ All | ✅ All |
+| Atari (54 games) | — | — | — | — | ✅ | ✅ | — |
+
+**Atari benchmarks** use ALE v5 with sticky actions (`repeat_action_probability=0.25`). PPO tested with lambda variants (0.95, 0.85, 0.70) to optimize per-game performance. A2C uses GAE with lambda 0.95.
+
+Trained models available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
 
 ### Deprecations
 
