@@ -120,8 +120,9 @@ Shows scores for all three lambda variants where tested. **Bold** = best score, 
 
 ### Running Benchmarks
 
-All games use the same spec file with variable substitution for the environment:
+All games use the same spec file with variable substitution for the environment.
 
+**Remote (recommended)** - cloud GPU via [dstack](https://dstack.ai), auto-syncs to HuggingFace:
 ```bash
 # A2C
 source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 -s max_frame=1e7 \
@@ -131,6 +132,17 @@ source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 -s max_frame=1e7 
 source .env && slm-lab run-remote --gpu -s env=ALE/Breakout-v5 -s max_frame=1e7 \
   slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train -n breakout-ppo
 ```
+
+Remote setup: `cp .env.example .env` then set `HF_TOKEN`. See [Remote Training](../using-slm-lab/remote-training.md) for dstack config.
+
+**Local** - runs on your machine (requires GPU, ~2-3 hours per game):
+```bash
+slm-lab run -s env=ALE/Breakout-v5 -s max_frame=1e7 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+```
+
+{% hint style="warning" %}
+**GPU required for Atari.** Each game runs 10M frames and takes 2-3 hours on cloud GPU (L4/A10G). Local CPU training is not practical. Cloud GPUs via dstack are faster and often cheaper than running on local hardware.
+{% endhint %}
 
 ### Download and Replay
 

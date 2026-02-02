@@ -125,6 +125,19 @@ Standardized settings for fair comparison across environment categories:
 
 The `grace_period` is the minimum frames before ASHA can terminate underperforming trials. Set it high enough for meaningful learning signal (typically 5-10% of max_frame).
 
+### Hardware Requirements
+
+| Category | GPU Required | Typical Runtime | Recommendation |
+|----------|--------------|-----------------|----------------|
+| Classic Control | No | Minutes | Local CPU is fine |
+| Box2D | Optional | 10-30 min | Local or remote |
+| MuJoCo | Yes | 1-4 hours | Use `run-remote --gpu` |
+| Atari | Yes | 2-3 hours | Use `run-remote --gpu` |
+
+{% hint style="info" %}
+**Cloud GPUs recommended for MuJoCo and Atari.** Cloud L4/A10G via [dstack](https://dstack.ai) is faster and often cheaper than local training. See [Remote Training](../using-slm-lab/remote-training.md) for setup.
+{% endhint %}
+
 ### Contributing Benchmark Results
 
 When adding or updating benchmarks:

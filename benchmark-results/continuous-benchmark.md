@@ -37,17 +37,27 @@ Expect **10-30% lower scores** compared to v4 benchmarks. See [Gymnasium Migrati
 
 ### Running Benchmarks
 
+**Remote (recommended)** - cloud GPU via [dstack](https://dstack.ai), auto-syncs to HuggingFace:
 ```bash
-# Local training - individual spec
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train
+# Individual spec
+source .env && slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train -n hopper
 
-# Local training - unified spec with variable substitution
-slm-lab run -s env=Humanoid-v5 -s max_frame=10e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
-
-# Remote training with GPU (recommended for MuJoCo)
+# Unified spec with variable substitution
 source .env && slm-lab run-remote --gpu -s env=Humanoid-v5 -s max_frame=10e6 \
   slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train -n humanoid
 ```
+
+Remote setup: `cp .env.example .env` then set `HF_TOKEN`. See [Remote Training](../using-slm-lab/remote-training.md) for dstack config.
+
+**Local** - runs on your machine (requires decent GPU, runs 1-4 hours):
+```bash
+slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train
+slm-lab run -s env=Humanoid-v5 -s max_frame=10e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+```
+
+{% hint style="warning" %}
+**GPU strongly recommended for MuJoCo.** These benchmarks run 4M-10M frames and take 1-4 hours on cloud GPU (L4/A10G). Local CPU training is not practical. Cloud GPUs via dstack are faster and often cheaper than running on local hardware.
+{% endhint %}
 
 ### Download and Replay
 

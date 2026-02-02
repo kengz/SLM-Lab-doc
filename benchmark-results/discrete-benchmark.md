@@ -41,15 +41,23 @@ See [Gymnasium docs](https://gymnasium.farama.org/) for environment-specific cha
 
 ### Running Benchmarks
 
+**Local** - runs on your machine (Classic Control completes in minutes on CPU):
 ```bash
-# Local training
 slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train
 slm-lab run slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar train
-slm-lab run slm_lab/spec/benchmark/sac/sac_pendulum.json sac_pendulum train
-
-# Remote training (dstack)
-source .env && slm-lab run-remote slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train -n cartpole
 ```
+
+**Remote** - cloud GPU via [dstack](https://dstack.ai), auto-syncs to HuggingFace:
+```bash
+source .env && slm-lab run-remote slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train -n cartpole
+source .env && slm-lab run-remote slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json ddqn_per_concat_lunar train -n lunar
+```
+
+Remote setup: `cp .env.example .env` then set `HF_TOKEN`. See [Remote Training](../using-slm-lab/remote-training.md) for dstack config.
+
+{% hint style="info" %}
+**GPU not required for Classic Control.** These environments train fast on CPU. Box2D (LunarLander) benefits from GPU but still runs fine locally.
+{% endhint %}
 
 ### Download and Replay
 
