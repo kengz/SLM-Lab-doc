@@ -80,7 +80,7 @@ See the benchmark pages for complete lists:
 |----------|--------------|------------|
 | **Classic Control** | CartPole-v1, Acrobot-v1, Pendulum-v1 | REINFORCE, SARSA, DQN, DDQN+PER, A2C, PPO, SAC |
 | **Box2D** | LunarLander-v3 (discrete & continuous) | DQN, DDQN+PER, A2C, PPO, SAC |
-| **MuJoCo** | 11 environments (Hopper, HalfCheetah, etc.) | PPO |
+| **MuJoCo** | 11 environments (Hopper, HalfCheetah, etc.) | PPO, SAC |
 | **Atari** | 54 games | PPO (3 lambda variants) |
 
 ### Quick Links

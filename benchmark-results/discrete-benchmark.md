@@ -91,8 +91,8 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data
 | DQN | ⚠️ | 188.1 | [dqn_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_cartpole.json) | [dqn_boltzmann_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/dqn_boltzmann_cartpole_2026_01_30_215213) |
 | DDQN+PER | ✅ | 432.9 | [dqn_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_cartpole.json) | [ddqn_per_boltzmann_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ddqn_per_boltzmann_cartpole_2026_01_30_215454) |
 | A2C | ✅ | 499.7 | [a2c_gae_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_cartpole.json) | [a2c_gae_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/a2c_gae_cartpole_2026_01_30_215337) |
-| PPO | ✅ | 499.5 | [ppo_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json) | [ppo_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_cartpole_2026_01_30_221924) |
-| SAC | ⚠️ | 359.7 | [sac_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_cartpole.json) | [sac_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_cartpole_2026_01_30_221934) |
+| PPO | ✅ | 495.6 | [ppo_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json) | [ppo_cartpole_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_cartpole_2026_02_08_230219) |
+| SAC | ✅ | 415.0 | [sac_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_cartpole.json) | [sac_cartpole_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_cartpole_2026_02_08_141601) |
 
 ![CartPole-v1 Multi-Trial Graph](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/CartPole-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
@@ -108,7 +108,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data
 | DDQN+PER | ✅ | -85.2 | [ddqn_per_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_acrobot.json) | [ddqn_per_acrobot_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ddqn_per_acrobot_2026_01_30_215436) |
 | A2C | ✅ | -83.8 | [a2c_gae_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_acrobot.json) | [a2c_gae_acrobot_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/a2c_gae_acrobot_2026_01_30_215413) |
 | PPO | ✅ | -81.4 | [ppo_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_acrobot.json) | [ppo_acrobot_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_acrobot_2026_01_30_215352) |
-| SAC | ✅ | -97.1 | [sac_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_acrobot.json) | [sac_acrobot_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_acrobot_2026_01_30_215401) |
+| SAC | ✅ | -90.3 | [sac_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_acrobot.json) | [sac_acrobot_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_acrobot_2026_02_08_142215) |
 
 ![Acrobot-v1 Multi-Trial Graph](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Acrobot-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
@@ -122,7 +122,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data
 |-----------|--------|-----|------|-------------|
 | A2C | ❌ | -553 | [a2c_gae_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_pendulum.json) | [a2c_gae_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/a2c_gae_pendulum_2026_01_30_215421) |
 | PPO | ✅ | -168.3 | [ppo_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_pendulum.json) | [ppo_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_pendulum_2026_01_30_215944) |
-| SAC | ✅ | -152.3 | [sac_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_pendulum.json) | [sac_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_pendulum_2026_01_30_215454) |
+| SAC | ✅ | -148.7 | [sac_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_pendulum.json) | [sac_pendulum_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_pendulum_2026_02_08_141615) |
 
 ![Pendulum-v1 Multi-Trial Graph](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Pendulum-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
@@ -140,7 +140,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data
 | DDQN+PER | ✅ | 261.5 | [ddqn_per_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json) | [ddqn_per_concat_lunar_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ddqn_per_concat_lunar_2026_01_30_215532) |
 | A2C | ❌ | 9.5 | [a2c_gae_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_lunar.json) | [a2c_gae_lunar_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/a2c_gae_lunar_2026_01_30_215529) |
 | PPO | ⚠️ | 159.0 | [ppo_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_lunar.json) | [ppo_lunar_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_lunar_2026_01_30_215550) |
-| SAC | ❌ | -75.4 | [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) | [sac_lunar_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_lunar_2026_01_30_215552) |
+| SAC | ⚠️ | 134.5 | [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) | [sac_lunar_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_lunar_2026_02_08_141654) |
 
 ![LunarLander-v3 (Discrete) Multi-Trial Graph](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/LunarLander-v3_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
@@ -154,7 +154,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data
 |-----------|--------|-----|------|-------------|
 | A2C | ❌ | -38.2 | [a2c_gae_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_lunar.json) | [a2c_gae_lunar_continuous_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/a2c_gae_lunar_continuous_2026_01_30_215630) |
 | PPO | ⚠️ | 165.5 | [ppo_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_lunar.json) | [ppo_lunar_continuous_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_lunar_continuous_2026_01_31_104549) |
-| SAC | ✅ | 208.6 | [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) | [sac_lunar_continuous_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_lunar_continuous_2026_01_31_104537) |
+| SAC | ⚠️ | 179.4 | [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) | [sac_lunar_continuous_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_lunar_continuous_2026_02_08_141813) |
 
 ![LunarLander-v3 (Continuous) Multi-Trial Graph](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/LunarLander-v3_Continuous_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
