@@ -108,9 +108,9 @@ All algorithms validated on Gymnasium. Full results in [Benchmark Results](bench
 | Classic Control | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Box2D | — | — | ✅ | ✅ | ⚠️ | ✅ | ✅ |
 | MuJoCo (11 envs) | — | — | — | — | ⚠️ | ✅ All | ✅ All |
-| Atari (54 games) | — | — | — | — | ✅ | ✅ | — |
+| Atari (58 games) | — | — | — | — | ✅ | ✅ | ✅ |
 
-**Atari benchmarks** use ALE v5 with sticky actions (`repeat_action_probability=0.25`). PPO tested with lambda variants (0.95, 0.85, 0.70) to optimize per-game performance. A2C uses GAE with lambda 0.95.
+**Atari benchmarks** use ALE v5 with sticky actions (`repeat_action_probability=0.25`). PPO tested with lambda variants (0.95, 0.85, 0.70) to optimize per-game performance. A2C uses GAE with lambda 0.95. SAC uses Categorical action distribution with training_iter=3 at 2M frames.
 
 Trained models available on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
 

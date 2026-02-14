@@ -70,7 +70,7 @@ Direct links to experiment folders (example):
 See the benchmark pages for complete lists:
 - [Discrete Benchmark](discrete-benchmark.md) - Classic Control & Box2D
 - [Continuous Benchmark](continuous-benchmark.md) - MuJoCo
-- [Atari Benchmark](atari-benchmark.md) - 54 Atari games
+- [Atari Benchmark](atari-benchmark.md) - 58 Atari games
 
 ## v5 Benchmark Coverage
 
@@ -81,7 +81,7 @@ See the benchmark pages for complete lists:
 | **Classic Control** | CartPole-v1, Acrobot-v1, Pendulum-v1 | REINFORCE, SARSA, DQN, DDQN+PER, A2C, PPO, SAC |
 | **Box2D** | LunarLander-v3 (discrete & continuous) | DQN, DDQN+PER, A2C, PPO, SAC |
 | **MuJoCo** | 11 environments (Hopper, HalfCheetah, etc.) | PPO, SAC |
-| **Atari** | 54 games | PPO (3 lambda variants) |
+| **Atari** | 58 games | A2C, PPO (3 lambda variants), SAC |
 
 ### Quick Links
 
@@ -89,7 +89,7 @@ See the benchmark pages for complete lists:
 |-----------|------|--------------|
 | Classic + Box2D | [Discrete Benchmark](discrete-benchmark.md) | CartPole, Acrobot, Pendulum, LunarLander |
 | MuJoCo | [Continuous Benchmark](continuous-benchmark.md) | Hopper, HalfCheetah, Humanoid, etc. |
-| Atari | [Atari Benchmark](atari-benchmark.md) | 54 games |
+| Atari | [Atari Benchmark](atari-benchmark.md) | 58 games |
 
 ## Methodology
 
@@ -121,7 +121,7 @@ Standardized settings for fair comparison across environment categories:
 | Classic Control | 4 | 2e5-3e5 | 500 | 1e4 |
 | Box2D | 8 | 3e5 | 1000 | 5e4 |
 | MuJoCo | 16 | 4e6-10e6 | 10000 | 1e5-1e6 |
-| Atari | 16 | 10e6 | 10000 | 5e5 |
+| Atari | 16 | 2e6-10e6 | 10000 | 5e5 |
 
 The `grace_period` is the minimum frames before ASHA can terminate underperforming trials. Set it high enough for meaningful learning signal (typically 5-10% of max_frame).
 
