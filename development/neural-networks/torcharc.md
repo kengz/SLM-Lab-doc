@@ -76,31 +76,74 @@ _ppo_mujoco_net: &ppo_mujoco_net
   gpu: auto
 ```
 
-### Merge and override per environment
+### Merge and override
 
-Use `<<: *anchor` to inherit all fields, then override only what differs:
+Use `<<: *anchor` to inherit all fields, then override only what differs. Here's the PPO Atari spec — three lambda variants defined by changing a single line each:
+
+```yaml
+# Base: lam=0.95 (default from anchor)
+ppo_atari_arc:
+  agent:
+    algorithm:
+      <<: *ppo_atari_algorithm    # ← lam: 0.95
+    net:
+      <<: *ppo_atari_net
+  env:
+    <<: *ppo_atari_env
+
+# Variant: lam=0.85 — one line changed
+ppo_atari_lam85_arc:
+  agent:
+    algorithm:
+      <<: *ppo_atari_algorithm
+      lam: 0.85                   # ← only difference
+    net:
+      <<: *ppo_atari_net
+  env:
+    <<: *ppo_atari_env
+
+# Variant: lam=0.70 — one line changed
+ppo_atari_lam70_arc:
+  agent:
+    algorithm:
+      <<: *ppo_atari_algorithm
+      lam: 0.70                   # ← only difference
+    net:
+      <<: *ppo_atari_net
+  env:
+    <<: *ppo_atari_env
+```
+
+{% hint style="info" %}
+**Why this matters:** Three complete Atari specs differ by a single line each. Without anchors, each would repeat ~40 lines of identical config. When scanning the file, the differences jump out immediately.
+{% endhint %}
+
+The same pattern works for per-environment overrides in MuJoCo — only the tuned hyperparameters are visible:
 
 ```yaml
 ppo_ant_arc:
   agent:
+    algorithm:
+      <<: *ppo_mujoco_algorithm
+      gamma: 0.988                # ← tuned for Ant
+      lam: 0.928
     net:
-      <<: *ppo_mujoco_net        # ← inherit everything
-      optim_spec:                 # ← override just the lr
+      <<: *ppo_mujoco_net
+      optim_spec:
         name: AdamW
-        lr: 1.5e-4
+        lr: 1.5e-4                # ← lower lr for Ant
 
 ppo_hopper_arc:
   agent:
+    algorithm:
+      <<: *ppo_mujoco_algorithm
+      gamma: 0.991                # ← tuned for Hopper
     net:
-      <<: *ppo_mujoco_net        # ← same base
-      lr_scheduler_spec:          # ← add lr decay for this env
+      <<: *ppo_mujoco_net
+      lr_scheduler_spec:          # ← Hopper needs lr decay
         name: LinearToZero
         frame: "${max_frame}"
 ```
-
-{% hint style="info" %}
-**Why this matters:** Each environment's spec shows _only its differences_ from the base. When scanning `ppo_mujoco_arc.yaml`, you immediately see that Ant uses a lower learning rate while Hopper adds LR scheduling—without wading through identical boilerplate.
-{% endhint %}
 
 ### Before vs. after
 
