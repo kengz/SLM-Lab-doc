@@ -42,7 +42,7 @@ slm-lab run [OPTIONS] [SPEC_FILE] [SPEC_NAME] [MODE]
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `SPEC_FILE` | `slm_lab/spec/benchmark/ppo/ppo_cartpole.json` | JSON spec file path |
+| `SPEC_FILE` | `slm_lab/spec/benchmark/ppo/ppo_cartpole.json` | Spec file path (JSON or YAML) |
 | `SPEC_NAME` | `ppo_cartpole` | Spec name within the file |
 | `MODE` | `dev` | Execution mode: `dev`, `train`, `search`, `enjoy`, `eval` |
 
@@ -82,25 +82,25 @@ slm-lab run
 slm-lab run --render
 
 # Full training
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar train
+slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_lunar_arc.yaml ppo_lunar_arc train
 
 # Hyperparameter search
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari search
+slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_atari_arc.yaml ppo_atari_arc search
 
 # Variable substitution
-slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark_arc/ppo/ppo_atari_arc.yaml ppo_atari_arc train
 
 # Multiple variables
-slm-lab run -s env=Hopper-v5 -s max_frame=2e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+slm-lab run -s env=Hopper-v5 -s max_frame=2e6 slm_lab/spec/benchmark_arc/ppo/ppo_mujoco_arc.yaml ppo_mujoco_arc train
 
 # Resume from latest
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@latest
+slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_cartpole_arc.yaml ppo_cartpole_arc train@latest
 
 # Resume from specific run
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train@data/ppo_cartpole_2026_01_30_221924
+slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_cartpole_arc.yaml ppo_cartpole_arc train@data/ppo_cartpole_arc_2026_01_30_221924
 
 # Replay trained model
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_2026_01_30_221924/ppo_cartpole_t0_spec.json
+slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_cartpole_arc.yaml ppo_cartpole_arc enjoy@data/ppo_cartpole_arc_2026_01_30_221924/ppo_cartpole_arc_t0_spec.yaml
 ```
 
 ## `slm-lab run-remote`
@@ -141,13 +141,13 @@ The CLI auto-selects hardware based on mode and `--gpu` flag:
 source .env
 
 # CPU training (default)
-slm-lab run-remote slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole train -n ppo-cartpole
+slm-lab run-remote slm_lab/spec/benchmark_arc/ppo/ppo_cartpole_arc.yaml ppo_cartpole_arc train -n ppo-cartpole
 
 # GPU training (for ConvNet envs)
-slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n ppo-qbert
+slm-lab run-remote --gpu slm_lab/spec/benchmark_arc/ppo/ppo_atari_arc.yaml ppo_atari_arc train -n ppo-qbert
 
 # GPU search with variable substitution
-slm-lab run-remote --gpu -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari search -n qbert-search
+slm-lab run-remote --gpu -s env=ALE/Qbert-v5 slm_lab/spec/benchmark_arc/ppo/ppo_atari_arc.yaml ppo_atari_arc search -n qbert-search
 ```
 
 {% hint style="warning" %}
@@ -266,21 +266,17 @@ Template specs use `${var}` placeholders for flexibility:
 
 **In the spec file:**
 
-```json
-{
-  "ppo_mujoco": {
-    "env": {
-      "name": "${env}",
-      "max_frame": "${max_frame}"
-    }
-  }
-}
+```yaml
+ppo_mujoco_arc:
+  env:
+    name: ${env}
+    max_frame: ${max_frame}
 ```
 
 **On the command line:**
 
 ```bash
-slm-lab run -s env=HalfCheetah-v5 -s max_frame=10e6 spec.json ppo_mujoco train
+slm-lab run -s env=HalfCheetah-v5 -s max_frame=10e6 spec.yaml ppo_mujoco_arc train
 ```
 
 | Common Variables | Example |
@@ -298,25 +294,25 @@ slm-lab run -s env=HalfCheetah-v5 -s max_frame=10e6 spec.json ppo_mujoco train
 Results are saved to `data/{spec_name}_{timestamp}/`:
 
 ```
-data/ppo_cartpole_2026_01_30_221924/
-├── ppo_cartpole_spec.json                    # Original spec
-├── ppo_cartpole_t0_spec.json                 # Trial spec (for reproduction)
-├── ppo_cartpole_t0_trial_graph_*.png         # Trial training curves
-├── ppo_cartpole_t0_trial_metrics_scalar.json # Trial metrics summary
+data/ppo_cartpole_arc_2026_01_30_221924/
+├── ppo_cartpole_arc_spec.yaml                    # Original spec
+├── ppo_cartpole_arc_t0_spec.yaml                 # Trial spec (for reproduction)
+├── ppo_cartpole_arc_t0_trial_graph_*.png         # Trial training curves
+├── ppo_cartpole_arc_t0_trial_metrics_scalar.json # Trial metrics summary
 │
 ├── graph/                  # Per-session graphs
-│   └── ppo_cartpole_t0_s0_session_graph_*.png
+│   └── ppo_cartpole_arc_t0_s0_session_graph_*.png
 │
 ├── info/                   # Session data
-│   ├── ppo_cartpole_t0_s0_session_df.csv     # Session time series
+│   ├── ppo_cartpole_arc_t0_s0_session_df.csv     # Session time series
 │   └── experiment_df.csv                      # Search results (search mode)
 │
 ├── log/                    # TensorBoard logs
 │   └── events.out.tfevents.*
 │
 └── model/                  # PyTorch checkpoints
-    ├── ppo_cartpole_t0_s0_ckpt-best_net_model.pt
-    └── ppo_cartpole_t0_s0_net_model.pt
+    ├── ppo_cartpole_arc_t0_s0_ckpt-best_net_model.pt
+    └── ppo_cartpole_arc_t0_s0_net_model.pt
 ```
 
 **Naming:** `{spec_name}_t{trial}_s{session}_{type}.{ext}`
@@ -327,13 +323,13 @@ data/ppo_cartpole_2026_01_30_221924/
 
 ```bash
 # 1. Train
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar train
+slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_lunar_arc.yaml ppo_lunar_arc train
 
 # 2. Check results
-ls data/ppo_lunar_*/
+ls data/ppo_lunar_arc_*/
 
 # 3. Replay
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar enjoy@data/ppo_lunar_*/ppo_lunar_t0_spec.json
+slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_lunar_arc.yaml ppo_lunar_arc enjoy@data/ppo_lunar_arc_*/ppo_lunar_arc_t0_spec.yaml
 ```
 
 ### Cloud Training Workflow
@@ -343,7 +339,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_lunar.json ppo_lunar enjoy@data/ppo_l
 source .env
 
 # 2. Launch
-slm-lab run-remote --gpu slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper train -n ppo-hopper
+slm-lab run-remote --gpu slm_lab/spec/benchmark_arc/ppo/ppo_hopper_arc.yaml ppo_hopper_arc train -n ppo-hopper
 
 # 3. Monitor
 dstack ps && dstack logs ppo-hopper
@@ -357,9 +353,9 @@ slm-lab pull ppo_hopper
 ```bash
 # Multiple environments with template spec
 source .env
-slm-lab run-remote --gpu -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n qbert
-slm-lab run-remote --gpu -s env=ALE/MsPacman-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam85 train -n mspacman
-slm-lab run-remote --gpu -s env=ALE/Breakout-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari_lam70 train -n breakout
+slm-lab run-remote --gpu -s env=ALE/Qbert-v5 slm_lab/spec/benchmark_arc/ppo/ppo_atari_arc.yaml ppo_atari_arc train -n qbert
+slm-lab run-remote --gpu -s env=ALE/MsPacman-v5 slm_lab/spec/benchmark_arc/ppo/ppo_atari_arc.yaml ppo_atari_lam85_arc train -n mspacman
+slm-lab run-remote --gpu -s env=ALE/Breakout-v5 slm_lab/spec/benchmark_arc/ppo/ppo_atari_arc.yaml ppo_atari_lam70_arc train -n breakout
 
 dstack ps  # Monitor all
 ```

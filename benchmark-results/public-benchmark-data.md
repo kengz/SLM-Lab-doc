@@ -10,7 +10,7 @@ Each experiment includes:
 
 - **Trained models** - PyTorch checkpoints (`*_ckpt-best_net_model.pt`)
 - **Training curves** - Full learning history (`*_session_df_{train,eval}.csv`)
-- **Specs** - Exact configurations for reproduction (`*_spec.json`)
+- **Specs** - Exact configurations for reproduction (`*_spec.yaml`)
 - **Graphs** - Plotly visualizations (PNG and HTML)
 
 ## Setup
@@ -51,12 +51,12 @@ source .env && slm-lab pull ppo_hopper
 Downloads to `data/ppo_hopper_*/` including:
 - Model checkpoints (`model/*_ckpt-best_net_model.pt`)
 - Training metrics (`info/*_session_df_{train,eval}.csv`)
-- Saved spec (`*_spec.json`)
+- Saved spec (`*_spec.yaml`)
 
 ### Replay a Trained Agent
 
 ```bash
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo_hopper_2026_01_31_105438/ppo_hopper_t0_spec.json
+slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_hopper_arc.yaml ppo_hopper_arc enjoy@data/ppo_hopper_arc_2026_01_31_105438/ppo_hopper_arc_t0_spec.yaml
 ```
 
 ### Browse on HuggingFace
@@ -70,9 +70,18 @@ Direct links to experiment folders (example):
 See the benchmark pages for complete lists:
 - [Discrete Benchmark](discrete-benchmark.md) - Classic Control & Box2D
 - [Continuous Benchmark](continuous-benchmark.md) - MuJoCo
-- [Atari Benchmark](atari-benchmark.md) - 58 Atari games
+- [Atari Benchmark](atari-benchmark.md) - 57 Atari games
 
 ## v5 Benchmark Coverage
+
+### Progress
+
+| Phase | Category | Envs | REINFORCE | SARSA | DQN | DDQN+PER | A2C | PPO | SAC | Overall |
+|-------|----------|------|-----------|-------|-----|----------|-----|-----|-----|---------|
+| 1 | Classic Control | 3 | ✅ | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | Done |
+| 2 | Box2D | 2 | N/A | N/A | ⚠️ | ✅ | ❌ | ⚠️ | ⚠️ | Done |
+| 3 | MuJoCo | 11 | N/A | N/A | N/A | N/A | N/A | ⚠️ | ⚠️ | Done |
+| 4 | Atari | 57 | N/A | N/A | N/A | Skip | Done | Done | Done | Done |
 
 ### Environments Tested
 
@@ -81,7 +90,7 @@ See the benchmark pages for complete lists:
 | **Classic Control** | CartPole-v1, Acrobot-v1, Pendulum-v1 | REINFORCE, SARSA, DQN, DDQN+PER, A2C, PPO, SAC |
 | **Box2D** | LunarLander-v3 (discrete & continuous) | DQN, DDQN+PER, A2C, PPO, SAC |
 | **MuJoCo** | 11 environments (Hopper, HalfCheetah, etc.) | PPO, SAC |
-| **Atari** | 58 games | A2C, PPO (3 lambda variants), SAC |
+| **Atari** | 57 games | A2C, PPO (3 lambda variants), SAC |
 
 ### Quick Links
 
@@ -89,7 +98,7 @@ See the benchmark pages for complete lists:
 |-----------|------|--------------|
 | Classic + Box2D | [Discrete Benchmark](discrete-benchmark.md) | CartPole, Acrobot, Pendulum, LunarLander |
 | MuJoCo | [Continuous Benchmark](continuous-benchmark.md) | Hopper, HalfCheetah, Humanoid, etc. |
-| Atari | [Atari Benchmark](atari-benchmark.md) | 58 games |
+| Atari | [Atari Benchmark](atari-benchmark.md) | 57 games |
 
 ## Methodology
 
@@ -142,7 +151,7 @@ The `grace_period` is the minimum frames before ASHA can terminate underperformi
 
 When adding or updating benchmarks:
 
-1. **Audit spec settings**: Ensure your `spec.json` matches the Settings line in the benchmark table
+1. **Audit spec settings**: Ensure your `spec.yaml` matches the Settings line in the benchmark table
 2. **Run and commit**: Execute the benchmark, then commit the spec file to the repo
 3. **Record scores**: Extract `total_reward_ma` from logs and add HuggingFace folder link
 4. **Generate plots**: Use `slm-lab plot -t "EnvName" -f folder1,folder2,...`
@@ -160,10 +169,10 @@ Every experiment can be exactly reproduced:
 source .env && slm-lab pull ppo_hopper
 
 # 2. Check the spec for settings and git SHA
-cat data/ppo_hopper_*/ppo_hopper_t0_spec.json
+cat data/ppo_hopper_arc_*/ppo_hopper_arc_t0_spec.yaml
 
 # 3. Replay the trained model
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo_hopper_*/ppo_hopper_t0_spec.json
+slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_hopper_arc.yaml ppo_hopper_arc enjoy@data/ppo_hopper_arc_*/ppo_hopper_arc_t0_spec.yaml
 ```
 
 For exact code version, checkout the git SHA in the spec file.

@@ -13,7 +13,7 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
 </p>
 
 {% hint style="info" %}
-**v5.0** updates to Gymnasium, `uv` tooling, and modern dependencies with ARM support—see [Changelog](CHANGELOG.md).
+**v5.1** adds TorchArc YAML network architectures across all algorithms and benchmarks—see [Changelog](CHANGELOG.md).
 
 **Book readers:** use `git checkout v4.1.1` for the book code. See [book website and errata](https://slm-lab.gitbook.io/foundations-of-deep-rl/).
 {% endhint %}
@@ -50,9 +50,9 @@ SLM Lab implements the canonical RL algorithms with a [taxonomy-based inheritanc
 | **REINFORCE** | On-policy | Learning/teaching | Classic |
 | **SARSA** | On-policy | Tabular-like | Classic |
 | **DQN/DDQN+PER** | Off-policy | Discrete actions | Classic, Box2D, Atari |
-| **A2C** | On-policy | Fast iteration | Classic, Box2D, Atari |
-| **PPO** | On-policy | General purpose | Classic, Box2D, MuJoCo (11), Atari (54) |
-| **SAC** | Off-policy | Continuous control | Classic, Box2D, MuJoCo |
+| **A2C** | On-policy | Fast iteration | Classic, Box2D, Atari (57) |
+| **PPO** | On-policy | General purpose | Classic, Box2D, MuJoCo (11), Atari (57) |
+| **SAC** | Off-policy | Continuous + discrete | Classic, Box2D, MuJoCo, Atari (48) |
 
 See [Benchmark Results](benchmark-results/public-benchmark-data.md) for detailed performance data.
 

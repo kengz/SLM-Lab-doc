@@ -13,9 +13,12 @@ Net classes implement neural network architectures used as function approximator
 | [**MLPNet**](mlp.md) | Vectors | Low-dimensional states | CartPole, LunarLander, MuJoCo |
 | [**ConvNet**](cnn.md) | Images | Pixel observations | Atari games |
 | [**RecurrentNet**](rnn.md) | Sequences | Partial observability | POMDPs |
+| **TorchArcNet** | Any | Declarative YAML architectures | All (v5.1+) |
 | **HydraMLPNet** | Multiple vectors | Multi-head architectures | Multi-task learning |
 | **DuelingMLPNet** | Vectors | Q-learning | LunarLander (value decomposition) |
 | **DuelingConvNet** | Images | Q-learning | Atari (value decomposition) |
+
+**TorchArcNet** (v5.1+) -- builds networks from [TorchArc](https://github.com/kengz/torcharc) YAML architecture specs. Replaces hardcoded network definitions with declarative YAML configuration. See benchmark specs in `slm_lab/spec/benchmark_arc/` for examples.
 
 ## Quick Selection Guide
 

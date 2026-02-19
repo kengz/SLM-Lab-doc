@@ -26,10 +26,10 @@ Remote setup: `cp .env.example .env` then set `HF_TOKEN`. See [Remote Training](
 
 ### Atari
 
-All games share one spec file (54 tested, 5 hard exploration skipped). Use `-s env=ENV` to substitute:
+PPO, SAC, and A2C all support Atari. Each algorithm has a template spec file. Use `-s env=ENV` to substitute:
 
 ```bash
-source .env && slm-lab run-remote --gpu -s env=ALE/Pong-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train -n pong
+source .env && slm-lab run-remote --gpu -s env=ALE/Pong-v5 slm_lab/spec/benchmark_arc/ppo/ppo_atari_arc.yaml ppo_atari_arc train -n pong
 ```
 
 ### Download Results
@@ -43,7 +43,7 @@ slm-lab list  # see available experiments
 ### Replay Trained Model
 
 ```bash
-slm-lab run slm_lab/spec/benchmark/ppo/ppo_cartpole.json ppo_cartpole enjoy@data/ppo_cartpole_*/ppo_cartpole_t0_spec.json
+slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_cartpole_arc.yaml ppo_cartpole_arc enjoy@data/ppo_cartpole_arc_*/ppo_cartpole_arc_t0_spec.yaml
 ```
 
 {% hint style="info" %}
@@ -79,41 +79,35 @@ When tuning hyperparameters or adding new environments, use this systematic appr
 
 ASHA (Asynchronous Successive Halving) terminates unpromising trials early, focusing compute on promising configurations.
 
-```json
-{
-  "meta": {
-    "max_session": 1,
-    "max_trial": 16,
-    "search_resources": {"cpu": 2, "gpu": 0.25},
-    "search_scheduler": {
-      "grace_period": 500000,
-      "reduction_factor": 3
-    }
-  },
-  "search": {
-    "agent.algorithm.lam__uniform": [0.7, 0.98],
-    "agent.algorithm.entropy_coef_spec.start_val__loguniform": [0.005, 0.03],
-    "agent.net.optim_spec.lr__loguniform": [1e-4, 5e-4]
-  }
-}
+```yaml
+meta:
+  max_session: 1
+  max_trial: 16
+  search_resources:
+    cpu: 2
+    gpu: 0.25
+  search_scheduler:
+    grace_period: 500000
+    reduction_factor: 3
+search:
+  agent.algorithm.lam__uniform: [0.7, 0.98]
+  agent.algorithm.entropy_coef_spec.start_val__loguniform: [0.005, 0.03]
+  agent.net.optim_spec.lr__loguniform: [1e-4, 5e-4]
 ```
 
 ```bash
-slm-lab run spec.json spec_name search                                        # local
-source .env && slm-lab run-remote --gpu spec.json spec_name search -n NAME    # remote
+slm-lab run spec.yaml spec_name search                                        # local
+source .env && slm-lab run-remote --gpu spec.yaml spec_name search -n NAME    # remote
 ```
 
 ### Stage 2: Multi-Seed Validation
 
 After ASHA, validate top 3-5 configurations with multiple seeds (no early stopping):
 
-```json
-{
-  "meta": {
-    "max_session": 4,
-    "max_trial": 5
-  }
-}
+```yaml
+meta:
+  max_session: 4
+  max_trial: 5
 ```
 
 Single runs can be lucky—averaging 4 independent runs reveals true performance.
@@ -123,8 +117,8 @@ Single runs can be lucky—averaging 4 independent runs reveals true performance
 Update spec defaults with best hyperparameters, then run in train mode:
 
 ```bash
-slm-lab run spec.json spec_name train                                        # local
-source .env && slm-lab run-remote --gpu spec.json spec_name train -n NAME    # remote
+slm-lab run spec.yaml spec_name train                                        # local
+source .env && slm-lab run-remote --gpu spec.yaml spec_name train -n NAME    # remote
 ```
 
 {% hint style="warning" %}
@@ -177,16 +171,18 @@ Template specs use `${var}` placeholders for flexibility across similar environm
 
 ```bash
 # MuJoCo template
-slm-lab run -s env=HalfCheetah-v5 -s max_frame=10e6 slm_lab/spec/benchmark/ppo/ppo_mujoco.json ppo_mujoco train
+slm-lab run -s env=HalfCheetah-v5 -s max_frame=10e6 slm_lab/spec/benchmark_arc/ppo/ppo_mujoco_arc.yaml ppo_mujoco_arc train
 
 # Atari template
-slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark/ppo/ppo_atari.json ppo_atari train
+slm-lab run -s env=ALE/Qbert-v5 slm_lab/spec/benchmark_arc/ppo/ppo_atari_arc.yaml ppo_atari_arc train
 ```
 
 | Template | Variables | Environments |
 |----------|-----------|--------------|
-| `ppo_mujoco.json` | `env`, `max_frame` | All 11 MuJoCo |
-| `ppo_atari.json` | `env` | All 54 Atari games |
+| `ppo_mujoco_arc.yaml` | `env`, `max_frame` | All 11 MuJoCo |
+| `ppo_atari_arc.yaml` | `env` | All 57 Atari games |
+| `sac_atari_arc.yaml` | `env` | All Atari games |
+| `a2c_atari_arc.yaml` | `env` | All Atari games |
 
 ## MuJoCo Tips
 
@@ -212,9 +208,9 @@ Different games benefit from different lambda values:
 
 | Spec Name | Lambda | Best For |
 |-----------|--------|----------|
-| `ppo_atari` | 0.95 | Strategic games (Qbert, Seaquest) |
-| `ppo_atari_lam85` | 0.85 | Mixed games (MsPacman) |
-| `ppo_atari_lam70` | 0.70 | Action games (Breakout, Pong) |
+| `ppo_atari_arc` | 0.95 | Strategic games (Qbert, Seaquest) |
+| `ppo_atari_lam85_arc` | 0.85 | Mixed games (MsPacman) |
+| `ppo_atari_lam70_arc` | 0.70 | Action games (Breakout, Pong) |
 
 **Best practice:** Test all three variants per game; use the best result.
 
@@ -267,9 +263,9 @@ After a successful run:
 | **REINFORCE** | On-policy | Learning/teaching | Classic |
 | **SARSA** | On-policy | Tabular-like | Classic |
 | **DQN/DDQN+PER** | Off-policy | Discrete actions | Classic, Box2D, Atari |
-| **A2C** | On-policy | Fast iteration | Classic, Box2D, Atari |
-| **PPO** | On-policy | General purpose | Classic, Box2D, MuJoCo (11), Atari (54) |
-| **SAC** | Off-policy | Continuous control | Classic, Box2D, MuJoCo |
+| **A2C** | On-policy | Fast iteration | Classic, Box2D, Atari (57) |
+| **PPO** | On-policy | General purpose | Classic, Box2D, MuJoCo (11), Atari (57) |
+| **SAC** | Off-policy | Continuous + discrete | Classic, Box2D, MuJoCo, Atari (48) |
 
 ## Environments
 
@@ -278,88 +274,60 @@ After a successful run:
 | **Classic Control** | CartPole, Pendulum, Acrobot | Easy | [Gymnasium Classic](https://gymnasium.farama.org/environments/classic_control/) |
 | **Box2D** | LunarLander, BipedalWalker | Medium | [Gymnasium Box2D](https://gymnasium.farama.org/environments/box2d/) |
 | **MuJoCo** | Hopper, HalfCheetah, Humanoid | Hard | [Gymnasium MuJoCo](https://gymnasium.farama.org/environments/mujoco/) |
-| **Atari** | Qbert, MsPacman, and 54 more | Varied | [ALE](https://ale.farama.org/environments/) |
+| **Atari** | Qbert, MsPacman, and 57 more | Varied | [ALE](https://ale.farama.org/environments/) |
 
 ## Benchmark Spec Reference
 
-All benchmark specs are in [slm_lab/spec/benchmark/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark), organized by algorithm.
+All benchmark specs are in [slm_lab/spec/benchmark_arc/](https://github.com/kengz/SLM-Lab/tree/master/slm_lab/spec/benchmark_arc), organized by algorithm.
 
 ### REINFORCE / SARSA
 
 Simple algorithms for learning fundamentals. CartPole only.
 
-| Algorithm | Spec |
-|-----------|------|
-| REINFORCE | [reinforce_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/reinforce/reinforce_cartpole.json) |
-| SARSA | [sarsa_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sarsa/sarsa_cartpole.json) |
+| Algorithm | Spec File | Spec Names |
+|-----------|-----------|------------|
+| REINFORCE | [reinforce_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/reinforce/reinforce_arc.yaml) | `reinforce_cartpole_arc` |
+| SARSA | [sarsa_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/sarsa/sarsa_arc.yaml) | `sarsa_epsilon_greedy_cartpole_arc`, `sarsa_boltzmann_cartpole_arc` |
 
 ### DQN Family
 
 Value-based algorithms for discrete action spaces.
 
-| Environment | DQN | DDQN+PER |
-|-------------|-----|----------|
-| CartPole | [dqn_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_cartpole.json) | — |
-| Acrobot | [dqn_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_acrobot.json) | [ddqn_per_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_acrobot.json) |
-| LunarLander | [dqn_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/dqn_lunar.json) | [ddqn_per_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/dqn/ddqn_per_lunar.json) |
+| Category | Spec File | Spec Names |
+|----------|-----------|------------|
+| Classic | [dqn_classic_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/dqn/dqn_classic_arc.yaml) | `dqn_boltzmann_cartpole_arc`, `dqn_epsilon_greedy_acrobot_arc`, `ddqn_per_acrobot_arc`, etc. |
+| Box2D | [dqn_box2d_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/dqn/dqn_box2d_arc.yaml) | `dqn_concat_lunar_arc`, `ddqn_per_concat_lunar_arc` |
 
 ### A2C
 
-On-policy actor-critic with synchronized updates. Two variants: GAE (Generalized Advantage Estimation) and n-step returns.
+On-policy actor-critic with synchronized updates using GAE (Generalized Advantage Estimation).
 
-| Environment | A2C GAE | A2C n-step |
-|-------------|---------|------------|
-| CartPole | [a2c_gae_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_cartpole.json) | — |
-| Acrobot | [a2c_gae_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_acrobot.json) | — |
-| Pendulum | [a2c_gae_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_pendulum.json) | — |
-| LunarLander | [a2c_gae_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_lunar.json) | [a2c_nstep_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_nstep_lunar.json) |
-| BipedalWalker | [a2c_gae_bipedalwalker.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_bipedalwalker.json) | — |
-| MuJoCo | [a2c_gae_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_mujoco.json) | [a2c_nstep_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_nstep_mujoco.json) |
-| Atari | [a2c_gae_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_gae_atari.json) | [a2c_nstep_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a2c/a2c_nstep_atari.json) |
+| Category | Spec File | Spec Names |
+|----------|-----------|------------|
+| Classic | [a2c_classic_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/a2c/a2c_classic_arc.yaml) | `a2c_gae_cartpole_arc`, `a2c_gae_acrobot_arc`, `a2c_gae_pendulum_arc`, `a2c_gae_lunar_arc` |
+| Atari | [a2c_atari_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/a2c/a2c_atari_arc.yaml) | `a2c_gae_atari_arc` (template) |
 
 ### PPO
 
-Proximal Policy Optimization—robust across all environment types.
+Proximal Policy Optimization -- robust across all environment types.
 
-| Environment | Spec |
-|-------------|------|
-| CartPole | [ppo_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_cartpole.json) |
-| Acrobot | [ppo_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_acrobot.json) |
-| Pendulum | [ppo_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_pendulum.json) |
-| LunarLander | [ppo_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_lunar.json) |
-| BipedalWalker | [ppo_bipedalwalker.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_bipedalwalker.json) |
-| MuJoCo | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) (template) |
-| Atari | [ppo_atari.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_atari.json) (template) |
+| Category | Spec File | Spec Names |
+|----------|-----------|------------|
+| Classic | [ppo_classic_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml) | `ppo_cartpole_arc`, `ppo_acrobot_arc`, `ppo_pendulum_arc` |
+| Box2D | [ppo_box2d_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/ppo/ppo_box2d_arc.yaml) | `ppo_lunar_arc`, `ppo_bipedalwalker_arc` |
+| MuJoCo | [ppo_mujoco_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/ppo/ppo_mujoco_arc.yaml) | `ppo_mujoco_arc` (template), `ppo_hopper_arc`, `ppo_ant_arc`, etc. |
+| Atari | [ppo_atari_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/ppo/ppo_atari_arc.yaml) | `ppo_atari_arc` (template), `ppo_atari_lam85_arc`, `ppo_atari_lam70_arc` |
 
 ### SAC
 
-Soft Actor-Critic—best for continuous control.
+Soft Actor-Critic -- works for both continuous and discrete action spaces.
 
-| Environment | Spec |
-|-------------|------|
-| CartPole | [sac_cartpole.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_cartpole.json) |
-| Acrobot | [sac_acrobot.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_acrobot.json) |
-| Pendulum | [sac_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_pendulum.json) |
-| LunarLander | [sac_lunar.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_lunar.json) |
-| BipedalWalker | [sac_bipedalwalker.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_bipedalwalker.json) |
-| HalfCheetah | [sac_halfcheetah.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_halfcheetah.json) |
-| Hopper | [sac_hopper.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_hopper.json) |
-
-### A3C (Async)
-
-Asynchronous Advantage Actor-Critic using Hogwild!. See [Async Training](async-training-a3c-hogwild.md).
-
-| Environment | Spec |
-|-------------|------|
-| Pong | [a3c_gae_pong.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/a3c/a3c_gae_pong.json) |
-
-### Async SAC
-
-SAC with Hogwild! for parallel training. See [Async Training](async-training-a3c-hogwild.md).
-
-| Environment | Spec |
-|-------------|------|
-| MuJoCo | [async_sac_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/async_sac/async_sac_mujoco.json) (template) |
+| Category | Spec File | Spec Names |
+|----------|-----------|------------|
+| Classic | [sac_classic_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/sac/sac_classic_arc.yaml) | `sac_cartpole_arc`, `sac_acrobot_arc`, `sac_pendulum_arc` |
+| Box2D | [sac_box2d_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/sac/sac_box2d_arc.yaml) | `sac_lunar_arc`, `sac_bipedalwalker_arc` |
+| MuJoCo | [sac_mujoco_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/sac/sac_mujoco_arc.yaml) | `sac_mujoco_arc` (template), `sac_halfcheetah_arc`, `sac_hopper_arc`, etc. |
+| Atari | [sac_atari_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/sac/sac_atari_arc.yaml) | `sac_atari_arc` (template) |
 
 ## Performance Results
 
@@ -367,5 +335,5 @@ For scores, training curves, and trained models:
 
 - [Discrete Benchmark](../benchmark-results/discrete-benchmark.md) — Classic Control, Box2D
 - [Continuous Benchmark](../benchmark-results/continuous-benchmark.md) — MuJoCo
-- [Atari Benchmark](../benchmark-results/atari-benchmark.md) — 54 Atari games
+- [Atari Benchmark](../benchmark-results/atari-benchmark.md) — 57 Atari games
 - [Public Benchmark Data](../benchmark-results/public-benchmark-data.md) — HuggingFace download links

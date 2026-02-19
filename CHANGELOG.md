@@ -6,6 +6,18 @@ For detailed code changes, see the [GitHub releases](https://github.com/kengz/SL
 
 ---
 
+## SLM-Lab v5.1.0
+
+TorchArc YAML benchmarks replace original hardcoded network architectures across all benchmark categories.
+
+- **TorchArc integration**: All algorithms (REINFORCE, SARSA, DQN, DDQN+PER, A2C, PPO, SAC) now use TorchArc YAML-defined networks instead of hardcoded PyTorch modules.
+- **Full benchmark validation**: Classic Control, Box2D, MuJoCo (11 envs), and Atari (54 games) re-benchmarked with TorchArc — results match or exceed original scores.
+- **SAC Atari**: New SAC Atari benchmarks (48 games) with discrete action support.
+- **A2C Atari**: A2C benchmarks across all 57 Atari games.
+- **Pre-commit hooks**: Conventional commit message validation via `.githooks/commit-msg`.
+
+---
+
 ## SLM-Lab v5.0.0
 
 Modernization release for the current RL ecosystem. This release updates SLM Lab to work with the modern Python RL stack while maintaining backward compatibility with the book *Foundations of Deep Reinforcement Learning*.
@@ -108,7 +120,7 @@ All algorithms validated on Gymnasium. Full results in [Benchmark Results](bench
 | Classic Control | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Box2D | — | — | ✅ | ✅ | ⚠️ | ✅ | ✅ |
 | MuJoCo (11 envs) | — | — | — | — | ⚠️ | ✅ All | ✅ All |
-| Atari (58 games) | — | — | — | — | ✅ | ✅ | ✅ |
+| Atari | — | — | — | — | ✅ 57 | ✅ 57 | ✅ 48 |
 
 **Atari benchmarks** use ALE v5 with sticky actions (`repeat_action_probability=0.25`). PPO tested with lambda variants (0.95, 0.85, 0.70) to optimize per-game performance. A2C uses GAE with lambda 0.95. SAC uses Categorical action distribution with training_iter=3 at 2M frames.
 
