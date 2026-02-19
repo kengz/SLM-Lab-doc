@@ -57,6 +57,7 @@
   * [🔢 MLP](development/neural-networks/mlp.md)
   * [🖼️ CNN](development/neural-networks/cnn.md)
   * [🔁 RNN](development/neural-networks/rnn.md)
+  * [📐 TorchArc](development/neural-networks/torcharc.md)
 * [⏱️ Profiling SLM Lab](development/profiling-slm-lab.md)
 * [🔌 Using SLM Lab In Your Project](development/using-slm-lab-in-your-project.md)
 

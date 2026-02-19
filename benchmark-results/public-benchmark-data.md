@@ -2,97 +2,39 @@
 
 ## Overview
 
-All SLM Lab benchmark results are publicly available on HuggingFace for reproducibility and comparison:
+All SLM Lab benchmark results are publicly available on HuggingFace:
 
 {% embed url="https://huggingface.co/datasets/SLM-Lab/benchmark" %}
 
 Each experiment includes:
 
-- **Trained models** - PyTorch checkpoints (`*_ckpt-best_net_model.pt`)
-- **Training curves** - Full learning history (`*_session_df_{train,eval}.csv`)
-- **Specs** - Exact configurations for reproduction (`*_spec.yaml`)
-- **Graphs** - Plotly visualizations (PNG and HTML)
+- **Trained models** — PyTorch checkpoints (`*_ckpt-best_net_model.pt`)
+- **Training curves** — Full learning history (`*_session_df_{train,eval}.csv`)
+- **Specs** — Exact configurations for reproduction (`*_spec.yaml`)
+- **Graphs** — Plotly visualizations (PNG and HTML)
 
-## Setup
+## Algorithm Coverage
 
-To access the public benchmarks, set `HF_REPO` in your `.env` file:
+Which algorithms are benchmarked in each environment category. ✓ = benchmarked.
 
-```bash
-# .env
-HF_REPO=SLM-Lab/benchmark
-```
-
-Then source it before running commands:
-
-```bash
-source .env
-```
-
-{% hint style="info" %}
-**No token needed for read-only access.** `HF_TOKEN` is only required for uploading to your own repo.
-{% endhint %}
-
-## Accessing Results 🔗
-
-### List Available Experiments
-
-```bash
-source .env && slm-lab list
-```
-
-Shows all experiments on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
-
-### Download an Experiment
-
-```bash
-source .env && slm-lab pull ppo_hopper
-```
-
-Downloads to `data/ppo_hopper_*/` including:
-- Model checkpoints (`model/*_ckpt-best_net_model.pt`)
-- Training metrics (`info/*_session_df_{train,eval}.csv`)
-- Saved spec (`*_spec.yaml`)
-
-### Replay a Trained Agent
-
-```bash
-slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_hopper_arc.yaml ppo_hopper_arc enjoy@data/ppo_hopper_arc_2026_01_31_105438/ppo_hopper_arc_t0_spec.yaml
-```
-
-### Browse on HuggingFace
-
-Direct links to experiment folders (example):
-
-- [ppo_cartpole_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_cartpole_2026_01_30_221924)
-- [ppo_hopper_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_hopper_2026_01_31_105438)
-- [ppo_atari_lam70_breakout_2026_01_07](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_atari_lam70_breakout_2026_01_07_110559)
-
-See the benchmark pages for complete lists:
-- [Discrete Benchmark](discrete-benchmark.md) - Classic Control & Box2D
-- [Continuous Benchmark](continuous-benchmark.md) - MuJoCo
-- [Atari Benchmark](atari-benchmark.md) - 57 Atari games
-
-## v5 Benchmark Coverage
-
-### Progress
-
-| Phase | Category | Envs | REINFORCE | SARSA | DQN | DDQN+PER | A2C | PPO | SAC | Overall |
-|-------|----------|------|-----------|-------|-----|----------|-----|-----|-----|---------|
-| 1 | Classic Control | 3 | ✅ | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | Done |
-| 2 | Box2D | 2 | N/A | N/A | ⚠️ | ✅ | ❌ | ⚠️ | ⚠️ | Done |
-| 3 | MuJoCo | 11 | N/A | N/A | N/A | N/A | N/A | ⚠️ | ⚠️ | Done |
-| 4 | Atari | 57 | N/A | N/A | N/A | Skip | Done | Done | Done | Done |
-
-### Environments Tested
+| Algorithm | Classic Control | Box2D | MuJoCo | Atari |
+|-----------|:-:|:-:|:-:|:-:|
+| **REINFORCE** | ✓ | | | |
+| **SARSA** | ✓ | | | |
+| **DQN** | ✓ | ✓ | | |
+| **DDQN+PER** | ✓ | ✓ | | |
+| **A2C** | ✓ | ✓ | | ✓ |
+| **PPO** | ✓ | ✓ | ✓ | ✓ |
+| **SAC** | ✓ | ✓ | ✓ | ✓ |
 
 | Category | Environments | Algorithms |
 |----------|--------------|------------|
 | **Classic Control** | CartPole-v1, Acrobot-v1, Pendulum-v1 | REINFORCE, SARSA, DQN, DDQN+PER, A2C, PPO, SAC |
 | **Box2D** | LunarLander-v3 (discrete & continuous) | DQN, DDQN+PER, A2C, PPO, SAC |
-| **MuJoCo** | 11 environments (Hopper, HalfCheetah, etc.) | PPO, SAC |
-| **Atari** | 57 games | A2C, PPO (3 lambda variants), SAC |
+| **MuJoCo** | 11 environments (Hopper, HalfCheetah, Humanoid, etc.) | PPO, SAC |
+| **Atari** | 57 games (6 hard-exploration skipped) | A2C, PPO, SAC |
 
-### Quick Links
+### Detailed Results
 
 | Benchmark | Page | Environments |
 |-----------|------|--------------|
@@ -100,39 +42,58 @@ See the benchmark pages for complete lists:
 | MuJoCo | [Continuous Benchmark](continuous-benchmark.md) | Hopper, HalfCheetah, Humanoid, etc. |
 | Atari | [Atari Benchmark](atari-benchmark.md) | 57 games |
 
+## Accessing Results
+
+### List and Download
+
+```bash
+# Set HuggingFace repo
+echo 'HF_REPO=SLM-Lab/benchmark' >> .env
+
+# List all experiments
+source .env && slm-lab list
+
+# Download an experiment
+source .env && slm-lab pull ppo_hopper
+```
+
+{% hint style="info" %}
+**No token needed for read-only access.** `HF_TOKEN` is only required for uploading to your own repo.
+{% endhint %}
+
+### Replay a Trained Agent
+
+```bash
+slm-lab run SPEC_FILE SPEC_NAME enjoy@data/FOLDER/SPEC_NAME_t0_spec.yaml
+```
+
+### Browse on HuggingFace
+
+Direct links to experiment folders (example):
+
+- [ppo_cartpole_arc_2026_02_11](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_cartpole_arc_2026_02_11_144029)
+- [ppo_hopper_arc_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_hopper_2026_01_31_105438)
+
 ## Methodology
 
 ### How Scores Are Reported
-
-Results show **Trial-level** performance:
 
 1. **Trial** = 4 Sessions with different random seeds
 2. **Session** = One complete training run
 3. **Score** = Final 100-checkpoint moving average (`total_reward_ma`)
 
-The trial score is the mean across 4 sessions, providing statistically meaningful results.
-
-### Training Details
-
-| Setting | Value |
-|---------|-------|
-| Sessions per trial | 4 (different random seeds) |
-| Checkpoint frequency | Varies by env (see below) |
-| Moving average window | 100 checkpoints |
-| Hardware | Cloud GPUs (L4/A10G via dstack) |
+The trial score is the mean across 4 sessions.
 
 ### Environment Settings
 
-Standardized settings for fair comparison across environment categories:
+Standardized settings for fair comparison:
 
 | Category | num_envs | max_frame | log_frequency | ASHA grace_period |
 |----------|----------|-----------|---------------|-------------------|
 | Classic Control | 4 | 2e5-3e5 | 500 | 1e4 |
 | Box2D | 8 | 3e5 | 1000 | 5e4 |
-| MuJoCo | 16 | 4e6-10e6 | 10000 | 1e5-1e6 |
-| Atari | 16 | 2e6-10e6 | 10000 | 5e5 |
-
-The `grace_period` is the minimum frames before ASHA can terminate underperforming trials. Set it high enough for meaningful learning signal (typically 5-10% of max_frame).
+| MuJoCo | 16 | 1e6-10e6 | 1e4 | 1e5-1e6 |
+| Atari | 16 | 10e6 | 10000 | 5e5 |
 
 ### Hardware Requirements
 
@@ -147,20 +108,58 @@ The `grace_period` is the minimum frames before ASHA can terminate underperformi
 **Cloud GPUs recommended for MuJoCo and Atari.** Cloud L4/A10G via [dstack](https://dstack.ai) is faster and often cheaper than local training. See [Remote Training](../using-slm-lab/remote-training.md) for setup.
 {% endhint %}
 
-### Contributing Benchmark Results
+## Contributing Benchmarks
 
-When adding or updating benchmarks:
+Follow these steps when adding or updating benchmark results.
 
-1. **Audit spec settings**: Ensure your `spec.yaml` matches the Settings line in the benchmark table
-2. **Run and commit**: Execute the benchmark, then commit the spec file to the repo
-3. **Record scores**: Extract `total_reward_ma` from logs and add HuggingFace folder link
-4. **Generate plots**: Use `slm-lab plot -t "EnvName" -f folder1,folder2,...`
+### 1. Audit Spec Settings
 
-{% hint style="info" %}
+Ensure your `spec.yaml` matches the **Settings** line in the [benchmark tables](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md). Example: `max_frame 3e5 | num_envs 4 | max_session 4 | log_frequency 500`.
+
+### 2. Run Benchmark and Commit Specs
+
+```bash
+# Local (Classic Control: minutes)
+slm-lab run SPEC_FILE SPEC_NAME train
+
+# Remote (MuJoCo, Atari: hours)
+source .env && slm-lab run-remote --gpu SPEC_FILE SPEC_NAME train -n NAME
+```
+
+Always commit the `spec.yaml` file to the repo after a successful run.
+
+### 3. Record Scores and Plots
+
+- Extract `total_reward_ma` from logs (`trial_metrics`)
+- Add HuggingFace folder link to the benchmark table
+- Generate plots:
+
+```bash
+slm-lab plot -t "CartPole-v1" -f ppo_cartpole_2026...,dqn_cartpole_2026...
+```
+
+### Hyperparameter Search
+
+When an algorithm fails to reach target, run search before the final validation:
+
+```bash
+slm-lab run SPEC_FILE SPEC_NAME search                                        # local
+source .env && slm-lab run-remote --gpu SPEC_FILE SPEC_NAME search -n NAME    # remote
+```
+
+| Stage | Mode | Config | Purpose |
+|-------|------|--------|---------|
+| ASHA | `search` | `max_session=1`, `search_scheduler` enabled | Wide exploration with early stopping |
+| Multi | `search` | `max_session=4`, NO `search_scheduler` | Robust validation with averaging |
+| Validate | `train` | Final spec | Confirmation run |
+
+Search budget: ~3-4 trials per dimension (8 trials = 2-3 dims, 16 = 3-4 dims).
+
+{% hint style="warning" %}
 Only use final validation runs (not search results) for benchmark tables. Search is for hyperparameter discovery; validation confirms with committed specs.
 {% endhint %}
 
-### Reproducibility
+## Reproducibility
 
 Every experiment can be exactly reproduced:
 
@@ -175,35 +174,29 @@ cat data/ppo_hopper_arc_*/ppo_hopper_arc_t0_spec.yaml
 slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_hopper_arc.yaml ppo_hopper_arc enjoy@data/ppo_hopper_arc_*/ppo_hopper_arc_t0_spec.yaml
 ```
 
-For exact code version, checkout the git SHA in the spec file.
-
-## Historical Data
-
-### v4 Results (Google Drive)
-
-v4 benchmarks used OpenAI Gym and Roboschool (both deprecated). Available for historical reference:
-
-- [All benchmark data](https://drive.google.com/drive/folders/1fUB3jRvXr8ySZMSW5w0GPWJe3QmM7tb3?usp=sharing)
-
-{% hint style="warning" %}
-**Not directly comparable:** v4 and v5 use different environment versions with different reward scales and physics. See [Changelog](../CHANGELOG.md) for migration details.
-{% endhint %}
+For exact code version, checkout the git SHA recorded in the spec file.
 
 ## Using Your Own HuggingFace Repo
 
-Set up credentials in `.env`:
-
 ```bash
+# .env
 HF_TOKEN=hf_xxxxxxxxxxxx
 HF_REPO=your-username/your-repo
 ```
 
-Then push your results:
-
 ```bash
-source .env
-slm-lab push data/my_experiment_2026_01_30_221924
+source .env && slm-lab push data/my_experiment_2026_01_30_221924
 ```
+
+## Historical Data (v4)
+
+v4 benchmarks used OpenAI Gym and Roboschool (both deprecated). Available for historical reference:
+
+- [All v4 benchmark data (Google Drive)](https://drive.google.com/drive/folders/1fUB3jRvXr8ySZMSW5w0GPWJe3QmM7tb3?usp=sharing)
+
+{% hint style="warning" %}
+**Not directly comparable:** v4 and v5 use different environment versions with different reward scales and physics. See [Changelog](../CHANGELOG.md) for details.
+{% endhint %}
 
 ## Terminology
 
@@ -213,18 +206,7 @@ slm-lab push data/my_experiment_2026_01_30_221924
 | DDQN | Double Deep Q-Network |
 | DQN | Deep Q-Network |
 | GAE | Generalized Advantage Estimation |
+| MA | Moving Average |
 | PER | Prioritized Experience Replay |
 | PPO | Proximal Policy Optimization |
 | SAC | Soft Actor-Critic |
-| CER | Combined Experience Replay |
-| MA | Moving Average |
-
-## Contributing Benchmarks
-
-To contribute new benchmark results:
-
-1. Run experiments with `--upload-hf` flag (or `source .env` for auto-upload)
-2. Ensure `HF_TOKEN` and `HF_REPO` are configured
-3. Results automatically upload to your HuggingFace repo
-
-For official SLM Lab benchmarks, see [docs/BENCHMARKS.md](https://github.com/kengz/SLM-Lab/blob/master/docs/BENCHMARKS.md) in the code repository.

@@ -13,12 +13,34 @@ Net classes implement neural network architectures used as function approximator
 | [**MLPNet**](mlp.md) | Vectors | Low-dimensional states | CartPole, LunarLander, MuJoCo |
 | [**ConvNet**](cnn.md) | Images | Pixel observations | Atari games |
 | [**RecurrentNet**](rnn.md) | Sequences | Partial observability | POMDPs |
-| **TorchArcNet** | Any | Declarative YAML architectures | All (v5.1+) |
+| [**TorchArcNet**](torcharc.md) | Any | Declarative YAML architectures | All (v5.1+) |
 | **HydraMLPNet** | Multiple vectors | Multi-head architectures | Multi-task learning |
 | **DuelingMLPNet** | Vectors | Q-learning | LunarLander (value decomposition) |
 | **DuelingConvNet** | Images | Q-learning | Atari (value decomposition) |
 
-**TorchArcNet** (v5.1+) -- builds networks from [TorchArc](https://github.com/kengz/torcharc) YAML architecture specs. Replaces hardcoded network definitions with declarative YAML configuration. See benchmark specs in `slm_lab/spec/benchmark_arc/` for examples.
+## TorchArc Architecture (v5.1+)
+
+[**TorchArcNet**](torcharc.md) builds networks from declarative YAML specs via [torcharc](https://github.com/kengz/torcharc). Instead of implicit `hid_layers: [256, 256]`, you define exact PyTorch modules and dataflow:
+
+```yaml
+net:
+  type: TorchArcNet
+  arc:
+    modules:
+      body:
+        Sequential:
+          - LazyLinear: {out_features: 256}
+          - ReLU:
+          - LazyLinear: {out_features: 256}
+          - ReLU:
+    graph:
+      input: x
+      modules:
+        body: [x]
+      output: body
+```
+
+YAML anchors (`&` / `*`) eliminate copy-paste across environments—each spec shows only its overrides. All `benchmark_arc/` specs use TorchArc. See the [TorchArc page](torcharc.md) for the full guide.
 
 ## Quick Selection Guide
 
@@ -34,32 +56,55 @@ For Q-learning algorithms (DQN family), consider Dueling variants for better val
 
 ## Network Spec
 
-Configure networks in the agent spec:
+Configure networks in the agent spec. TorchArcNet (recommended) uses YAML architecture definitions:
+
+```yaml
+agent:
+  net:
+    type: TorchArcNet
+    arc:
+      modules:
+        body:
+          Sequential:
+            - LazyLinear: {out_features: 256}
+            - ReLU:
+            - LazyLinear: {out_features: 256}
+            - ReLU:
+      graph:
+        input: x
+        modules:
+          body: [x]
+        output: body
+    hid_layers_activation: relu
+    clip_grad_val: 0.5
+    optim_spec:
+      name: Adam
+      lr: 3.0e-4
+    gpu: auto
+```
+
+<details>
+<summary><b>Legacy MLPNet spec</b> (JSON format)</summary>
 
 ```javascript
 {
   "agent": {
     "net": {
-      // Network type
       "type": "MLPNet",
-
-      // Architecture
-      "hid_layers": [256, 256],           // Hidden layer sizes
-      "hid_layers_activation": "relu",    // Activation function
-
-      // Training
-      "optim_spec": {                     // Optimizer
+      "hid_layers": [256, 256],
+      "hid_layers_activation": "relu",
+      "optim_spec": {
         "name": "Adam",
         "lr": 3e-4
       },
-      "clip_grad_val": 0.5,               // Gradient clipping
-
-      // Device
-      "gpu": "auto"                       // "auto", true, false
+      "clip_grad_val": 0.5,
+      "gpu": "auto"
     }
   }
 }
 ```
+
+</details>
 
 ## Common Parameters
 
@@ -67,7 +112,7 @@ Configure networks in the agent spec:
 
 | Parameter | Description | Typical Values |
 |-----------|-------------|----------------|
-| `type` | Network class | `"MLPNet"`, `"ConvNet"`, `"RecurrentNet"` |
+| `type` | Network class | `"TorchArcNet"`, `"MLPNet"`, `"ConvNet"`, `"RecurrentNet"` |
 | `hid_layers` | Hidden layer sizes | `[64, 64]` (simple), `[256, 256]` (complex) |
 | `hid_layers_activation` | Activation function | `"relu"`, `"tanh"`, `"leaky_relu"` |
 | `out_layer_activation` | Output activation | `null` (none), `"tanh"` |

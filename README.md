@@ -13,7 +13,7 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
 </p>
 
 {% hint style="info" %}
-**v5.1** adds TorchArc YAML network architectures across all algorithms and benchmarks—see [Changelog](CHANGELOG.md).
+**NOTE:** v5.0 updates to Gymnasium, `uv` tooling, and modern dependencies with ARM support—see [Changelog](CHANGELOG.md).
 
 **Book readers:** use `git checkout v4.1.1` for the book code. See [book website and errata](https://slm-lab.gitbook.io/foundations-of-deep-rl/).
 {% endhint %}
