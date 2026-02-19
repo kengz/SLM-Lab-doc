@@ -81,37 +81,58 @@ _ppo_mujoco_net: &ppo_mujoco_net
 Use `<<: *anchor` to inherit all fields, then override only what differs. Here's the PPO Atari spec — three lambda variants defined by changing a single line each:
 
 ```yaml
-# Base: lam=0.95 (default from anchor)
-ppo_atari_arc:
-  agent:
-    algorithm:
-      <<: *ppo_atari_algorithm    # ← lam: 0.95
-    net:
-      <<: *ppo_atari_net
-  env:
-    <<: *ppo_atari_env
+# --- Shared anchors (defined once at top of file) ---
 
-# Variant: lam=0.85 — one line changed
-ppo_atari_lam85_arc:
+_ppo_atari_algorithm: &ppo_atari_algorithm
+  name: PPO
+  gamma: 0.99
+  lam: 0.95
+  clip_eps_spec: {name: no_decay, start_val: 0.1, end_val: 0.1}
+  entropy_coef_spec: {name: no_decay, start_val: 0.01, end_val: 0.01}
+  val_loss_coef: 0.5
+  time_horizon: 128
+  minibatch_size: 256
+  training_epoch: 4
+
+_ppo_atari_net: &ppo_atari_net
+  type: TorchArcNet
+  shared: true
+  arc: *ppo_atari_arc
+  hid_layers_activation: relu
+  init_fn: orthogonal_
+  optim_spec: {name: AdamW, lr: 2.5e-4, eps: 1.0e-5}
+  lr_scheduler_spec: {name: LinearToZero, frame: 1.0e+7}
+  normalize: true
+  gpu: auto
+
+_ppo_atari_env: &ppo_atari_env
+  name: "${env}"
+  num_envs: 16
+  max_frame: 1.0e+7
+
+# --- Specs: only overrides visible ---
+
+ppo_atari_arc:                     # lam=0.95 (default)
+  agent:
+    algorithm: *ppo_atari_algorithm
+    net: *ppo_atari_net
+  env: *ppo_atari_env
+
+ppo_atari_lam85_arc:               # lam=0.85 — one line changed
   agent:
     algorithm:
       <<: *ppo_atari_algorithm
-      lam: 0.85                   # ← only difference
-    net:
-      <<: *ppo_atari_net
-  env:
-    <<: *ppo_atari_env
+      lam: 0.85                    # ← only difference
+    net: *ppo_atari_net
+  env: *ppo_atari_env
 
-# Variant: lam=0.70 — one line changed
-ppo_atari_lam70_arc:
+ppo_atari_lam70_arc:               # lam=0.70 — one line changed
   agent:
     algorithm:
       <<: *ppo_atari_algorithm
-      lam: 0.70                   # ← only difference
-    net:
-      <<: *ppo_atari_net
-  env:
-    <<: *ppo_atari_env
+      lam: 0.70                    # ← only difference
+    net: *ppo_atari_net
+  env: *ppo_atari_env
 ```
 
 {% hint style="info" %}
