@@ -1,6 +1,6 @@
 # Discrete Environment Benchmark 🎯
 
-## Classic Control & Box2D Results (v5.1)
+## Classic Control & Box2D Results
 
 SLM Lab v5.1 validates algorithms on [Gymnasium](https://gymnasium.farama.org/) discrete environments using the TorchArc architecture. These benchmarks cover:
 

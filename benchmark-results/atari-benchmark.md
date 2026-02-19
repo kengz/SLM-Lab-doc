@@ -1,6 +1,6 @@
 # Atari Environment Benchmark
 
-## A2C, PPO & SAC Atari Results (v5.1 TorchArc)
+## A2C, PPO & SAC Atari Results
 
 SLM Lab v5.1 validates A2C, PPO, and SAC on [ALE (Arcade Learning Environment)](https://ale.farama.org/environments/) environments using the TorchArc neural network architecture. The ALE provides 50+ classic Atari 2600 games as standardized RL benchmarks.
 

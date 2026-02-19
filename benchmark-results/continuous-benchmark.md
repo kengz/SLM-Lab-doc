@@ -1,6 +1,6 @@
 # Continuous Environment Benchmark 🏃
 
-## MuJoCo Benchmark Results (v5)
+## MuJoCo Benchmark Results
 
 SLM Lab v5 validates PPO and SAC on [Gymnasium MuJoCo environments](https://gymnasium.farama.org/environments/mujoco/). MuJoCo (Multi-Joint dynamics with Contact) provides physics simulation for continuous control tasks ranging from simple pendulums to complex humanoid locomotion.
 
