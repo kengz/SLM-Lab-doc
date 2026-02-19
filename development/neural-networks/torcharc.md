@@ -277,24 +277,16 @@ This is the Nature CNN architecture. With TorchArc, the conv layers, flatten, an
 
 ## Adding Normalization Layers
 
-Insert any `torch.nn` module into the Sequential list. For example, BatchNorm for CrossQ critics:
+Insert any `torch.nn` module into the Sequential list. For example, adding BatchNorm:
 
 ```yaml
-_crossq_critic: &crossq_critic
-  modules:
-    body:
-      Sequential:
-        - LazyLinear: {out_features: 2048}
-        - LazyBatchNorm1d: {}
-        - ReLU: {}
-        - LazyLinear: {out_features: 2048}
-        - LazyBatchNorm1d: {}
-        - ReLU: {}
-  graph:
-    input: x
-    modules:
-      body: [x]
-    output: body
+Sequential:
+  - LazyLinear: {out_features: 256}
+  - LazyBatchNorm1d: {}
+  - ReLU:
+  - LazyLinear: {out_features: 256}
+  - LazyBatchNorm1d: {}
+  - ReLU:
 ```
 
 Or LayerNorm:
