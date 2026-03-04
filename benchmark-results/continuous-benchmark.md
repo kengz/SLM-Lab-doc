@@ -95,7 +95,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 | PPO | ✅ | 2515 | [ppo_ant.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_ant.json) | [ppo_ant_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_ant_2026_01_31_042006) |
 | SAC | ✅ | 4844 | [sac_ant.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_ant.json) | [sac_ant_2026_02_09](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_ant_2026_02_09_093821) |
 
-![Ant-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Ant-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
+![Ant-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.0.0/docs/plots/Ant-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
 
 ### HalfCheetah-v5
 
@@ -108,7 +108,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 | PPO | ✅ | 5852 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_halfcheetah_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_halfcheetah_2026_01_30_230302) |
 | SAC | ✅ | 7255 | [sac_halfcheetah.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_halfcheetah.json) | [sac_halfcheetah_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_halfcheetah_2026_02_08_115456) |
 
-![HalfCheetah-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/HalfCheetah-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
+![HalfCheetah-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.0.0/docs/plots/HalfCheetah-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
 
 ### Hopper-v5
 
@@ -121,7 +121,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 | PPO | ✅ | 1972 | [ppo_hopper.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_hopper.json) | [ppo_hopper_2026_01_31](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_hopper_2026_01_31_105438) |
 | SAC | ⚠️ | 1511 | [sac_hopper.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_hopper.json) | [sac_hopper_2026_02_10](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_hopper_2026_02_10_031009) |
 
-![Hopper-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Hopper-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
+![Hopper-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.0.0/docs/plots/Hopper-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
 
 ### Humanoid-v5
 
@@ -134,7 +134,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 | PPO | ✅ | 3774 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_humanoid_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_humanoid_2026_01_30_222339) |
 | SAC | ✅ | 2601 | [sac_humanoid.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_humanoid.json) | [sac_humanoid_2026_02_09](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_humanoid_2026_02_09_223653) |
 
-![Humanoid-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Humanoid-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
+![Humanoid-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.0.0/docs/plots/Humanoid-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
 
 ### HumanoidStandup-v5
 
@@ -147,7 +147,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 | PPO | ✅ | 165841 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_humanoidstandup_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_humanoidstandup_2026_01_30_215802) |
 | SAC | ✅ | 138222 | [sac_humanoid_standup.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_humanoid_standup.json) | [sac_humanoid_standup_2026_02_09](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_humanoid_standup_2026_02_09_213409) |
 
-![HumanoidStandup-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/HumanoidStandup-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
+![HumanoidStandup-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.0.0/docs/plots/HumanoidStandup-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
 
 ### InvertedDoublePendulum-v5
 
@@ -160,7 +160,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 | PPO | ✅ | 7622 | [ppo_inverted_double_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_inverted_double_pendulum.json) | [ppo_inverted_double_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_inverted_double_pendulum_2026_01_30_220651) |
 | SAC | ✅ | 9000 | [sac_inverted_double_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_inverted_double_pendulum.json) | [sac_inverted_double_pendulum_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_inverted_double_pendulum_2026_02_08_115548) |
 
-![InvertedDoublePendulum-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/InvertedDoublePendulum-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
+![InvertedDoublePendulum-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.0.0/docs/plots/InvertedDoublePendulum-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
 
 ### InvertedPendulum-v5
 
@@ -173,7 +173,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 | PPO | ✅ | 945 | [ppo_inverted_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_inverted_pendulum.json) | [ppo_inverted_pendulum_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_inverted_pendulum_2026_01_30_230211) |
 | SAC | ✅ | 928 | [sac_inverted_pendulum.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_inverted_pendulum.json) | [sac_inverted_pendulum_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_inverted_pendulum_2026_02_08_132433) |
 
-![InvertedPendulum-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/InvertedPendulum-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
+![InvertedPendulum-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.0.0/docs/plots/InvertedPendulum-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
 
 ### Pusher-v5
 
@@ -186,7 +186,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 | PPO | ✅ | -49.1 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_longhorizon_pusher_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_longhorizon_pusher_2026_01_30_215824) |
 | SAC | ✅ | -42.6 | [sac_pusher.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_pusher.json) | [sac_pusher_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_pusher_2026_02_08_115643) |
 
-![Pusher-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Pusher-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
+![Pusher-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.0.0/docs/plots/Pusher-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
 
 ### Reacher-v5
 
@@ -199,7 +199,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 | PPO | ✅ | -5.08 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_longhorizon_reacher_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_longhorizon_reacher_2026_01_30_215805) |
 | SAC | ✅ | -6.36 | [sac_reacher.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_reacher.json) | [sac_reacher_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_reacher_2026_02_08_115637) |
 
-![Reacher-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Reacher-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
+![Reacher-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.0.0/docs/plots/Reacher-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
 
 ### Swimmer-v5
 
@@ -212,7 +212,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 | PPO | ✅ | 229 | [ppo_swimmer.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_swimmer.json) | [ppo_swimmer_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_swimmer_2026_01_30_215922) |
 | SAC | ✅ | 265 | [sac_swimmer.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_swimmer.json) | [sac_swimmer_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_swimmer_2026_02_08_115455) |
 
-![Swimmer-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Swimmer-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
+![Swimmer-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.0.0/docs/plots/Swimmer-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
 
 ### Walker2d-v5
 
@@ -225,7 +225,7 @@ slm-lab run slm_lab/spec/benchmark/ppo/ppo_hopper.json ppo_hopper enjoy@data/ppo
 | PPO | ✅ | 4042 | [ppo_mujoco.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/ppo/ppo_mujoco.json) | [ppo_mujoco_walker2d_2026_01_30](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_mujoco_walker2d_2026_01_30_222124) |
 | SAC | ⚠️ | 2288 | [sac_walker2d.json](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark/sac/sac_walker2d.json) | [sac_walker2d_2026_02_08](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_walker2d_2026_02_08_221549) |
 
-![Walker2d-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Walker2d-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
+![Walker2d-v5](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.0.0/docs/plots/Walker2d-v5_multi_trial_graph_mean_returns_ma_vs_frames.png?v=20260210)
 
 **Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed
 
