@@ -6,6 +6,17 @@ For detailed code changes, see the [GitHub releases](https://github.com/kengz/SL
 
 ---
 
+## SLM-Lab v5.2.0
+
+CrossQ algorithm and performance optimizations.
+
+- **CrossQ**: New off-policy algorithm ([Bhatt et al., ICLR 2024](https://arxiv.org/abs/1902.05605)) — SAC without target networks via cross batch normalization in critics. 2–7x faster wall-clock training than SAC on MuJoCo. Benchmarked on Classic Control, MuJoCo (11 envs), and Atari (6 games, experimental).
+- **Batch Renormalization**: `LazyBatchRenorm1d` layer added to TorchArc for stable BN at small batch sizes (required by CrossQ critics).
+- **Performance optimizations**: SAC throughput improved ~15% via vectorized entropy computation, reduced tensor copies, and tighter training loops.
+- **Full benchmark suite**: CrossQ benchmarks across Classic Control, Box2D, MuJoCo, and Atari added to HuggingFace dataset.
+
+---
+
 ## SLM-Lab v5.1.0
 
 TorchArc YAML benchmarks replace original hardcoded network architectures across all benchmark categories.

@@ -13,7 +13,7 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
 </p>
 
 {% hint style="info" %}
-**NOTE:** v5.0 updates to Gymnasium, `uv` tooling, and modern dependencies with ARM support—see [Changelog](CHANGELOG.md).
+**NOTE:** v5.2 adds CrossQ (SAC without target networks, 2–7x faster), Batch Renormalization, and full benchmark suite—see [Changelog](CHANGELOG.md).
 
 **Book readers:** use `git checkout v4.1.1` for the book code. See [book website and errata](https://slm-lab.gitbook.io/foundations-of-deep-rl/).
 {% endhint %}

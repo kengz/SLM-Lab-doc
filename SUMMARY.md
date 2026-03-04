@@ -48,6 +48,7 @@
   * [💎 DQN](development/algorithms/dqn.md)
   * [🎲 REINFORCE](development/algorithms/reinforce.md)
   * [🎭 Actor-Critic](development/algorithms/a2c.md)
+  * [⚡ CrossQ](development/algorithms/crossq.md)
 * [💾 Memory](development/memory/README.md)
   * [🔄 Replay](development/memory/replay.md)
   * [⭐ PrioritizedReplay](development/memory/prioritizedreplay.md)
