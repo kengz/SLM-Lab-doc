@@ -94,7 +94,7 @@ slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml ppo_cartpole_arc
 | PPO | ✅ | 498.94 | [slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml) | ppo_cartpole_arc | [ppo_cartpole_arc_2026_02_11_144029](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_cartpole_arc_2026_02_11_144029) |
 | SAC | ✅ | 406.09 | [slm_lab/spec/benchmark_arc/sac/sac_classic_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/sac/sac_classic_arc.yaml) | sac_cartpole_arc | [sac_cartpole_arc_2026_02_11_144155](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_cartpole_arc_2026_02_11_144155) |
 
-![CartPole-v1](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/CartPole-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![CartPole-v1](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.1.0/docs/plots/CartPole-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
 #### Acrobot-v1
 
@@ -110,7 +110,7 @@ slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml ppo_cartpole_arc
 | PPO | ✅ | -81.28 | [slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml) | ppo_acrobot_arc | [ppo_acrobot_arc_2026_02_11_153758](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_acrobot_arc_2026_02_11_153758) |
 | SAC | ✅ | -92.60 | [slm_lab/spec/benchmark_arc/sac/sac_classic_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/sac/sac_classic_arc.yaml) | sac_acrobot_arc | [sac_acrobot_arc_2026_02_11_162211](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_acrobot_arc_2026_02_11_162211) |
 
-![Acrobot-v1](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Acrobot-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![Acrobot-v1](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.1.0/docs/plots/Acrobot-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
 #### Pendulum-v1
 
@@ -124,7 +124,7 @@ slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml ppo_cartpole_arc
 | PPO | ✅ | -174.87 | [slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml) | ppo_pendulum_arc | [ppo_pendulum_arc_2026_02_11_162156](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_pendulum_arc_2026_02_11_162156) |
 | SAC | ✅ | -150.97 | [slm_lab/spec/benchmark_arc/sac/sac_classic_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/sac/sac_classic_arc.yaml) | sac_pendulum_arc | [sac_pendulum_arc_2026_02_11_162240](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_pendulum_arc_2026_02_11_162240) |
 
-![Pendulum-v1](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/Pendulum-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![Pendulum-v1](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.1.0/docs/plots/Pendulum-v1_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
 ### Box2D
 
@@ -142,7 +142,7 @@ slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml ppo_cartpole_arc
 | PPO | ⚠️ | 183.30 | [slm_lab/spec/benchmark_arc/ppo/ppo_box2d_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/ppo/ppo_box2d_arc.yaml) | ppo_lunar_arc | [ppo_lunar_arc_2026_02_11_201303](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_lunar_arc_2026_02_11_201303) |
 | SAC | ⚠️ | 106.17 | [slm_lab/spec/benchmark_arc/sac/sac_box2d_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/sac/sac_box2d_arc.yaml) | sac_lunar_arc | [sac_lunar_arc_2026_02_11_201417](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_lunar_arc_2026_02_11_201417) |
 
-![LunarLander-v3 Discrete](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/LunarLander-v3_Discrete_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![LunarLander-v3 Discrete](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.1.0/docs/plots/LunarLander-v3_Discrete_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
 #### LunarLander-v3 (Continuous)
 
@@ -156,7 +156,7 @@ slm-lab run slm_lab/spec/benchmark_arc/ppo/ppo_classic_arc.yaml ppo_cartpole_arc
 | PPO | ⚠️ | 132.58 | [slm_lab/spec/benchmark_arc/ppo/ppo_box2d_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/ppo/ppo_box2d_arc.yaml) | ppo_lunar_continuous_arc | [ppo_lunar_continuous_arc_2026_02_11_224229](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/ppo_lunar_continuous_arc_2026_02_11_224229) |
 | SAC | ⚠️ | 125.00 | [slm_lab/spec/benchmark_arc/sac/sac_box2d_arc.yaml](https://github.com/kengz/SLM-Lab/blob/master/slm_lab/spec/benchmark_arc/sac/sac_box2d_arc.yaml) | sac_lunar_continuous_arc | [sac_lunar_continuous_arc_2026_02_12_222203](https://huggingface.co/datasets/SLM-Lab/benchmark/tree/main/data/sac_lunar_continuous_arc_2026_02_12_222203) |
 
-![LunarLander-v3 Continuous](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/main/docs/plots/LunarLander-v3_Continuous_multi_trial_graph_mean_returns_ma_vs_frames.png)
+![LunarLander-v3 Continuous](https://huggingface.co/datasets/SLM-Lab/benchmark/resolve/v5.1.0/docs/plots/LunarLander-v3_Continuous_multi_trial_graph_mean_returns_ma_vs_frames.png)
 
 **Legend:** ✅ Solved | ⚠️ Close (>80%) | ❌ Failed
 
