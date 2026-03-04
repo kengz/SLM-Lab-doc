@@ -13,7 +13,7 @@ description: Modular Deep Reinforcement Learning framework in PyTorch.
 </p>
 
 {% hint style="info" %}
-**NOTE:** v5.2 adds CrossQ (SAC without target networks, 2–7x faster), Batch Renormalization, and full benchmark suite—see [Changelog](CHANGELOG.md).
+**NOTE:** v5.0 updates to Gymnasium, `uv` tooling, and modern dependencies with ARM support—see [Changelog](CHANGELOG.md).
 
 **Book readers:** use `git checkout v4.1.1` for the book code. See [book website and errata](https://slm-lab.gitbook.io/foundations-of-deep-rl/).
 {% endhint %}
@@ -35,7 +35,7 @@ SLM Lab is a software framework for **reinforcement learning** (RL) research and
 
 | Feature | Description |
 |---------|-------------|
-| **Ready-to-use algorithms** | PPO, SAC, DQN, A2C, REINFORCE—validated on 70+ environments |
+| **Ready-to-use algorithms** | PPO, SAC, CrossQ, DQN, A2C, REINFORCE—validated on 70+ environments |
 | **Easy configuration** | JSON spec files fully define experiments—no code changes needed |
 | **Reproducibility** | Every run saves its spec + git SHA for exact reproduction |
 | **Automatic analysis** | Training curves, metrics, and TensorBoard logging out of the box |
@@ -53,6 +53,7 @@ SLM Lab implements the canonical RL algorithms with a [taxonomy-based inheritanc
 | **A2C** | On-policy | Fast iteration | Classic, Box2D, Atari (57) |
 | **PPO** | On-policy | General purpose | Classic, Box2D, MuJoCo (11), Atari (57) |
 | **SAC** | Off-policy | Continuous + discrete | Classic, Box2D, MuJoCo, Atari (48) |
+| **CrossQ** | Off-policy | Fast continuous control | Classic, Box2D, MuJoCo |
 
 See [Benchmark Results](benchmark-results/public-benchmark-data.md) for detailed performance data.
 
