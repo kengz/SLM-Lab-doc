@@ -20,6 +20,7 @@ Algorithm (base class)
       └── ActorCritic (adds value function, GAE/n-step)
            ├── PPO (adds clipped objective)
            └── SoftActorCritic (adds entropy regularization)
+                └── CrossQ (eliminates target networks via cross batch norm)
 ```
 
 Each level adds only its distinguishing features. For example, PPO inherits everything from ActorCritic and only overrides the policy loss calculation. Note: ActorCritic **is** A2C—there's no separate A2C class.
@@ -38,7 +39,8 @@ See [Class Inheritance: A2C > PPO](../modular-lab-components/class-inheritance-a
 | **ActorCritic** | Actor-Critic | Both | Separate actor and critic |
 | **A2C** | Actor-Critic | Both | + Synchronized updates |
 | **PPO** | Actor-Critic | Both | + Clipped surrogate objective |
-| **SAC** | Actor-Critic | Continuous | + Maximum entropy RL |
+| **SAC** | Actor-Critic | Both | + Maximum entropy RL, auto-tuned temperature |
+| **CrossQ** | Actor-Critic | Both | + No target networks, cross batch norm |
 
 ## Algorithm Interface
 
@@ -239,11 +241,11 @@ Based on v5 benchmark results, here's guidance on algorithm selection:
 
 | Environment Type | Best Algorithm | Notes |
 |------------------|----------------|-------|
-| **Classic Control** | PPO, A2C | Fast convergence, reliable |
+| **Classic Control** | PPO, SAC | Fast convergence, reliable |
 | **Box2D Discrete** | DDQN+PER | Better than DQN, PPO close second |
-| **Box2D Continuous** | SAC | Best for continuous LunarLander |
-| **MuJoCo** | PPO | Robust across all 11 envs |
-| **Atari** | PPO | Validated on 54 games |
+| **Box2D Continuous** | SAC, CrossQ | SAC reliable, CrossQ 2–7x faster |
+| **MuJoCo** | PPO, SAC, CrossQ | All validated on 11 envs; CrossQ fastest |
+| **Atari** | PPO | Validated on 57 games; SAC on 48 games |
 
 ### Known Limitations
 
@@ -254,11 +256,7 @@ These algorithm-environment combinations underperform:
 | **DQN** | CartPole | Slow convergence (188 vs 499 PPO) | Use DDQN+PER or PPO |
 | **A2C** | LunarLander | Fails discrete (9.5) and continuous (-38) | Use PPO or SAC |
 | **A2C** | Pendulum | Poor performance (-553 vs -168 PPO) | Use PPO or SAC |
-| **SAC** | Discrete envs | Mixed results, high variance | Use PPO or DDQN+PER |
-
-{% hint style="info" %}
-**SAC on MuJoCo:** Not included in v5 benchmarks due to compute requirements. Off-policy algorithms require significantly more resources for systematic benchmarking. Use PPO for validated MuJoCo results.
-{% endhint %}
+| **CrossQ** | Atari | Experimental; underperforms SAC/PPO on most games | Use PPO or SAC |
 
 ### Lambda Tuning for Atari
 
