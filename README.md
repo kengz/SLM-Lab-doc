@@ -51,7 +51,7 @@ SLM Lab implements the canonical RL algorithms with a [taxonomy-based inheritanc
 | **SARSA** | On-policy | Tabular-like | Classic |
 | **DQN/DDQN+PER** | Off-policy | Discrete actions | Classic, Box2D, Atari |
 | **A2C** | On-policy | Fast iteration | Classic, Box2D, Atari (57) |
-| **PPO** | On-policy | General purpose | Classic, Box2D, MuJoCo (11), Atari (57) |
+| **PPO** | On-policy | General purpose | Classic, Box2D, MuJoCo (11), Atari (57), Playground (54) |
 | **SAC** | Off-policy | Continuous + discrete | Classic, Box2D, MuJoCo, Atari (48) |
 | **CrossQ** | Off-policy | Fast continuous control | Classic, Box2D, MuJoCo |
 
@@ -67,8 +67,9 @@ SLM Lab uses [Gymnasium](https://gymnasium.farama.org/) (the maintained fork of 
 | **Box2D** | LunarLander, BipedalWalker | Medium | [Gymnasium Box2D](https://gymnasium.farama.org/environments/box2d/) |
 | **MuJoCo** | Hopper, HalfCheetah, Humanoid | Hard | [Gymnasium MuJoCo](https://gymnasium.farama.org/environments/mujoco/) |
 | **Atari** | Qbert, MsPacman, and 54 more | Varied | [ALE](https://ale.farama.org/environments/) |
+| **MuJoCo Playground** | DM Control Suite, Locomotion Robots, Manipulation | GPU-accelerated | [MuJoCo Playground](https://google-deepmind.github.io/mujoco_playground/) |
 
-Any gymnasium-compatible environment works—just specify its name in the spec.
+Any gymnasium-compatible environment works—just specify its name in the spec. [MuJoCo Playground](https://google-deepmind.github.io/mujoco_playground/) environments use JAX/MJWarp GPU simulation and are specified with the `playground/` prefix.
 
 ## Citation
 

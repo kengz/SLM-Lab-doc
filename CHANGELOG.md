@@ -6,6 +6,22 @@ For detailed code changes, see the [GitHub releases](https://github.com/kengz/SL
 
 ---
 
+## SLM-Lab v5.3.0
+
+MuJoCo Playground PPO benchmarks — 54 GPU-accelerated environments.
+
+- **MuJoCo Playground**: New environment backend via [MuJoCo Playground](https://google-deepmind.github.io/mujoco_playground/) (Google DeepMind). Wraps JAX/MJWarp environments as `gymnasium.VectorEnv` for SLM Lab's training loop. Uses the MJWarp backend (Warp-accelerated MJX) for GPU physics simulation with DLPack zero-copy JAX→PyTorch transfer.
+- **54 PPO benchmarks** across three categories:
+  - **DM Control Suite** (25 envs): Classic control and locomotion tasks (AcrobotSwingup, CartpoleBalance, CheetahRun, HumanoidWalk, WalkerRun, etc.)
+  - **Locomotion Robots** (19 envs): Quadrupeds (Go1, Spot, Barkour) and humanoids (H1, G1, T1, Op3, Apollo, BerkeleyHumanoid) on flat and rough terrain
+  - **Manipulation** (10 envs): Panda arm pick/place, Aloha bimanual, Leap dexterous hand, AeroCube orientation
+- **Install**: `uv sync --group playground` adds JAX, MuJoCo Playground, and MJWarp dependencies
+- **Env spec**: Use `playground/ENV` prefix (e.g., `playground/CheetahRun`, `playground/Go1JoystickFlatTerrain`)
+
+All benchmark results on [HuggingFace](https://huggingface.co/datasets/SLM-Lab/benchmark).
+
+---
+
 ## SLM-Lab v5.2.0
 
 CrossQ algorithm and performance optimizations.

@@ -34,6 +34,16 @@ slm-lab run --help                             # options for run command
 uv run slm-lab --help
 ```
 
+### MuJoCo Playground
+
+To use [MuJoCo Playground](https://google-deepmind.github.io/mujoco_playground/) environments (JAX/MJWarp GPU-accelerated simulation with 54 environments):
+
+```bash
+uv sync --group playground
+```
+
+This adds JAX, MuJoCo Playground, and MJWarp dependencies. Requires a CUDA GPU for GPU-accelerated simulation.
+
 ### Minimal Install
 
 For [remote training](../using-slm-lab/remote-training.md) in the cloud with [dstack](https://dstack.ai), a minimal installation without ML dependencies is available:

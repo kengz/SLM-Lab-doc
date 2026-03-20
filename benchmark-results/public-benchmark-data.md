@@ -17,22 +17,24 @@ Each experiment includes:
 
 Which algorithms are benchmarked in each environment category. ✓ = benchmarked.
 
-| Algorithm | Classic Control | Box2D | MuJoCo | Atari |
-|-----------|:-:|:-:|:-:|:-:|
-| **REINFORCE** | ✓ | | | |
-| **SARSA** | ✓ | | | |
-| **DQN** | ✓ | ✓ | | |
-| **DDQN+PER** | ✓ | ✓ | | |
-| **A2C** | ✓ | ✓ | | ✓ |
-| **PPO** | ✓ | ✓ | ✓ | ✓ |
-| **SAC** | ✓ | ✓ | ✓ | ✓ |
+| Algorithm | Classic Control | Box2D | MuJoCo | Atari | Playground |
+|-----------|:-:|:-:|:-:|:-:|:-:|
+| **REINFORCE** | ✓ | | | | |
+| **SARSA** | ✓ | | | | |
+| **DQN** | ✓ | ✓ | | | |
+| **DDQN+PER** | ✓ | ✓ | | | |
+| **A2C** | ✓ | ✓ | | ✓ | |
+| **PPO** | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **SAC** | ✓ | ✓ | ✓ | ✓ | |
+| **CrossQ** | ✓ | ✓ | ✓ | ✓ | |
 
 | Category | Environments | Algorithms |
 |----------|--------------|------------|
-| **Classic Control** | CartPole-v1, Acrobot-v1, Pendulum-v1 | REINFORCE, SARSA, DQN, DDQN+PER, A2C, PPO, SAC |
-| **Box2D** | LunarLander-v3 (discrete & continuous) | DQN, DDQN+PER, A2C, PPO, SAC |
-| **MuJoCo** | 11 environments (Hopper, HalfCheetah, Humanoid, etc.) | PPO, SAC |
-| **Atari** | 57 games (6 hard-exploration skipped) | A2C, PPO, SAC |
+| **Classic Control** | CartPole-v1, Acrobot-v1, Pendulum-v1 | REINFORCE, SARSA, DQN, DDQN+PER, A2C, PPO, SAC, CrossQ |
+| **Box2D** | LunarLander-v3 (discrete & continuous) | DQN, DDQN+PER, A2C, PPO, SAC, CrossQ |
+| **MuJoCo** | 11 environments (Hopper, HalfCheetah, Humanoid, etc.) | PPO, SAC, CrossQ |
+| **Atari** | 57 games (6 hard-exploration skipped) | A2C, PPO, SAC, CrossQ |
+| **Playground** | 54 MuJoCo Playground environments (DM Control, Robots, Manipulation) | PPO |
 
 ### Detailed Results
 
@@ -41,6 +43,7 @@ Which algorithms are benchmarked in each environment category. ✓ = benchmarked
 | Classic + Box2D | [Discrete Benchmark](discrete-benchmark.md) | CartPole, Acrobot, Pendulum, LunarLander |
 | MuJoCo | [Continuous Benchmark](continuous-benchmark.md) | Hopper, HalfCheetah, Humanoid, etc. |
 | Atari | [Atari Benchmark](atari-benchmark.md) | 57 games |
+| Playground | [Playground Benchmark](playground-benchmark.md) | 54 MuJoCo Playground envs (DM Control, Locomotion, Manipulation) |
 
 ## Accessing Results
 
@@ -94,6 +97,7 @@ Standardized settings for fair comparison:
 | Box2D | 8 | 3e5 | 1000 | 5e4 |
 | MuJoCo | 16 | 1e6-10e6 | 1e4 | 1e5-1e6 |
 | Atari | 16 | 10e6 | 10000 | 5e5 |
+| Playground | 2048 | 100e6 | 1e4 | — |
 
 ### Hardware Requirements
 
@@ -103,6 +107,7 @@ Standardized settings for fair comparison:
 | Box2D | Optional | 10-30 min | Local or remote |
 | MuJoCo | Yes | 1-4 hours | Use `run-remote --gpu` |
 | Atari | Yes | 2-3 hours | Use `run-remote --gpu` |
+| Playground | Yes (CUDA) | 1-6 hours | Use `run-remote --gpu` |
 
 {% hint style="info" %}
 **Cloud GPUs recommended for MuJoCo and Atari.** Cloud L4/A10G via [dstack](https://dstack.ai) is faster and often cheaper than local training. See [Remote Training](../using-slm-lab/remote-training.md) for setup.
@@ -203,10 +208,12 @@ v4 benchmarks used OpenAI Gym and Roboschool (both deprecated). Available for hi
 | Abbreviation | Meaning |
 |--------------|---------|
 | A2C | Advantage Actor-Critic |
+| CrossQ | Cross-batch Normalized Q-learning |
 | DDQN | Double Deep Q-Network |
 | DQN | Deep Q-Network |
 | GAE | Generalized Advantage Estimation |
 | MA | Moving Average |
+| MJWarp | Warp-accelerated MJX (GPU physics) |
 | PER | Prioritized Experience Replay |
 | PPO | Proximal Policy Optimization |
 | SAC | Soft Actor-Critic |

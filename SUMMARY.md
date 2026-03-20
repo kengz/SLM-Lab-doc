@@ -36,6 +36,7 @@
 * [🎯 Discrete Benchmark](benchmark-results/discrete-benchmark.md)
 * [🏃 Continuous Benchmark](benchmark-results/continuous-benchmark.md)
 * [👾 Atari Benchmark](benchmark-results/atari-benchmark.md)
+* [🎮 Playground Benchmark](benchmark-results/playground-benchmark.md)
 * [🎬 RL GIFs](benchmark-results/rl-gifs.md)
 
 ## 🔧 Development
